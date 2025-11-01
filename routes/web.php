@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Employee\CustomerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,4 @@ Route::get('/coba', function () {
 Route::get('/employee/index', function () {
     return view('employee.index');
 });
-
+Route::get('/employee/customers', [CustomerController::class, 'index'])->name('customers.index');
