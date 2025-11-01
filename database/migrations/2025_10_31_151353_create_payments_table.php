@@ -30,10 +30,6 @@ return new class extends Migration
             $table->unsignedBigInteger('pym_updated_by')->nullable();
             $table->softDeletes(); // gunakan deleted_at
             $table->renameColumn('deleted_at', 'pym_deleted_at');
-            // Kolom audit
-            $table->unsignedBigInteger('pym_created_by')->nullable();
-            $table->unsignedBigInteger('pym_deleted_by')->nullable();
-            $table->unsignedBigInteger('pym_updated_by')->nullable();
             $table->string('pym_sys_note')->nullable();
             $table->timestamps();
         });

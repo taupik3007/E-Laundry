@@ -26,10 +26,6 @@ return new class extends Migration
             $table->unsignedBigInteger('adr_updated_by')->nullable();
             $table->softDeletes(); // gunakan deleted_at
             $table->renameColumn('deleted_at', 'adr_deleted_at');
-            // Kolom audit
-            $table->unsignedBigInteger('adr_created_by')->nullable();
-            $table->unsignedBigInteger('adr_deleted_by')->nullable();
-            $table->unsignedBigInteger('adr_updated_by')->nullable();
             $table->string('adr_sys_note')->nullable();
         });
     }

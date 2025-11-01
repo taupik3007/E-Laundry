@@ -25,10 +25,6 @@ return new class extends Migration
             $table->unsignedBigInteger('ldp_updated_by')->nullable();
             $table->softDeletes(); // gunakan deleted_at
             $table->renameColumn('deleted_at', 'ldp_deleted_at');
-            // Kolom audit
-            $table->unsignedBigInteger('ldp_created_by')->nullable();
-            $table->unsignedBigInteger('ldp_deleted_by')->nullable();
-            $table->unsignedBigInteger('ldp_updated_by')->nullable();
             $table->string('ldp_sys_note')->nullable();
         });
     }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('ord_id');
-            $table->unsignedBigInteger('adr_user_id');
+            $table->unsignedBigInteger('ord_user_id');
             $table->foreign('ord_user_id')->references('usr_id')->on('users')->onDelete('cascade');
             $table->bigInteger('adr_phone_number');
             $table->string('adr_subdistrict');
@@ -36,10 +36,7 @@ return new class extends Migration
             $table->unsignedBigInteger('adr_updated_by')->nullable();
             $table->softDeletes(); // gunakan deleted_at
             $table->renameColumn('deleted_at', 'adr_deleted_at');
-            // Kolom audit
-            $table->unsignedBigInteger('adr_created_by')->nullable();
-            $table->unsignedBigInteger('adr_deleted_by')->nullable();
-            $table->unsignedBigInteger('adr_updated_by')->nullable();
+            
             $table->string('adr_sys_note')->nullable();
         });
     }
