@@ -44,7 +44,7 @@
                                 <div class="row">
                                     <div class="col-12 mb-2 mb-sm-0">
                                         <a class="btn text-dark border fw-normal d-flex align-items-center justify-content-center rounded-2 py-8"
-                                            href="javascript:void(0)" role="button">
+                                            href="{{ route('google.redirect') }}" role="button">
                                             <img src="../assets/images/svgs/google-icon.svg" alt="modernize-img"
                                                 class="img-fluid me-2" width="18" height="18">
                                             <span class="flex-shrink-0"> Dengan Google</span>
