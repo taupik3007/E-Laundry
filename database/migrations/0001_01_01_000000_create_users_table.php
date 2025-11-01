@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('usr_id');
-            $table->string('usr_name');
-            $table->bigInteger('usr_nik');
-            $table->string('usr_email')->unique();
+            $table->string('usr_name')->nullable();     // kadang Google bisa gak kirim nama lengkap
+            $table->bigInteger('usr_nik')->nullable();  // biar gak wajib saat login Google
+            $table->string('usr_email')->unique()->nullable(); // kadang user non-Google
+            $table->string('google_id')->nullable()->unique(); // tambahkan kolom ini
+            $table->string('password')->nullable();     // karena Google login gak pakai password
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
