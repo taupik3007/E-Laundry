@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Employee\CustomerController;
+use App\Http\Controllers\Owner\EmployeeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
@@ -34,3 +35,8 @@ Route::get('/employee/index', function () {
 Route::get('/employee/customers', [CustomerController::class, 'index'])->name('customers.index');
 Route::get('/employee/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
 Route::put('/employee/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
+
+Route::get('/owner/employee', [EmployeeController::class, 'index'])->name('employee.index');
+Route::get('/owner/employee', [EmployeeController::class, 'store'])->name('employee.create');
+Route::get('/owner/employee/{id}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
+Route::put('/owner/employee/{id}', [EmployeeController::class, 'update'])->name('employee.update');
