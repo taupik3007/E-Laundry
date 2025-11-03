@@ -20,6 +20,20 @@ class UserSeeder extends Seeder
             'password' => bcrypt(123456789)
         ]);
         $customer->assignRole('customer');
+        $customer1 = User::create([
+            'usr_name' => 'Eka Wariah',
+            'usr_nik' => '3271020101010001',
+            'usr_email' => 'ekawrh11@gmail.com',
+            'password' => bcrypt(123456789)
+        ]);
+        $customer1->assignRole('customer');
+        $customer2 = User::create([
+            'usr_name' => 'Raneu Aprianti',
+            'usr_nik' => '3271020101010001',
+            'usr_email' => 'raneuaprianti@gmail.com',
+            'password' => bcrypt(123456789)
+        ]);
+        $customer2->assignRole('admin');
 
     }
 }

@@ -53,20 +53,28 @@
                             <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama Tugas</th>
-                                <th>Jenis Tugas</th>
-                                <th>Tugas</th>
-                                <th>Tenggat Waktu</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Tanggal Registrasi</th>
                                 <th>Aksi</th>
                                 
                             </tr>
                             <!-- end row -->
                         </thead>
                         <tbody>
-                            <!-- start row -->
-                            
-                            <!-- end row -->
-                            
+                            @foreach($customers as $no => $customer)
+                            <tr>
+                                <td>{{ $no + 1 }}</td>
+                                <td>{{ $customer->usr_name }}</td>
+                                <td>{{ $customer->usr_email }}</td>
+                                <td>{{ $customer->created_at->format('d M Y') }}</td>
+                                <td>
+                                    <a href="/employee/customers/{{ $customer->usr_id}}/edit" class="btn btn-primary">Edit</a>
+                                    <a href="/employee/customers/{{ $customer->usr_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+ 
+                               </td>
+                            </tr>
+                            @endforeach
                         </tbody>
                         <tfoot>
                             <!-- start row -->
@@ -74,10 +82,9 @@
 
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama Tugas</th>
-                                <th>Jenis Tugas</th>
-                                <th>Tugas</th>
-                                <th>Tenggat Waktu</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Tanggal Registrasi</th>
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->

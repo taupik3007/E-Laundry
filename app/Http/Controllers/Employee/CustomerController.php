@@ -46,7 +46,8 @@ class CustomerController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $CustomerEdit = User::findOrFail($id);
+        return view('employee.customers.edit', compact('CustomerEdit'));
     }
 
     /**
@@ -54,7 +55,19 @@ class CustomerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $customer = User::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+        ]);
+
+        $customer->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        return redirect()->route('customers.index')->with('success', 'Data customer berhasil diperbarui!');
     }
 
     /**

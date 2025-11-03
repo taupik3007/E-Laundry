@@ -32,3 +32,5 @@ Route::get('/employee/index', function () {
     return view('employee.index');
 });
 Route::get('/employee/customers', [CustomerController::class, 'index'])->name('customers.index');
+Route::get('/employee/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
+Route::put('/employee/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
