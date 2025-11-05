@@ -12,7 +12,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        return view('employee.order-laundry.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        return view('employee.order-laundry.create');
     }
 
     /**
@@ -44,7 +44,7 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('employee.order-laundry.edit');
     }
 
     /**
@@ -53,6 +53,19 @@ class OrderController extends Controller
     public function update(Request $request, string $id)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function history()
+    {
+        return view('employee.order-laundry.history');
+    }
+
+    public function detail()
+    {
+        return view('employee.order-laundry.detail');
     }
 
     /**

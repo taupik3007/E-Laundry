@@ -13,7 +13,8 @@ class EmployesController extends Controller
      */
     public function index()
     {
-        return view('owner.data-employee.index');
+        $employes = User::role('employee')->get();
+        return view('owner.data-employee.index', compact('employes'));
     }
 
     /**

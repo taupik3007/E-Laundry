@@ -1,4 +1,4 @@
-@extends('owner.master')
+@extends('employee.master')
 
 @push('link')
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -6,7 +6,8 @@
 @endpush
 
 @section('title')
-    SITAW | Daftar Pesanan
+
+E-Laundry Garut | Daftar Pemesanan
 @endsection
 
 @section('content')
@@ -15,10 +16,20 @@
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">Pesanan</h4>
+                  <h4 class="fw-semibold mb-8">PEMESANAN LAUNDRY</h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page">Daftar Pesanan</li>
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none" href="/employee/ordering/create">Tambah Pesanan</a>
+                      </li>
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none">Edit Pesanan</a>
+                      </li>
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none">History Pesanan</a>
+                      </li>
+
                     </ol>
                    
                   </nav>
@@ -35,6 +46,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-5 position-relative">
+
                     <h4 class="card-title mb-0">Daftar Pesanan</h4>
                 </div>
                 <p class="card-subtitle mb-3">
@@ -43,50 +55,46 @@
                 <div class="table-responsive">
                     <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
                         <thead>
-                            <!-- start row -->
-                             <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Alamat</th>
-                        <th>No Telepon</th>
-                        <th>Jenis Layanan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Sinta</td>
-                        <td>Jl. Melati No. 21</td>
-                        <td>089621118273</td>
-                        <td>Kasur</td>
-                        <td><span class="badge bg-warning text-dark">Menunggu</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-primary">Ubah Daftar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Budi</td>
-                        <td>Jl. Anggrek No. 12</td>
-                        <td>082198735643</td>
-                        <td>Pakaian</td>
-                        <td><span class="badge bg-success">Selesai</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary" disabled>Sudah Selesai</button>
-                        </td>
-                    </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">Belum ada penjemputan</td>
-                        </tr>
-                    @endforelse
+      
+                            <tr>
+                                <th width="10%">No</th>
+                                <th>Nama Customer</th>
+                                <th>Jenis Layanan</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                                
+                            </tr>
+
                             <!-- end row -->
-                            
+                        </thead>
+                        <tbody>
+                            {{-- @foreach($customers as $no => $customer)--}}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <a href="/employee/ordering/{id}/edit" class="btn btn-primary">Edit</a>
+                                    <a href="/employee/ordering/{id}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+ 
+                               </td>
+                            </tr>
+                            {{-- @endforeach  --}}
                         </tbody>
                         <tfoot>
                             <!-- start row -->
                             
+
+                            <tr>
+                              <th width="10%">No</th>
+                              <th>Nama Customer</th>
+                              <th>Jenis Layanan</th>
+                              <th>Total</th>
+                              <th>Status</th>
+                              <th>Aksi</th>
+                            </tr>
                             <!-- end row -->
                         </tfoot>
                     </table>
