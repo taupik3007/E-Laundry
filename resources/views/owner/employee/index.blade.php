@@ -84,18 +84,14 @@
                             <td>{{ $employee->alamat}}</td>
                             <td>{{ $employee->rt}}</td>
                             <td>{{ $employee->rw}}</td>
-                            <td>{{ $employee->desa/kelurahan}}</td>
+                            <td>{{ $employee->desa}}</td>
                             <td>{{ $employee->kecamatan}}</td>
                             <td>{{ $employee->kabupaten}}</td>
                             <td>{{ $employee->provinsi}}</td>
                             <td>{{ $employee->kode_pos}}</td>
                             <td>{{ $employee->no_telepon}}</td>
-                                <a href="{{ route('employee.edit', $employee->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                                <form action="{{ route('employee.destroy', $employee->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                                </form>
+                                
+                               
                             </td>
                         </tr>
                     @empty

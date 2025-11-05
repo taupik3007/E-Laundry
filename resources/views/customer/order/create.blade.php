@@ -6,22 +6,17 @@
 @endpush
 
 @section('title')
-    SITAW | Order Laundry
+    SITAW | Pemesanan
 @endsection
 
-@section('content')
+@section('content')v
     <div class="datatables">
         <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">Penjemputan</h4>
-                  <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Penjemputan</li>
-                    </ol>
-                   
-                  </nav>
+                  <h4 class="fw-semibold mb-8">Pemesanan</h4>
+                  
                 </div>
                 <div class="col-3">
                   <div class="text-center mb-n5">
@@ -32,67 +27,43 @@
             </div>
           </div>
        
-        <div class="card">
-            <div class="card-body">
-                <div class="mb-5 position-relative">
-                    <h4 class="card-title mb-0">Daftar Penjemputan</h4>
+    <div class="card">
+        <div class="card-body">
+            <!-- <form action="{{ route('employee.store') }}" method="POST"> -->
+                @csrf
+
+                <div class="form-group">
+                  <label for="nama">Nama</label>
+                  <input type="text" name="nama" class="form-control" required>
                 </div>
-                <p class="card-subtitle mb-3">
-                    
-                </p>
-                <div class="table-responsive">
-                    <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
-                        <thead>
-                            <!-- start row -->
-                             <tr>
-                        <th>No</th>
-                        <th>Nama Pelanggan</th>
-                        <th>Alamat</th>
-                        <th>Tanggal</th>
-                        <th>Daftar</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Sinta</td>
-                        <td>Jl. Melati No. 21</td>
-                        <td>2025-11-05</td>
-                        <td><span class="badge bg-warning text-dark">Menunggu</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-primary">Ubah Daftar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Budi</td>
-                        <td>Jl. Anggrek No. 12</td>
-                        <td>2025-11-06</td>
-                        <td><span class="badge bg-success">Selesai</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-secondary" disabled>Sudah Selesai</button>
-                        </td>
-                    </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">Belum ada penjemputan</td>
-                        </tr>
-                    @endforelse
-                            <!-- end row -->
-                            
-                        </tbody>
-                        <tfoot>
-                            <!-- start row -->
-                            
-                            <!-- end row -->
-                        </tfoot>
-                    </table>
+
+                <div class="form-group">
+                  <label for="alamat">Alamat</label>
+                  <input type="alamat" name="alamat" class="form-control" required>
                 </div>
-            </div>
+
+                <div class="form-group">
+                  <label for="no_telepon">No. Telepon</label>
+                  <input type="text" name="no_telepon" class="form-control">
+                </div>
+
+                <div class="form-group">
+                  <label for="jenis_layanan">Jenis Layanan</label>
+                  <select name="jenis_layanan" class="form-control">
+                        <option value="" disabled selected>-- Pilih layanan --</option>
+                    <option value="pakaian">Pakaian</option>
+                    <option value="tas">Tas</option>
+                    <option value="sepatu">Sepatu</option>
+                    <option value="helm">Helm</option>
+                    <option value="kasur">Kasur</option>
+                    <option value="sofa">Sofa</option>
+                  </select>
+                </div>
+
+            </form>
         </div>
     </div>
-    
+</div>
 @endsection
 
 
