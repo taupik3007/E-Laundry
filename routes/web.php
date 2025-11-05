@@ -37,6 +37,6 @@ Route::get('/employee/customers/{id}/edit', [CustomerController::class, 'edit'])
 Route::put('/employee/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
 
 Route::get('/owner/employee', [EmployeeController::class, 'index'])->name('employee.index');
-Route::get('/owner/employee', [EmployeeController::class, 'store'])->name('employee.create');
+Route::post('/owner/employee', [EmployeeController::class, 'store'])->name('employee.create');
 Route::get('/owner/employee/{id}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
 Route::put('/owner/employee/{id}', [EmployeeController::class, 'update'])->name('employee.update');

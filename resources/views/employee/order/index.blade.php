@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SITAW | Daftar Penjemputan
+    SITAW | Daftar Pesanan
 @endsection
 
 @section('content')
@@ -15,10 +15,10 @@
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">Penjemputan</h4>
+                  <h4 class="fw-semibold mb-8">Pesanan</h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Penjemputan</li>
+                    <li class="breadcrumb-item" aria-current="page">Daftar Pesanan</li>
                     </ol>
                    
                   </nav>
@@ -35,7 +35,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-5 position-relative">
-                    <h4 class="card-title mb-0">Daftar Penjemputan</h4>
+                    <h4 class="card-title mb-0">Daftar Pesanan</h4>
                 </div>
                 <p class="card-subtitle mb-3">
                     
@@ -49,7 +49,6 @@
                         <th>Nama</th>
                         <th>Alamat</th>
                         <th>No Telepon</th>
-                        <th>Jenis Barang</th>
                         <th>Jenis Layanan</th>
                         <th>Aksi</th>
                     </tr>
@@ -61,7 +60,6 @@
                         <td>Jl. Melati No. 21</td>
                         <td>089621118273</td>
                         <td>Kasur</td>
-                        <td>Cuci Kering</td>
                         <td><span class="badge bg-warning text-dark">Menunggu</span></td>
                         <td>
                             <button class="btn btn-sm btn-primary">Ubah Daftar</button>
@@ -73,7 +71,6 @@
                         <td>Jl. Anggrek No. 12</td>
                         <td>082198735643</td>
                         <td>Pakaian</td>
-                        <td>Cuci saja</td>
                         <td><span class="badge bg-success">Selesai</span></td>
                         <td>
                             <button class="btn btn-sm btn-secondary" disabled>Sudah Selesai</button>

@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             'usr_email' => 'raneuaprianti@gmail.com',
             'password' => bcrypt(123456789)
         ]);
-        $employee1->assignRole('admin');
+        $employee1->assignRole('employee');
 
     }
 }

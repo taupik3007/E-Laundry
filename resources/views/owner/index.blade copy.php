@@ -1,4 +1,4 @@
-@extends('owner.master')
+@extends('employee.master')
 
 @push('link')
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SITAW | Daftar Pegawai
+    SITAW | Daftar Jurusan
 @endsection
 
 @section('content')
@@ -15,15 +15,15 @@
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">Pegawai</h4>
+                  <h4 class="fw-semibold mb-8">JURUSAN</h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Pegawai</li>
+                    <li class="breadcrumb-item" aria-current="page">Daftar Jurusan</li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/owner/employee/create">Tambah Pegawai</a>
+                        <a class="text-muted text-decoration-none" href="/administration/major/create">Tambah Jurusan</a>
                       </li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/owner/employee/{id}/edit">Edit Pegawai</a>
+                        <a class="text-muted text-decoration-none" href="/administration/major/{id}/edit">Edit Jurusan</a>
                       </li>
                     </ol>
                    
@@ -41,8 +41,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-5 position-relative">
-                    <h4 class="card-title mb-0">Daftar Pegawai</h4>
-                    <a href="/owner/employee/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Pegawai</a>
+                    <h4 class="card-title mb-0">Daftar Jurusan</h4>
+                    <a href="/administration/major/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kategori</a>
                 </div>
                 <p class="card-subtitle mb-3">
                     
@@ -53,58 +53,33 @@
                             <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama</th>
-                                <th>Tempat Lahir</th>
-                                <th>Tanggal Lahir</th>
-                                <th>Jenis Kelamin</th>
-                                <th>Agama</th>
-                                <th>Alamat</th>
-                                <th>RT</th>
-                                <th>RW</th>
-                                <th>Desa/Kelurahan</th>
-                                <th>Kecamatan</th>
-                                <th>Kabupaten</th>
-                                <th>Provinsi</th>
-                                <th>Kode Pos</th>
-                                <th>No. Telepon</th>
+                                <th>Nama Tugas</th>
+                                <th>Jenis Tugas</th>
+                                <th>Tugas</th>
+                                <th>Tenggat Waktu</th>
                                 <th>Aksi</th>
+                                
                             </tr>
                             <!-- end row -->
                         </thead>
                         <tbody>
                             <!-- start row -->
-                            @forelse ($employees as $index => $employee)
-                        <tr>
-                            <td>{{ $index + 1}}</td>
-                            <td>{{ $employee->nama}}</td>
-                            <td>{{ $employee->tempat_lahir}}</td>
-                            <td>{{ $employee->tanggal_lahir}}</td>
-                            <td>{{ $employee->jenis_kelamin}}</td>
-                            <td>{{ $employee->agama}}</td>
-                            <td>{{ $employee->alamat}}</td>
-                            <td>{{ $employee->rt}}</td>
-                            <td>{{ $employee->rw}}</td>
-                            <td>{{ $employee->desa}}</td>
-                            <td>{{ $employee->kecamatan}}</td>
-                            <td>{{ $employee->kabupaten}}</td>
-                            <td>{{ $employee->provinsi}}</td>
-                            <td>{{ $employee->kode_pos}}</td>
-                            <td>{{ $employee->no_telepon}}</td>
-                                
-                               
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">Belum ada employee</td>
-                        </tr>
-                    @endforelse
+                            
                             <!-- end row -->
                             
                         </tbody>
                         <tfoot>
                             <!-- start row -->
                             
+
+                            <tr>
+                                <th width="10%">No</th>
+                                <th>Nama Tugas</th>
+                                <th>Jenis Tugas</th>
+                                <th>Tugas</th>
+                                <th>Tenggat Waktu</th>
+                                <th>Aksi</th>
+                            </tr>
                             <!-- end row -->
                         </tfoot>
                     </table>
