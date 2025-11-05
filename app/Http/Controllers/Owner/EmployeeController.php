@@ -12,7 +12,7 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         $employees = User::role('employee')->get();
-        return view('owner.employee.index',['data_employee']);
+        return view('owner.employee.index',['employees']);
     }
 public function create() {
     return view('owner.employee.create'); 

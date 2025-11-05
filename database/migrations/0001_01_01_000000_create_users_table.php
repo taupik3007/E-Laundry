@@ -19,19 +19,11 @@ return new class extends Migration
             $table->string('google_id')->nullable()->unique(); // tambahkan kolom ini
             $table->string('password')->nullable();     // karena Google login gak pakai password
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('tempat_lahir')->nullable();
-            $table->date('tanggal_lahir')->nullable();
-            $table->string('jenis_kelamin')->nullable();
-            $table->string('agama')->nullable();
-            $table->string('alamat')->nullable();
-            $table->string('rt')->nullable();
-            $table->string('rw')->nullable();
-            $table->string('desa')->nullable();
-            $table->string('kecamatan')->nullable();
-            $table->string('kabupaten')->nullable();
-            $table->string('provinsi')->nullable();
-            $table->string('kode_pos')->nullable();
-            $table->string('no_telepon')->nullable();
+            $table->string('usr_birthplace')->nullable();
+            $table->date('usr_birthdate')->nullable();
+            $table->enum('usr_gender', ['laki_laki', 'perempuan']);
+            $table->string('usr_religion')->nullable();
+            $table->string('usr_telephone')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

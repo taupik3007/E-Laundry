@@ -73,7 +73,7 @@
                         </thead>
                         <tbody>
                             <!-- start row -->
-                            @forelse ($employees as $index => $employee)
+                            {{-- @forelse ($employes as $index => $employee)
                         <tr>
                             <td>{{ $index + 1}}</td>
                             <td>{{ $employee->nama}}</td>
@@ -102,7 +102,7 @@
                         <tr>
                             <td colspan="5" class="text-center text-muted">Belum ada employee</td>
                         </tr>
-                    @endforelse
+                    @endforelse --}}
                             <!-- end row -->
                             
                         </tbody>
