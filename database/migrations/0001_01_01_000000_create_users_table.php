@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('usr_id');
             $table->string('usr_name')->nullable();     // kadang Google bisa gak kirim nama lengkap
             $table->bigInteger('usr_nik')->nullable();  // biar gak wajib saat login Google
-            $table->string('usr_email')->unique()->nullable(); // kadang user non-Google
+            $table->string('email')->unique()->nullable(); // kadang user non-Google
             $table->string('google_id')->nullable()->unique(); // tambahkan kolom ini
             $table->string('password')->nullable();     // karena Google login gak pakai password
             $table->timestamp('email_verified_at')->nullable();
