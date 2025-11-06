@@ -17,6 +17,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/employee/dashboard', function () {
+    return view('employee.dashboard');
+})->name('employee.dashboard');
+Route::get('/customer/home', function () {
+    return view('employee.index');
+})->name('customer.home');
+Route::get('/owner/dashboard', function () {
+    return view('employee.dashboard');
+})->name('owner.dashboard');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -35,7 +44,7 @@ Route::get('/coba', function () {
 });
 Route::get('/employee/index', function () {
     return view('employee.index');
-});
+})->name('customer.home');
 Route::get('/employee/customers', [CustomerController::class, 'index'])->name('customers.index');
 Route::get('/employee/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
 Route::put('/employee/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');

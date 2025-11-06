@@ -6,7 +6,8 @@
 @endpush
 
 @section('title')
-    SITAW | Daftar Jurusan
+
+E-Laundry Garut | Daftar Pemesanan
 @endsection
 
 @section('content')
@@ -15,16 +16,20 @@
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">Order Laundry</h4>
+                  <h4 class="fw-semibold mb-8">PEMESANAN LAUNDRY</h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Orderan</li>
+                    <li class="breadcrumb-item" aria-current="page">Daftar Pesanan</li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/customer/laundry-order/create">Tambah Order</a>
+                        <a class="text-muted text-decoration-none" href="/employee/ordering/create">Tambah Pesanan</a>
                       </li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" >Edit Jurusan</a>
+                        <a class="text-muted text-decoration-none">Edit Pesanan</a>
                       </li>
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none">History Pesanan</a>
+                      </li>
+
                     </ol>
                    
                   </nav>
@@ -41,8 +46,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-5 position-relative">
-                    <h4 class="card-title mb-0">Order Laundry</h4>
-                    <a href="/customer/laundry-order/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Order</a>
+
+                    <h4 class="card-title mb-0">Daftar Pesanan</h4>
                 </div>
                 <p class="card-subtitle mb-3">
                     
@@ -50,49 +55,60 @@
                 <div class="table-responsive">
                     <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
                         <thead>
-                            <!-- start row -->
+      
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama</th>
-                                <th>No. Telepon</th>
-                                <th>Jenis Layanan</th>
-                                <th>Total Biaya</th>
-                                <th>Metode Pembayaran</th>
+                                <th>Nama Customer</th>
+                                <th>No. Customer</th>
+                                <th>Alamat Penjemputan</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
+                                
                             </tr>
+
                             <!-- end row -->
                         </thead>
                         <tbody>
-                            
+                            {{-- @foreach($customers as $no => $customer)--}}
                             <tr>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="d-flex align-items-center gap-2">
+                                    <!-- Dropdown status -->
+                                    <div class="dropdown">
+                                        <button class="btn btn-warning dropdown-toggle" type="button" id="statusDropdown{id}" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Status Penjemputan
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="statusDropdown{id}">
+                                            <li><a class="dropdown-item" href="#">Menunggu</a></li>
+                                            <li><a class="dropdown-item" href="#">Dalam Penjemputan</a></li>
+                                            <li><a class="dropdown-item" href="#">Selesai</a></li>
+                                            <li><a class="dropdown-item" href="#">Dibatalkan</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
                                 <td>
-                                    <a href="/customer/laundry-order/{id}/detail" class="btn btn-warning">Detail</a>
-                                    <a href="" class="btn btn-primary">Edit</a>
-                                    <a href="" class="btn btn-danger" data-confirm-delete="true">Delete</a>
- 
+                                    <a href="/employee/ordering/{id}/detail" class="btn btn-primary">Detail</a>
+                                    <a href="/employee//{id}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
                                </td>
                             </tr>
-                        
+                            {{-- @endforeach  --}}
                         </tbody>
                         <tfoot>
                             <!-- start row -->
                             
 
                             <tr>
-                              <th width="10%">No</th>
-                              <th>Nama</th>
-                              <th>No. Telepon</th>
-                              <th>Jenis Layanan</th>
-                              <th>Total Biaya</th>
-                              <th>Metode Pembayaran</th>
-                              <th>Aksi</th>
-                          </tr>
+                                <th width="10%">No</th>
+                                <th>Nama Customer</th>
+                                <th>No. Customer</th>
+                                <th>Alamat Penjemputan</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                                
+                            </tr>
                             <!-- end row -->
                         </tfoot>
                     </table>

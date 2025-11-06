@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PickUpController extends Controller
+class ExpenditureController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('employee.pick-up.index');
+        $selectedYear = request('year', date('Y'));
+        $selectedMonth = request('month', date('n'));
+        return view('employee.expenditure.index', compact('selectedYear', 'selectedMonth'));
     }
 
     /**
@@ -20,7 +22,7 @@ class PickUpController extends Controller
      */
     public function create()
     {
-        //
+        return view('employee.expenditure.create');
     }
 
     /**

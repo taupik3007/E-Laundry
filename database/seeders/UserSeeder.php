@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         $customer = User::create([
             'usr_name' => 'Lay Zhang',
             'usr_nik' => '3271020101010001',
-            'usr_email' => 'rwleader@gmail.com',
+            'email' => 'rwleader@gmail.com',
             'password' => bcrypt(123456789)
         ]);
         $customer->assignRole('customer');
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
         $customer1 = User::create([
             'usr_name' => 'Eka Wariah',
             'usr_nik' => '3271020101010001',
-            'usr_email' => 'ekawrh11@gmail.com',
+            'email' => 'ekawrh11@gmail.com',
             'password' => bcrypt(123456789)
         ]);
         $customer1->assignRole('customer');
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
         $employee1 = User::create([
             'usr_name' => 'Raneu Aprianti',
             'usr_nik' => '3271020101010001',
-            'usr_email' => 'raneuaprianti@gmail.com',
+            'email' => 'raneuaprianti@gmail.com',
             'password' => bcrypt(123456789)
         ]);
         $employee1->assignRole('employee');

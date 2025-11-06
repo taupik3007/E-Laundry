@@ -71,10 +71,10 @@
                                     @csrf
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Nama</label>
-                                        <input name="name" value="{{ old('name') }}" required autofocus
+                                        <input name="usr_name" value="{{ old('usr_name') }}" required autofocus
                                             autocomplete="name" class="form-control" id="exampleInputtext"
                                             aria-describedby="textHelp">
-                                             @error('name')
+                                             @error('usr_name')
                                             <p class="text-danger small mt-1 mb-0">{{ $message }}</p>
                                         @enderror
                                     </div>
