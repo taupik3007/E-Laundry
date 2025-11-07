@@ -42,7 +42,7 @@
             <div class="card-body">
                 <div class="mb-5 position-relative">
                     <h4 class="card-title mb-0">Daftar Jurusan</h4>
-                    <a href="/administration/major/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kategori</a>
+                    <a href="/employee/ordering/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kategori</a>
                 </div>
                 <p class="card-subtitle mb-3">
                     
@@ -56,6 +56,7 @@
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>Tanggal Registrasi</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                                 
                             </tr>
@@ -66,8 +67,9 @@
                             <tr>
                                 <td>{{ $no + 1 }}</td>
                                 <td>{{ $customer->usr_name }}</td>
-                                <td>{{ $customer->usr_email }}</td>
+                                <td>{{ $customer->email }}</td>
                                 <td>{{ $customer->created_at->format('d M Y') }}</td>
+                                <td></td>
                                 <td>
                                     <a href="/employee/customers/{{ $customer->usr_id}}/edit" class="btn btn-primary">Edit</a>
                                     <a href="/employee/customers/{{ $customer->usr_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
@@ -85,6 +87,7 @@
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>Tanggal Registrasi</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->
