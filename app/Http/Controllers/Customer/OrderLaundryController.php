@@ -12,7 +12,7 @@ class OrderLaundryController extends Controller
      */
     public function index()
     {
-        return view('customer.order.index');
+        return view('customer.order-laundry.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class OrderLaundryController extends Controller
      */
     public function create()
     {
-        //
+        return view('customer.order-laundry.create');
     }
 
     /**
@@ -53,6 +53,11 @@ class OrderLaundryController extends Controller
     public function update(Request $request, string $id)
     {
         //
+    }
+
+    public function detail()
+    {
+        return view('customer.order-laundry.detail');
     }
 
     /**

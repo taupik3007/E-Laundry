@@ -1,4 +1,4 @@
-@extends('employee.master')
+@extends('customer.master')
 
 @push('link')
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -54,8 +54,10 @@
                             <tr>
                                 <th width="10%">No</th>
                                 <th>Nama</th>
+                                <th>No. Telepon</th>
                                 <th>Jenis Layanan</th>
-                                <th>Total</th>
+                                <th>Total Biaya</th>
+                                <th>Metode Pembayaran</th>
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->
@@ -67,7 +69,10 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
+                                <td></td>
                                 <td>
+                                    <a href="/customer/laundry-order/{id}/detail" class="btn btn-warning">Detail</a>
                                     <a href="" class="btn btn-primary">Edit</a>
                                     <a href="" class="btn btn-danger" data-confirm-delete="true">Delete</a>
  
@@ -80,12 +85,14 @@
                             
 
                             <tr>
-                                <th width="10%">No</th>
-                                <th>Nama</th>
-                                <th>Jenis Layanan</th>
-                                <th>Total</th>
-                                <th>Aksi</th>
-                            </tr>
+                              <th width="10%">No</th>
+                              <th>Nama</th>
+                              <th>No. Telepon</th>
+                              <th>Jenis Layanan</th>
+                              <th>Total Biaya</th>
+                              <th>Metode Pembayaran</th>
+                              <th>Aksi</th>
+                          </tr>
                             <!-- end row -->
                         </tfoot>
                     </table>

@@ -19,19 +19,14 @@
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page">Daftar Pelanggan</li>
-                      <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/administration/major/create">Tambah Pelanggan</a>
-                      </li>
-                      <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/administration/major/{id}/edit">Edit Pelanggan</a>
-                      </li>
+                      
                     </ol>
                    
                   </nav>
                 </div>
                 <div class="col-3">
                   <div class="text-center mb-n5">
-                    <img src="{{ asset('assets/images/breadcrumb/trolli.png')}}" alt="modernize-img" class="img-fluid mb-n4" />
+                    <img src="{{ asset('assets/images/breadcrumb/ChatBc.png')}}" alt="modernize-img" class="img-fluid mb-n4" />
                   </div>
                 </div>
               </div>
@@ -41,11 +36,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-5 position-relative">
-
-                    <h4 class="card-title mb-0">Daftar Jurusan</h4>
-                    <a href="/employee/ordering/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Kategori</a>
-
-                </div>
+                    <h4 class="card-title mb-0">Daftar Pelanggan</h4>
+                    
                 <p class="card-subtitle mb-3">
                     
                 </p>
@@ -55,30 +47,20 @@
                             <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>Tanggal Registrasi</th>
-                                <th>Status</th>
+                                <th>Nama Tugas</th>
+                                <th>Jenis Tugas</th>
+                                <th>Tugas</th>
+                                <th>Tenggat Waktu</th>
                                 <th>Aksi</th>
                                 
                             </tr>
                             <!-- end row -->
                         </thead>
                         <tbody>
-                            @foreach($customers as $no => $customer)
-                            <tr>
-                                <td>{{ $no + 1 }}</td>
-                                <td>{{ $customer->usr_name }}</td>
-                                <td>{{ $customer->email }}</td>
-                                <td>{{ $customer->created_at->format('d M Y') }}</td>
-                                <td></td>
-                                <td>
-                                    <a href="/employee/customers/{{ $customer->usr_id}}/edit" class="btn btn-primary">Edit</a>
-                                    <a href="/employee/customers/{{ $customer->usr_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
- 
-                               </td>
-                            </tr>
-                            @endforeach
+                            <!-- start row -->
+                            
+                            <!-- end row -->
+                            
                         </tbody>
                         <tfoot>
                             <!-- start row -->
@@ -86,10 +68,10 @@
 
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>Tanggal Registrasi</th>
-                                <th>Status</th>
+                                <th>Nama Tugas</th>
+                                <th>Jenis Tugas</th>
+                                <th>Tugas</th>
+                                <th>Tenggat Waktu</th>
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->

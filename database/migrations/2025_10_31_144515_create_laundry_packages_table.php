@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('laundry_packages', function (Blueprint $table) {
             $table->bigIncrements('ldp_id');
-            $table->bigInteger('ldp_service_id');
+            $table->unsignedBigInteger('ldp_service_id');
+            $table->foreign('ldp_service_id')->references('lds_id')->on('laundry_services')->onDelete('cascade');
             $table->bigInteger('ldp_price');
             $table->string('ldp_name');
             $table->string('ldp_description');

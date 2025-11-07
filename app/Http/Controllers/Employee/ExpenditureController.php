@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Owner;
+namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class EmployeeController extends Controller
+class ExpenditureController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $employee = User::role('employee')->get();
-        return view('owner.employee.index', compact('employee'));
+        $selectedYear = request('year', date('Y'));
+        $selectedMonth = request('month', date('n'));
+        return view('employee.expenditure.index', compact('selectedYear', 'selectedMonth'));
     }
 
     /**
@@ -22,7 +22,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        return view('employee.expenditure.create');
     }
 
     /**
@@ -55,12 +55,6 @@ class EmployeeController extends Controller
     public function update(Request $request, string $id)
     {
         //
-    }
-
-    public function detail(Request $request, string $id)
-    {
-        // $detailuser =User::findOrFail($id); 
-        return view('owner.employee.detail');
     }
 
     /**

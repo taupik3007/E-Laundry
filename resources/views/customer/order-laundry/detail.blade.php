@@ -54,7 +54,7 @@ E-Laundry Garut | Detail Pemesanan
     <div class="card-body p-4 mt-4">
       <h4 class="fw-semibold mb-3">Informasi Pemesanan</h4>
       <div class="row">
-        <div class="col-md-6"> 
+        <div class="col-md-6">
           <p class="mb-1"><strong>Nama Pemesan:</strong> </p>
           <p class="mb-1"><strong>No. Telepon:</strong> </p>
           <p class="mb-1"><strong>Tanggal Pemesanan:</strong> \</p>
