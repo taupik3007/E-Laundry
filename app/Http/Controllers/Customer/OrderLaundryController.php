@@ -20,7 +20,7 @@ class OrderLaundryController extends Controller
      */
     public function create()
     {
-        //
+        return view('customer.order-laundry.create');
     }
 
     /**

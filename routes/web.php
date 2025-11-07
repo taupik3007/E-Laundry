@@ -68,5 +68,6 @@ Route::get('/owner/employee/{id}/edit', [EmployesController::class, 'edit'])->na
 Route::put('/owner/employee/{id}', [EmployesController::class, 'update'])->name('employee.update');
 
 Route::get('/customer/laundry-order', [OrderLaundryController::class, 'index'])->name('laundry-order.index');
+Route::get('/customer/laundry-order/create', [OrderLaundryController::class, 'create'])->name('laundry-order.create');
 Route::get('/customer/laundry-order/{id}/detail', [OrderLaundryController::class, 'detail'])->name('laundry-order.detaill');
 
