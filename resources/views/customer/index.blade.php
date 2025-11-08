@@ -1,4 +1,4 @@
-@extends('employee.master')
+@extends('customer.master')
 
 @push('link')
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">

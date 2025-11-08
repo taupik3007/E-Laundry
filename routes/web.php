@@ -21,10 +21,10 @@ Route::get('/employee/dashboard', function () {
     return view('employee.dashboard');
 })->name('employee.dashboard');
 Route::get('/customer/home', function () {
-    return view('employee.index');
+    return view('customer.index');
 })->name('customer.home');
 Route::get('/owner/dashboard', function () {
-    return view('employee.dashboard');
+    return view('owner.dashboard');
 })->name('owner.dashboard');
 
 Route::get('/dashboard', function () {

@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SITAW | Edit Pegawai
+    SITAW | Daftar Pegawai
 @endsection
 
 @section('content')v

@@ -33,13 +33,16 @@
                      </a>
                  </li>
 
-                 
+                 <li class="nav-small-cap">
+                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                     <span class="hide-menu">PESANAN</span>
+                 </li>
                  <li class="sidebar-item">
                      <a class="sidebar-link" href="../main/index2.html" aria-expanded="false">
                          <span>
                              <i class="ti ti-shopping-cart"></i>
                          </span>
-                         <span class="hide-menu">Pesanan</span>
+                         <span class="hide-menu">Pemesanan</span>
                      </a>
                  </li>
 
@@ -48,7 +51,7 @@
                          <span>
                              <i class="ti ti-history"></i>
                          </span>
-                         <span class="hide-menu">Histori Pesanan</span>
+                         <span class="hide-menu">Histori Pemesanan</span>
                      </a>
                  </li>
                  

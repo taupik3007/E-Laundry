@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr" data-bs-theme="light" data-color-theme="Blue_Theme" data-layout="vertical">
 
 <!-- head -->
-@include('employee.head')
+@include('customer.head')
 <!-- endhead -->
 <body>
   <div class="toast toast-onload align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -21,18 +21,18 @@
   </div> --}}
   <div id="main-wrapper">
     <!-- Sidebar Start -->
-    @include('employee.sidebar')
+    @include('customer.sidebar')
     <!--  Sidebar End -->
     <div class="page-wrapper">
       <!--  Header Start -->
-      @include('employee.navbar')
+      @include('customer.navbar')
       <!--  Header End -->
 
       <aside class="left-sidebar with-horizontal">
         <!-- Sidebar scroll-->
         <div>
           <!-- Sidebar navigation-->
-          @include('employee.sidenav')
+          @include('customer.sidenav')
           <!-- End Sidebar navigation -->
         </div>
         <!-- End Sidebar scroll-->
@@ -382,7 +382,7 @@
   {{-- script --}}
   {{-- @include('sweetalert::alert')s --}}
 
-  @include('employee.script')
+  @include('customer.script')
 
 
   {{-- endscript --}}
