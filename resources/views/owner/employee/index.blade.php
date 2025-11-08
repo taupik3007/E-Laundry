@@ -54,52 +54,33 @@
                             <tr>
                                 <th width="10%">No</th>
                                 <th>Nama</th>
-                                <th>Tempat Lahir</th>
-                                <th>Tanggal Lahir</th>
+                                <th>Email</th>
+                                <th>Tempat, Tanggal Lahir</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Agama</th>
-                                <th>Alamat</th>
-                                <th>RT</th>
-                                <th>RW</th>
-                                <th>Desa/Kelurahan</th>
-                                <th>Kecamatan</th>
-                                <th>Kabupaten</th>
-                                <th>Provinsi</th>
-                                <th>Kode Pos</th>
                                 <th>No. Telepon</th>
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->
                         </thead>
                         <tbody>
-                            <!-- start row -->
-                            {{-- @forelse ($employes as $index => $employee)
-                        <tr>
-                            <td>{{ $index + 1}}</td>
-                            <td>{{ $employee->nama}}</td>
-                            <td>{{ $employee->tempat_lahir}}</td>
-                            <td>{{ $employee->tanggal_lahir}}</td>
-                            <td>{{ $employee->jenis_kelamin}}</td>
-                            <td>{{ $employee->agama}}</td>
-                            <td>{{ $employee->alamat}}</td>
-                            <td>{{ $employee->rt}}</td>
-                            <td>{{ $employee->rw}}</td>
-                            <td>{{ $employee->desa}}</td>
-                            <td>{{ $employee->kecamatan}}</td>
-                            <td>{{ $employee->kabupaten}}</td>
-                            <td>{{ $employee->provinsi}}</td>
-                            <td>{{ $employee->kode_pos}}</td>
-                            <td>{{ $employee->no_telepon}}</td>
-                                
-                               
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">Belum ada employee</td>
-                        </tr>
-                    @endforelse --}}
-                            <!-- end row -->
+                          @foreach($employee as $no => $pegawai)
+                          <tr>
+                              <td>{{ $no + 1 }}</td>
+                              <td>{{ $pegawai->usr_name }}</td>
+                              <td>{{ $pegawai->email }}</td>
+                              <td>{{ $pegawai->usr_birthplace }}, {{ $pegawai->usr_birthdate }}</td>
+                              <td>{{ $pegawai->usr_gender }}</td>
+                              <td>{{ $pegawai->usr_religion }}</td>
+                              <td>{{ $pegawai->usr_telephone }}</td>
+                          
+                              <td>
+                                  <a href="/employee/customers/{{ $pegawai->usr_id}}/edit" class="btn btn-primary">Edit</a>
+                                  <a href="/employee/customers/{{ $pegawai->usr_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+
+                             </td>
+                          </tr>
+                          @endforeach
                             
                         </tbody>
                         <tfoot>

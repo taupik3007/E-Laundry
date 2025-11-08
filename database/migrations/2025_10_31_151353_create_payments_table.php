@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->bigInteger('pym_id');
-            $table->bigInteger('pym_order_id');
+            $table->unsignedBigInteger('pym_order_id');
+            $table->foreign('pym_order_id')->references('ord_id')->on('orders')->onDelete('cascade');
             $table->bigInteger('pym_order_method');
             $table->string('pym_payment_gateaway');
             $table->string('pym_gateaway_references');

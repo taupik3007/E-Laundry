@@ -36,7 +36,7 @@ E-Laundry Garut | Daftar Pemesanan
                 </div>
                 <div class="col-3">
                   <div class="text-center mb-n5">
-                    <img src="{{ asset('assets/images/breadcrumb/ChatBc.png')}}" alt="modernize-img" class="img-fluid mb-n4" />
+                    <img src="{{ asset('assets/images/breadcrumb/trolli.png')}}" alt="modernize-img" class="img-fluid mb-n4" />
                   </div>
                 </div>
               </div>
@@ -48,6 +48,8 @@ E-Laundry Garut | Daftar Pemesanan
                 <div class="mb-5 position-relative">
 
                     <h4 class="card-title mb-0">Daftar Pesanan</h4>
+                    <a href="/administration/major/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Pesanan</a>
+
                 </div>
                 <p class="card-subtitle mb-3">
                     
@@ -71,6 +73,7 @@ E-Laundry Garut | Daftar Pemesanan
                         <tbody>
                             {{-- @foreach($customers as $no => $customer)--}}
                             <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
