@@ -32,7 +32,7 @@
         <!-- Sidebar scroll-->
         <div>
           <!-- Sidebar navigation-->
-          @include('employee.sidenav')
+          @include('employee.sidebar')
           <!-- End Sidebar navigation -->
         </div>
         <!-- End Sidebar scroll-->

@@ -77,4 +77,13 @@ class CustomerController extends Controller
     {
         //
     }
+    public function toggleStatus(Request $request, $id)
+{
+    $user = User::findOrFail($id);
+    $user->usr_status = $request->usr_status;
+    $user->save();
+
+    return response()->json(['success' => true]);
+}
+
 }
