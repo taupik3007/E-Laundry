@@ -60,8 +60,10 @@ Route::get('/employee/expenditure', [ExpenditureController::class, 'index'])->na
 Route::get('/employee/expenditure/create', [ExpenditureController::class, 'create'])->name('expenditure.create');
 
 Route::get('/employee/pick-up', [PickUpController::class, 'index'])->name('pickup.index');
+Route::post('/employee/pick-up/{id}/status', [PickUpController::class, 'updateStatus'])->name('pickup.updateStatus');
 Route::get('/employee/pick-up/create', [PickUpController::class, 'create'])->name('pickup.create');
-
+Route::get('/employee/pick-up/{id}/detail', [PickUpController::class, 'detail'])->name('pickup.detail');
+Route::delete('/employee/pick-up/{id}/destroy', [PickUpController::class, 'destroy'])->name('pickup.destroy');
 
 Route::get('/owner/employee', [EmployeeController::class, 'index'])->name('employee.index');
 Route::get('/owner/employee/create', [EmployeeController::class, 'store'])->name('employee.create');
