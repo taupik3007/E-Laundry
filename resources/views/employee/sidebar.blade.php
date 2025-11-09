@@ -47,7 +47,7 @@
                  </li>
 
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="../main/index3.html" aria-expanded="false">
+                     <a class="sidebar-link" href="/employee/pick-up" aria-expanded="false">
                          <span>
                              <i class="ti ti-truck"></i>
                          </span>
@@ -70,7 +70,7 @@
                  </li>
 
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="../main/index3.html" aria-expanded="false">
+                     <a class="sidebar-link" href="/employee/customers"" aria-expanded="false">
                          <span>
                              <i class="ti ti-user"></i>
                          </span>
@@ -92,18 +92,7 @@
                      </a>
                  </li>
 
-                  <li class="nav-small-cap">
-                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                     <span class="hide-menu">Akun</span>
-                 </li>
-                 <li class="sidebar-item">
-                     <a class="sidebar-link" href="/employee/customers" aria-expanded="false">
-                         <span>
-                             <i class="ti ti-user"></i>
-                         </span>
-                         <span class="hide-menu">Customer</span>
-                     </a>
-                 </li>
+              
                  <!-- ---
 
              </ul>

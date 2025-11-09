@@ -77,7 +77,7 @@
                   <div class="mb-4 row align-items-center">
                     <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">Tanggal Lahir</label>
                     <div class="col-sm-9">
-                      <input type="text" name="usr_birthdate" value="{{$CustomerEdit->usr_birthdate}}"  class="form-control" id="exampleInputText1" placeholder="Singkatan Jurusan" required oninvalid="this.setCustomValidity('Nama Jurusan Wajib Diisi')" 
+                      <input type="date" name="usr_birthdate" value="{{$CustomerEdit->usr_birthdate}}"  class="form-control" id="exampleInputText1" placeholder="Singkatan Jurusan" required oninvalid="this.setCustomValidity('Nama Jurusan Wajib Diisi')" 
                       onchange="this.setCustomValidity('')">
                     </div>
                     @error('')
