@@ -50,6 +50,8 @@ Route::get('/employee/index', function () {
 Route::get('/employee/customers', [CustomerController::class, 'index'])->name('customers.index');
 Route::get('/employee/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
 Route::put('/employee/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
+Route::post('/employee/customers/{id}/toggle-status', [CustomerController::class, 'toggleStatus'])
+    ->name('customers.toggleStatus');
 
 Route::get('/employee/ordering', [OrderController::class, 'index'])->name('order.index');
 Route::get('/employee/ordering/create', [OrderController::class, 'create'])->name('order.create');
@@ -61,9 +63,15 @@ Route::get('/employee/expenditure', [ExpenditureController::class, 'index'])->na
 Route::get('/employee/expenditure/create', [ExpenditureController::class, 'create'])->name('expenditure.create');
 
 Route::get('/employee/pick-up', [PickUpController::class, 'index'])->name('pickup.index');
+Route::post('/employee/pick-up/{id}/status', [PickUpController::class, 'updateStatus'])->name('pickup.updateStatus');
 Route::get('/employee/pick-up/create', [PickUpController::class, 'create'])->name('pickup.create');
 
+
 Route::get('/employee/service', [ServiceController::class, 'index'])->name('service.index');
+
+Route::get('/employee/pick-up/{id}/detail', [PickUpController::class, 'detail'])->name('pickup.detail');
+Route::delete('/employee/pick-up/{id}/destroy', [PickUpController::class, 'destroy'])->name('pickup.destroy');
+
 
 Route::get('/owner/employee', [EmployeeController::class, 'index'])->name('employee.index');
 Route::get('/owner/employee/create', [EmployeeController::class, 'store'])->name('employee.create');

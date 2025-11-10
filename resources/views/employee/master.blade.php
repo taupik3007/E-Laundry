@@ -32,7 +32,7 @@
         <!-- Sidebar scroll-->
         <div>
           <!-- Sidebar navigation-->
-          @include('employee.sidenav')
+          @include('employee.sidebar')
           <!-- End Sidebar navigation -->
         </div>
         <!-- End Sidebar scroll-->
@@ -381,6 +381,8 @@
   <div class="dark-transparent sidebartoggler"></div>
   {{-- script --}}
   {{-- @include('sweetalert::alert')s --}}
+
+  @include('sweetalert::alert')
 
   @include('employee.script')
 

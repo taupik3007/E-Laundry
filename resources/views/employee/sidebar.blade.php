@@ -69,6 +69,16 @@
                      <span class="hide-menu">KELOLA DATA</span>
                  </li>
 
+
+                 <li class="sidebar-item">
+                     <a class="sidebar-link" href="/employee/customers" aria-expanded="false">
+                         <span>
+                             <i class="ti ti-user"></i>
+                         </span>
+                         <span class="hide-menu">Pelanggan</span>
+                     </a>
+                 </li>
+
                  
                  <li class="nav-small-cap">
                      <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -83,18 +93,7 @@
                      </a>
                  </li>
 
-                  <li class="nav-small-cap">
-                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                     <span class="hide-menu">Akun</span>
-                 </li>
-                 <li class="sidebar-item">
-                     <a class="sidebar-link" href="/employee/customers" aria-expanded="false">
-                         <span>
-                             <i class="ti ti-user"></i>
-                         </span>
-                         <span class="hide-menu">Customer</span>
-                     </a>
-                 </li>
+              
                  <!-- ---
 
              </ul>

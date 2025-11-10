@@ -45,17 +45,19 @@ E-Laundry Garut | Daftar Pemesanan
        
         <div class="card">
             <div class="card-body">
-                <div class="mb-5 position-relative">
+              <div class="mb-5 position-relative">
 
-                    <h4 class="card-title mb-0">Daftar Pesanan</h4>
-                </div>
+                <h4 class="card-title mb-0">Daftar Penjemputan</h4>
+                <a href="/employee/ordering/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Pesanan</a>
+
+            </div>
                 <p class="card-subtitle mb-3">
                     
                 </p>
                 <div class="table-responsive">
                     <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
                         <thead>
-      
+
                             <tr>
                                 <th width="10%">No</th>
                                 <th>Nama Customer</th>
@@ -69,32 +71,47 @@ E-Laundry Garut | Daftar Pemesanan
                             <!-- end row -->
                         </thead>
                         <tbody>
-                            {{-- @foreach($customers as $no => $customer)--}}
+                            @foreach($order as $no => $order)
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                              <td>{{ $no + 1 }}</td>
+                                <td>{{ $order->ord_name_user }}</td>
+                                <td>{{ $order->ord_phone_number }}</td>
+                                <td>{{ $order->ord_pickup_address }}</td>
                                 <td class="d-flex align-items-center gap-2">
-                                    <!-- Dropdown status -->
-                                    <div class="dropdown">
-                                        <button class="btn btn-warning dropdown-toggle" type="button" id="statusDropdown{id}" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Status Penjemputan
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="statusDropdown{id}">
-                                            <li><a class="dropdown-item" href="#">Menunggu</a></li>
-                                            <li><a class="dropdown-item" href="#">Dalam Penjemputan</a></li>
-                                            <li><a class="dropdown-item" href="#">Selesai</a></li>
-                                            <li><a class="dropdown-item" href="#">Dibatalkan</a></li>
-                                        </ul>
-                                    </div>
+                                  <div class="dropdown">
+
+                                    @php
+                                      $color = match($order->ord_status) {
+                                        'Menunggu' => 'btn-warning',
+                                        'Dalam Penjemputan' => 'btn-info',
+                                        'Selesai' => 'btn-success',
+                                        'Dibatalkan' => 'btn-danger',
+                                        default => 'btn-secondary'
+                                      };
+                                    @endphp
+                                    <button class="btn {{ $color }} dropdown-toggle" type="button" id="statusDropdown{{ $order->ord_id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ $order->ord_status }}
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="statusDropdown{{ $order->ord_id }}">
+                                        <li><a class="dropdown-item change-status" href="#" data-id="{{ $order->ord_id }}" data-status="Menunggu">Menunggu</a></li>
+                                        <li><a class="dropdown-item change-status" href="#" data-id="{{ $order->ord_id }}" data-status="Dalam Penjemputan">Dalam Penjemputan</a></li>
+                                        <li><a class="dropdown-item change-status" href="#" data-id="{{ $order->ord_id }}" data-status="Selesai">Selesai</a></li>
+                                        <li><a class="dropdown-item change-status" href="#" data-id="{{ $order->ord_id }}" data-status="Dibatalkan">Dibatalkan</a></li>
+                                    </ul>
+                                  </div>
                                 </td>
+                                
                                 <td>
-                                    <a href="/employee/ordering/{id}/detail" class="btn btn-primary">Detail</a>
-                                    <a href="/employee//{id}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                  <a href="/employee/pick-up/{{ $order->ord_id}}/detail" class="btn btn-primary">Detail</a>
+                                  {{-- <a href="/employee/pick-up/{{ $order->ord_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a> --}}
+                                  @if(in_array($order->ord_status, ['Selesai', 'Dibatalkan']))
+                                    <a href="#" class="btn btn-danger delete-order" data-id="{{ $order->ord_id }}">Delete</a>
+                                  @else
+                                    <button class="btn btn-danger" disabled>Delete</button>
+                                  @endif
                                </td>
                             </tr>
-                            {{-- @endforeach  --}}
+                             @endforeach
                         </tbody>
                         <tfoot>
                             <!-- start row -->
@@ -131,4 +148,73 @@ E-Laundry Garut | Daftar Pemesanan
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+
+    <script>
+      $(document).ready(function() {
+        $('.change-status').on('click', function(e) {
+          e.preventDefault();
+      
+          var orderId = $(this).data('id');
+          var newStatus = $(this).data('status');
+      
+          $.ajax({
+            url: '/employee/pick-up/' + orderId + '/status',
+            type: 'POST',
+            data: {
+              _token: '{{ csrf_token() }}',
+              ord_status: newStatus
+            },
+            success: function(response) {
+              if (response.success) {
+                // ✅ Update teks & warna tombol status
+                var statusButton = $('#statusDropdown' + orderId);
+      
+                // Peta warna status
+                var colorMap = {
+                  'Menunggu': 'btn-warning',
+                  'Dalam Penjemputan': 'btn-info',
+                  'Selesai': 'btn-success',
+                  'Dibatalkan': 'btn-danger'
+                };
+      
+                var newColor = colorMap[response.status] || 'btn-secondary';
+      
+                statusButton
+                  .text(response.status)
+                  .removeClass('btn-warning btn-info btn-success btn-danger btn-secondary')
+                  .addClass(newColor);
+      
+                // ✅ Update tombol delete sesuai status baru
+                var deleteBtn = $('a.delete-order[data-id="' + orderId + '"]');
+                var deleteBtnDisabled = $('button[data-id="' + orderId + '"].btn-danger');
+      
+                if (response.status === 'Selesai' || response.status === 'Dibatalkan') {
+                  // Jika delete button belum ada (karena disable), ubah jadi aktif
+                  if (deleteBtnDisabled.length) {
+                    deleteBtnDisabled.replaceWith(
+                      '<a href="#" class="btn btn-danger delete-order" data-id="' + orderId + '">Delete</a>'
+                    );
+                  }
+                } else {
+                  // Jika status belum selesai/dibatalkan → disable tombol delete
+                  if (deleteBtn.length) {
+                    deleteBtn.replaceWith(
+                      '<button class="btn btn-danger" disabled data-id="' + orderId + '">Delete</button>'
+                    );
+                  }
+                }
+              }
+            },
+            error: function(xhr) {
+              alert('❌ Gagal mengubah status.');
+            }
+          });
+        });
+      });
+      </script>
+      
+      
+      
+
+
 @endpush
