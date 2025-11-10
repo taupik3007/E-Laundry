@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\Owner\EmployeeController;
+use App\Http\Controllers\Employee\ServiceController;
 use App\Http\Controllers\Owner\EmployesController;
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
@@ -62,6 +63,7 @@ Route::get('/employee/expenditure/create', [ExpenditureController::class, 'creat
 Route::get('/employee/pick-up', [PickUpController::class, 'index'])->name('pickup.index');
 Route::get('/employee/pick-up/create', [PickUpController::class, 'create'])->name('pickup.create');
 
+Route::get('/employee/service', [ServiceController::class, 'index'])->name('service.index');
 
 Route::get('/owner/employee', [EmployeeController::class, 'index'])->name('employee.index');
 Route::get('/owner/employee/create', [EmployeeController::class, 'store'])->name('employee.create');

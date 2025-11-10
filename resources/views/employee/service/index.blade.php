@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SITAW | Daftar Pelanggan
+    SITAW | Daftar Layanan
 @endsection
 
 @section('content')
@@ -15,13 +15,15 @@
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">Pelanggan</h4>
+                  <h4 class="fw-semibold mb-8">Layanan</h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Pelanggan</li>
-                      
+                    <li class="breadcrumb-item" aria-current="page">Daftar Layanan</li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/employee/customers/{id}/edit">Edit Pelanggan</a>
+                        <a class="text-muted text-decoration-none" href="/employee/service/create">Tambah Layanan</a>
+                      </li>
+                      <li class="breadcrumb-item">
+                        <a class="text-muted text-decoration-none" href="/employee/service/{id}/edit">Edit Layanan</a>
                       </li>
                     </ol>
                    
@@ -40,7 +42,8 @@
             <div class="card-body">
                 <div class="mb-5 position-relative">
 
-                    <h4 class="card-title mb-0">Daftar Pelanggan</h4>
+                    <h4 class="card-title mb-0">Daftar Layanan</h4>
+                    <a href="/employee/service/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Layanan</a>
 
                 </div>
                 <p class="card-subtitle mb-3">
@@ -52,30 +55,25 @@
                             <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>Tanggal Registrasi</th>
-                                <th>Status</th>
+                                <th>Nama Layanan</th>
+                                <th>Jenis Layanan</th>
+                                <th>Harga Layanan</th>
                                 <th>Aksi</th>
                                 
                             </tr>
                             <!-- end row -->
                         </thead>
                         <tbody>
-                            @foreach($customers as $no => $customer)
                             <tr>
-                                <td>{{ $no + 1 }}</td>
-                                <td>{{ $customer->usr_name }}</td>
-                                <td>{{ $customer->email }}</td>
-                                <td>{{ $customer->created_at->format('d M Y') }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                                 <td></td>
                                 <td>
-                                    <a href="/employee/customers/{{ $customer->usr_id}}/edit" class="btn btn-primary">Edit</a>
-                                    <a href="/employee/customers/{{ $customer->usr_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
- 
+                                   
                                </td>
                             </tr>
-                            @endforeach
                         </tbody>
                         <tfoot>
                             <!-- start row -->
@@ -83,10 +81,9 @@
 
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>Tanggal Registrasi</th>
-                                <th>Status</th>
+                                <th>Nama Layanan</th>
+                                <th>Jenis Layanan</th>
+                                <th>Harga Layanan</th>
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->

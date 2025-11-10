@@ -47,7 +47,7 @@
                  </li>
 
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="../main/index3.html" aria-expanded="false">
+                     <a class="sidebar-link" href="/employee/pick-up" aria-expanded="false">
                          <span>
                              <i class="ti ti-truck"></i>
                          </span>
@@ -56,7 +56,7 @@
                  </li>
 
                 <li class="sidebar-item">
-                     <a class="sidebar-link" href="../main/index3.html" aria-expanded="false">
+                     <a class="sidebar-link" href="/employee/service" aria-expanded="false">
                          <span>
                              <i class="ti ti-file-text"></i>
                          </span>
@@ -67,15 +67,6 @@
                   <li class="nav-small-cap">
                      <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                      <span class="hide-menu">KELOLA DATA</span>
-                 </li>
-
-                 <li class="sidebar-item">
-                     <a class="sidebar-link" href="../main/index3.html" aria-expanded="false">
-                         <span>
-                             <i class="ti ti-user"></i>
-                         </span>
-                         <span class="hide-menu">Pelanggan</span>
-                     </a>
                  </li>
 
                  

@@ -38,7 +38,7 @@
                      <span class="hide-menu">PESANAN</span>
                  </li>
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="../main/index2.html" aria-expanded="false">
+                     <a class="sidebar-link" href="/employee/order-laundry" aria-expanded="false">
                          <span>
                              <i class="ti ti-shopping-cart"></i>
                          </span>
