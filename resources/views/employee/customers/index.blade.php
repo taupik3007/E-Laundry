@@ -13,21 +13,6 @@
     <div class="datatables">
         <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
             <div class="card-body px-4 py-3">
-<<<<<<< HEAD
-              <div class="row align-items-center">
-                <div class="col-9">
-                  <h4 class="fw-semibold mb-8">Pelanggan</h4>
-                  <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Pelanggan</li>
-                      
-                      <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/employee/customers/{id}/edit">Edit Pelanggan</a>
-                      </li>
-                    </ol>
-                   
-                  </nav>
-=======
                 <div class="row align-items-center">
                     <div class="col-9">
                         <h4 class="fw-semibold mb-8">Pelanggan</h4>
@@ -52,7 +37,6 @@
                                 class="img-fluid mb-n4" />
                         </div>
                     </div>
->>>>>>> 6d8b643fc650742dd4658766b7172fc68a988625
                 </div>
             </div>
         </div>
@@ -61,13 +45,9 @@
             <div class="card-body">
                 <div class="mb-5 position-relative">
 
-<<<<<<< HEAD
                     <h4 class="card-title mb-0">Daftar Pelanggan</h4>
-=======
-                    <h4 class="card-title mb-0">Daftar Jurusan</h4>
                     <a href="/employee/ordering/create" class="btn btn-primary position-absolute top-0 end-0">Tambah
-                        Kategori</a>
->>>>>>> 6d8b643fc650742dd4658766b7172fc68a988625
+                        Pelanggan</a>
 
                 </div>
                 <p class="card-subtitle mb-3">
