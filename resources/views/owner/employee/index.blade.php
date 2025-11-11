@@ -13,39 +13,43 @@
     <div class="datatables">
         <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
             <div class="card-body px-4 py-3">
-              <div class="row align-items-center">
-                <div class="col-9">
-                  <h4 class="fw-semibold mb-8">Pegawai</h4>
-                  <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Pegawai</li>
-                      <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/owner/employee/create">Tambah Pegawai</a>
-                      </li>
-                      <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/owner/employee/{id}/edit">Edit Pegawai</a>
-                      </li>
-                    </ol>
-                   
-                  </nav>
+                <div class="row align-items-center">
+                    <div class="col-9">
+                        <h4 class="fw-semibold mb-8">Pegawai</h4>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item" aria-current="page">Daftar Pegawai</li>
+                                <li class="breadcrumb-item">
+                                    <a class="text-muted text-decoration-none" href="/owner/employee/create">Tambah
+                                        Pegawai</a>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <a class="text-muted text-decoration-none" href="/owner/employee/{id}/edit">Edit
+                                        Pegawai</a>
+                                </li>
+                            </ol>
+
+                        </nav>
+                    </div>
+                    <div class="col-3">
+                        <div class="text-center mb-n5">
+                            <img src="{{ asset('assets/images/breadcrumb/ChatBc.png') }}" alt="modernize-img"
+                                class="img-fluid mb-n4" />
+                        </div>
+                    </div>
                 </div>
-                <div class="col-3">
-                  <div class="text-center mb-n5">
-                    <img src="{{ asset('assets/images/breadcrumb/ChatBc.png')}}" alt="modernize-img" class="img-fluid mb-n4" />
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-       
+        </div>
+
         <div class="card">
             <div class="card-body">
                 <div class="mb-5 position-relative">
                     <h4 class="card-title mb-0">Daftar Pegawai</h4>
-                    <a href="/owner/employee/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Pegawai</a>
+                    <a href="/owner/employee/create" class="btn btn-primary position-absolute top-0 end-0">Tambah
+                        Pegawai</a>
                 </div>
                 <p class="card-subtitle mb-3">
-                    
+
                 </p>
                 <div class="table-responsive">
                     <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
@@ -64,28 +68,30 @@
                             <!-- end row -->
                         </thead>
                         <tbody>
-                          @foreach($employee as $no => $pegawai)
-                          <tr>
-                              <td>{{ $no + 1 }}</td>
-                              <td>{{ $pegawai->usr_name }}</td>
-                              <td>{{ $pegawai->email }}</td>
-                              <td>{{ $pegawai->usr_birthplace }}, {{ $pegawai->usr_birthdate }}</td>
-                              <td>{{ $pegawai->usr_gender }}</td>
-                              <td>{{ $pegawai->usr_religion }}</td>
-                              <td>{{ $pegawai->usr_telephone }}</td>
-                          
-                              <td>
-                                  <a href="/employee/customers/{{ $pegawai->usr_id}}/edit" class="btn btn-primary">Edit</a>
-                                  <a href="/employee/customers/{{ $pegawai->usr_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                            @foreach ($employee as $no => $pegawai)
+                                <tr>
+                                    <td>{{ $no + 1 }}</td>
+                                    <td>{{ $pegawai->usr_name }}</td>
+                                    <td>{{ $pegawai->email }}</td>
+                                    <td>{{ $pegawai->usr_birthplace }}, {{ $pegawai->usr_birthdate }}</td>
+                                    <td>{{ $pegawai->usr_gender }}</td>
+                                    <td>{{ $pegawai->usr_religion }}</td>
+                                    <td>{{ $pegawai->usr_telephone }}</td>
 
-                             </td>
-                          </tr>
-                          @endforeach
-                            
+                                    <td>
+                                        <a href="/employee/customers/{{ $pegawai->usr_id }}/edit"
+                                            class="btn btn-primary">Edit</a>
+                                        <a href="/employee/customers/{{ $pegawai->usr_id }}/destroy" class="btn btn-danger"
+                                            data-confirm-delete="true">Delete</a>
+
+                                    </td>
+                                </tr>
+                            @endforeach
+
                         </tbody>
                         <tfoot>
                             <!-- start row -->
-                            
+
                             <!-- end row -->
                         </tfoot>
                     </table>
@@ -93,7 +99,6 @@
             </div>
         </div>
     </div>
-    
 @endsection
 
 

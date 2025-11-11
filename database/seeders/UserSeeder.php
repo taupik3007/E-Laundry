@@ -54,5 +54,18 @@ class UserSeeder extends Seeder
         ]);
         $employee1->assignRole('employee');
 
+        $owner1 = User::create([
+            'usr_name' => 'Taupik Pathurrohman',
+            'usr_nik' => '3213123123123',
+            'email' => 'taupikpathurrohman@gmail.com',
+            'password' => bcrypt(123456789),
+            'usr_birthplace' => 'Bandung',
+            'usr_birthdate' => '2003-7-30',
+            'usr_gender' => 'laki-laki',
+            'usr_religion' => 'Islam',
+            'usr_telephone' => '085864296239',
+        ]);
+        $owner1->assignRole('owner');
+
     }
 }

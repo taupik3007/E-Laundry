@@ -3180,14 +3180,9 @@
         {
             "name": "realrashid/sweet-alert",
             "version": "v7.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/realrashid/sweet-alert.git",
-                "reference": "d54b1663970da8d416eb09e8719a8561a45fb2d9"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/realrashid/sweet-alert/zipball/d54b1663970da8d416eb09e8719a8561a45fb2d9",
+                "url": "https://mirrors.cloud.tencent.com/repository/composer/realrashid/sweet-alert/v7.3.0/realrashid-sweet-alert-v7.3.0.zip",
                 "reference": "d54b1663970da8d416eb09e8719a8561a45fb2d9",
                 "shasum": ""
             },
@@ -3217,7 +3212,6 @@
                     "RealRashid\\SweetAlert\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3247,24 +3241,6 @@
                 "issues": "https://github.com/realrashid/sweet-alert/issues",
                 "source": "https://github.com/realrashid/sweet-alert"
             },
-            "funding": [
-                {
-                    "url": "https://ko-fi.com/realrashid",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.buymeacoffee.com/realrashid",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://issuehunt.io/r/realrashid",
-                    "type": "issuehunt"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/realrashid/sweet-alert",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2025-02-25T21:11:49+00:00"
         },
         {
@@ -8020,12 +7996,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }

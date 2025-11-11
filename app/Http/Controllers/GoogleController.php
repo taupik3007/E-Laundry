@@ -36,11 +36,11 @@ class GoogleController extends Controller
              if ($user->hasRole('owner')) {
                 return redirect()->intended(route('owner.dashboard', absolute: false));
              }elseif ($user->hasRole('employee')) {
-            return redirect()->intended(route('emloyee.dashboard', absolute: false));
+            return redirect()->intended(route('employee.dashboard', absolute: false));
              }elseif ($user->hasRole('customer')) {
         // dd($user);
 
-            return redirect()->intended(route('customer.dashboard', absolute: false));
+            return redirect()->intended(route('customer.home', absolute: false));
              }
         } catch (\Exception $e) {
         // dd($user);
