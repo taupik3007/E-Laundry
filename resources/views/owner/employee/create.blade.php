@@ -9,7 +9,7 @@
     SITAW | Tambah Pegawai
 @endsection
 
-@section('content')v
+@section('content')
     <div class="datatables">
         <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
             <div class="card-body px-4 py-3">
