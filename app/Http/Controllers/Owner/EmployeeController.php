@@ -25,12 +25,38 @@ class EmployeeController extends Controller
          return view('owner.employee.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
-        //
+         $validated = $request->validate([
+        'usr_name' => 'required|string|max:100',
+        'email' => 'required|email|unique:users,email',
+        'usr_telephone' => 'required|numeric|digits_between:10,15',
+        'password' => 'required|string|min:6',
+    ], [
+    
+        'usr_name.required' => 'Nama wajib diisi.',
+        'email.required' => 'Email wajib diisi.',
+        'email.email' => 'Format email tidak valid.',
+        'email.unique' => 'Email sudah digunakan.',
+        'usr_telephone.required' => 'Nomor telepon wajib diisi.',
+        'usr_telephone.numeric' => 'Nomor telepon hanya boleh angka.',
+        'password.required' => 'Password wajib diisi.',
+        'password.min' => 'Password minimal 6 karakter.',
+    ]);
+
+    // dd($validated);
+   $createEmployee = User::create([
+        'usr_name' => $validated['usr_name'],
+        'email' => $validated['email'],
+        'usr_telephone' => $validated['usr_telephone'],
+        'password' => bcrypt($validated['password']),
+        'usr_role' => 'pegawai', 
+        'usr_status' => 1,       
+    ]);
+    $createEmployee->assignRole('employee');
+
+    return redirect('/owner/employee')->with('success', 'Pegawai berhasil ditambahkan!');
     }
 
     /**

@@ -24,6 +24,7 @@ class User extends Authenticatable
     'usr_nik',
     'google_id',
     'password',
+    'usr_telephone'
 ];
 
     /**

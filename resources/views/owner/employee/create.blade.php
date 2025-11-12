@@ -46,41 +46,41 @@
                 <div class="mb-4 row align-items-center">
                     <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">Nama</label>
                     <div class="col-sm-9">
-                      <input type="text" name="usr_name" class="form-control" id="exampleInputText1"  required oninvalid="this.setCustomValidity('Nama Jurusan Wajib Diisi')" 
+                      <input type="text" name="usr_name" class="form-control" id="exampleInputText1"  required 
                       onchange="this.setCustomValidity('')">
                     </div>
                     @error('usr_name')
-                      <div>error</div>
+                      <div class="text-danger small mt-1">{{$message}}</div>
                     @enderror
                   </div>
                 <div class="mb-4 row align-items-center">
                     <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">Email</label>
                     <div class="col-sm-9">
-                      <input type="text" name="email" class="form-control" id="exampleInputText1"  required oninvalid="this.setCustomValidity('Nama Jurusan Wajib Diisi')" 
+                      <input type="email" name="email" class="form-control" id="exampleInputText1"  required  
                       onchange="this.setCustomValidity('')">
                     </div>
                     @error('email')
-                      <div>error</div>
+                      <div class="text-danger small mt-1">{{$message}}</div>
                     @enderror
                   </div>
                   <div class="mb-4 row align-items-center">
                     <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">No. Telepon</label>
                     <div class="col-sm-9">
-                      <input type="telp" name="usr_telephone" class="form-control" id="exampleInputText1"  required oninvalid="this.setCustomValidity('Nama Jurusan Wajib Diisi')" 
+                      <input type="telp" name="usr_telephone" class="form-control" id="exampleInputText1"  required  
                       onchange="this.setCustomValidity('')">
                     </div>
                     @error('usr_telephone')
-                      <div>error</div>
+                      <div class="text-danger small mt-1">{{$message}}</div>
                     @enderror
                   </div>
                   <div class="mb-4 row align-items-center">
                     <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">Password</label>
                     <div class="col-sm-9">
-                      <input type="password" name="password" class="form-control" id="exampleInputText1"  required oninvalid="this.setCustomValidity('Nama Jurusan Wajib Diisi')" 
+                      <input type="password" name="password" class="form-control" id="exampleInputText1"  required  
                       onchange="this.setCustomValidity('')">
                     </div>
                     @error('password')
-                      <div>error</div>
+                      <div class="text-danger small mt-1">{{$message}}</div>
                     @enderror
                   </div>
                 <div class="row">

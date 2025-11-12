@@ -59,29 +59,32 @@
                                 <th width="10%">No</th>
                                 <th>Nama</th>
                                 <th>Email</th>
-                                <th>Tempat, Tanggal Lahir</th>
-                                <th>Jenis Kelamin</th>
-                                <th>Agama</th>
                                 <th>No. Telepon</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->
                         </thead>
                         <tbody>
-                            @foreach ($employee as $no => $pegawai)
+                            @foreach ($employee as $no => $employee)
                                 <tr>
                                     <td>{{ $no + 1 }}</td>
-                                    <td>{{ $pegawai->usr_name }}</td>
-                                    <td>{{ $pegawai->email }}</td>
-                                    <td>{{ $pegawai->usr_birthplace }}, {{ $pegawai->usr_birthdate }}</td>
-                                    <td>{{ $pegawai->usr_gender }}</td>
-                                    <td>{{ $pegawai->usr_religion }}</td>
-                                    <td>{{ $pegawai->usr_telephone }}</td>
-
+                                    <td>{{ $employee->usr_name }}</td>
+                                    <td>{{ $employee->email }}</td>
+                                    <td>{{ $employee->usr_telephone }}</td>
                                     <td>
-                                        <a href="/employee/customers/{{ $pegawai->usr_id }}/edit"
+      <div class="form-check form-switch">
+                                            <input class="form-check-input switch-status" type="checkbox"
+                                                data-id="{{ $employee->usr_id }}"
+                                                {{ $employee->usr_status ? 'checked' : '' }}>
+                                            <label class="form-check-label">
+                                                {{ $employee->usr_status ? 'Aktif' : 'Nonaktif' }}
+                                            </label>
+                                        </div>
+                                    <td>
+                                        <a href="/employee/customers/{{ $employee->usr_id }}/edit"
                                             class="btn btn-primary">Edit</a>
-                                        <a href="/employee/customers/{{ $pegawai->usr_id }}/destroy" class="btn btn-danger"
+                                        <a href="/employee/customers/{{ $employee->usr_id }}/destroy" class="btn btn-danger"
                                             data-confirm-delete="true">Delete</a>
 
                                     </td>
@@ -91,7 +94,14 @@
                         </tbody>
                         <tfoot>
                             <!-- start row -->
-
+<tr>
+                                <th width="10%">No</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>No. Telepon</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
                             <!-- end row -->
                         </tfoot>
                     </table>
@@ -99,8 +109,40 @@
             </div>
         </div>
     </div>
-@endsection
+    <script>
+        document.querySelectorAll('.switch-status').forEach(el => {
+            el.addEventListener('change', function() {
+                const userId = this.dataset.id;
+                const status = this.checked ? 1 : 0;
 
+                fetch(`/employee/customers/${userId}/toggle-status`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            usr_status: status
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            this.nextElementSibling.textContent = status ? 'Aktif' : 'Nonaktif';
+                        } else {
+                            alert('Gagal memperbarui status!');
+                            this.checked = !this.checked; // balikin posisi switch
+                        }
+                    })
+                    .catch(() => {
+                        alert('Terjadi kesalahan jaringan.');
+                        this.checked = !this.checked;
+                    });
+            });
+        });
+    </script>
+@endsection
+ 
 
 
 @push('script')
