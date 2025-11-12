@@ -5,6 +5,7 @@ use App\Http\Controllers\Employee\CustomerController;
 use App\Http\Controllers\Employee\ExpenditureController;
 use App\Http\Controllers\Employee\OrderController;
 use App\Http\Controllers\Employee\PickUpController;
+use App\Http\Controllers\Employee\PriceServiceController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
@@ -68,6 +69,14 @@ Route::get('/employee/pick-up/create', [PickUpController::class, 'create'])->nam
 
 
 Route::get('/employee/service', [ServiceController::class, 'index'])->name('service.index');
+Route::get('/employee/service/create', [ServiceController::class, 'create'])->name('service.create');
+
+Route::get('/employee/price-service', [PriceServiceController::class, 'index'])->name('price_service.index');
+Route::get('/employee/price-service/create', [PriceServiceController::class, 'create'])->name('price_service.create');
+Route::post('/employee/price-service/create', [PriceServiceController::class, 'store'])->name('price_service.store');
+Route::get('/employee/price-service/{id}/edit', [PriceServiceController::class, 'edit'])->name('price_service.edit');
+Route::post('/employee/price-service/{id}/edit', [PriceServiceController::class, 'update'])->name('price_service.update');
+Route::delete('/employee/price-service/{id}/destroy', [PriceServiceController::class, 'destroy'])->name('price_service.destroy');
 
 Route::get('/employee/pick-up/{id}/detail', [PickUpController::class, 'detail'])->name('pickup.detail');
 Route::delete('/employee/pick-up/{id}/destroy', [PickUpController::class, 'destroy'])->name('pickup.destroy');
