@@ -72,7 +72,8 @@ class EmployeeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $employee = User::role('employee')->where('usr_id',$id)->first();
+        return view('owner.employee.edit',compact(['employee']));
     }
 
     /**
@@ -80,7 +81,30 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+         $employee = User::findOrFail($id);
+
+    $validated = $request->validate([
+        'usr_name' => 'required|string|max:100',
+        'email' => 'required|email|unique:users,email,' . $employee->usr_id . ',usr_id',
+        'usr_telephone' => 'required|numeric|digits_between:10,15',
+    ], [
+        'usr_name.required' => 'Nama wajib diisi.',
+        'email.required' => 'Email wajib diisi.',
+        'email.email' => 'Format email tidak valid.',
+        'email.unique' => 'Email sudah digunakan.',
+        'usr_telephone.required' => 'Nomor telepon wajib diisi.',
+        'usr_telephone.numeric' => 'Nomor telepon hanya boleh angka.',
+    ]);
+    // dd($validated);
+
+    // Update data tanpa password
+    $employee->update([
+        'usr_name' => $validated['usr_name'],
+        'email' => $validated['email'],
+        'usr_telephone' => $validated['usr_telephone'],
+    ]);
+     return redirect()->route('employee.index');
+
     }
 
     public function detail(Request $request, string $id)

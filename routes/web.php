@@ -77,7 +77,8 @@ Route::get('/owner/employee', [EmployeeController::class, 'index'])->name('emplo
 Route::get('/owner/employee/create', [EmployeeController::class, 'create'])->name('employee.create');
 Route::post('/owner/employee/create', [EmployeeController::class, 'store'])->name('employee.store');
 Route::get('/owner/employee/{id}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
-Route::put('/owner/employee/{id}', [EmployeeController::class, 'update'])->name('employee.update');
+Route::put('/owner/employee/{id}/edit', [EmployeeController::class, 'update'])->name('employee.update');
+
 Route::get('/owner/employee/{id}/detail', [EmployeeController::class, 'detail'])->name('employee.detail');
 
 Route::get('/customer/laundry-order', [OrderLaundryController::class, 'index'])->name('laundry-order.index');

@@ -73,7 +73,7 @@
                                     <td>{{ $employee->email }}</td>
                                     <td>{{ $employee->usr_telephone }}</td>
                                     <td>
-      <div class="form-check form-switch">
+                                        <div class="form-check form-switch">
                                             <input class="form-check-input switch-status" type="checkbox"
                                                 data-id="{{ $employee->usr_id }}"
                                                 {{ $employee->usr_status ? 'checked' : '' }}>
@@ -82,10 +82,10 @@
                                             </label>
                                         </div>
                                     <td>
-                                        <a href="/employee/customers/{{ $employee->usr_id }}/edit"
+                                        <a href="/owner/employee/{{ $employee->usr_id }}/edit"
                                             class="btn btn-primary">Edit</a>
-                                        <a href="/employee/customers/{{ $employee->usr_id }}/destroy" class="btn btn-danger"
-                                            data-confirm-delete="true">Delete</a>
+                                        <a href="/employee/customers/{{ $employee->usr_id }}/destroy"
+                                            class="btn btn-danger" data-confirm-delete="true">Delete</a>
 
                                     </td>
                                 </tr>
@@ -94,7 +94,7 @@
                         </tbody>
                         <tfoot>
                             <!-- start row -->
-<tr>
+                            <tr>
                                 <th width="10%">No</th>
                                 <th>Nama</th>
                                 <th>Email</th>
@@ -142,7 +142,7 @@
         });
     </script>
 @endsection
- 
+
 
 
 @push('script')
