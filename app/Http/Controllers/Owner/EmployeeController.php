@@ -118,6 +118,9 @@ class EmployeeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $deleteEmployee = User::findOrFail($id);
+        $deleteEmployee->delete();
+     return redirect()->route('employee.index');
+
     }
 }

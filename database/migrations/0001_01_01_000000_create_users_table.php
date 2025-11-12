@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('usr_telephone')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

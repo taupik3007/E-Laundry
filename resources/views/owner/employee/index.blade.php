@@ -83,9 +83,14 @@
                                         </div>
                                     <td>
                                         <a href="/owner/employee/{{ $employee->usr_id }}/edit"
-                                            class="btn btn-primary">Edit</a>
-                                        <a href="/employee/customers/{{ $employee->usr_id }}/destroy"
-                                            class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                            class="btn btn-sm btn-primary">Edit</a>
+                                        <form action="{{ route('employee.destroy', $employee->usr_id) }}" method="post"
+                                            class="d-inline"
+                                            onsubmit="return confirm('Yakin ingin menghapus pegawai ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                        </form>
 
                                     </td>
                                 </tr>

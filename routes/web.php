@@ -78,8 +78,8 @@ Route::get('/owner/employee/create', [EmployeeController::class, 'create'])->nam
 Route::post('/owner/employee/create', [EmployeeController::class, 'store'])->name('employee.store');
 Route::get('/owner/employee/{id}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
 Route::put('/owner/employee/{id}/edit', [EmployeeController::class, 'update'])->name('employee.update');
-
 Route::get('/owner/employee/{id}/detail', [EmployeeController::class, 'detail'])->name('employee.detail');
+Route::delete('/owner/employee/{id}/destroy', [EmployeeController::class, 'destroy'])->name('employee.destroy');
 
 Route::get('/customer/laundry-order', [OrderLaundryController::class, 'index'])->name('laundry-order.index');
 Route::get('/customer/laundry-order/create', [OrderLaundryController::class, 'create '])->name('laundry-order.create');
