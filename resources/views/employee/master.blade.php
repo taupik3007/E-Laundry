@@ -5,7 +5,7 @@
 @include('employee.head')
 <!-- endhead -->
 <body>
-  <div class="toast toast-onload align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+  {{-- <div class="toast toast-onload align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-body hstack align-items-start gap-6">
       <i class="ti ti-alert-circle fs-6"></i>
       <div>
@@ -14,7 +14,7 @@
       </div>
       <button type="button" class="btn-close btn-close-white fs-2 m-0 ms-auto shadow-none" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
-  </div>
+  </div> --}}
   <!-- Preloader -->
   {{-- <div class="preloader">
     <img src="./assets/images/logos/anya.jpg" alt="loader" class="lds-ripple img-fluid" />

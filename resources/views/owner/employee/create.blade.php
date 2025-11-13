@@ -87,7 +87,7 @@
                   <div class="col-sm-3"></div>
                   <div class="col-sm-9">
                     <input type="submit" class="btn btn-primary" value="Kirim" id="">
-                    <a href="/employee/expenditure" class="btn btn-warning">Batal</a>
+                    <a href="/owner/employee" class="btn btn-warning">Batal</a>
                   </div>
                 </div>
               </div>

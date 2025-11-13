@@ -19,14 +19,8 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item" aria-current="page">Daftar Pegawai</li>
-                                <li class="breadcrumb-item">
-                                    <a class="text-muted text-decoration-none" href="/owner/employee/create">Tambah
-                                        Pegawai</a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a class="text-muted text-decoration-none" href="/owner/employee/{id}/edit">Edit
-                                        Pegawai</a>
-                                </li>
+                               
+                              
                             </ol>
 
                         </nav>

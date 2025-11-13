@@ -5,7 +5,7 @@
 @endpush
 
 @section('title')
-    E-Laundry Garut | Tambah Pesanan
+    E-Laundry Garut | Edit Pegawai
 @endsection
 
 @section('content')
@@ -22,7 +22,7 @@
                     <a  class="text-muted text-decoration-none" href="/owner/employee">Daftar Pegawai</a>
                 </li>
                     <li class="breadcrumb-item">
-                      <a class="text-muted text-decoration-none">Tambah Pegawai</a>
+                      <a class="text-muted text-decoration-none">Edit Pegawai</a>
                     </li>
                   </ol>
                  
@@ -78,7 +78,7 @@
                   <div class="col-sm-3"></div>
                   <div class="col-sm-9">
                     <input type="submit" class="btn btn-primary" value="Kirim" id="">
-                    <a href="/employee/expenditure" class="btn btn-warning">Batal</a>
+                    <a href="/owner/employee" class="btn btn-warning">Batal</a>
                   </div>
                 </div>
               </div>
