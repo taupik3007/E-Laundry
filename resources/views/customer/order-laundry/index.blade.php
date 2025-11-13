@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SITAW | Daftar Jurusan
+    SITAW | Order Laundry
 @endsection
 
 @section('content')
@@ -23,7 +23,7 @@
                         <a class="text-muted text-decoration-none" href="/customer/laundry-order/create">Tambah Order</a>
                       </li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" >Edit Jurusan</a>
+                        <a class="text-muted text-decoration-none" >Edit Order</a>
                       </li>
                     </ol>
                    

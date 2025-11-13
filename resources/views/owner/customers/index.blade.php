@@ -1,4 +1,4 @@
-@extends('employee.master')
+@extends('owner.master')
 
 @push('link')
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -54,8 +54,6 @@
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>Tanggal Registrasi</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
 
                             </tr>
                             <!-- end row -->
@@ -67,23 +65,8 @@
                                     <td>{{ $customer->usr_name }}</td>
                                     <td>{{ $customer->email }}</td>
                                     <td>{{ $customer->created_at->format('d M Y') }}</td>
-                                    <td>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input switch-status" type="checkbox"
-                                                data-id="{{ $customer->usr_id }}"
-                                                {{ $customer->usr_status ? 'checked' : '' }}>
-                                            <label class="form-check-label">
-                                                {{ $customer->usr_status ? 'Aktif' : 'Nonaktif' }}
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a href="/employee/customers/{{ $customer->usr_id }}/edit"
-                                            class="btn btn-primary">Edit</a>
-                                        <a href="/employee/customers/{{ $customer->usr_id }}/destroy"
-                                            class="btn btn-danger" data-confirm-delete="true">Delete</a>
-
-                                    </td>
+                                    
+                                    
                                 </tr>
                             @endforeach
                         </tbody>
@@ -96,8 +79,6 @@
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>Tanggal Registrasi</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
                             </tr>
                             <!-- end row -->
                         </tfoot>

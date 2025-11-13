@@ -12,6 +12,7 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\Owner\EmployeeController;
 use App\Http\Controllers\Employee\ServiceController;
 use App\Http\Controllers\Owner\EmployesController;
+use App\Http\Controllers\Owner\CustomersController;
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
@@ -24,7 +25,7 @@ Route::get('/employee/dashboard', function () {
     return view('employee.dashboard');
 })->name('employee.dashboard');
 Route::get('/customer/home', function () {
-    return view('customer.index');
+    return view('customer.home');
 })->name('customer.home');
 Route::get('/owner/dashboard', function () {
     return view('owner.dashboard');
@@ -81,6 +82,7 @@ Route::delete('/employee/price-service/{id}/destroy', [PriceServiceController::c
 Route::get('/employee/pick-up/{id}/detail', [PickUpController::class, 'detail'])->name('pickup.detail');
 Route::delete('/employee/pick-up/{id}/destroy', [PickUpController::class, 'destroy'])->name('pickup.destroy');
 
+Route::get('/owner/customers', [CustomersController::class, 'index'])->name('customers.index');
 
 Route::get('/owner/employee', [EmployeeController::class, 'index'])->name('employee.index');
 Route::get('/owner/employee/create', [EmployeeController::class, 'create'])->name('employee.create');

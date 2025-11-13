@@ -19,13 +19,13 @@
                  <!-- ---------------------------------- -->
                  <li class="nav-small-cap">
                      <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                     <span class="hide-menu">Home</span>
+                     <span class="hide-menu">HOME</span>
                  </li>
                  <!-- ---------------------------------- -->
                  <!-- Dashboard -->
                  <!-- ---------------------------------- -->
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="/customer/home" id="get-url" aria-expanded="false">
+                     <a class="sidebar-link" href="{{ route('customer.home') }}" aria-expanded="false">
                          <span>
                              <i class="ti ti-aperture"></i>
                          </span>
@@ -38,7 +38,7 @@
                      <span class="hide-menu">PESANAN</span>
                  </li>
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="/employee/order-laundry" aria-expanded="false">
+                     <a class="sidebar-link" href="/customer/laundry-order" aria-expanded="false">
                          <span>
                              <i class="ti ti-shopping-cart"></i>
                          </span>
@@ -47,7 +47,7 @@
                  </li>
 
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="../main/index4.html" aria-expanded="false">
+                     <a class="sidebar-link" href="/customer/order-history" aria-expanded="false">
                          <span>
                              <i class="ti ti-history"></i>
                          </span>
@@ -56,6 +56,18 @@
                  </li>
                  
 
+                 <li class="nav-small-cap">
+                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                     <span class="hide-menu">KELUAR</span>
+                 </li>
+                 <li class="sidebar-item">
+                     <a class="sidebar-link" href="/customer/finance" aria-expanded="false">
+                         <span>
+                             <i class="ti ti-logout"></i>
+                         </span>
+                         <span class="hide-menu">Keluar</span>
+                     </a>
+                 </li>
 
              </ul>
          </nav>

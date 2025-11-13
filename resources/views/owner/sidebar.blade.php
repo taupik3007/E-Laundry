@@ -25,7 +25,7 @@
                  <!-- Dashboard -->
                  <!-- ---------------------------------- -->
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="/customer/home" id="get-url" aria-expanded="false">
+                     <a class="sidebar-link" href="{{ route('owner.dashboard') }}" aria-expanded="false">
                          <span>
                              <i class="ti ti-aperture"></i>
                          </span>
@@ -56,7 +56,7 @@
                      <span class="hide-menu">LAPORAN</span>
                  </li>
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="../main/index5.html" aria-expanded="false">
+                     <a class="sidebar-link" href="/owner/finance" aria-expanded="false">
                          <span>
                              <i class="ti ti-cash"></i>
                          </span>
@@ -64,12 +64,26 @@
                      </a>
                  </li>
 
-             </ul>
-         </nav>
-     </div>
 
-     <!-- ---------------------------------- -->
-     <!-- Start Vertical Layout Sidebar -->
-     <!-- ---------------------------------- -->
-     
- </aside>
+                <li class="nav-small-cap">
+                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                     <span class="hide-menu">KELUAR</span>
+                 </li>
+                 <li class="sidebar-item">
+                     <a class="sidebar-link" href="/owner/finance" aria-expanded="false">
+                         <span>
+                             <i class="ti ti-logout"></i>
+                         </span>
+                         <span class="hide-menu">Keluar</span>
+                     </a>
+                 </li>
+
+          </ul>
+        </nav>
+      </div>
+
+        <!-- ---------------------------------- -->
+        <!-- Start Vertical Layout Sidebar -->
+        <!-- ---------------------------------- -->
+      
+    </aside>

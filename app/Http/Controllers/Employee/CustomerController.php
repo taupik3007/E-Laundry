@@ -46,29 +46,41 @@ class CustomerController extends Controller
      */
     public function edit(string $id)
     {
-        $CustomerEdit = User::findOrFail($id);
-        return view('employee.customers.edit', compact('CustomerEdit'));
+         $customer = User::findOrFail($id); // gunakan $customer
+    return view('owner.customers.edit', compact('customer'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $customer = User::findOrFail($id);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-        ]);
+public function update(Request $request, string $id)
+{
+    $customer = User::findOrFail($id);
 
-        $customer->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+    $request->validate([
+        'usr_name' => 'required|string|max:255',
+        'usr_email' => 'required|email|unique:users,usr_email,' . $id . ',usr_id',
+        'usr_nik' => 'required|string|max:255',
+        'usr_birthplace' => 'required|string|max:255',
+        'usr_birthdate' => 'required|date',
+        'usr_gender' => 'required|string|max:255',
+        'usr_religion' => 'required|string|max:255',
+        'usr_telephone' => 'required|string|max:255',
+    ]);
 
-        return redirect()->route('customers.index')->with('success', 'Data customer berhasil diperbarui!');
-    }
+
+    $customer->update([
+        'usr_name' => $request->usr_name,
+        'usr_email' => $request->usr_email,
+        'usr_nik' => $request->usr_nik,
+        'usr_birthplace' => $request->usr_birthplace,
+        'usr_birthdate' => $request->usr_birthdate,
+        'usr_gender' => $request->usr_gender,
+        'usr_religion' => $request->usr_religion,
+        'usr_telephone' => $request->usr_telephone,
+    ]);
+
+    return redirect()->route('customers.index')->with('success', 'Data customer berhasil diperbarui!');
+}
+
 
     /**
      * Remove the specified resource from storage.
