@@ -44,41 +44,45 @@
           <form action="" method="post" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
+                {{-- Nama Layanan --}}
                 <div class="mb-4 row align-items-center">
-                    <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">Nama Layanan</label>
+                    <label for="service_name" class="form-label col-sm-3 col-form-label">Nama Layanan</label>
                     <div class="col-sm-9">
-                      <input type="text" name="" class="form-control" id="exampleInputText1" placeholder="Nama Pengeluaran" required oninvalid="this.setCustomValidity('Nama Jurusan Wajib Diisi')" 
-                      onchange="this.setCustomValidity('')">
+                        <input type="text" name="lds_name" class="form-control" id="lds_name"
+                               placeholder="Nama Layanan"
+                               required
+                               oninvalid="this.setCustomValidity('Nama layanan wajib diisi')"
+                               onchange="this.setCustomValidity('')">
                     </div>
-                    @error('')
-                      <div>error</div>
-                    @enderror
-                  </div>
-                  <div class="mb-4 row align-items-center">
-                    <label for="exampleInputText1" class="form-label col-sm-3 col-form-label">Jenis Layanan</label>
-                    <div class="col-sm-9">
-                        <select class="form-select mr-sm-2"  name=""
-                            oninvalid="this.setCustomValidity('Jurusan wajib diisi')"
-                            onchange="this.setCustomValidity('')" required>
-                            <option selected value="">Pilih...</option>
-                            {{-- @foreach ($majors as $major)
-                                <option value="{{ $major->mjr_id }}">{{ $major->mjr_abbr }} - {{ $major->mjr_name }}</option>
-                            @endforeach --}}
-                        </select>
-                    </div>
-                    @error('cls_major_id')
+                    @error('service_name')
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="row">
-                  <div class="col-sm-3"></div>
-                  <div class="col-sm-9">
-                    <input type="submit" class="btn btn-primary" value="Kirim" id="">
-                    <a href="/employee/expenditure" class="btn btn-warning">Batal</a>
-                  </div>
+        
+                {{-- Upload Gambar --}}
+                <div class="mb-4 row align-items-center">
+                    <label for="service_image" class="form-label col-sm-3 col-form-label">Gambar Layanan</label>
+                    <div class="col-sm-9">
+                        <input type="file" name="lds_image" class="form-control" id="lds_image" required
+                               accept="image/*"
+                               oninvalid="this.setCustomValidity('Gambar wajib diunggah')"
+                               onchange="this.setCustomValidity('')">
+                    </div>
+                    @error('service_image')
+                        <div class="text-danger small">{{ $message }}</div>
+                    @enderror
                 </div>
-              </div>
-          </form>
+        
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-9">
+                        <input type="submit" class="btn btn-primary" value="Kirim">
+                        <a href="{{ route('laundry-service.index') }}" class="btn btn-warning">Batal</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
           
         </div>
       </div>

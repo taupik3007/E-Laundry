@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('lds_created_by')->nullable();
             $table->unsignedBigInteger('lds_deleted_by')->nullable();
             $table->unsignedBigInteger('lds_updated_by')->nullable();
-            $table->softDeletes(); // gunakan deleted_at
+            $table->softDeletes(); 
             $table->renameColumn('deleted_at', 'lds_deleted_at');
             $table->string('lds_sys_note')->nullable();
         });

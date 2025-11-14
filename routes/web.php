@@ -3,6 +3,8 @@
 use App\Http\Controllers\Customer\OrderLaundryController;
 use App\Http\Controllers\Employee\CustomerController;
 use App\Http\Controllers\Employee\ExpenditureController;
+use App\Http\Controllers\Employee\LaundryPackageController;
+use App\Http\Controllers\Employee\LaundryServiceController;
 use App\Http\Controllers\Employee\OrderController;
 use App\Http\Controllers\Employee\PickUpController;
 use App\Http\Controllers\Employee\PriceServiceController;
@@ -69,8 +71,19 @@ Route::post('/employee/pick-up/{id}/status', [PickUpController::class, 'updateSt
 Route::get('/employee/pick-up/create', [PickUpController::class, 'create'])->name('pickup.create');
 
 
-Route::get('/employee/service', [ServiceController::class, 'index'])->name('service.index');
-Route::get('/employee/service/create', [ServiceController::class, 'create'])->name('service.create');
+Route::get('/employee/laundry-service', [LaundryServiceController::class, 'index'])->name('laundry-service.index');
+Route::get('/employee/laundry-service/create', [LaundryServiceController::class, 'create'])->name('laundry-service.create');
+Route::post('/employee/laundry-service/create', [LaundryServiceController::class, 'store'])->name('laundry-service.store');
+Route::get('/employee/laundry-service/{id}/edit', [LaundryServiceController::class, 'edit'])->name('laundry-service.edit');
+Route::post('/employee/laundry-service/{id}/update', [LaundryServiceController::class, 'update'])->name('laundry-service.update');
+Route::delete('/employee/laundry-service/{id}/destroy', [LaundryServiceController::class, 'destroy'])->name('laundry-service.destroy');
+
+Route::get('/employee/laundry-service/{id}/package', [LaundryPackageController::class, 'index'])->name('package.index');
+Route::get('/employee/laundry-service/{id}/package/create', [LaundryPackageController::class, 'create'])->name('package.create');
+Route::post('/employee/laundry-service/{id}/package/store', [LaundryPackageController::class, 'store'])->name('package.store');
+Route::get('/employee/laundry-service/{id}/package/{packageId}/edit', [LaundryPackageController::class, 'edit'])->name('package.edit');
+Route::post('/employee/laundry-service/{id}/package/{packageId}/update', [LaundryPackageController::class, 'update'])->name('package.update');
+Route::delete('/employee/laundry-service/{id}/package/{packageId}/destroy', [LaundryPackageController::class, 'destroy'])->name('package.destroy');
 
 Route::get('/employee/price-service', [PriceServiceController::class, 'index'])->name('price_service.index');
 Route::get('/employee/price-service/create', [PriceServiceController::class, 'create'])->name('price_service.create');

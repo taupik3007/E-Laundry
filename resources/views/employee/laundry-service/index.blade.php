@@ -43,8 +43,7 @@
                 <div class="mb-5 position-relative">
 
                     <h4 class="card-title mb-0">Daftar Layanan</h4>
-                    <a href="/employee/service/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Layanan</a>
-
+                    <a href="/employee/laundry-service/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Layanan</a>
                 </div>
                 <p class="card-subtitle mb-3">
                     
@@ -56,34 +55,38 @@
                             <tr>
                                 <th width="10%">No</th>
                                 <th>Nama Layanan</th>
-                                <th>Jenis Layanan</th>
-                                <th>Harga Layanan</th>
+                                <th>Gambar Layanan</th>
                                 <th>Aksi</th>
                                 
                             </tr>
                             <!-- end row -->
                         </thead>
                         <tbody>
+                          @foreach ( $LaundryService as $no=> $service)
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{$no+1}}</td>
+                                <td>{{ $service->lds_name}}</td>
                                 <td>
-                                   
-                               </td>
+                                  <img src="{{ asset('storage/' . $service->lds_image) }}" 
+                                       alt="{{ $service->lds_name }}" width="80">
+                              </td>
+                                <td>
+                                  <a href="/employee/laundry-service/{{ $service->lds_id}}/edit" class="btn btn-primary">Edit</a>
+                                  <a href="/employee/laundry-service/{{ $service->lds_id }}/package" class="btn btn-primary">Paket</a>
+                                  <a href="/employee/laundry-service/{{ $service->lds_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+
+                             </td>
                             </tr>
+                            @endforeach
                         </tbody>
                         <tfoot>
                             <!-- start row -->
                             
 
                             <tr>
-                                <th width="10%">No</th>
+                              <th width="10%">No</th>
                                 <th>Nama Layanan</th>
-                                <th>Jenis Layanan</th>
-                                <th>Harga Layanan</th>
+                                <th>Gambar Layanan</th>
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->
