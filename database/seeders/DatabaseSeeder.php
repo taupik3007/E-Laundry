@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
-            LaundryServiceSeeder::class,
-            LaundryPackageSeeder::class,
-            OrderSeeder::class
+            // LaundryServiceSeeder::class,
+            // LaundryPackageSeeder::class,
+            // OrderSeeder::class
         ]);
     }
 }
