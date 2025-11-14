@@ -19,8 +19,8 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item" aria-current="page">Daftar Pegawai</li>
-                               
-                              
+
+
                             </ol>
 
                         </nav>
@@ -78,7 +78,12 @@
                                     <td>
                                         <a href="/owner/employee/{{ $employee->usr_id }}/edit"
                                             class="btn btn-sm btn-primary">Edit</a>
-                                        <form action="{{ route('employee.destroy', $employee->usr_id) }}" method="post"
+                                        <button class="btn btn-warning btn-sm btn-edit-password"
+                                            data-id="{{ $employee->usr_id }}" data-name="{{ $employee->usr_name }}">
+                                            Edit Password
+                                        </button>
+
+                                        <form action="{{ route('owner.employee.destroy', $employee->usr_id) }}" method="post"
                                             class="d-inline"
                                             onsubmit="return confirm('Yakin ingin menghapus pegawai ini?')">
                                             @csrf
@@ -108,6 +113,76 @@
             </div>
         </div>
     </div>
+{{-- MODAL --}}
+    <div class="modal fade" id="modalPassword" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="formPassword"  method="POST">
+        @csrf
+        @method('PUT')
+
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          
+          <div class="mb-3">
+            <label class="form-label fw-bold">Nama User</label>
+            <input 
+                type="text" 
+                id="inputUserName" 
+                class="form-control" 
+                readonly
+            >
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Password Baru</label>
+            <input 
+                type="password" 
+                name="password" 
+                class="form-control" 
+                required
+            >
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary">Simpan</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+    <script>
+       document.querySelectorAll('.btn-edit-password').forEach(btn => {
+    btn.addEventListener('click', function () {
+
+        let id   = this.dataset.id;
+        let name = this.dataset.name;
+
+        // isi input nama
+        document.getElementById('inputUserName').value = name;
+
+        // set form action
+        document.getElementById('formPassword').setAttribute('action', '/owner/employee/' + id + '/change-password');
+
+        // tampilkan modal
+        let modal = new bootstrap.Modal(document.getElementById('modalPassword'));
+        modal.show();
+    });
+});
+
+    </script>
     <script>
         document.querySelectorAll('.switch-status').forEach(el => {
             el.addEventListener('change', function() {

@@ -123,4 +123,21 @@ class EmployeeController extends Controller
      return redirect()->route('employee.index');
 
     }
+    public function changePassword(Request $request, $id)
+{
+    // Validasi
+    $request->validate([
+        'password' => 'required|min:6',
+    ]);
+
+    // Cari user
+    $user = User::findOrFail($id);
+
+    // Update password
+    $user->password = bcrypt($request->password);
+    $user->save();
+
+    // Redirect balik dengan pesan sukses
+    return back()->with('success', 'Password berhasil diubah.');
+}
 }

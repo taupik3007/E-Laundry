@@ -84,13 +84,14 @@ Route::delete('/employee/pick-up/{id}/destroy', [PickUpController::class, 'destr
 
 Route::get('/owner/customers', [CustomersController::class, 'index'])->name('customers.index');
 
-Route::get('/owner/employee', [EmployeeController::class, 'index'])->name('employee.index');
-Route::get('/owner/employee/create', [EmployeeController::class, 'create'])->name('employee.create');
-Route::post('/owner/employee/create', [EmployeeController::class, 'store'])->name('employee.store');
-Route::get('/owner/employee/{id}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
-Route::put('/owner/employee/{id}/edit', [EmployeeController::class, 'update'])->name('employee.update');
-Route::get('/owner/employee/{id}/detail', [EmployeeController::class, 'detail'])->name('employee.detail');
-Route::delete('/owner/employee/{id}/destroy', [EmployeeController::class, 'destroy'])->name('employee.destroy');
+Route::get('/owner/employee', [EmployeeController::class, 'index'])->name('owner.employee.index');
+Route::get('/owner/employee/create', [EmployeeController::class, 'create'])->name('owner.employee.create');
+Route::post('/owner/employee/create', [EmployeeController::class, 'store'])->name('owner.employee.store');
+Route::get('/owner/employee/{id}/edit', [EmployeeController::class, 'edit'])->name('owner.employee.edit');
+Route::put('/owner/employee/{id}/edit', [EmployeeController::class, 'update'])->name('owner.employee.update');
+Route::get('/owner/employee/{id}/detail', [EmployeeController::class, 'detail'])->name('owner.employee.detail');
+Route::put('/owner/employee/{id}/change-password', [EmployeeController::class, 'changePassword'])->name('owner.employee.detail');
+Route::delete('/owner/employee/{id}/destroy', [EmployeeController::class, 'destroy'])->name('owner.employee.destroy');
 
 Route::get('/customer/laundry-order', [OrderLaundryController::class, 'index'])->name('laundry-order.index');
 Route::get('/customer/laundry-order/create', [OrderLaundryController::class, 'create '])->name('laundry-order.create');
