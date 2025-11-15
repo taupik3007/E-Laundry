@@ -9,12 +9,14 @@ use App\Http\Controllers\Employee\OrderController;
 use App\Http\Controllers\Employee\PickUpController;
 use App\Http\Controllers\Employee\PriceServiceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\Owner\EmployeeController;
 use App\Http\Controllers\Employee\ServiceController;
 use App\Http\Controllers\Owner\EmployesController;
 use App\Http\Controllers\Owner\CustomersController;
+
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
@@ -23,9 +25,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/employee/dashboard', function () {
-    return view('employee.dashboard');
-})->name('employee.dashboard');
+Route::get('/employee/dashboard',[DashboardController::class, 'employeeDashboard'] )->name('employee.dashboard');
 Route::get('/customer/home', function () {
     return view('customer.home');
 })->name('customer.home');

@@ -48,7 +48,7 @@ E-Laundry Garut | Daftar Pemesanan
                 <div class="mb-5 position-relative">
 
                     <h4 class="card-title mb-0">Daftar Pesanan</h4>
-                    <a href="/administration/major/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Pesanan</a>
+                    <a href="/employee/ordering/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Pesanan</a>
 
                 </div>
                 <p class="card-subtitle mb-3">

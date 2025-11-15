@@ -30,7 +30,7 @@
                   <div class="text-center">
                     <img src="../assets/images/svgs/icon-briefcase.svg" width="50" height="50" class="mb-3" alt="modernize-img" />
                     <p class="fw-semibold fs-3 text-warning mb-1">Layanan</p>
-                    <h5 class="fw-semibold text-warning mb-0">3,650</h5>
+                    <h5 class="fw-semibold text-warning mb-0">{{$service}}</h5>
                   </div>
                 </div>
               </div>

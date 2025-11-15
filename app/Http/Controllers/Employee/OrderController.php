@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\LaundryService;
 
 class OrderController extends Controller
 {
@@ -20,7 +21,8 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('employee.order-laundry.create');
+        $laundryService = LaundryService::all();
+        return view('employee.order-laundry.create',compact(['laundryService']));
     }
 
     /**
