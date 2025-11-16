@@ -185,6 +185,15 @@
                               <span class="fs-2 d-block text-body-secondary">To-do and Daily Tasks</span>
                             </div>
                           </a>
+                          <a href="/customer/" class="py-8 px-7 mt-2 d-flex align-items-center">
+                              <span class="">
+                                  <i class="ti ti-logout"></i>
+                              </span>
+                              <div class="w-100 ps-2">
+                                  <h6 class="mb-1 fs-3 fw-semibold lh-base">Keluar</h6>
+                                  <span class="fs-2 d-block text-body-secondary">Logout dari akun</span>
+                              </div>
+                          </a>
                         </div>
                         <div class="d-grid py-4 px-7 pt-8">
                           <div class="upgrade-plan bg-primary-subtle position-relative overflow-hidden rounded-4 p-4 mb-9">
