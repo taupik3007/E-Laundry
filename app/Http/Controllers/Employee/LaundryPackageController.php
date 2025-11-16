@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LaundryPackage;
 use App\Models\LaundryService;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LaundryPackageController extends Controller
 {
@@ -14,12 +15,11 @@ class LaundryPackageController extends Controller
      */
     public function index($serviceId)
     {
-         // Ambil data layanan
          $service = LaundryService::findOrFail($serviceId);
-
-         // Ambil semua paket berdasarkan layanan itu
          $packages = LaundryPackage::where('ldp_service_id', $serviceId)->get();
- 
+         $title = 'Delete User!';
+         $text = "Are you sure you want to delete?";
+         confirmDelete($title, $text);
          return view('employee.laundry-package.index', compact('service', 'packages'));
     }
 
@@ -48,6 +48,7 @@ class LaundryPackageController extends Controller
             'ldp_created_by' => auth()->id(),
         ]);
 
+        Alert::success('Berhasil Menambah', 'Berhasil menambah data Paket Layanan');
         // dd($CreatePackage);
         return redirect()->route('package.index', $serviceId)->with('success', 'Paket berhasil ditambahkan!');
     }
@@ -88,6 +89,7 @@ class LaundryPackageController extends Controller
             'ldp_updated_by' => auth()->id(),
         ]);
     
+        Alert::success('Berhasil Mengubah', 'Berhasil mengubah data Paket Layanan');
         return redirect()->route('package.index', $serviceId)
                          ->with('success', 'Paket berhasil diperbarui!');
     }
@@ -101,8 +103,17 @@ class LaundryPackageController extends Controller
 
     $package->delete();
 
+    Alert::success('Berhasil Menghapus', 'Berhasil menghapus data Paket Layanan');
     return redirect()
         ->route('package.index', $serviceId)
         ->with('success', 'Paket berhasil dihapus!');
     }
+    
+    public function ajaxPackages($id)
+{
+    $packages = LaundryPackage::where('ldp_service_id', $id)->get();
+
+    return response()->json($packages);
+}
+
 }

@@ -75,21 +75,8 @@
                                 <td>{{ $package->ldp_description }}</td>
                                 <td>{{ $package->ldp_duration }}</td>
                                 <td>
-                                  <a href="{{ route('package.edit', [$service->lds_id, $package->ldp_id]) }}" 
-                                    class="btn btn-primary btn-sm">
-                                    Edit
-                                 </a>
-                             
-                                 <form action="{{ route('package.destroy', [$service->lds_id, $package->ldp_id]) }}"
-                                  method="POST"
-                                  style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                
-                                <button type="submit" class="btn btn-danger btn-sm" data-confirm-delete="true">
-                                    Hapus
-                                </button>
-                            </form>
+                                 <a href="/employee/laundry-service/{{ $service->lds_id}}/package/{{$package->ldp_id}}/edit" class="btn btn-primary">Edit</a>
+                                 <a href="/employee/laundry-service/{{ $service->lds_id}}/package/{{$package->ldp_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
                                 </td>
                             </tr>
                         @empty

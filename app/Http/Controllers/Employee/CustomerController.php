@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CustomerController extends Controller
 {
@@ -78,6 +79,7 @@ public function update(Request $request, string $id)
         'usr_telephone' => $request->usr_telephone,
     ]);
 
+    Alert::success('Berhasil Menghapus', 'Berhasil menghapus data Paket Layanan');
     return redirect()->route('customers.index')->with('success', 'Data customer berhasil diperbarui!');
 }
 

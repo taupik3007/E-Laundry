@@ -21,5 +21,9 @@ class Order extends Model
     {
         return $this->belongsTo(LaundryPackage::class, 'ord_packages_id', 'ldp_id');
     }
+    public function service()
+    {
+        return $this->belongsTo(LaundryService::class, 'ord_service_id', 'lds_id');
+    }
 
 }

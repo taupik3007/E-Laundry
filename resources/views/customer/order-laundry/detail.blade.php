@@ -20,7 +20,7 @@ E-Laundry Garut | Detail Pemesanan
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item">
-                <a class="text-muted text-decoration-none" href="{{ route('employee.index') }}">Home</a>
+                <a class="text-muted text-decoration-none" href="{{ route('laundry-order.index') }}">Home</a>
               </li>
               <li class="breadcrumb-item active" aria-current="page">Detail Pemesanan</li>
             </ol>
@@ -55,17 +55,19 @@ E-Laundry Garut | Detail Pemesanan
       <h4 class="fw-semibold mb-3">Informasi Pemesanan</h4>
       <div class="row">
         <div class="col-md-6">
-          <p class="mb-1"><strong>Nama Pemesan:</strong> </p>
-          <p class="mb-1"><strong>No. Telepon:</strong> </p>
-          <p class="mb-1"><strong>Tanggal Pemesanan:</strong> \</p>
-          <p class="mb-1"><strong>Status:</strong>
+          <p class="mb-1"><strong>Nama Pemesan:</strong></p>
+          <p class="mb-1"><strong>No. Telepon:</strong>(+62) {{ $order->ord_phone_number }}</p>
+          <p class="mb-1"><strong>Tanggal Pemesanan:</strong> {{ \Carbon\Carbon::parse($order->ord_created_at)->translatedFormat('l, d F Y H:i') }}</p>
+          <p class="mb-1"><strong>Status:</strong> {{ $order->ord_status }}</p>
+
           </p>
         </div>
         <div class="col-md-6">
-          <p class="mb-1"><strong>Jenis Layanan:</strong></p>
-          <p class="mb-1"><strong>Berat Cucian:</strong>  kg</p>
-          <p class="mb-1"><strong>Total Biaya:</strong> Rp </p>
-          <p class="mb-1"><strong>Metode Pembayaran:</strong> </p>
+          <p class="mb-1"><strong>Jenis Layanan:</strong> {{ $order->service->lds_name ?? '-' }}</p>
+          <p class="mb-1"><strong>Berat Cucian:</strong> {{ $order->ord_weight }} kg</p>
+          <p class="mb-1"><strong>Total Biaya:</strong> Rp {{ number_format($order->ord_total, 0, ',', '.') }}</p>
+          <p class="mb-1"><strong>Metode Pembayaran:</strong> {{ $order->ord_payment_method }}</p>
+          
         </div>
       </div>
     </div>
@@ -73,7 +75,7 @@ E-Laundry Garut | Detail Pemesanan
     <div class="card-body border-top p-4">
       <h5 class="fw-semibold mb-3">Alamat Penjemputan</h5>
       <p class="text-dark mb-0">
-        {{ $order->notes ?? 'Jl. Pahlawan No. 88, RT 01 RW 02, Kel. Sukagalih, Kec. Tarogong Kaler, Kab. Garut, Jawa Barat 44151' }}
+        {{ $order->ord_address }}
       </p>
     </div>
 

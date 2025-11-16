@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\LaundryPackage;
+use App\Models\LaundryService;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class OrderLaundryController extends Controller
 {
@@ -12,7 +16,9 @@ class OrderLaundryController extends Controller
      */
     public function index()
     {
-        return view('customer.order-laundry.index');
+        $orderlist = Order::with(['service', 'package'])
+        ->get();
+        return view('customer.order-laundry.index', compact('orderlist'));
     }
 
     /**
@@ -20,7 +26,8 @@ class OrderLaundryController extends Controller
      */
     public function create()
     {
-        return view('customer.order-laundry.create');
+        $services = LaundryService::all();
+        return view('customer.order-laundry.create', compact('services'));
     }
 
     /**
@@ -28,7 +35,26 @@ class OrderLaundryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        // dd('Masuk Store');
+    $package = LaundryPackage::find($request->package_id);
+    $total = $package->ldp_price * $request->quantity;
+
+    $order = Order::create([
+        'ord_phone_number' => $request->ord_phone_number,
+        'ord_service_id' => $request->service_id,
+        'ord_packages_id' => $request->package_id,
+        'ord_quantity' => $request->quantity,
+        'ord_pickup_method' => $request->pickup_method,
+        'ord_delivery_method' => $request->delivery_method,
+        'ord_address' => $request->address ?? null,
+        'ord_total' => $total,
+    ]);
+
+    Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
+    // dd($CreateLaundry);
+    return redirect('/customer/laundry-order');
+
     }
 
     /**
@@ -55,9 +81,12 @@ class OrderLaundryController extends Controller
         //
     }
 
-    public function detail()
+    public function detail($id)
     {
-        return view('customer.order-laundry.detail');
+        $order = Order::with(['service', 'package'])
+        ->where('ord_id', $id)
+        ->firstOrFail();
+        return view('customer.order-laundry.detail', compact('order'));
     }
 
     /**
@@ -67,4 +96,12 @@ class OrderLaundryController extends Controller
     {
         //
     }
+
+    public function ajaxPackages($id)
+{
+    $packages = LaundryPackage::where('ldp_service_id', $id)->get();
+
+    return response()->json($packages);
+}
+
 }

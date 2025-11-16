@@ -107,6 +107,10 @@ Route::put('/owner/employee/{id}/change-password', [EmployeeController::class, '
 Route::delete('/owner/employee/{id}/destroy', [EmployeeController::class, 'destroy'])->name('owner.employee.destroy');
 
 Route::get('/customer/laundry-order', [OrderLaundryController::class, 'index'])->name('laundry-order.index');
-Route::get('/customer/laundry-order/create', [OrderLaundryController::class, 'create '])->name('laundry-order.create');
+Route::get('/customer/laundry-order/create', [OrderLaundryController::class, 'create'])->name('laundry-order.create');
+// Route::get('/employee/laundry-service/{id}/packages', [LaundryPackageController::class, 'ajaxPackages']);
+Route::get('/customer/laundry-order/{id}/packages', [OrderLaundryController::class, 'ajaxPackages']);
+Route::post('customer/laundry-order/create', [OrderLaundryController::class, 'store'])->name('laundry-order.store');
+
 Route::get('/customer/laundry-order/{id}/detail', [OrderLaundryController::class, 'detail'])->name('laundry-order.detaill');
 

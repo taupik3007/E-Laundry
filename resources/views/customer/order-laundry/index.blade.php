@@ -53,31 +53,36 @@
                             <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama</th>
+                                <th>Layanan</th>
+                                <th>Paket Layanan</th>
+                                <th>Metode Penjemputan</th>
                                 <th>No. Telepon</th>
-                                <th>Jenis Layanan</th>
-                                <th>Total Biaya</th>
-                                <th>Metode Pembayaran</th>
+                                <th>Metode Pengantaran</th>
+                                {{-- <th>Alamat</th> --}}
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->
                         </thead>
                         <tbody>
-                            
+                          @foreach ($orderlist as $no => $order)
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                              <td>{{ $no + 1 }}</td>
+
+                              <td>{{ $order->service->lds_name ?? '-' }}</td>
+                              <td>{{ $order->package->ldp_name ?? '-' }}</td>
+                              <td>{{ $order->ord_pickup_method == 'pickup' ? 'Dijemput' : 'Diantar' }}</td>
+                              <td>{{ $order->ord_phone_number }}</td>
+                              <td>{{ $order->ord_delivery_method == 'delivery' ? 'Diantar' : 'Ambil Sendiri' }}</td>
+                              {{-- <td>{{ $order->ord_address ?? '-' }}</td> --}}
+
                                 <td>
-                                    <a href="/customer/laundry-order/{id}/detail" class="btn btn-warning">Detail</a>
+                                    <a href="/customer/laundry-order/{{ $order->ord_id}}/detail" class="btn btn-warning">Detail</a>
                                     <a href="" class="btn btn-primary">Edit</a>
                                     <a href="" class="btn btn-danger" data-confirm-delete="true">Delete</a>
  
                                </td>
                             </tr>
+                            @endforeach
                         
                         </tbody>
                         <tfoot>
@@ -86,11 +91,12 @@
 
                             <tr>
                               <th width="10%">No</th>
-                              <th>Nama</th>
+                              <th>Layanan</th>
+                              <th>Paket Layanan</th>
+                              <th>Metode Penjemputan</th>
                               <th>No. Telepon</th>
-                              <th>Jenis Layanan</th>
-                              <th>Total Biaya</th>
-                              <th>Metode Pembayaran</th>
+                              <th>Metode Pengantaran</th>
+                              {{-- <th>Alamat</th> --}}
                               <th>Aksi</th>
                           </tr>
                             <!-- end row -->

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LaundryPackage;
 use App\Models\LaundryService;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LaundryServiceController extends Controller
 {
@@ -48,6 +49,7 @@ class LaundryServiceController extends Controller
             'lds_image' => $imagePath,
         ]);
 
+        Alert::success('Berhasil Menambah', 'Berhasil menambah data Layanan Service');
         // dd($CreateLaundry);
         return redirect('/employee/laundry-service');
     }
@@ -89,6 +91,7 @@ class LaundryServiceController extends Controller
     $service->lds_name = $request->lds_name;
     $service->save();
 
+    Alert::success('Berhasil Mengubah', 'Berhasil mengubah data Layanan Service');
     //dd($service);
     return redirect()->route('laundry-service.index')
                      ->with('success', 'Layanan berhasil diperbarui!');
@@ -103,11 +106,13 @@ class LaundryServiceController extends Controller
     $hasPackage = LaundryPackage::where('ldp_service_id', $id)->exists();
 
     if ($hasPackage) {
+        Alert::error('Gagal Menghapus', 'Gagal menghapus data Layanan Service');
         return redirect()->back()->with('error', 'Layanan tidak dapat dihapus karena masih memiliki paket.');
     }
 
     $DeleteLaundry = LaundryService::where('lds_id', $id)->delete();
     // dd($DeleteLaundry);
+    Alert::success('Berhasil Menghapus', 'Berhasil menghapus data Layanan Service');
     return redirect()->back()->with('success', 'Layanan berhasil dihapus.');
     }
 }
