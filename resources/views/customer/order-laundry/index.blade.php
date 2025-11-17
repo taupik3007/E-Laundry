@@ -77,8 +77,8 @@
 
                                 <td>
                                     <a href="/customer/laundry-order/{{ $order->ord_id}}/detail" class="btn btn-warning">Detail</a>
-                                    <a href="" class="btn btn-primary">Edit</a>
-                                    <a href="" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                    <a href="/customer/laundry-order/{{ $order->ord_id}}/edit" class="btn btn-primary">Edit</a>
+                                    <a href="/customer/laundry-order/{{ $order->ord_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
  
                                </td>
                             </tr>

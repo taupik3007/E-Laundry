@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('ldp_name');
             $table->string('ldp_description');
             $table->string('ldp_duration');
+            $table->string('ldp_unit');
             $table->timestamps();
             $table->renameColumn('updated_at', 'ldp_updated_at');
             $table->renameColumn('created_at', 'ldp_created_at');

@@ -63,8 +63,21 @@
                       <input type="text" name="ldp_price" id="harga_paket" class="form-control"
                              value="Rp {{ number_format($package->ldp_price, 0, ',', '.') }}"
                              required>
+                             <!-- Separator -->
+            <span class="input-group-text">/</span>
+
+            <!-- Input/Select Unit -->
+            <select name="ldp_unit" class="form-select" style="max-width: 120px;" required>
+                <option value="kg"     {{ ($package->ldp_unit ?? '') == 'kg' ? 'selected' : '' }}>kg</option>
+                <option value="unit"   {{ ($package->ldp_unit ?? '') == 'unit' ? 'selected' : '' }}>unit</option>
+                <option value="pcs"    {{ ($package->ldp_unit ?? '') == 'pcs' ? 'selected' : '' }}>pcs</option>
+                <option value="dudukan"{{ ($package->ldp_unit ?? '') == 'dudukan' ? 'selected' : '' }}>dudukan</option>
+                <option value="meter"  {{ ($package->ldp_unit ?? '') == 'meter' ? 'selected' : '' }}>meter</option>
+            </select>
+
                     </div>
                 </div>
+
 
                 {{-- Deskripsi --}}
                 <div class="mb-4 row align-items-center">

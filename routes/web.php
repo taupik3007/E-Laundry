@@ -111,6 +111,10 @@ Route::get('/customer/laundry-order/create', [OrderLaundryController::class, 'cr
 // Route::get('/employee/laundry-service/{id}/packages', [LaundryPackageController::class, 'ajaxPackages']);
 Route::get('/customer/laundry-order/{id}/packages', [OrderLaundryController::class, 'ajaxPackages']);
 Route::post('customer/laundry-order/create', [OrderLaundryController::class, 'store'])->name('laundry-order.store');
+Route::get('/customer/laundry-order/{id}/edit', [OrderLaundryController::class, 'edit'])->name('laundry-order.edit');
+Route::post('/customer/laundry-order/{id}/edit', [OrderLaundryController::class, 'update'])->name('laundry-order.update');
+Route::delete('/customer/laundry-order/{id}/destroy', [OrderLaundryController::class, 'destroy'])->name('laundry-order.destroy');
 
 Route::get('/customer/laundry-order/{id}/detail', [OrderLaundryController::class, 'detail'])->name('laundry-order.detaill');
+
 

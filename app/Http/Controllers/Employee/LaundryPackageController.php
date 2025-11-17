@@ -45,6 +45,7 @@ class LaundryPackageController extends Controller
             'ldp_price' => $cleanPrice,
             'ldp_description' => $request->ldp_description,
             'ldp_duration' => $request->ldp_duration,
+            'ldp_unit' => $request->ldp_unit,
             'ldp_created_by' => auth()->id(),
         ]);
 
@@ -86,6 +87,7 @@ class LaundryPackageController extends Controller
             'ldp_price' => $cleanPrice,
             'ldp_description' => $request->ldp_description,
             'ldp_duration' => $request->ldp_duration,
+            'ldp_unit' => $request->ldp_unit,
             'ldp_updated_by' => auth()->id(),
         ]);
     

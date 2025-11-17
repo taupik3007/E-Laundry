@@ -18,6 +18,9 @@ class OrderLaundryController extends Controller
     {
         $orderlist = Order::with(['service', 'package'])
         ->get();
+        $title = 'Delete User!';
+         $text = "Are you sure you want to delete?";
+         confirmDelete($title, $text);
         return view('customer.order-laundry.index', compact('orderlist'));
     }
 
@@ -70,15 +73,36 @@ class OrderLaundryController extends Controller
      */
     public function edit(string $id)
     {
-        //
-    }
+        $order = Order::findOrFail($id);
+        $services = LaundryService::all();
+        $packages = LaundryPackage::where('ldp_service_id', $order->ord_service_id)->get();
+
+        return view('customer.order-laundry.edit', compact('order', 'services', 'packages'));
+    } 
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $UpdateOrder = Order::findOrFail($id);
+        $package = LaundryPackage::find($request->package_id);
+        $total = $package->ldp_price * $request->quantity;
+        $UpdateOrder->update([
+            'ord_phone_number' => $request->ord_phone_number,
+            'ord_service_id' => $request->service_id,
+            'ord_packages_id' => $request->package_id,
+            'ord_quantity' => $request->quantity,
+            'ord_pickup_method' => $request->pickup_method,
+            'ord_delivery_method' => $request->delivery_method,
+            'ord_address' => $request->address ?? null,
+            'ord_total' => $total,
+        ]);
+
+        Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
+        // dd($CreateLaundry);
+        return redirect('/customer/laundry-order');
+
     }
 
     public function detail($id)
@@ -94,7 +118,11 @@ class OrderLaundryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $order = Order::findOrFail($id);
+        $order->delete();
+
+        Alert::success('Berhasil Dihapus', 'Order berhasil dihapus.');
+        return redirect()->back();
     }
 
     public function ajaxPackages($id)

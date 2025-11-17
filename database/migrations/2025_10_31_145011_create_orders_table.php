@@ -33,7 +33,7 @@ return new class extends Migration
             // $table->string('ord_pickup_schedule');
             // $table->string('ord_delivery_schedule');
             // $table->bigInteger('ord_total_weight');
-            // $table->enum('ord_status', ['Menunggu', 'Dalam Penjemputan', 'Selesai', 'Dibatalkan'])->default('Menunggu');
+            $table->enum('ord_status', ['Menunggu', 'Dalam Penjemputan', 'Selesai', 'Dibatalkan'])->default('Menunggu');
             // $table->bigInteger('ord_total_price');
             // $table->bigInteger('ord_pickup_courier_id')->nullable();
             // $table->bigInteger('ord_delivery_courier_id')->nullable();

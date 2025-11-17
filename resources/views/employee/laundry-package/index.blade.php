@@ -71,7 +71,7 @@
                             <tr>
                                 <td>{{ $no + 1 }}</td>
                                 <td>{{ $package->ldp_name }}</td>
-                                <td>Rp {{ number_format($package->ldp_price, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($package->ldp_price, 0, ',', '.') }} /{{ $package->ldp_unit }}</td>
                                 <td>{{ $package->ldp_description }}</td>
                                 <td>{{ $package->ldp_duration }}</td>
                                 <td>

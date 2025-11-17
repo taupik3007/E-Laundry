@@ -63,10 +63,10 @@ E-Laundry Garut | Detail Pemesanan
           </p>
         </div>
         <div class="col-md-6">
-          <p class="mb-1"><strong>Jenis Layanan:</strong> {{ $order->service->lds_name ?? '-' }}</p>
-          <p class="mb-1"><strong>Berat Cucian:</strong> {{ $order->ord_weight }} kg</p>
+          <p class="mb-1"><strong>Jenis Layanan :</strong> {{ $order->service->lds_name ?? '-' }}</p>
+          <p class="mb-1"><strong>Paket :</strong> {{ $order->package->ldp_name ?? '-' }}</p>
+          <p class="mb-1"><strong>Jumlah Unit:</strong> {{ $order->ord_quantity }} {{ $order->package->ldp_unit ?? '-' }}</p>
           <p class="mb-1"><strong>Total Biaya:</strong> Rp {{ number_format($order->ord_total, 0, ',', '.') }}</p>
-          <p class="mb-1"><strong>Metode Pembayaran:</strong> {{ $order->ord_payment_method }}</p>
           
         </div>
       </div>

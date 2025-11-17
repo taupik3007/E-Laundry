@@ -57,7 +57,7 @@
                 </div>
 
                 {{-- Harga --}}
-                <div class="mb-4 row align-items-center">
+                {{-- <div class="mb-4 row align-items-center">
                     <label class="form-label col-sm-3 col-form-label">Harga Paket</label>
                     <div class="col-sm-9">
                       <input type="text" name="ldp_price" id="harga_paket" class="form-control" 
@@ -65,8 +65,52 @@
                              required
                              oninvalid="this.setCustomValidity('Harga paket wajib diisi')"
                              onchange="this.setCustomValidity('')">
+                             
+                    </div>
+                    <div class="col-sm-5">
+                      <select name="ldp_unit" class="form-select" required>
+                          <option value="">Pilih Satuan</option>
+                          <option value="kg">kg</option>
+                          <option value="unit">unit</option>
+                          <option value="pcs">pcs</option>
+                          <option value="dudukan">dudukan</option>
+                          <option value="meter">meter</option>
+                      </select>
+                  </div> --}}
+                {{-- </div> --}}
+                
+
+              <div class="mb-4 row align-items-center">
+                <label class="form-label col-sm-3 col-form-label">Harga Paket</label>
+            
+                <div class="col-sm-9">
+                    <div class="row g-2">
+            
+                        <!-- Input Harga -->
+                        <div class="col-sm-8">
+                          <input type="text" name="ldp_price" id="harga_paket" class="form-control" 
+                          placeholder="Harga Paket"
+                          required
+                          oninvalid="this.setCustomValidity('Harga paket wajib diisi')"
+                          onchange="this.setCustomValidity('')">
+                        </div>
+            
+                        <!-- Input Unit -->
+                        <div class="col-sm-4">
+                          <select name="ldp_unit" class="form-select" required>
+                            <option value="">Pilih Satuan</option>
+                            <option value="kg">kg</option>
+                            <option value="unit">unit</option>
+                            <option value="pcs">pcs</option>
+                            <option value="dudukan">dudukan</option>
+                            <option value="meter">meter</option>
+                        </select>
+                        </div>
+            
                     </div>
                 </div>
+            </div>
+            
 
                 {{-- Deskripsi --}}
                 <div class="mb-4 row align-items-center">
