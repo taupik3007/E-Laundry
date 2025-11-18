@@ -67,7 +67,7 @@
                             <!-- end row -->
                         </thead>
                         <tbody>
-                            @forelse($packages as $no => $package)
+                            @foreach($packages as $no => $package)
                             <tr>
                                 <td>{{ $no + 1 }}</td>
                                 <td>{{ $package->ldp_name }}</td>
@@ -79,11 +79,8 @@
                                  <a href="/employee/laundry-service/{{ $service->lds_id}}/package/{{$package->ldp_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center">Belum ada paket untuk layanan ini</td>
-                            </tr>
-                        @endforelse
+                       
+                        @endforeach
                         </tbody>
                         <tfoot>
                             <!-- start row -->
