@@ -43,20 +43,20 @@ E-Laundry Garut | Tambah Pesanan
           </div>
 
           {{-- Qty/Berat --}}
-          <div class="mb-4 row">
+          {{-- <div class="mb-4 row">
             <label class="col-sm-3 col-form-label">Jumlah / Berat</label>
             <div class="col-sm-9">
               <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Masukkan qty / kg" required>
             </div>
-          </div>
+          </div> --}}
 
           {{-- Total --}}
-          <div class="mb-4 row">
+          {{-- <div class="mb-4 row">
             <label class="col-sm-3 col-form-label">Total Harga</label>
             <div class="col-sm-9">
               <input type="text" id="total_price" name="total" class="form-control" readonly>
             </div>
-          </div>
+          </div> --}}
 
           <div class="mb-4 row">
             <label class="col-sm-3 col-form-label">No. Telepon</label>
@@ -93,7 +93,9 @@ E-Laundry Garut | Tambah Pesanan
           <div class="mb-4 row d-none" id="address_wrapper">
             <label class="col-sm-3 col-form-label">Alamat</label>
             <div class="col-sm-9">
-              <input type="text" name="address" class="form-control" placeholder="Alamat Lengkap">
+              <textarea name="address" class="form-control" rows="3" 
+              placeholder="Alamat Lengkap"
+              required></textarea>
             </div>
           </div>
 
@@ -137,8 +139,10 @@ function checkAddress() {
 
     if (pick === 'pickup' || del === 'delivery') {
         $('#address_wrapper').removeClass('d-none');
+        $('#address_wrapper textarea').attr('required', true);
     } else {
         $('#address_wrapper').addClass('d-none');
+        $('#address_wrapper textarea').removeAttr('required');
     }
 }
 
@@ -176,15 +180,15 @@ $('#service_id').on('change', function() {
 // =====================
 // HITUNG TOTAL HARGA
 // =====================
-$('#package_id, #quantity').on('change keyup', function () {
-    let price = $('#package_id option:selected').data('price');
-    let qty   = $('#quantity').val();
+// $('#package_id, #quantity').on('change keyup', function () {
+//     let price = $('#package_id option:selected').data('price');
+//     let qty   = $('#quantity').val();
 
-    if (price && qty) {
-        let total = price * qty;
-        $('#total_price').val("Rp " + total.toLocaleString());
-    }
-});
+//     if (price && qty) {
+//         let total = price * qty;
+//         $('#total_price').val("Rp " + total.toLocaleString());
+//     }
+// });
 </script>
 
 @endpush

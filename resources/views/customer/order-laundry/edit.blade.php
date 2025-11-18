@@ -52,22 +52,22 @@ E-Laundry Garut | Edit Pesanan
           </div>
 
           {{-- Qty/Berat --}}
-          <div class="mb-4 row">
+          {{-- <div class="mb-4 row">
             <label class="col-sm-3 col-form-label">Jumlah / Berat</label>
             <div class="col-sm-9">
               <input type="number" id="quantity" name="quantity" class="form-control"
                      value="{{ $order->ord_quantity }}" required>
             </div>
-          </div>
+          </div> --}}
 
           {{-- Total --}}
-          <div class="mb-4 row">
+          {{-- <div class="mb-4 row">
             <label class="col-sm-3 col-form-label">Total Harga</label>
             <div class="col-sm-9">
               <input type="text" id="total_price" class="form-control"
                      value="Rp {{ number_format($order->ord_total,0,',','.') }}" readonly>
             </div>
-          </div>
+          </div> --}}
 
           {{-- No HP --}}
           <div class="mb-4 row">
@@ -106,8 +106,7 @@ E-Laundry Garut | Edit Pesanan
           <div class="mb-4 row {{ ($order->ord_pickup_method=='pickup' || $order->ord_delivery_method=='delivery') ? '' : 'd-none' }}" id="address_wrapper">
             <label class="col-sm-3 col-form-label">Alamat</label>
             <div class="col-sm-9">
-              <input type="text" name="address" class="form-control"
-                     value="{{ $order->ord_address }}" placeholder="Alamat Lengkap">
+              <textarea name="address" class="form-control" rows="3" placeholder="Catatan" required>{{ $order->ord_address }}</textarea>
             </div>
           </div>
 
