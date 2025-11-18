@@ -17,6 +17,11 @@ use App\Http\Controllers\Employee\ServiceController;
 use App\Http\Controllers\Owner\EmployesController;
 use App\Http\Controllers\Owner\CustomersController;
 
+Route::get('/landing', function () {
+    return view('landing');
+});
+
+
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
