@@ -97,6 +97,15 @@ E-Laundry Garut | Tambah Pesanan
             </div>
           </div>
 
+          <div class="mb-4 row align-items-center">
+            <label class="form-label col-sm-3 col-form-label">Catatan</label>
+            <div class="col-sm-9">
+              <textarea name="note" class="form-control" rows="3" 
+                        placeholder="Deskripsi Paket"
+                        required></textarea>
+            </div>
+        </div>
+
   
 
           {{-- Submit --}}

@@ -51,6 +51,7 @@ class OrderLaundryController extends Controller
         'ord_pickup_method' => $request->pickup_method,
         'ord_delivery_method' => $request->delivery_method,
         'ord_address' => $request->address ?? null,
+        'ord_note' => $request->note ?? null,
         'ord_total' => $total,
     ]);
 
@@ -96,6 +97,7 @@ class OrderLaundryController extends Controller
             'ord_pickup_method' => $request->pickup_method,
             'ord_delivery_method' => $request->delivery_method,
             'ord_address' => $request->address ?? null,
+            'ord_note' => $request->note ?? null,
             'ord_total' => $total,
         ]);
 

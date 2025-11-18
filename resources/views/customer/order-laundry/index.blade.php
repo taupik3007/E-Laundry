@@ -53,12 +53,12 @@
                             <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
+                                <th>Nama</th>
                                 <th>Layanan</th>
                                 <th>Paket Layanan</th>
-                                <th>Metode Penjemputan</th>
-                                <th>No. Telepon</th>
-                                <th>Metode Pengantaran</th>
-                                {{-- <th>Alamat</th> --}}
+                                <th>Unit</th>
+                                <th>Status</th>
+                                <th>Metode</th>
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->
@@ -67,13 +67,22 @@
                           @foreach ($orderlist as $no => $order)
                             <tr>
                               <td>{{ $no + 1 }}</td>
-
+                              <td></td>
                               <td>{{ $order->service->lds_name ?? '-' }}</td>
                               <td>{{ $order->package->ldp_name ?? '-' }}</td>
-                              <td>{{ $order->ord_pickup_method == 'pickup' ? 'Dijemput' : 'Diantar' }}</td>
-                              <td>{{ $order->ord_phone_number }}</td>
-                              <td>{{ $order->ord_delivery_method == 'delivery' ? 'Diantar' : 'Ambil Sendiri' }}</td>
-                              {{-- <td>{{ $order->ord_address ?? '-' }}</td> --}}
+                              <td>{{ $order->ord_quantity }} {{ $order->package->ldp_unit ?? '-' }}</td>
+                              <td>{{ $order->ord_status ?? '-' }}</td>
+                              <td>
+                                @if(in_array($order->ord_status, ['Menunggu', 'Dalam Penjemputan', 'proses']))
+                                    <span class="badge bg-info mb-1">Metode Penjemputan</span> <br>
+                                    {{ $order->ord_pickup_method == 'pickup' ? 'Dijemput' : 'Diantar' }}
+                                @elseif($order->ord_status == 'Selesai')
+                                    <span class="badge bg-success mb-1">Metode Pengantaran</span> <br>
+                                    {{ $order->ord_delivery_method == 'delivery' ? 'Diantar ke Rumah' : 'Ambil Sendiri' }}
+                                @else
+                                    <span class="badge bg-secondary">Tidak Berlaku</span>
+                                @endif
+                            </td>
 
                                 <td>
                                     <a href="/customer/laundry-order/{{ $order->ord_id}}/detail" class="btn btn-warning">Detail</a>
@@ -91,13 +100,13 @@
 
                             <tr>
                               <th width="10%">No</th>
-                              <th>Layanan</th>
-                              <th>Paket Layanan</th>
-                              <th>Metode Penjemputan</th>
-                              <th>No. Telepon</th>
-                              <th>Metode Pengantaran</th>
-                              {{-- <th>Alamat</th> --}}
-                              <th>Aksi</th>
+                                <th>Nama</th>
+                                <th>Layanan</th>
+                                <th>Paket Layanan</th>
+                                <th>Unit</th>
+                                <th>Status</th>
+                                <th>Metode</th>
+                                <th>Aksi</th>
                           </tr>
                             <!-- end row -->
                         </tfoot>

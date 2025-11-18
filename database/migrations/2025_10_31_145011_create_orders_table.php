@@ -37,7 +37,7 @@ return new class extends Migration
             // $table->bigInteger('ord_total_price');
             // $table->bigInteger('ord_pickup_courier_id')->nullable();
             // $table->bigInteger('ord_delivery_courier_id')->nullable();
-            // $table->string('ord_order_code');
+            $table->string('ord_note');
             $table->timestamps();
             $table->renameColumn('updated_at', 'ord_updated_at');
             $table->renameColumn('created_at', 'ord_created_at');

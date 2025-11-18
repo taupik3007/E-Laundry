@@ -82,7 +82,7 @@ E-Laundry Garut | Detail Pemesanan
     <div class="card-body border-top p-4">
       <h5 class="fw-semibold mb-3">Catatan Pemesanan</h5>
       <p class="text-dark mb-0">
-        {{ $order->notes ?? 'Tidak ada catatan tambahan.' }}
+        {{ $order->ord_note ?? 'Tidak ada catatan tambahan.' }}
       </p>
     </div>
   </div>
