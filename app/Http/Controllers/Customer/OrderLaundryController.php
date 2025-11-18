@@ -39,20 +39,20 @@ class OrderLaundryController extends Controller
     public function store(Request $request)
     {
 
-        // dd('Masuk Store');
-    $package = LaundryPackage::find($request->package_id);
-    $total = $package->ldp_price * $request->quantity;
+    // dd('Masuk Store');
+    // $package = LaundryPackage::find($request->package_id);
+    // $total = $package->ldp_price * $request->quantity;
 
     $order = Order::create([
         'ord_phone_number' => $request->ord_phone_number,
         'ord_service_id' => $request->service_id,
         'ord_packages_id' => $request->package_id,
-        'ord_quantity' => $request->quantity,
+        // 'ord_quantity' => $request->quantity ?? null,
         'ord_pickup_method' => $request->pickup_method,
         'ord_delivery_method' => $request->delivery_method,
         'ord_address' => $request->address ?? null,
         'ord_note' => $request->note ?? null,
-        'ord_total' => $total,
+        // 'ord_total' => $total ?? null,
     ]);
 
     Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
@@ -87,18 +87,18 @@ class OrderLaundryController extends Controller
     public function update(Request $request, string $id)
     {
         $UpdateOrder = Order::findOrFail($id);
-        $package = LaundryPackage::find($request->package_id);
-        $total = $package->ldp_price * $request->quantity;
+        // $package = LaundryPackage::find($request->package_id);
+        // $total = $package->ldp_price * $request->quantity;
         $UpdateOrder->update([
             'ord_phone_number' => $request->ord_phone_number,
             'ord_service_id' => $request->service_id,
             'ord_packages_id' => $request->package_id,
-            'ord_quantity' => $request->quantity,
+            // 'ord_quantity' => $request->quantity ?? null,
             'ord_pickup_method' => $request->pickup_method,
             'ord_delivery_method' => $request->delivery_method,
             'ord_address' => $request->address ?? null,
             'ord_note' => $request->note ?? null,
-            'ord_total' => $total,
+            // 'ord_total' => $total ?? null,
         ]);
 
         Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');

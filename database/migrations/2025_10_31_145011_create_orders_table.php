@@ -24,8 +24,8 @@ return new class extends Migration
             $table->unsignedBigInteger('ord_packages_id');
             $table->foreign('ord_packages_id')->references('ldp_id')->on('laundry_packages')->onDelete('cascade');
             // $table->string('ord_pickup_address');
-            $table->integer('ord_quantity')->default(1);
-            $table->integer('ord_total');
+            $table->integer('ord_quantity')->nullable()->change();
+            $table->integer('ord_total')->nullable();;
             $table->bigInteger('ord_phone_number');
             $table->enum('ord_pickup_method', ['self', 'pickup']);
             $table->enum('ord_delivery_method', ['self', 'delivery']);
@@ -33,7 +33,7 @@ return new class extends Migration
             // $table->string('ord_pickup_schedule');
             // $table->string('ord_delivery_schedule');
             // $table->bigInteger('ord_total_weight');
-            $table->enum('ord_status', ['Menunggu', 'Dalam Penjemputan', 'Selesai', 'Dibatalkan'])->default('Menunggu');
+            $table->enum('ord_status', [ 'menunggu', 'dalam penjemputan', 'menunggu penyerahan', 'proses', 'dalam pengantaran', 'menunggu pengambilalan', 'selesai'])->default('menunggu');
             // $table->bigInteger('ord_total_price');
             // $table->bigInteger('ord_pickup_courier_id')->nullable();
             // $table->bigInteger('ord_delivery_courier_id')->nullable();

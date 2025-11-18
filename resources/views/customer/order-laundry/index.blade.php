@@ -58,7 +58,7 @@
                                 <th>Paket Layanan</th>
                                 <th>Unit</th>
                                 <th>Status</th>
-                                <th>Metode</th>
+                                {{-- <th>Metode</th> --}}
                                 <th>Aksi</th>
                             </tr>
                             <!-- end row -->
@@ -72,7 +72,7 @@
                               <td>{{ $order->package->ldp_name ?? '-' }}</td>
                               <td>{{ $order->ord_quantity }} {{ $order->package->ldp_unit ?? '-' }}</td>
                               <td>{{ $order->ord_status ?? '-' }}</td>
-                              <td>
+                              {{-- <td>
                                 @if(in_array($order->ord_status, ['Menunggu', 'Dalam Penjemputan', 'proses']))
                                     <span class="badge bg-info mb-1">Metode Penjemputan</span> <br>
                                     {{ $order->ord_pickup_method == 'pickup' ? 'Dijemput' : 'Diantar' }}
@@ -82,7 +82,7 @@
                                 @else
                                     <span class="badge bg-secondary">Tidak Berlaku</span>
                                 @endif
-                            </td>
+                            </td> --}}
 
                                 <td>
                                     <a href="/customer/laundry-order/{{ $order->ord_id}}/detail" class="btn btn-warning">Detail</a>
@@ -105,7 +105,7 @@
                                 <th>Paket Layanan</th>
                                 <th>Unit</th>
                                 <th>Status</th>
-                                <th>Metode</th>
+                                {{-- <th>Metode</th> --}}
                                 <th>Aksi</th>
                           </tr>
                             <!-- end row -->
