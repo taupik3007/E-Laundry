@@ -17,6 +17,9 @@ class PickUpController extends Controller
     public function index()
     {
         $order = Order::all();
+        $title = 'Delete User!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
         return view('employee.pick-up.index', compact('order'));
     }
 
@@ -101,7 +104,7 @@ class PickUpController extends Controller
 
     // Hapus data
     $order->delete();
-    Alert::success('Berhasil Menghapus', 'Berhasil menghapus data administrasi guru');
+    Alert::success('Berhasil Menghapus', 'Berhasil menghapus data pick-up');
 
     return response()->json([
         'success' => true,

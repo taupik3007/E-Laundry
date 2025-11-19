@@ -15,6 +15,9 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = User::role('customer')->get();
+        $title = 'Delete User!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
         return view('employee.customers.index', compact('customers'));
     }
 
