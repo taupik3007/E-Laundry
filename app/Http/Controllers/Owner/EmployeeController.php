@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class EmployeeController extends Controller
 {
@@ -14,6 +15,9 @@ class EmployeeController extends Controller
     public function index()
     {
         $employee = User::role('employee')->get();
+        $title = 'Delete User!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
         return view('owner.employee.index', compact('employee'));
     }
 
@@ -55,6 +59,8 @@ class EmployeeController extends Controller
         'usr_status' => 1,       
     ]);
     $createEmployee->assignRole('employee');
+
+    Alert::success('Berhasil Menambah', 'Berhasil menambah data pegawai');
 
     return redirect('/owner/employee')->with('success', 'Pegawai berhasil ditambahkan!');
     }
@@ -103,7 +109,9 @@ class EmployeeController extends Controller
         'email' => $validated['email'],
         'usr_telephone' => $validated['usr_telephone'],
     ]);
-     return redirect()->route('employee.index');
+    Alert::success('Berhasil Mengubah', 'Berhasil mengubah data pegawai');
+
+    return redirect('/owner/employee');
 
     }
 
@@ -120,7 +128,11 @@ class EmployeeController extends Controller
     {
         $deleteEmployee = User::findOrFail($id);
         $deleteEmployee->delete();
-     return redirect()->route('employee.index');
+
+        Alert::success('Berhasil Menghapus', 'Berhasil menghapus data pegawai');
+
+        return redirect('/owner/employee');
+    
 
     }
     public function changePassword(Request $request, $id)
@@ -137,7 +149,8 @@ class EmployeeController extends Controller
     $user->password = bcrypt($request->password);
     $user->save();
 
-    // Redirect balik dengan pesan sukses
-    return back()->with('success', 'Password berhasil diubah.');
+    Alert::success('Berhasil Mengubah password', 'Berhasil mengubah password pegawai');
+
+    return redirect('/owner/employee');
 }
 }

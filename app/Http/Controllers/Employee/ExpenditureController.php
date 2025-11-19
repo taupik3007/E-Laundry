@@ -14,6 +14,9 @@ class ExpenditureController extends Controller
     {
         $selectedYear = request('year', date('Y'));
         $selectedMonth = request('month', date('n'));
+        $title = 'Delete User!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
         return view('employee.expenditure.index', compact('selectedYear', 'selectedMonth'));
     }
 

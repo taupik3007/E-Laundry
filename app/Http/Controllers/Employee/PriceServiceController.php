@@ -47,6 +47,8 @@ class PriceServiceController extends Controller
             'prs_package' => $request->prs_package,
             'prs_price' => $cleanPrice,
         ]); 
+
+        Alert::success('Berhasil Menambah', 'Berhasil menambah data harga');
         return redirect('/employee/price-service');
     }
 
@@ -85,6 +87,7 @@ class PriceServiceController extends Controller
     ]);
 
     // dd($priceService);
+    Alert::success('Berhasil Mengubah', 'Berhasil mengubah data harga');
     return redirect('/employee/price-service');
     }
 
@@ -97,7 +100,7 @@ class PriceServiceController extends Controller
         //dd ($destroyScopeCategories);
         $DestroyPrice->delete();
 
-        Alert::success('Berhasil Menghapus', 'Berhasil Menghapus Data Harga Layanan');
+        Alert::success('Berhasil Menghapus', 'Berhasil Menghapus data harga');
         return redirect('/employee/price-service');
     }
 }
