@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\Owner\EmployeeController;
 use App\Http\Controllers\Employee\ServiceController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Owner\EmployesController;
 use App\Http\Controllers\Owner\CustomersController;
 
@@ -96,6 +97,9 @@ Route::post('/employee/price-service/create', [PriceServiceController::class, 's
 Route::get('/employee/price-service/{id}/edit', [PriceServiceController::class, 'edit'])->name('price_service.edit');
 Route::post('/employee/price-service/{id}/edit', [PriceServiceController::class, 'update'])->name('price_service.update');
 Route::delete('/employee/price-service/{id}/destroy', [PriceServiceController::class, 'destroy'])->name('price_service.destroy');
+
+Route::get('/employee/wagw', [MessageController::class, 'wagw'])->name('wagw');
+Route::post('/employee/wagw/send', [MessageController::class, 'send'])->name('wagw.send');
 
 Route::get('/employee/pick-up/{id}/detail', [PickUpController::class, 'detail'])->name('pickup.detail');
 Route::delete('/employee/pick-up/{id}/destroy', [PickUpController::class, 'destroy'])->name('pickup.destroy');
