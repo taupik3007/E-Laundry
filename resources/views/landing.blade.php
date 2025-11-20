@@ -31,10 +31,11 @@
         /* big page gradient that flows from top to bottom */
         body {
             background: linear-gradient(to bottom,
-                    #ffffff 0%,
+                    #ebebeb 0%,
                     #f5fbff 40%,
                     #e2f4ff 70%,
                     #cfeaff 100%);
+            /* background: black; */
             background-attachment: fixed;
             /* keeps gradient fixed so it "blends" across sections */
         }
@@ -132,7 +133,7 @@
 <body class="text-gray-800 font-poppins">
 
     <!-- NAVBAR (fixed) -->
-    <nav class="bg-white shadow-lg fixed w-full z-50 top-0 left-0">
+    <nav class="bg-[#ebebeb] shadow-lg fixed w-full z-50 top-0 left-0">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-2xl font-bold text-blue-600">BrandKu</h1>
             <a href="#contact" class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
@@ -140,6 +141,13 @@
             </a>
         </div>
     </nav>
+<a 
+    href="https://wa.me/628xxxxxxxxxx"
+    target="_blank"
+    class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-3xl z-50 animate-bounce"
+>
+    <i class="ti ti-brand-whatsapp"></i>
+</a>
 
     <!-- SCROLL CONTAINER (this is the element that scrolls & snaps) -->
     <div class="snap-container">
@@ -192,14 +200,14 @@
             <div class="max-w-6xl mx-auto px-6 w-full py-12">
                 <h2 class="text-3xl font-bold mb-10 text-center">Layanan Kami</h2>
 
-                <div class="w-full h-[520px] bg-white rounded-r-md shadow-xl flex items-center justify-center px-6">
-                    <div class="owl-carousel w-full">
+                <div class="w-full bg-white rounded-lg shadow-xl flex items-center justify-center px-6">
+                    <div class="owl-carousel w-full pt-4 ">
 
                         <!-- ITEM TEMPLATE -->
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-[420px]">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
                             <div class="h-56 w-full">
-                                <img src="/landing-img/cuci-kering.jpg" class="w-full h-full object-cover"
-                                    alt="">
+                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
+                                    class="w-full h-full object-cover" alt="">
                             </div>
                             <div class="p-6 flex-1 flex flex-col justify-start">
                                 <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
@@ -207,44 +215,54 @@
                             </div>
                         </div>
 
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-[430px]">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
                             <div class="h-56 w-full">
-                                <img src="/landing-img/cuci-lipat.jpg" class="w-full h-full object-cover"
-                                    alt="">
+                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
+                                    class="w-full h-full object-cover" alt="">
                             </div>
                             <div class="p-6 flex-1 flex flex-col justify-start">
-                                <h3 class="font-semibold text-xl mb-2">Cuci Lipat</h3>
-                                <p class="text-gray-600 text-sm">Hasil rapi siap pakai.</p>
+                                <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
+                                <p class="text-gray-600 text-sm">Layanan cepat dan wangi.</p>
                             </div>
                         </div>
-
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-[430px]">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
                             <div class="h-56 w-full">
-                                <img src="/landing-img/dry-clean.jpg" class="w-full h-full object-cover" alt="">
+                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
+                                    class="w-full h-full object-cover" alt="">
                             </div>
                             <div class="p-6 flex-1 flex flex-col justify-start">
-                                <h3 class="font-semibold text-xl mb-2">Dry Clean</h3>
-                                <p class="text-gray-600 text-sm">Aman untuk bahan sensitif.</p>
+                                <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
+                                <p class="text-gray-600 text-sm">Layanan cepat dan wangi.</p>
                             </div>
                         </div>
-
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-[430px]">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
                             <div class="h-56 w-full">
-                                <img src="/landing-img/sepatu.jpg" class="w-full h-full object-cover" alt="">
+                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
+                                    class="w-full h-full object-cover" alt="">
                             </div>
                             <div class="p-6 flex-1 flex flex-col justify-start">
-                                <h3 class="font-semibold text-xl mb-2">Sepatu</h3>
-                                <p class="text-gray-600 text-sm">Cuci sepatu premium.</p>
+                                <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
+                                <p class="text-gray-600 text-sm">Layanan cepat dan wangi.</p>
                             </div>
                         </div>
-
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col h-[430px]">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
                             <div class="h-56 w-full">
-                                <img src="/landing-img/karpet.jpg" class="w-full h-full object-cover" alt="">
+                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
+                                    class="w-full h-full object-cover" alt="">
                             </div>
                             <div class="p-6 flex-1 flex flex-col justify-start">
-                                <h3 class="font-semibold text-xl mb-2">Karpet</h3>
-                                <p class="text-gray-600 text-sm">Karpet bersih total.</p>
+                                <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
+                                <p class="text-gray-600 text-sm">Layanan cepat dan wangi.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
+                            <div class="h-56 w-full">
+                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
+                                    class="w-full h-full object-cover" alt="">
+                            </div>
+                            <div class="p-6 flex-1 flex flex-col justify-start">
+                                <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
+                                <p class="text-gray-600 text-sm">Layanan cepat dan wangi.</p>
                             </div>
                         </div>
 
@@ -253,7 +271,53 @@
             </div>
         </section>
 
+        <section class="snap-section flex items-center">
+            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 items-center w-full">
 
+                <!-- Text -->
+                <div class="p-6 md:p-20">
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-6 text-center md:text-left leading-tight">
+                        Cari
+                        <span class="text-blue-600 block">Pesanan</span>
+                    </h1>
+
+
+                    <div class="w-full max-w-xl mx-auto mb-4">
+                        <div class="flex items-stretch border border-gray-300 rounded-full overflow-hidden">
+
+                            <input type="text"
+                                class="flex-1 px-4 py-2 font-inter outline-none focus:outline-none focus:ring-0"
+                                placeholder="Masukan ID Pesanan" />
+
+
+                            <a href="#services"
+                                class="bg-[#4C9FFF] px-6 flex items-center justify-center text-white hover:bg-blue-500 transition">
+                                <i class="ti ti-search text-lg"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Image + Blob -->
+                <div class="hidden md:flex justify-center items-center relative">
+                    <img src="{{ asset('landing-img/find-order.png') }}"
+                        class="w-4/5 drop-shadow-xl relative z-20 -mt-10" alt="Hero Illustration">
+
+                    <!-- smooth SVG blob behind image -->
+                    <div class="absolute inset-0 opacity-40 z-0 scale-110 pointer-events-none">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#4C9FFF"
+                                d="M35.7,-52.1C48.7,-54.3,63.3,-49.6,69.8,-39.8C76.3,-30,74.7,-15,73.7,-0.6C72.7,13.8,72.2,27.6,62.6,32.1C53,36.6,34.3,31.9,22.4,34.1C10.4,36.3,5.2,45.4,-2.6,49.9C-10.4,54.3,-20.7,54.1,-32,51.5C-43.3,48.9,-55.5,44,-65.4,35C-75.4,26.1,-83,13,-83.7,-0.4C-84.4,-13.8,-78.1,-27.6,-69.7,-39.3C-61.4,-51,-51,-60.7,-39,-59.1C-27,-57.5,-13.5,-44.7,-1.1,-42.8C11.4,-41,22.7,-50,35.7,-52.1Z"
+                                transform="translate(100 100)" />
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+        </section>
 
 
 
@@ -281,6 +345,7 @@
         <span data-index="0" class="active"></span>
         <span data-index="1"></span>
         <span data-index="2"></span>
+        <span data-index="3"></span>
     </div>
 
     <!-- Optional: small script to help arrow keys / wheel snap behavior on some browsers -->
