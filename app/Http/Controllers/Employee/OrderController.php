@@ -54,6 +54,8 @@ public function updateWeight(Request $request, $id)
 
     $order->ord_quantity = $request->ord_quantity;
     $order->ord_total  = $package->ldp_price * $request->ord_quantity;
+    $order->ord_status  = "proses";
+
 
     $order->save();
 
