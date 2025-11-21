@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
+use App\Models\LaundryPackage;
 use Illuminate\Http\Request;
 use App\Models\LaundryService;
+use App\Models\Order;
 
 class OrderController extends Controller
 {
@@ -13,7 +15,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('employee.order-laundry.index');
+        $orderlist = Order::with(['service', 'package'])
+        ->get();
+        return view('employee.order-laundry.index', compact('orderlist'));
     }
 
     /**
@@ -24,6 +28,41 @@ class OrderController extends Controller
         $laundryService = LaundryService::all();
         return view('employee.order-laundry.create',compact(['laundryService']));
     }
+
+    public function updateStatus(Request $request, $id)
+{
+    $request->validate([
+        'ord_status' => 'required|string'
+    ]);
+
+    $order = Order::findOrFail($id);
+    $order->ord_status = $request->ord_status;
+    $order->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Status pesanan berhasil diperbarui!',
+        'status' => $order->ord_status,
+    ]);
+
+}
+
+public function updateWeight(Request $request, $id)
+{
+    $order = Order::findOrFail($id);
+    $package = LaundryPackage::find($order->ord_packages_id);
+
+    $order->ord_quantity = $request->ord_quantity;
+    $order->ord_total  = $package->ldp_price * $request->ord_quantity;
+
+    $order->save();
+
+    // dd($order);
+
+    return back()->with('success', 'Berat & harga berhasil diperbarui.');
+}
+
+
 
     /**
      * Store a newly created resource in storage.

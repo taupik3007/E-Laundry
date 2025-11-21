@@ -64,6 +64,8 @@ Route::post('/employee/customers/{id}/toggle-status', [CustomerController::class
     ->name('customers.toggleStatus');
 
 Route::get('/employee/ordering', [OrderController::class, 'index'])->name('order.index');
+Route::post('/employee/ordering/{id}/status', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
+Route::put('/employee/ordering/{id}/weight', [OrderController::class, 'updateWeight'])->name('order.updateWeight');
 Route::get('/employee/ordering/create', [OrderController::class, 'create'])->name('order.create');
 Route::get('/employee/ordering/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
 Route::get('/employee/ordering/history', [OrderController::class, 'history'])->name('order.history');
