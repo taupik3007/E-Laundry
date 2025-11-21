@@ -117,7 +117,7 @@ E-Laundry Garut | Daftar Pemesanan
                                 <td>
                                     <a href="/employee/ordering/{id}/edit" class="btn btn-primary">Edit</a>
                                     <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTimbang{{ $order->ord_id }}">
-                                      Input Timbangan
+                                      timbang
                                   </button>
                                   
                                     <a href="/employee/ordering/{id}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>

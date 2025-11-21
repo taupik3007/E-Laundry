@@ -56,7 +56,7 @@
                  </li>
 
                 <li class="sidebar-item">
-                     <a class="sidebar-link" href="/employee/service" aria-expanded="false">
+                     <a class="sidebar-link" href="/employee/laundry-service" aria-expanded="false">
                          <span>
                              <i class="ti ti-file-text"></i>
                          </span>

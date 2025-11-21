@@ -141,13 +141,10 @@
             </a>
         </div>
     </nav>
-<a 
-    href="https://wa.me/628xxxxxxxxxx"
-    target="_blank"
-    class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-3xl z-50 animate-bounce"
->
-    <i class="ti ti-brand-whatsapp"></i>
-</a>
+    <a href="https://wa.me/628xxxxxxxxxx" target="_blank"
+        class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-3xl z-50 animate-bounce">
+        <i class="ti ti-brand-whatsapp"></i>
+    </a>
 
     <!-- SCROLL CONTAINER (this is the element that scrolls & snaps) -->
     <div class="snap-container">
@@ -160,7 +157,7 @@
                 <div class="p-6 md:p-20">
                     <h1 class="text-4xl md:text-6xl font-extrabold mb-6 text-center md:text-left leading-tight">
                         Laundry
-                        <span class="text-blue-600 block">& Dry Clean</span>
+                        <span class="text-[#4C9FFF] block">& Dry Clean</span>
                     </h1>
 
                     <p class="font-inter text-gray-600 mb-10 text-center md:text-left max-w-xl">
@@ -198,7 +195,8 @@
         <!-- SERVICES -->
         <section id="services" class="snap-section flex items-center">
             <div class="max-w-6xl mx-auto px-6 w-full py-12">
-                <h2 class="text-3xl font-bold mb-10 text-center">Layanan Kami</h2>
+                <h2 class="text-3xl font-bold mb-10 text-center text-[#4C9FFF]"> <span class="">Layanan
+                    </span>Kami</h2>
 
                 <div class="w-full bg-white rounded-lg shadow-xl flex items-center justify-center px-6">
                     <div class="owl-carousel w-full pt-4 ">
@@ -338,6 +336,144 @@
                 </form>
             </div>
         </section>
+       <section class="snap-section min-h-screen flex items-center bg-gray-100 pt-28 md:pt-0">
+
+            <footer class="w-full">
+                <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
+
+                    <!-- Kolom 1 -->
+                    <div class="space-y-3">
+                        <img src="{{ asset('landing-img/logo-fix.png') }}" alt="E-Laundry Garut Logo" class="w-72">
+
+                        <h3 class="font-semibold text-xl">E-Laundry Garut</h3>
+
+                        <p class="text-gray-600 text-sm leading-relaxed max-w-sm">
+                            Laundry cepat, bersih, dan wangi.
+                            Melayani Garut dan sekitarnya dengan sepenuh hati.
+                        </p>
+
+                        <div class="flex items-center gap-3 mt-4">
+
+                            <!-- Instagram -->
+                            <a href="https://instagram.com/" target="_blank"
+                                class="w-10 h-10 rounded-full bg-[#4C9FFF]/10 flex items-center justify-center text-[#4C9FFF] hover:bg-[#4C9FFF] hover:text-white transition">
+                                <i class="ti ti-brand-instagram text-xl"></i>
+                            </a>
+
+                            <!-- TikTok -->
+                            <a href="https://tiktok.com/" target="_blank"
+                                class="w-10 h-10 rounded-full bg-[#4C9FFF]/10 flex items-center justify-center text-[#4C9FFF] hover:bg-[#4C9FFF] hover:text-white transition">
+                                <i class="ti ti-brand-tiktok text-xl"></i>
+                            </a>
+
+                            <!-- Facebook -->
+                            <a href="https://facebook.com/" target="_blank"
+                                class="w-10 h-10 rounded-full bg-[#4C9FFF]/10 flex items-center justify-center text-[#4C9FFF] hover:bg-[#4C9FFF] hover:text-white transition">
+                                <i class="ti ti-brand-facebook text-xl"></i>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Kolom 2 -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-4">Layanan</h3>
+
+                        <ul class="space-y-2 text-gray-700 text-sm">
+
+                            <li>
+                                <a href="#" class="flex items-center gap-2 group">
+                                    <span
+                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
+                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Kering</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="flex items-center gap-2 group">
+                                    <span
+                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
+                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Lipat</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="flex items-center gap-2 group">
+                                    <span
+                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
+                                    <span class="group-hover:text-[#4C9FFF] transition">Dry Clean</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="flex items-center gap-2 group">
+                                    <span
+                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
+                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Sepatu</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="flex items-center gap-2 group">
+                                    <span
+                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
+                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Karpet</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+
+                    <!-- Kolom 3 (Kontak + Map) -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">Kontak</h3>
+                        <ul class="space-y-2 text-gray-600 mb-4">
+                            <li class="flex items-center gap-3">
+                                <i class="ti ti-map-pin text-xl text-[#4C9FFF]"></i>
+                                Garut, Jawa Barat
+                            </li>
+
+                            <li class="flex items-center gap-3">
+                                <i class="ti ti-phone text-xl text-[#4C9FFF]"></i>
+                                0812-3456-7890
+                            </li>
+
+                            <li class="flex items-center gap-3">
+                                <i class="ti ti-mail text-xl text-[#4C9FFF]"></i>
+                                support@elaundry.id
+                            </li>
+                        </ul>
+
+                        <!-- MAP -->
+                        <div class="rounded-lg overflow-hidden shadow-md w-full h-40 md:h-48">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1979.171569943113!2d107.882595!3d-7.201635!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68b13e691cc551%3A0x8c33c3b24cb1565c!2sGarut%20Laundry!5e0!3m2!1sen!2sus!4v1763739056604!5m2!1sen!2sus"
+                                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Copyright -->
+                <div class="bg-[#4C9FFF] py-4 text-center text-sm text-white">
+                    © 2025 E-Laundry Garut | Manage by : Gutax Gitex program
+                </div>
+            </footer>
+        </section>
+
+
+
+        {{-- <section id="footer" class="snap-section w-full flex"  >
+            <div class="w-1/3">
+                <img src="{{asset('landing-img/logo-fix.png')}}" alt="">
+            </div>
+        </section> --}}
 
     </div> <!-- /snap-container -->
     <!-- DOT NAVIGATION -->
@@ -346,7 +482,17 @@
         <span data-index="1"></span>
         <span data-index="2"></span>
         <span data-index="3"></span>
+        <span data-index="4"></span>
+
     </div>
+
+
+
+
+
+
+
+
 
     <!-- Optional: small script to help arrow keys / wheel snap behavior on some browsers -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
