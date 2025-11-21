@@ -123,6 +123,59 @@ E-Laundry Garut | Daftar Pemesanan
                                     <a href="/employee/ordering/{id}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
                                </td>
                             </tr>
+                            <div class="modal fade" id="modalTimbang{{ $order->ord_id }}">
+                              <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                <form method="POST" action="{{ route('order.updateWeight', $order->ord_id) }}">
+                                  @csrf
+                                  @method('PUT')
+                            
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title">Input Timbangan</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                            
+                                    <div class="modal-body">
+                                      {{-- <label>Jumlah ({{ $order->package->ldp_unit ?? '-' }})</label>
+                                      <input type="number" step="0.1" name="ord_quantity" class="form-control" value="{{ $order->ord_quantity }}">
+                                       --}}
+                        
+                                      <label>Jumlah ({{ $order->package->ldp_unit ?? '-' }})</label>
+                                      <input type="number" step="0.1" id="quantity{{ $order->ord_id }}" name="ord_quantity"
+                                              class="form-control mb-2"
+                                              value="{{ $order->ord_quantity }}" oninput="hitungTotal{{ $order->ord_id }}()">
+                        
+                                      <label>Harga per {{ $order->package->ldp_unit ?? '' }}</label>
+                                      <input type="text" class="form-control mb-2"
+                                             value="Rp {{ number_format($order->package->ldp_price, 0, ',', '.') }}"
+                                             readonly>
+                        
+                                      <label>Total Harga</label>
+                                      <input type="text" id="totalHarga{{ $order->ord_id }}" class="form-control"
+                                                    readonly>
+                                    </div>
+                            
+                                    <div class="modal-footer">
+                                      <button class="btn btn-primary">Simpan</button>
+                                    </div>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                            <script>
+                              function hitungTotal{{ $order->ord_id }}() {
+                                  let qty = parseFloat(document.getElementById("quantity{{ $order->ord_id }}").value) || 0;
+                                  let price = {{ $order->package->ldp_price }};
+                                  let total = qty * price;
+                              
+                                  document.getElementById("totalHarga{{ $order->ord_id }}").value =
+                                      "Rp " + total.toLocaleString("id-ID");
+                              }
+                              
+                              // jalankan awal kali load
+                              hitungTotal{{ $order->ord_id }}();
+                              </script>
                             @endforeach 
                         </tbody>
                         <tfoot>
@@ -147,7 +200,7 @@ E-Laundry Garut | Daftar Pemesanan
 
 
 
-    <div class="modal fade" id="modalTimbang{{ $order->ord_id }}">
+    {{-- <div class="modal fade" id="modalTimbang{{ $order->ord_id }}">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
         <form method="POST" action="{{ route('order.updateWeight', $order->ord_id) }}">
@@ -163,7 +216,7 @@ E-Laundry Garut | Daftar Pemesanan
             <div class="modal-body">
               {{-- <label>Jumlah ({{ $order->package->ldp_unit ?? '-' }})</label>
               <input type="number" step="0.1" name="ord_quantity" class="form-control" value="{{ $order->ord_quantity }}">
-               --}}
+               
 
               <label>Jumlah ({{ $order->package->ldp_unit ?? '-' }})</label>
               <input type="number" step="0.1" id="quantity{{ $order->ord_id }}" name="ord_quantity"
@@ -186,7 +239,7 @@ E-Laundry Garut | Daftar Pemesanan
           </div>
         </form>
       </div>
-    </div>
+    </div> --}}
     </div>
     
     
@@ -268,18 +321,6 @@ E-Laundry Garut | Daftar Pemesanan
         });
       });
       </script>
-      <script>
-        function hitungTotal{{ $order->ord_id }}() {
-            let qty = parseFloat(document.getElementById("quantity{{ $order->ord_id }}").value) || 0;
-            let price = {{ $order->package->ldp_price }};
-            let total = qty * price;
-        
-            document.getElementById("totalHarga{{ $order->ord_id }}").value =
-                "Rp " + total.toLocaleString("id-ID");
-        }
-        
-        // jalankan awal kali load
-        hitungTotal{{ $order->ord_id }}();
-        </script>
+      
 
 @endpush
