@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('ord_id');
-            // $table->unsignedBigInteger('ord_user_id');
-            // $table->foreign('ord_user_id')->references('usr_id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('ord_customer_id')->nullable();
+            $table->foreign('ord_customer_id')->references('usr_id')->on('users')->onDelete('cascade');
+            $table->string('ord_customer_name')->nullable();
             // $table->string('ord_name_user');
             // $table->bigInteger('ord_phone_number');
             // $table->string('ord_subdistrict');

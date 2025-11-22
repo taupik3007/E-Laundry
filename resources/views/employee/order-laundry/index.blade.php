@@ -75,7 +75,7 @@ E-Laundry Garut | Daftar Pemesanan
                             @foreach($orderlist as $no => $order)
                               <tr>
                                 <td>{{ $no + 1 }}</td>
-                                <td></td>
+                                <td>{{ $order->ord_customer_name}}</td>
                                 <td>{{ $order->service->lds_name ?? '-' }} Paket {{ $order->package->ldp_name ?? '-' }}</td>
                                 <td>{{ $order->ord_quantity ?? '-' }} {{ $order->package->ldp_unit ?? '-' }}</td>
                                 <td>
