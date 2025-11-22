@@ -32,6 +32,35 @@ class OrderController extends Controller
     ]);
 
     $order = Order::findOrFail($id);
+    // $order->ord_status = $request->ord_status;
+    switch ($order->ord_status) {
+
+        case 'menunggu penjemputan':
+            $order->ord_status = 'dalam penjemputan';
+            break;
+
+        case 'dalam penjemputan':
+        case 'menunggu penyerahan':
+            $order->ord_status = 'proses'; // ketika barang sudah tiba & timbang
+            break;
+
+        case 'Proses':
+            if ($order->ord_delivery_method == 'delivery') {
+                $order->ord_status = 'menunggu pengantaran';
+            } else {
+                $order->ord_status = 'menunggu pengambilan';
+            }
+            break;
+
+        case 'menunggu pengantaran':
+            $order->ord_status = 'dalam pengantaran';
+            break;
+
+        case 'dalam pengantaran':
+        case 'menunggu diambil':
+            $order->ord_status = 'selesai';
+            break;
+    }
     $order->ord_status = $request->ord_status;
     $order->save();
 
@@ -98,6 +127,7 @@ public function updateWeight(Request $request, $id)
             'ord_quantity' => $request->quantity ?? null,
             'ord_delivery_method' => $request->delivery_method,
             'ord_address' => $request->address ?? null,
+            'ord_status'  => 'proses',
             'ord_note' => $request->note ?? null,
             'ord_total' => $total ?? null,
         ]);
@@ -105,6 +135,16 @@ public function updateWeight(Request $request, $id)
         return redirect('employee/ordering/');
 
     }
+
+    public function pickup()
+{
+    $orders = Order::where('ord_pickup_method', 'delivery')
+                   ->whereIn('ord_status', ['menunggu penjemputan', 'dalam penjemputan'])
+                   ->get();
+
+    return view('employee.orders.pickup', compact('orders'));
+}
+
 
     /**
      * Display the specified resource.

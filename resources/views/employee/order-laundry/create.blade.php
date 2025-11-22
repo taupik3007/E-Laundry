@@ -70,14 +70,14 @@
                                         </option>                                        
                                         @endforeach
                                 </select>
-@error('ord_customer_id')
-   <small class="text-danger">{{ $message }}</small>
-@enderror
+                                    @error('ord_customer_id')
+                                       <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                     
                                 <!-- Input Unit -->
                                 <div class="col-sm-4">
-                                    <button type="button" class="btn btn-sm btn-secondary mb-2" id="manualBtn">
+                                    <button type="button" class="btn btn-primary" id="manualBtn">
                                         Input Manual
                                     </button>
                                 </div>
@@ -138,7 +138,7 @@
                       <div class="mb-4 row">
                         <label class="col-sm-3 col-form-label">Total Harga</label>
                         <div class="col-sm-9">
-                          <input type="text" id="total_price" name="total" value="{{ old('total_price') }}" class="form-control" readonly>
+                          <input type="text" id="total_price" name="total" value="{{ old('total') }}" class="form-control" readonly>
                         </div>
                       </div>
             
@@ -167,19 +167,19 @@
                         <div class="col-sm-9">
                           <select name="delivery_method" id="delivery_method" class="form-control" required>
                             <option value="">-- Pilih --</option>
-                            <option value="self">Ambil Sendiri</option>
-                            <option value="delivery">Diantar Laundry</option>
+                            <option value="self" {{ old('delivery_method') == 'self' ? 'selected' : '' }}>Ambil Sendiri</option>
+                            <option value="delivery" {{ old('delivery_method') == 'delivery' ? 'selected' : '' }}>Diantar Laundry</option>
                           </select>
                         </div>
                       </div>
             
                       {{-- Alamat (Auto muncul jika perlu) --}}
-                      <div class="mb-4 row d-none" id="address_wrapper">
+                      <div class="mb-4 row d-none" {{ old('delivery_method') == 'delivery' ? '' : 'd-none' }}" id="address_wrapper">
                         <label class="col-sm-3 col-form-label">Alamat</label>
                         <div class="col-sm-9">
                           <textarea name="address" class="form-control" rows="3" 
                           placeholder="Alamat Lengkap"
-                          required></textarea>
+                          required>{{ old('address') }}</textarea>
                         </div>
                       </div>
             
@@ -188,7 +188,7 @@
                         <div class="col-sm-9">
                           <textarea name="note" class="form-control" rows="3" 
                                     placeholder="Deskripsi Paket"
-                                    required></textarea>
+                                    required>{{ old('note') }}</textarea>
                         </div>
                     </div>
             
@@ -247,7 +247,13 @@
         }
     }
     
-    $('#pickup_method, #delivery_method').on('change', checkAddress);
+     // Ketika select berubah
+     $('#delivery_method').on('change', checkAddress);
+
+// Jalankan saat pertama kali load (untuk old value setelah gagal validasi)
+$(document).ready(function () {
+    checkAddress();
+});
     
     
     
@@ -315,14 +321,66 @@ $(document).ready(function () {
     // =====================
     // HITUNG TOTAL HARGA
     // =====================
-     $('#package_id, #quantity').on('change keyup', function () {
-         let price = $('#package_id option:selected').data('price');
-         let qty   = $('#quantity').val();
+    //  $('#package_id, #quantity').on('change keyup', function () {
+    //      let price = $('#package_id option:selected').data('price');
+    //      let qty   = $('#quantity').val();
     
-         if (price && qty) {
-             let total = price * qty;
-             $('#total_price').val("Rp " + total.toLocaleString());
-         }
-     });
+    //      if (price && qty) {
+    //          let total = price * qty;
+    //          $('#total_price').val("Rp " + total.toLocaleString());
+    //      }
+    //  });
+    let oldTotal = "{{ old('total') }}";
+
+    $('#package_id, #quantity').on('change keyup', function () {
+        hitungTotal();
+    });
+
+    function hitungTotal() {
+        let price = $('#package_id option:selected').data('price');
+        let qty   = $('#quantity').val();
+
+        if (price && qty) {
+            let total = price * qty;
+            $('#total_price').val("Rp " + Number(total).toLocaleString());
+        } else {
+            $('#total_price').val("");
+        }
+    }
+
+    $('#quantity').on('keyup change', function () {
+        hitungTotal();
+    });
+
+    // AJAX load paket berdasarkan service terpilih
+    $('#service_id').on('change', function () {
+        var serviceId = $(this).val();
+        $('#package_id').html('<option>Loading...</option>');
+
+        $.ajax({
+            url: '/employee/ordering/' + serviceId + '/packages',
+            type: 'GET',
+            success: function (data) {
+                $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
+
+                $.each(data, function (i, pkg) {
+                    $('#package_id').append(`
+                        <option value="${pkg.ldp_id}" data-price="${pkg.ldp_price}"
+                            ${pkg.ldp_id == oldPackageId ? 'selected' : ''}>
+                            ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()} / ${pkg.ldp_unit}
+                        </option>
+                    `);
+                });
+                hitungTotal();
+            }
+        });
+    });
+
+    // Auto trigger pada awal load untuk old() values
+    $(document).ready(function () {
+        if ("{{ old('service_id') }}") {
+            $('#service_id').trigger('change');
+        }
+    });
     </script>
 @endpush

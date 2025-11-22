@@ -34,7 +34,7 @@ return new class extends Migration
             // $table->string('ord_pickup_schedule');
             // $table->string('ord_delivery_schedule');
             // $table->bigInteger('ord_total_weight');
-            $table->enum('ord_status', [ 'menunggu', 'dalam penjemputan', 'menunggu penyerahan', 'proses', 'dalam pengantaran', 'menunggu pengambilan', 'selesai'])->default('menunggu');
+            $table->enum('ord_status', [ 'menunggu penjemputan', 'dalam penjemputan', 'menunggu penyerahan', 'proses',  'menunggu pengantaran', 'dalam pengantaran', 'menunggu pengambilan', 'selesai', 'dibatalkan'])->default('menunggu penyerahan');
             // $table->bigInteger('ord_total_price');
             // $table->bigInteger('ord_pickup_courier_id')->nullable();
             // $table->bigInteger('ord_delivery_courier_id')->nullable();

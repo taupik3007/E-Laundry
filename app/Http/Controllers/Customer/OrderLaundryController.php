@@ -55,6 +55,13 @@ class OrderLaundryController extends Controller
         // 'ord_total' => $total ?? null,
     ]);
 
+    if ($request->pickup_method == 'delivery') {
+        $order->ord_status = 'menunggu penjemputan';
+    } else {
+        $order->ord_status = 'menunggu penyerahan';
+    }
+
+
     Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
     // dd($CreateLaundry);
     return redirect('/customer/laundry-order');

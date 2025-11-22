@@ -82,7 +82,7 @@ E-Laundry Garut | Daftar Pemesanan
                                   Rp {{ number_format($order->ord_total ?? ($order->package->ldp_price * $order->ord_quantity), 0, ',', '.') }}
                               </td>
                                 <td class="d-flex align-items-center gap-2">
-                                  <div class="dropdown">
+                                  {{-- <div class="dropdown">
 
                                     @php
                                       $color = match($order->ord_status) {
@@ -111,7 +111,76 @@ E-Laundry Garut | Daftar Pemesanan
                                       <li><a class="dropdown-item change-status text-danger" href="#" data-id="{{ $order->ord_id }}" data-status="Dibatalkan">Dibatalkan</a></li>
                                  
                                     </ul>
-                                  </div>
+                                  </div> --}}
+                                  <div class="dropdown">
+
+                                    @php
+                                        // Warna tombol status
+                                        $color = match(strtolower($order->ord_status)) {
+                                            'menunggu'              => 'btn-warning',
+                                            'menunggu penjemputan'  => 'btn-warning',
+                                            'dalam penjemputan'     => 'btn-info',
+                                            'menunggu penyerahan'   => 'btn-primary',
+                                            'proses'                => 'btn-secondary',
+                                            'menunggu pengantaran'  => 'btn-primary',
+                                            'dalam pengantaran'     => 'btn-info',
+                                            'menunggu pengambilan'      => 'btn-primary',
+                                            'selesai'               => 'btn-success',
+                                            'dibatalkan'            => 'btn-danger',
+                                            default => 'btn-secondary'
+                                        };
+                                
+                                        // Dropdown dinamis
+                                        $options = [];
+                                
+                                        switch ($order->ord_status) {
+                                
+                                            case 'menunggu penjemputan':
+                                                $options = ['dalam Penjemputan', 'dibatalkan'];
+                                                break;
+                                
+                                            case 'dalam penjemputan':
+                                            case 'menunggu penyerahan':
+                                                $options = ['proses'];
+                                                break;
+                                
+                                            case 'proses':
+                                                $options = $order->ord_delivery_method == 'delivery'
+                                                    ? ['menunggu pengantaran']
+                                                    : ['menunggu pengambilan'];
+                                                break;
+                                
+                                            case 'menunggu pengantaran':
+                                                $options = ['dalam pengantaran'];
+                                                break;
+                                
+                                            case 'dalam pengantaran':
+                                            case 'menunggu pengambilan':
+                                                $options = ['selesai'];
+                                                break;
+                                        }
+                                    @endphp
+                                
+                                    <button class="btn {{ $color }} dropdown-toggle" type="button" id="statusDropdown{{ $order->ord_id }}"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ $order->ord_status }}
+                                    </button>
+                                
+                                    <ul class="dropdown-menu" aria-labelledby="statusDropdown{{ $order->ord_id }}">
+                                        @foreach($options as $opt)
+                                            <li>
+                                                <a class="dropdown-item change-status"
+                                                    href="#"
+                                                    data-id="{{ $order->ord_id }}"
+                                                    data-status="{{ $opt }}">
+                                                    {{ $opt }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                
+                                </div>
+                                
                                 </td>
                                 
                                 <td>
@@ -184,11 +253,12 @@ E-Laundry Garut | Daftar Pemesanan
 
                             <tr>
                               <th width="10%">No</th>
-                              <th>Nama Customer</th>
-                              <th>Jenis Layanan</th>
-                              <th>Total</th>
-                              <th>Status</th>
-                              <th>Aksi</th>
+                                <th>Nama Customer</th>
+                                <th>Jenis Layanan</th>
+                                <th>Berat/Unit</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
                             <!-- end row -->
                         </tfoot>
