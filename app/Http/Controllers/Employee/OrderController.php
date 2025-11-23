@@ -175,7 +175,10 @@ public function updateWeight(Request $request, $id)
      */
     public function history()
     {
-        return view('employee.order-laundry.history');
+        $orderlist = Order::with(['service', 'package'])->where('ord_status','selesai')
+        ->get();
+        return view('employee.order-laundry.history', compact('orderlist'));
+    
     }
 
     public function detail()

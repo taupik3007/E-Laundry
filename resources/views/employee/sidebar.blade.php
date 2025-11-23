@@ -55,9 +55,9 @@
                      </a>
                  </li>
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="/employee/ordering-hostory" aria-expanded="false">
+                     <a class="sidebar-link" href="/employee/ordering/history" aria-expanded="false">
                          <span>
-                             <i class="ti ti-shopping-cart"></i>
+                             <i class="ti ti-history"></i>
                          </span>
                          <span class="hide-menu">Histori Pesanan</span>
                      </a>
