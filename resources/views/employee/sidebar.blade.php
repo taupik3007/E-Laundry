@@ -54,6 +54,14 @@
                          <span class="hide-menu">Penjemputan</span>
                      </a>
                  </li>
+                 <li class="sidebar-item">
+                     <a class="sidebar-link" href="/employee/ordering-hostory" aria-expanded="false">
+                         <span>
+                             <i class="ti ti-shopping-cart"></i>
+                         </span>
+                         <span class="hide-menu">Histori Pesanan</span>
+                     </a>
+                 </li>
 
                 <li class="sidebar-item">
                      <a class="sidebar-link" href="/employee/laundry-service" aria-expanded="false">
