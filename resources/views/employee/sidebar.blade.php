@@ -93,7 +93,7 @@
                      <span class="hide-menu">LAPORAN</span>
                  </li>
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="../main/index5.html" aria-expanded="false">
+                     <a class="sidebar-link" href="/employee/finance" aria-expanded="false">
                          <span>
                              <i class="ti ti-cash"></i>
                          </span>

@@ -8,6 +8,8 @@ use App\Http\Controllers\Employee\LaundryServiceController;
 use App\Http\Controllers\Employee\OrderController;
 use App\Http\Controllers\Employee\PickUpController;
 use App\Http\Controllers\Employee\PriceServiceController;
+use App\Http\Controllers\Employee\FinanceController;
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -109,6 +111,10 @@ Route::delete('/employee/price-service/{id}/destroy', [PriceServiceController::c
 Route::get('/employee/wagw', [MessageController::class, 'wagw'])->name('wagw');
 Route::post('/employee/wagw/send', [MessageController::class, 'send'])->name('wagw.send');
 
+
+Route::get('/employee/finance', [FinanceController::class, 'index'])->name('employee.finance');
+
+
 Route::get('/employee/pick-up/{id}/detail', [PickUpController::class, 'detail'])->name('pickup.detail');
 Route::delete('/employee/pick-up/{id}/destroy', [PickUpController::class, 'destroy'])->name('pickup.destroy');
 
@@ -133,5 +139,9 @@ Route::post('/customer/laundry-order/{id}/edit', [OrderLaundryController::class,
 Route::delete('/customer/laundry-order/{id}/destroy', [OrderLaundryController::class, 'destroy'])->name('laundry-order.destroy');
 
 Route::get('/customer/laundry-order/{id}/detail', [OrderLaundryController::class, 'detail'])->name('laundry-order.detaill');
+
+
+
+
 
 
