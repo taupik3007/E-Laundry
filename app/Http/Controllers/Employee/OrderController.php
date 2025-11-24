@@ -18,6 +18,8 @@ class OrderController extends Controller
     public function index()
     {
         $orderlist = Order::with(['service', 'package'])
+        ->where('ord_status', '!=', 'selesai')
+        ->where('ord_status', '!=', 'dibatalkan')
         ->get();
         return view('employee.order-laundry.index', compact('orderlist'));
     }
@@ -174,13 +176,29 @@ public function updateWeight(Request $request, $id)
     /**
      * Update the specified resource in storage.
      */
-    public function history()
+    public function history(Request $request)
     {
-        $orderlist = Order::with(['service', 'package'])->where('ord_status','selesai')
-        ->get();
-        return view('employee.order-laundry.history', compact('orderlist'));
+        $query = Order::with(['service', 'package'])
+            ->whereIn('ord_status', ['Selesai', 'dibatalkan']);
     
+        if ($request->year) {
+            $query->whereYear('ord_created_at', $request->year);
+        }
+    
+        if ($request->month) {
+            $query->whereMonth('ord_created_at', $request->month);
+        }
+    
+        $orderHistory = $query->get();
+    
+        // request AJAX → return rows only
+        if ($request->ajax()) {
+            return view('employee.order-laundry.history-table', compact('orderHistory'))->render();
+        }
+    
+        return view('employee.order-laundry.history', compact('orderHistory'));
     }
+    
 
     public function detail()
     {
