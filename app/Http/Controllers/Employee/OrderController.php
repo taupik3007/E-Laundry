@@ -7,6 +7,7 @@ use App\Models\LaundryPackage;
 use Illuminate\Http\Request;
 use App\Models\LaundryService;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\User;
 
 class OrderController extends Controller
@@ -193,6 +194,52 @@ public function updateWeight(Request $request, $id)
     {
         //
     }
+
+    public function payment(Request $request, $id)
+{
+    // $request->validate([
+    //     'payment_method' => 'required',
+    //     'payment_amount' => 'required|numeric',
+    // ]);
+
+    $order = Order::findOrFail($id);
+    if ($request->payment_method == "qris") {
+        $amount = $order->ord_total; // langsung full
+    } else {
+        $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
+    }
+    
+    // Hitung kembalian
+    $method = $request->method == 'cash' ? 1 : ($request->method == 'transfer' ? 2 : 3);
+    $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
+
+    // ===== INSERT KE PAYMENTS =====
+    Payment::create([
+        'pym_order_id'          => $order->ord_id,
+        'pym_order_method'      => $method,
+        'pym_payment_gateaway'  => 'manual',
+        'pym_gateaway_references' => '-',
+        'pym_qrcode_url'        => '-',
+        'pym_payment_status'    => true,
+        'pym_amount'            => $amount,
+        'pym_paid_at'           => now(),
+        'pym_expiry_time'       => now(),
+        'pym_raw_response'      => '-',
+        'pym_sys_note'          => 'Transaksi manual / offline',
+        'pym_created_by'        => auth()->id(),
+    ]);
+
+    // ===== UPDATE STATUS ORDER =====
+    $order->update([
+        'ord_status' => 'Selesai'
+    ]);
+
+    // dd('Payment');
+    return redirect('employee/ordering/');  
+
+    // return redirect()->back()->with('success', 'Pembayaran berhasil diproses!');
+}
+
 
     public function ajaxPackages($id)
     {

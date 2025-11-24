@@ -72,6 +72,8 @@ Route::post('/employee/ordering/create', [OrderController::class, 'store'])->nam
 Route::get('/employee/ordering/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
 Route::get('/employee/ordering/history', [OrderController::class, 'history'])->name('order.history');
 Route::get('/employee/ordering/{id}/detail', [OrderController::class, 'detail'])->name('order.detaill');
+Route::put('/employee/ordering/{id}/payment', [OrderController::class, 'payment'])->name('order.payment');
+
 
 Route::get('/employee/expenditure', [ExpenditureController::class, 'index'])->name('expenditure.index');
 Route::get('/employee/expenditure/create', [ExpenditureController::class, 'create'])->name('expenditure.create');

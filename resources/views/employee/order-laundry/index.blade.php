@@ -82,36 +82,6 @@ E-Laundry Garut | Daftar Pemesanan
                                   Rp {{ number_format($order->ord_total ?? ($order->package->ldp_price * $order->ord_quantity), 0, ',', '.') }}
                               </td>
                                 <td class="d-flex align-items-center gap-2">
-                                  {{-- <div class="dropdown">
-
-                                    @php
-                                      $color = match($order->ord_status) {
-                                        'menunggu'              => 'btn-warning',
-                                        'dalam penjemputan'     => 'btn-info',
-                                        'menunggu penyerahan'   => 'btn-primary',
-                                        'proses'                => 'btn-secondary',
-                                        'dalam pengantaran'     => 'btn-info',
-                                        'menunggu pengambilan'  => 'btn-primary',
-                                        'selesai'               => 'btn-success',
-                                        'Dibatalkan'            => 'btn-danger',
-                                        default => 'btn-secondary'
-                                      };
-                                    @endphp
-                                    <button class="btn {{ $color }} dropdown-toggle" type="button" id="statusDropdown{{ $order->ord_id }}" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ $order->ord_status }}
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="statusDropdown{{ $order->ord_id }}">
-                                      <li><a class="dropdown-item change-status" href="#" data-id="{{ $order->ord_id }}" data-status="menunggu">Menunggu</a></li>
-                                      <li><a class="dropdown-item change-status" href="#" data-id="{{ $order->ord_id }}" data-status="dalam penjemputan">Dalam Penjemputan</a></li>
-                                      <li><a class="dropdown-item change-status" href="#" data-id="{{ $order->ord_id }}" data-status="menunggu penyerahan">Menunggu Penyerahan</a></li>
-                                      <li><a class="dropdown-item change-status" href="#" data-id="{{ $order->ord_id }}" data-status="proses">Proses</a></li>
-                                      <li><a class="dropdown-item change-status" href="#" data-id="{{ $order->ord_id }}" data-status="dalam pengantaran">Dalam Pengantaran</a></li>
-                                      <li><a class="dropdown-item change-status" href="#" data-id="{{ $order->ord_id }}" data-status="menunggu pengambilan">Menunggu Pengambilan</a></li>
-                                      <li><a class="dropdown-item change-status" href="#" data-id="{{ $order->ord_id }}" data-status="selesai">Selesai</a></li>
-                                      <li><a class="dropdown-item change-status text-danger" href="#" data-id="{{ $order->ord_id }}" data-status="Dibatalkan">Dibatalkan</a></li>
-                                 
-                                    </ul>
-                                  </div> --}}
                                   <div class="dropdown">
 
                                     @php
@@ -183,14 +153,15 @@ E-Laundry Garut | Daftar Pemesanan
                                 
                                 </td>
                                 
-                                <td>
-                                    <a href="/employee/ordering/{id}/edit" class="btn btn-primary">Edit</a>
-                                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTimbang{{ $order->ord_id }}">
-                                      timbang
-                                  </button>
-                                  
-                                    <a href="/employee/ordering/{id}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-                               </td>
+                                <td id="button-{{ $order->ord_id }}">
+                                  @if ($order->ord_status == 'menunggu pengantaran' || $order->ord_status == 'menunggu pengambilan')
+                                      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalBayar{{ $order->ord_id }}">Pembayaran</button>
+                                  @else
+                                      <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTimbang{{ $order->ord_id }}">Timbang</button>
+                                  @endif
+                                
+                                  <a href="/employee/ordering/{{ $order->ord_id }}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                </td>                                
                             </tr>
                             <div class="modal fade" id="modalTimbang{{ $order->ord_id }}">
                               <div class="modal-dialog modal-dialog-centered">
@@ -206,10 +177,6 @@ E-Laundry Garut | Daftar Pemesanan
                                     </div>
                             
                                     <div class="modal-body">
-                                      {{-- <label>Jumlah ({{ $order->package->ldp_unit ?? '-' }})</label>
-                                      <input type="number" step="0.1" name="ord_quantity" class="form-control" value="{{ $order->ord_quantity }}">
-                                       --}}
-                        
                                       <label>Jumlah ({{ $order->package->ldp_unit ?? '-' }})</label>
                                       <input type="number" step="0.1" id="quantity{{ $order->ord_id }}" name="ord_quantity"
                                               class="form-control mb-2"
@@ -232,6 +199,65 @@ E-Laundry Garut | Daftar Pemesanan
                                 </form>
                               </div>
                             </div>
+                            </div>
+                            <!-- MODAL PEMBAYARAN -->
+                            <!-- MODAL PEMBAYARAN -->
+<div class="modal fade" id="modalBayar{{ $order->ord_id }}">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form method="POST" action="{{ route('order.payment', $order->ord_id) }}">
+        @csrf
+        @method('PUT')
+
+        <div class="modal-header">
+          <h5 class="modal-title">Pembayaran Pesanan</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <label>Total Harga</label>
+          <input type="text" class="form-control mb-2"
+            value="Rp {{ number_format($order->ord_total ?? 0, 0, ',', '.') }}" readonly>
+
+          <!-- METODE -->
+          <label>Metode Pembayaran</label>
+          <select name="payment_method" class="form-control mb-2"
+            onchange="toggleMetode{{ $order->ord_id }}(this)" required>
+            <option value="">-- Pilih Metode --</option>
+            <option value="cash">Cash</option>
+            <option value="qris">QRIS</option>
+          </select>
+
+          <!-- SECTION CASH -->
+          <div id="cashSection{{ $order->ord_id }}" style="display:none;">
+            <label>Jumlah Bayar</label>
+            <input type="text" class="form-control"
+                  id="jumlahBayar{{ $order->ord_id }}"
+                  name="payment_amount"
+                  oninput="formatBayar{{ $order->ord_id }}(this)">
+            
+            <label>Kembalian</label>
+            <input type="text" class="form-control" id="kembalian{{ $order->ord_id }}" readonly>
+          </div>
+
+          <!-- SECTION QRIS -->
+          <div id="qrisSection{{ $order->ord_id }}" style="display:none;" class="text-center">
+            <p class="mt-2">Scan QRIS untuk membayar:</p>
+            <img src="{{ asset('assets/images/qris/qris-demo.png') }}" class="img-fluid" style="max-width:250px;">
+            <p class="text-muted mt-2">Tunjukkan bukti pembayaran ke admin</p>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary">Konfirmasi Pembayaran</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
                             <script>
                               function hitungTotal{{ $order->ord_id }}() {
                                   let qty = parseFloat(document.getElementById("quantity{{ $order->ord_id }}").value) || 0;
@@ -244,6 +270,48 @@ E-Laundry Garut | Daftar Pemesanan
                               
                               // jalankan awal kali load
                               hitungTotal{{ $order->ord_id }}();
+                              </script>
+
+                              <script>
+                                function hitungKembalian{{ $order->ord_id }}() {
+                                    let total = {{ $order->ord_total }};
+                                    let bayar = parseInt(document.getElementById("jumlahBayar{{ $order->ord_id }}").value) || 0;
+                                    let kembali = bayar - total;
+
+                                    document.getElementById("kembalian{{ $order->ord_id }}").value = 
+                                        "Rp " + kembali.toLocaleString("id-ID");
+                                }
+                                function toggleMetode{{ $order->ord_id }}(select) {
+  let cash = document.getElementById("cashSection{{ $order->ord_id }}");
+  let qris = document.getElementById("qrisSection{{ $order->ord_id }}");
+
+  if (select.value === "cash") {
+    cash.style.display = "block";
+    qris.style.display = "none";
+  } else if (select.value === "qris") {
+    cash.style.display = "none";
+    qris.style.display = "block";
+  } else {
+    cash.style.display = "none";
+    qris.style.display = "none";
+  }
+}
+
+function formatBayar{{ $order->ord_id }}(input) {
+  let angka = input.value.replace(/[^0-9]/g, '');
+  if (angka) {
+    input.value = "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  } else {
+    input.value = "";
+  }
+
+  let total = {{ $order->ord_total }};
+  let bayar = parseInt(angka) || 0;
+  let kembali = bayar - total;
+
+  document.getElementById("kembalian{{ $order->ord_id }}").value =
+      "Rp " + kembali.toLocaleString("id-ID");
+}
                               </script>
                             @endforeach 
                         </tbody>
@@ -267,49 +335,6 @@ E-Laundry Garut | Daftar Pemesanan
             </div>
         </div>
     </div>
-
-
-
-    {{-- <div class="modal fade" id="modalTimbang{{ $order->ord_id }}">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-        <form method="POST" action="{{ route('order.updateWeight', $order->ord_id) }}">
-          @csrf
-          @method('PUT')
-    
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Input Timbangan</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-    
-            <div class="modal-body">
-              {{-- <label>Jumlah ({{ $order->package->ldp_unit ?? '-' }})</label>
-              <input type="number" step="0.1" name="ord_quantity" class="form-control" value="{{ $order->ord_quantity }}">
-               
-
-              <label>Jumlah ({{ $order->package->ldp_unit ?? '-' }})</label>
-              <input type="number" step="0.1" id="quantity{{ $order->ord_id }}" name="ord_quantity"
-                      class="form-control mb-2"
-                      value="{{ $order->ord_quantity }}" oninput="hitungTotal{{ $order->ord_id }}()">
-
-              <label>Harga per {{ $order->package->ldp_unit ?? '' }}</label>
-              <input type="text" class="form-control mb-2"
-                     value="Rp {{ number_format($order->package->ldp_price, 0, ',', '.') }}"
-                     readonly>
-
-              <label>Total Harga</label>
-              <input type="text" id="totalHarga{{ $order->ord_id }}" class="form-control"
-                            readonly>
-            </div>
-    
-            <div class="modal-footer">
-              <button class="btn btn-primary">Simpan</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div> --}}
     </div>
     
     
@@ -344,52 +369,60 @@ E-Laundry Garut | Daftar Pemesanan
               ord_status: newStatus
             },
             success: function(response) {
-              if (response.success) {
-                // ✅ Update teks & warna tombol status
-                var statusButton = $('#statusDropdown' + orderId);
-      
-                // Peta warna status
-                var colorMap = {
-                  'Menunggu': 'btn-warning',
-                  'Dalam Penjemputan': 'btn-info',
-                  'Selesai': 'btn-success',
-                  'Dibatalkan': 'btn-danger'
-                };
-      
-                var newColor = colorMap[response.status] || 'btn-secondary';
-      
-                statusButton
-                  .text(response.status)
-                  .removeClass('btn-warning btn-info btn-success btn-danger btn-secondary')
-                  .addClass(newColor);
-      
-                // ✅ Update tombol delete sesuai status baru
-                var deleteBtn = $('a.delete-order[data-id="' + orderId + '"]');
-                var deleteBtnDisabled = $('button[data-id="' + orderId + '"].btn-danger');
-      
-                if (response.status === 'Selesai' || response.status === 'Dibatalkan') {
-                  // Jika delete button belum ada (karena disable), ubah jadi aktif
-                  if (deleteBtnDisabled.length) {
-                    deleteBtnDisabled.replaceWith(
-                      '<a href="#" class="btn btn-danger delete-order" data-id="' + orderId + '">Delete</a>'
-                    );
-                  }
-                } else {
-                  // Jika status belum selesai/dibatalkan → disable tombol delete
-                  if (deleteBtn.length) {
-                    deleteBtn.replaceWith(
-                      '<button class="btn btn-danger" disabled data-id="' + orderId + '">Delete</button>'
-                    );
-                  }
-                }
-              }
-            },
-            error: function(xhr) {
-              alert('❌ Gagal mengubah status.');
-            }
+    if (response.success) {
+
+        // ====== UPDATE TEKS & WARNA STATUS BUTTON ======
+        var statusButton = $('#statusDropdown' + orderId);
+
+        var colorMap = {
+            'menunggu': 'btn-warning',
+            'menunggu penjemputan': 'btn-warning',
+            'dalam penjemputan': 'btn-info',
+            'menunggu penyerahan': 'btn-primary',
+            'proses': 'btn-secondary',
+            'menunggu pengantaran': 'btn-primary',
+            'dalam pengantaran': 'btn-info',
+            'menunggu pengambilan': 'btn-primary',
+            'selesai': 'btn-success',
+            'dibatalkan': 'btn-danger'
+        };
+
+        var newColor = colorMap[response.status.toLowerCase()] || 'btn-secondary';
+
+        statusButton
+            .text(response.status)
+            .removeClass('btn-warning btn-info btn-success btn-danger btn-secondary btn-primary')
+            .addClass(newColor);
+
+        // ====== UPDATE TOMBOL TIMBANG ↔ PEMBAYARAN ======
+        var aksiContainer = $('#button-' + orderId);
+
+        if (response.status.toLowerCase() === 'menunggu pengantaran' || response.status.toLowerCase() === 'menunggu pengambilan') {
+            aksiContainer.html(`
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalBayar${orderId}">
+                    Pembayaran
+                </button>
+                <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+            `);
+        } else {
+            aksiContainer.html(`
+                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTimbang${orderId}">
+                    Timbang
+                </button>
+                <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+            `);
+        }
+
+    }
+},
+error: function(xhr) {
+    alert('❌ Gagal mengubah status.');
+}
+
           });
         });
       });
+
       </script>
       
 

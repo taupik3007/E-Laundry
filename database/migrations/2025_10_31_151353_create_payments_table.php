@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->bigInteger('pym_id');
+            $table->bigIncrements('pym_id');
             $table->unsignedBigInteger('pym_order_id');
             $table->foreign('pym_order_id')->references('ord_id')->on('orders')->onDelete('cascade');
             $table->bigInteger('pym_order_method');
-            $table->string('pym_payment_gateaway');
+            $table->string('pym_payment_gateaway')->nullable();
             $table->string('pym_gateaway_references');
             $table->string('pym_qrcode_url');
             $table->boolean('pym_payment_status');
