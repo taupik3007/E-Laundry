@@ -280,87 +280,202 @@
                                             </form>
                                         </div>
                                     </div>
+                              </div>
+                                    
+
+                                        <div class="modal-body">
+                                            <label>Jumlah ({{ $order->package->ldp_unit ?? '-' }})</label>
+                                            <input type="number" step="0.1" id="quantity{{ $order->ord_id }}"
+                                                name="ord_quantity" class="form-control mb-2"
+                                                value="{{ $order->ord_quantity }}"
+                                                oninput="hitungTotal{{ $order->ord_id }}()">
+
+                                            <label>Harga per {{ $order->package->ldp_unit ?? '' }}</label>
+                                            <input type="text" class="form-control mb-2"
+                                                value="Rp {{ number_format($order->package->ldp_price, 0, ',', '.') }}"
+                                                readonly>
+
+                                            <label>Total Harga</label>
+                                            <input type="text" id="totalHarga{{ $order->ord_id }}"
+                                                class="form-control" readonly>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button class="btn btn-primary">Simpan</button>
+                                        </div>
                                 </div>
-
-
-                                <script>
-                                    function hitungTotal{{ $order->ord_id }}() {
-                                        let qty = parseFloat(document.getElementById("quantity{{ $order->ord_id }}").value) || 0;
-                                        let price = {{ $order->package->ldp_price }};
-                                        let total = qty * price;
-
-                                        document.getElementById("totalHarga{{ $order->ord_id }}").value =
-                                            "Rp " + total.toLocaleString("id-ID");
-                                    }
-
-                                    // jalankan awal kali load
-                                    hitungTotal{{ $order->ord_id }}();
-                                </script>
-
-                                <script>
-                                    function hitungKembalian{{ $order->ord_id }}() {
-                                        let total = {{ $order->ord_total }};
-                                        let bayar = parseInt(document.getElementById("jumlahBayar{{ $order->ord_id }}").value) || 0;
-                                        let kembali = bayar - total;
-
-                                        document.getElementById("kembalian{{ $order->ord_id }}").value =
-                                            "Rp " + kembali.toLocaleString("id-ID");
-                                    }
-
-                                    function toggleMetode{{ $order->ord_id }}(e) {
-                                        let val = e.value;
-                                        let cash = document.getElementById("cashSection{{ $order->ord_id }}");
-                                        let qris = document.getElementById("qrisSection{{ $order->ord_id }}");
-
-                                        if (val === 'cash') {
-                                            cash.style.display = "block";
-                                            qris.style.display = "none";
-                                        } else if (val === 'qris') {
-                                            cash.style.display = "none";
-                                            qris.style.display = "block";
-                                        } else {
-                                            cash.style.display = "none";
-                                            qris.style.display = "none";
-                                        }
-                                    }
-
-                                    function formatBayar{{ $order->ord_id }}(input) {
-                                        let angka = input.value.replace(/[^0-9]/g, '');
-                                        if (angka) {
-                                            input.value = "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                                        } else {
-                                            input.value = "";
-                                        }
-
-                                        let total = {{ $order->ord_total }};
-                                        let bayar = parseInt(angka) || 0;
-                                        let kembali = bayar - total;
-
-                                        document.getElementById("kembalian{{ $order->ord_id }}").value =
-                                            "Rp " + kembali.toLocaleString("id-ID");
-                                    }
-                                </script>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <!-- start row -->
-
-
-                            <tr>
-                                <th width="10%">No</th>
-                                <th>Nama Customer</th>
-                                <th>Jenis Layanan</th>
-                                <th>Berat/Unit</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                            <!-- end row -->
-                        </tfoot>
-                    </table>
+                                </form>
                 </div>
             </div>
         </div>
+        <!-- MODAL PEMBAYARAN -->
+        <!-- MODAL PEMBAYARAN -->
+        <div class="modal fade" id="modalBayar{{ $order->ord_id }}">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form method="POST" action="{{ route('order.payment', $order->ord_id) }}">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="modal-header">
+                            <h5 class="modal-title">Pembayaran Pesanan</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <label>Total Harga</label>
+                            <input type="text" class="form-control mb-2"
+                                value="Rp {{ number_format($order->ord_total ?? 0, 0, ',', '.') }}" readonly>
+
+                            <!-- METODE -->
+                            <label>Metode Pembayaran</label>
+                            <select name="payment_method" class="form-control mb-2"
+                                onchange="toggleMetode{{ $order->ord_id }}(this)" required>
+                                <option value="">-- Pilih Metode --</option>
+                                <option value="cash">Cash</option>
+                                <option value="qris">QRIS</option>
+                            </select>
+
+                            <!-- SECTION CASH -->
+                            <div id="cashSection{{ $order->ord_id }}" style="display:none;">
+                                <label>Jumlah Bayar</label>
+                                <input type="text" class="form-control" min="0"
+                                    id="jumlahBayar{{ $order->ord_id }}" name="payment_amount"
+                                    oninput="formatBayar{{ $order->ord_id }}(this)">
+
+                                <label>Kembalian</label>
+                                <input type="text" class="form-control" id="kembalian{{ $order->ord_id }}" readonly>
+                            </div>
+
+                            <!-- SECTION QRIS -->
+                            <div id="qrisSection{{ $order->ord_id }}" style="display:none;" class="text-center">
+                                <p class="mt-2">Scan QRIS untuk membayar:</p>
+                                <img src="{{ asset('assets/images/qris/qris-demo.png') }}" class="img-fluid"
+                                    style="max-width:250px;">
+                                <p class="text-muted mt-2">Tunjukkan bukti pembayaran ke admin</p>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button class="btn btn-primary">Konfirmasi Pembayaran</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+
+
+        <script>
+            function hitungTotal{{ $order->ord_id }}() {
+                let qty = parseFloat(document.getElementById("quantity{{ $order->ord_id }}").value) || 0;
+                let price = {{ $order->package->ldp_price }};
+                let total = qty * price;
+
+                document.getElementById("totalHarga{{ $order->ord_id }}").value =
+                    "Rp " + total.toLocaleString("id-ID");
+            }
+
+            // jalankan awal kali load
+            hitungTotal{{ $order->ord_id }}();
+        </script>
+
+        <script>
+            function hitungKembalian{{ $order->ord_id }}() {
+                let total = {{ $order->ord_total }};
+                let bayar = parseInt(document.getElementById("jumlahBayar{{ $order->ord_id }}").value) || 0;
+                let kembali = bayar - total;
+
+
+                document.getElementById("kembalian{{ $order->ord_id }}").value =
+                    "Rp " + kembali.toLocaleString("id-ID");
+            }
+
+            function toggleMetode{{ $order->ord_id }}(e) {
+                let val = e.value;
+                let cash = document.getElementById("cashSection{{ $order->ord_id }}");
+                let qris = document.getElementById("qrisSection{{ $order->ord_id }}");
+
+                if (val === 'cash') {
+                    cash.style.display = "block";
+                    qris.style.display = "none";
+                } else if (val === 'qris') {
+                    cash.style.display = "none";
+                    qris.style.display = "block";
+                } else {
+                    cash.style.display = "none";
+                    qris.style.display = "none";
+                }
+            }
+
+            function formatBayar{{ $order->ord_id }}(input) {
+                let angka = input.value.replace(/[^0-9]/g, '');
+                if (angka) {
+                    input.value = "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                } else {
+                    input.value = "";
+                }
+
+                let total = {{ $order->ord_total }};
+                let bayar = parseInt(angka) || 0;
+                let kembali = bayar - total;
+
+                document.getElementById("kembalian{{ $order->ord_id }}").value =
+                    "Rp " + kembali.toLocaleString("id-ID");
+            }
+        </script>
+        @endforeach
+        <script>
+            function formatBayar{{ $order->ord_id }}(input) {
+                let angka = input.value.replace(/[^0-9]/g, '');
+
+                // CEGAH ANGKA MINUS
+                if (angka.startsWith('-')) {
+                    angka = '0';
+                }
+
+                // Format angka
+                if (angka) {
+                    input.value = "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                } else {
+                    input.value = "";
+                }
+
+                let total = {{ $order->ord_total }};
+                let bayar = parseInt(angka) || 0;
+
+                // JANGAN PERNAH IZINKAN NILAI MINUS
+                bayar = Math.max(bayar, 0);
+
+                let kembali = bayar - total;
+
+                document.getElementById("kembalian{{ $order->ord_id }}").value =
+                    "Rp " + kembali.toLocaleString("id-ID");
+            }
+        </script>
+        @endforeach
+
+        </tbody>
+        <tfoot>
+            <!-- start row -->
+
+
+            <tr>
+                <th width="10%">No</th>
+                <th>Nama Customer</th>
+                <th>Jenis Layanan</th>
+                <th>Berat/Unit</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+            <!-- end row -->
+        </tfoot>
+        </table>
+    </div>
+    </div>
+    </div>
     </div>
     </div>
 @endsection
@@ -419,7 +534,7 @@
                                 .text(response.status)
                                 .removeClass(
                                     'btn-warning btn-info btn-success btn-danger btn-secondary btn-primary'
-                                    )
+                                )
                                 .addClass(newColor);
 
                             // ====== UPDATE TOMBOL TIMBANG ↔ PEMBAYARAN ======

@@ -1,0 +1,111 @@
+<?php
+
+namespace App\Http\Controllers\Owner;
+
+use App\Http\Controllers\Controller;
+use App\Models\Order;
+use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
+class Pick_UpController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $order = Order::all();
+        // $title = 'Delete User!';
+        // $text = "Are you sure you want to delete?";
+        // confirmDelete($title, $text);
+        return view('owner.pick-up.index', compact('order'));
+    }
+
+    public function updateStatus(Request $request, $id)
+{
+    $request->validate([
+        'ord_status' => 'required|string'
+    ]);
+
+    $order = Order::findOrFail($id);
+    $order->ord_status = $request->ord_status;
+    $order->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Status pesanan berhasil diperbarui!',
+        'status' => $order->ord_status,
+    ]);
+
+}
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    public function detail(string $id)
+    {
+        $order = Order::with(['package.service'])->findOrFail($id);
+        return view('owner.pick-up.detail', compact('order'));
+    }
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+         $order = Order::findOrFail($id);
+
+    // Cek status, hanya bisa hapus jika status Selesai atau Dibatalkan
+    if (!in_array($order->ord_status, ['Selesai', 'Dibatalkan'])) {
+        return response()->json([
+            'success' => false,
+            'message' => '❌ Hanya pesanan dengan status Selesai atau Dibatalkan yang bisa dihapus.'
+        ], 403);
+    }
+
+    // Hapus data
+    $order->delete();
+    Alert::success('Berhasil Menghapus', 'Berhasil menghapus data pick-up');
+
+    return response()->json([
+        'success' => true,
+        'message' => '✅ Data penjemputan berhasil dihapus.'
+    ]);
+    }
+}

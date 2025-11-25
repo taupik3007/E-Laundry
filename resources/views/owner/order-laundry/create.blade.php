@@ -1,4 +1,4 @@
-@extends('employee.master')
+@extends('owner.master')
 
 @push('link')
 @endpush
@@ -18,7 +18,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a class="text-muted text-decoration-none" href="/employee/ordering">Daftar
+                                        <a class="text-muted text-decoration-none" href="/owner/ordering">Daftar
                                             Pesanan</a>
                                     </li>
                                     <li class="breadcrumb-item">
@@ -132,7 +132,7 @@
                         <div class="mb-4 row">
                             <label class="col-sm-3 col-form-label">Jumlah / Berat</label>
                             <div class="col-sm-9">
-                                <input type="number" id="quantity" name="quantity" class="form-control" min="0" step="any"
+                                <input type="number" id="quantity" name="quantity" class="form-control"
                                     value="{{ old('quantity') }}" placeholder="Masukkan qty / kg" required>
                             </div>
                         </div>
@@ -149,17 +149,10 @@
                         <div class="mb-4 row">
                             <label class="col-sm-3 col-form-label">No. Telepon</label>
                             <div class="col-sm-9">
-                                <div class="input-group">
-                                    <span class="input-group-text">+62</span>
-                                    <input type="tel" id="phone" name="ord_phone_number" class="form-control"
-                                           placeholder="81234567890"
-                                           pattern="^[0-9]{8,12}$"
-                                           maxlength="12"
-                                           required>
-                                </div>
+                                <input type="number" name="ord_phone_number" class="form-control"
+                                    value="{{ old('ord_phone_number') }}" placeholder="08xxxx" required>
                             </div>
                         </div>
-                        
 
                         {{-- Metode Penjemputan --}}
                         {{-- <div class="mb-4 row">
@@ -210,7 +203,7 @@
                             <div class="col-sm-3"></div>
                             <div class="col-sm-9">
                                 <button class="btn btn-primary">Kirim</button>
-                                <a href="/employee/ordering" class="btn btn-warning">Batal</a>
+                                <a href="/owner/ordering" class="btn btn-warning">Batal</a>
                             </div>
                         </div>
 
@@ -259,37 +252,6 @@
     </script>
 
     <script>
-        document.getElementById('quantity').addEventListener('keydown', function(e) {
-    if (e.key === '-' || e.key === '+') {
-        e.preventDefault();
-    }
-});
-
-    </script>
-
-    <script>
-        document.querySelector('input[name="ord_phone_number"]').addEventListener('input', function () {
-    this.value = this.value.replace(/[^0-9+]/g, ''); // hilangkan huruf & simbol lain
-});
-
-    </script>
-
-    <script>
-        document.getElementById('phone').addEventListener('input', function () {
-    // hanya angka
-    let val = this.value.replace(/[^0-9]/g, '');
-
-    // jika user mengawali dengan 0 → hapus otomatis
-    if (val.startsWith('0')) {
-        val = val.substring(1);
-    }
-
-    this.value = val;
-});
-
-    </script>
-
-    <script>
         // =====================
         // SHOW ALAMAT OTOMATIS
         // =====================
@@ -325,7 +287,7 @@
 
         //     if (serviceId) {
         //         $.ajax({
-        //             url: '/employee/ordering/' + serviceId + '/packages',
+        //             url: '/owner/ordering/' + serviceId + '/packages',
         //             type: 'GET',
         //             success: function(data) {
         //                 $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
@@ -350,7 +312,7 @@
 
             if (serviceId) {
                 $.ajax({
-                    url: '/employee/ordering/' + serviceId + '/packages',
+                    url: '/owner/ordering/' + serviceId + '/packages',
                     type: 'GET',
                     success: function(data) {
                         $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
@@ -416,7 +378,7 @@
             $('#package_id').html('<option>Loading...</option>');
 
             $.ajax({
-                url: '/employee/ordering/' + serviceId + '/packages',
+                url: '/owner/ordering/' + serviceId + '/packages',
                 type: 'GET',
                 success: function(data) {
                     $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');

@@ -44,7 +44,7 @@
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
                         <h6 class="text-muted mb-1">Pemasukan Hari Ini</h6>
-                        <h3 class="fw-bold">Rp 75.000</h3>
+                        <h3 class="fw-bold">Rp {{ number_format($todayIncome, 0, ',', '.')}}</h3>
                         <small class="text-muted">{{ date('d M Y') }}</small>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
                         <h6 class="text-muted mb-1">Pemasukan Bulan Ini</h6>
-                        <h3 class="fw-bold">Rp 450.000</h3>
+                        <h3 class="fw-bold">Rp {{  number_format($monthIncome, 0, ',', '.') }}</h3>
                         <small class="text-muted">Periode {{ date('F Y') }}</small>
                     </div>
                 </div>

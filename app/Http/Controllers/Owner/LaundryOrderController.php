@@ -1,20 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Employee;
+namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Models\LaundryPackage;
 use Illuminate\Http\Request;
 use App\Models\LaundryService;
 use App\Models\Order;
-use App\Models\Payment;
 use App\Models\User;
-use Midtrans\Config;
-use Midtrans\CoreApi;   
-use Carbon\Carbon;
 
-
-class OrderController extends Controller
+class LaundryOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,12 +20,8 @@ class OrderController extends Controller
         ->where('ord_status', '!=', 'selesai')
         ->where('ord_status', '!=', 'dibatalkan')
         ->get();
-        return view('employee.order-laundry.index', compact('orderlist'));
+        return view('owner.order-laundry.index', compact('orderlist'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
 
     public function updateStatus(Request $request, $id)
 {
@@ -95,12 +86,14 @@ public function updateWeight(Request $request, $id)
 
     return back()->with('success', 'Berat & harga berhasil diperbarui.');
 }
-
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         $customers = User::role('customer')->get();
         $services = LaundryService::all();
-        return view('employee.order-laundry.create',compact(['services', 'customers']));
+        return view('owner.order-laundry.create',compact(['services', 'customers']));
     }
 
     /**
@@ -139,8 +132,7 @@ public function updateWeight(Request $request, $id)
             'ord_total' => $total ?? null,
         ]);
         // dd($request->ord_customer_id, $customerId, $customerName);
-        return redirect('employee/ordering/');
-
+        return redirect('owner/ordering/');
     }
 
     public function pickup()
@@ -149,9 +141,8 @@ public function updateWeight(Request $request, $id)
                    ->whereIn('ord_status', ['menunggu penjemputan', 'dalam penjemputan'])
                    ->get();
 
-    return view('employee.orders.pickup', compact('orders'));
+    return view('owner.orders.pickup', compact('orders'));
 }
-
 
     /**
      * Display the specified resource.
@@ -166,9 +157,10 @@ public function updateWeight(Request $request, $id)
      */
     public function edit(string $id)
     {
-        return view('employee.order-laundry.edit');
+        return view('owner.order-laundry.edit');
     }
 
+    
     /**
      * Update the specified resource in storage.
      */
@@ -177,9 +169,6 @@ public function updateWeight(Request $request, $id)
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function history(Request $request)
     {
         $query = Order::with(['service', 'package'])
@@ -197,18 +186,16 @@ public function updateWeight(Request $request, $id)
     
         // request AJAX → return rows only
         if ($request->ajax()) {
-            return view('employee.order-laundry.history-table', compact('orderHistory'))->render();
+            return view('owner.order-laundry.history-table', compact('orderHistory'))->render();
         }
     
-        return view('employee.order-laundry.history', compact('orderHistory'));
+        return view('owner.order-laundry.history', compact('orderHistory'));
     }
-    
 
     public function detail()
     {
-        return view('employee.order-laundry.detail');
+        return view('owner.order-laundry.detail');
     }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -216,8 +203,7 @@ public function updateWeight(Request $request, $id)
     {
         //
     }
-
-    public function payment(Request $request, $id)
+public function payment(Request $request, $id)
 {
     // $request->validate([
     //     'payment_method' => 'required',
@@ -244,7 +230,6 @@ public function updateWeight(Request $request, $id)
         'pym_qrcode_url'        => '-',
         'pym_payment_status'    => true,
         'pym_amount'            => $amount,
-        'pym_amount_paid'       => $order->ord_total,
         'pym_paid_at'           => now(),
         'pym_expiry_time'       => now(),
         'pym_raw_response'      => '-',
@@ -258,7 +243,7 @@ public function updateWeight(Request $request, $id)
     ]);
 
     // dd('Payment');
-    return redirect('employee/ordering/');  
+    return redirect('owner/ordering/');  
 
     // return redirect()->back()->with('success', 'Pembayaran berhasil diproses!');
 }
@@ -270,77 +255,5 @@ public function updateWeight(Request $request, $id)
     
         return response()->json($packages);
     }
-
-    public function processPayment(Request $request, $id)
-{
-     $order = Order::findOrFail($id);
-
-    // Setup Midtrans
-    Config::$serverKey     = config('midtrans.server_key');
-    Config::$isProduction  = config('midtrans.is_production');
-    Config::$isSanitized   = true;
-    Config::$is3ds         = true;
-
-    // ============== CASE CASH ===================
-    if ($request->payment_method == 'cash') {
-
-        $payment = Payment::create([
-            'pym_order_id'          => $order->ord_id,
-            'pym_order_method'      => 1,
-            'pym_payment_gateaway'  => null,
-            'pym_gateaway_references' => '-',
-            'pym_qrcode_url'        => null,
-            'pym_payment_status'    => 1, // sukses
-            'pym_amount'            => $request->payment_amount,
-            'pym_paid_at'           => Carbon::now(),
-            'pym_expiry_time'       => null,
-            'pym_raw_response'      => 'cash_payment',
-        ]);
-
-        // update order
-        $order->update([
-            'ord_payment_status' => 'paid',
-        ]);
-
-        return back()->with('success', 'Pembayaran cash berhasil');
-    }
-
-    // ============== CASE QRIS ===================
-    $params = [
-        "payment_type" => "qris",
-        "transaction_details" => [
-            "order_id"      => 'ORDER-' . $order->ord_id . '-' . time(),
-            "gross_amount"  => $order->ord_total,
-        ],
-        "qris" => [
-            "acquirer" => "gopay",
-        ]
-    ];
-
-    $midtrans = CoreApi::charge($params);
-
-    // Midtrans QRIS URL
-    $qrisUrl = $midtrans->actions[0]->url ?? null;
-
-    // Expiry time (jika ada)
-    $expiry = isset($midtrans->expiry_time)
-        ? Carbon::parse($midtrans->expiry_time)
-        : Carbon::now()->addMinutes(30);
-
-    // Simpan ke database
-    Payment::create([
-        'pym_order_id'          => $order->ord_id,
-        'pym_order_method'      => 2,
-        'pym_payment_gateaway'  => 'midtrans',
-        'pym_gateaway_references' => $midtrans->transaction_id ?? '-',
-        'pym_qrcode_url'        => $qrisUrl,
-        'pym_payment_status'    => 0, // pending menunggu scan
-        'pym_amount'            => $order->ord_total,
-        'pym_paid_at'           => now(),
-        'pym_expiry_time'       => $expiry,
-        'pym_raw_response'      => json_encode($midtrans),
-    ]);
-
-    return back()->with('qris_url_'.$order->ord_id, $qrisUrl);
-}
+    
 }
