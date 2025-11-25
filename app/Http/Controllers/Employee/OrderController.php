@@ -9,6 +9,8 @@ use App\Models\LaundryService;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
+use Midtrans\Config;
+use Midtrans\CoreApi;   
 
 class OrderController extends Controller
 {
@@ -265,4 +267,77 @@ public function updateWeight(Request $request, $id)
     
         return response()->json($packages);
     }
+
+    public function processPayment(Request $request, $id)
+{
+     $order = Order::findOrFail($id);
+
+    // Setup Midtrans
+    Config::$serverKey     = config('midtrans.server_key');
+    Config::$isProduction  = config('midtrans.is_production');
+    Config::$isSanitized   = true;
+    Config::$is3ds         = true;
+
+    // ============== CASE CASH ===================
+    if ($request->payment_method == 'cash') {
+
+        $payment = Payment::create([
+            'pym_order_id'          => $order->ord_id,
+            'pym_order_method'      => 'cash',
+            'pym_payment_gateaway'  => null,
+            'pym_gateaway_references' => '-',
+            'pym_qrcode_url'        => null,
+            'pym_payment_status'    => 1, // sukses
+            'pym_amount'            => $request->payment_amount,
+            'pym_paid_at'           => Carbon::now(),
+            'pym_expiry_time'       => null,
+            'pym_raw_response'      => 'cash_payment',
+        ]);
+
+        // update order
+        $order->update([
+            'ord_payment_status' => 'paid',
+        ]);
+
+        return back()->with('success', 'Pembayaran cash berhasil');
+    }
+
+    // ============== CASE QRIS ===================
+    $params = [
+        "payment_type" => "qris",
+        "transaction_details" => [
+            "order_id"      => 'ORDER-' . $order->ord_id . '-' . time(),
+            "gross_amount"  => $order->ord_total,
+        ],
+        "qris" => [
+            "acquirer" => "gopay",
+        ]
+    ];
+
+    $midtrans = CoreApi::charge($params);
+
+    // Midtrans QRIS URL
+    $qrisUrl = $midtrans->actions[0]->url ?? null;
+
+    // Expiry time (jika ada)
+    $expiry = isset($midtrans->expiry_time)
+        ? Carbon::parse($midtrans->expiry_time)
+        : Carbon::now()->addMinutes(30);
+
+    // Simpan ke database
+    Payment::create([
+        'pym_order_id'          => $order->ord_id,
+        'pym_order_method'      => 'qris',
+        'pym_payment_gateaway'  => 'midtrans',
+        'pym_gateaway_references' => $midtrans->transaction_id ?? '-',
+        'pym_qrcode_url'        => $qrisUrl,
+        'pym_payment_status'    => 0, // pending menunggu scan
+        'pym_amount'            => $order->ord_total,
+        'pym_paid_at'           => null,
+        'pym_expiry_time'       => $expiry,
+        'pym_raw_response'      => json_encode($midtrans),
+    ]);
+
+    return back()->with('qris_url_'.$order->ord_id, $qrisUrl);
+}
 }

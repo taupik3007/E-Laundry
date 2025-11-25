@@ -77,6 +77,7 @@ Route::get('/employee/ordering/{id}/detail', [OrderController::class, 'detail'])
 Route::put('/employee/ordering/{id}/payment', [OrderController::class, 'payment'])->name('order.payment');
 Route::get('/employee/ordering/history', [OrderController::class, 'history'])->name('order.history');
     
+Route::put('/employee/ordering/payment/{id}', [OrderController::class, 'processPayment'])->name('ordering.payment');
 
 
 Route::get('/employee/expenditure', [ExpenditureController::class, 'index'])->name('expenditure.index');
@@ -107,6 +108,7 @@ Route::post('/employee/price-service/create', [PriceServiceController::class, 's
 Route::get('/employee/price-service/{id}/edit', [PriceServiceController::class, 'edit'])->name('price_service.edit');
 Route::post('/employee/price-service/{id}/edit', [PriceServiceController::class, 'update'])->name('price_service.update');
 Route::delete('/employee/price-service/{id}/destroy', [PriceServiceController::class, 'destroy'])->name('price_service.destroy');
+
 
 Route::get('/employee/wagw', [MessageController::class, 'wagw'])->name('wagw');
 Route::post('/employee/wagw/send', [MessageController::class, 'send'])->name('wagw.send');
