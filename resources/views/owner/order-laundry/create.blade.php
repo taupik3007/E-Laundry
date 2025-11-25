@@ -1,0 +1,406 @@
+@extends('owner.master')
+
+@push('link')
+@endpush
+
+@section('title')
+    E-Laundry Garut | Tambah Pesanan
+@endsection
+
+@section('content')
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
+                <div class="card-body px-4 py-3">
+                    <div class="row align-items-center">
+                        <div class="col-9">
+                            <h4 class="fw-semibold mb-8">PEMESANAN LAUNDRY</h4>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a class="text-muted text-decoration-none" href="/owner/ordering">Daftar
+                                            Pesanan</a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a class="text-muted text-decoration-none">Tambah Pesanan</a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a class="text-muted text-decoration-none">Edit Pesanan</a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a class="text-muted text-decoration-none">History Pesanan</a>
+                                    </li>
+                                </ol>
+
+                            </nav>
+                        </div>
+                        <div class="col-3">
+                            <div class="text-center mb-n5">
+                                <img src="{{ asset('assets/images/breadcrumb/ChatBc.png') }}" alt="modernize-img"
+                                    class="img-fluid mb-n4" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="px-4 py-3 border-bottom">
+                    <h4 class="card-title mb-0">Tambah Pesanan </h4>
+                </div>
+                <form action="{{ route('order.store') }}" method="post">
+                    @csrf
+
+                    <div class="card-body">
+
+                        {{-- Nomor Telepon --}}
+
+                        <div class="mb-4 row align-items-center">
+                            <label class="form-label col-sm-3 col-form-label">Nama Customer</label>
+
+                            <div class="col-sm-9">
+                                <div class="row g-2">
+
+                                    <!-- Input Harga -->
+                                    <div class="col-sm-8">
+
+                                        <select name="ord_customer_id" id="customerSelect" class="form-control mb-2">
+                                            <option value="">-- Pilih Customer --</option>
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer->usr_id }}">
+                                                    {{ $customer->usr_name }} ({{ $customer->email }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        <input type="text" name="ord_customer_name" id="manualInput"
+                                            class="form-control mb-2 d-none" placeholder="Masukkan nama customer">
+
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <button type="button" class="btn btn-primary" id="manualBtn">
+                                            Input Manual
+                                        </button>
+                                    </div>
+
+
+                                    <input type="text" name="ord_customer_name" id="manualInput" class="form-control"
+                                        placeholder="Masukkan nama customer" style="display:none;" disabled>
+                                    @error('ord_customer_name')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Layanan --}}
+                        <div class="mb-4 row">
+                            <label class="col-sm-3 col-form-label">Layanan</label>
+                            <div class="col-sm-9">
+                                <select id="service_id" name="service_id" class="form-control" required>
+                                    <option value="">-- Pilih Layanan --</option>
+                                    @foreach ($services as $item)
+                                        <option value="{{ $item->lds_id }}"
+                                            {{ old('service_id') == $item->lds_id ? 'selected' : '' }}>
+                                            {{ $item->lds_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('service_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+
+                        {{-- Paket --}}
+                        <div class="mb-4 row">
+                            <label class="col-sm-3 col-form-label">Paket Layanan</label>
+                            <div class="col-sm-9">
+                                <select id="package_id" name="package_id" class="form-control" required>
+                                    <option value="">-- Pilih Paket --</option>
+                                </select>
+                                @error('package_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
+
+
+                        {{-- Qty/Berat --}}
+                        <div class="mb-4 row">
+                            <label class="col-sm-3 col-form-label">Jumlah / Berat</label>
+                            <div class="col-sm-9">
+                                <input type="number" id="quantity" name="quantity" class="form-control"
+                                    value="{{ old('quantity') }}" placeholder="Masukkan qty / kg" required>
+                            </div>
+                        </div>
+
+                        {{-- Total --}}
+                        <div class="mb-4 row">
+                            <label class="col-sm-3 col-form-label">Total Harga</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="total_price" name="total" value="{{ old('total') }}"
+                                    class="form-control" readonly>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 row">
+                            <label class="col-sm-3 col-form-label">No. Telepon</label>
+                            <div class="col-sm-9">
+                                <input type="number" name="ord_phone_number" class="form-control"
+                                    value="{{ old('ord_phone_number') }}" placeholder="08xxxx" required>
+                            </div>
+                        </div>
+
+                        {{-- Metode Penjemputan --}}
+                        {{-- <div class="mb-4 row">
+                        <label class="col-sm-3 col-form-label">Metode Penjemputan</label>
+                        <div class="col-sm-9">
+                          <select name="pickup_method" id="pickup_method" class="form-control" required>
+                            <option value="">-- Pilih --</option>
+                            <option value="self">Diantar Sendiri</option>
+                            <option value="pickup">Dijemput Laundry</option>
+                          </select>
+                        </div>
+                      </div> --}}
+
+                        {{-- Metode Pengantaran --}}
+                        <div class="mb-4 row">
+                            <label class="col-sm-3 col-form-label">Metode Pengantaran</label>
+                            <div class="col-sm-9">
+                                <select name="delivery_method" id="delivery_method" class="form-control" required>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="self" {{ old('delivery_method') == 'self' ? 'selected' : '' }}>Ambil
+                                        Sendiri</option>
+                                    <option value="delivery" {{ old('delivery_method') == 'delivery' ? 'selected' : '' }}>
+                                        Diantar Laundry</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {{-- Alamat (Auto muncul jika perlu) --}}
+                        <div class="mb-4 row d-none" {{ old('delivery_method') == 'delivery' ? '' : 'd-none' }}"
+                            id="address_wrapper">
+                            <label class="col-sm-3 col-form-label">Alamat</label>
+                            <div class="col-sm-9">
+                                <textarea name="address" class="form-control" rows="3" placeholder="Alamat Lengkap" required>{{ old('address') }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4 row align-items-center">
+                            <label class="form-label col-sm-3 col-form-label">Catatan</label>
+                            <div class="col-sm-9">
+                                <textarea name="note" class="form-control" rows="3" placeholder="Deskripsi Paket" required>{{ old('note') }}</textarea>
+                            </div>
+                        </div>
+
+
+
+                        {{-- Submit --}}
+                        <div class="row">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-9">
+                                <button class="btn btn-primary">Kirim</button>
+                                <a href="/owner/ordering" class="btn btn-warning">Batal</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+@endsection
+
+
+
+@push('script')
+    <script>
+      document.getElementById('manualBtn').addEventListener('click', function () {
+    let manualInput      = document.getElementById('manualInput');
+    let customerSelect   = document.getElementById('customerSelect');
+    let btn              = document.getElementById('manualBtn');
+
+    // Jika sedang Select Mode → masuk ke Manual Mode
+    if (customerSelect.classList.contains('d-none') === false) {
+
+        customerSelect.classList.add('d-none');
+        customerSelect.disabled = true;
+
+        manualInput.classList.remove('d-none');
+        manualInput.disabled = false;
+
+        btn.textContent = "Pilih Customer"; // TOMBOL BERUBAH
+    }
+    else {
+        // Kalau sedang Manual Mode → balik ke Select Mode
+
+        manualInput.classList.add('d-none');
+        manualInput.disabled = true;
+        manualInput.value = ""; // optional
+
+        customerSelect.classList.remove('d-none');
+        customerSelect.disabled = false;
+
+        btn.textContent = "Input Manual"; // TOMBOL BERUBAH
+    }
+});
+
+    </script>
+
+    <script>
+        // =====================
+        // SHOW ALAMAT OTOMATIS
+        // =====================
+        function checkAddress() {
+            let del = $('#delivery_method').val();
+
+            if (del === 'delivery') {
+                $('#address_wrapper').removeClass('d-none');
+                $('#address_wrapper textarea').attr('required', true);
+            } else {
+                $('#address_wrapper').addClass('d-none');
+                $('#address_wrapper textarea').removeAttr('required');
+            }
+        }
+
+        // Ketika select berubah
+        $('#delivery_method').on('change', checkAddress);
+
+        // Jalankan saat pertama kali load (untuk old value setelah gagal validasi)
+        $(document).ready(function() {
+            checkAddress();
+        });
+
+
+
+        // =====================
+        // AMBIL PAKET DARI AJAX
+        // =====================
+        // $('#service_id').on('change', function() {
+
+        //     var serviceId = $(this).val();
+        //     $('#package_id').html('<option>Loading...</option>');
+
+        //     if (serviceId) {
+        //         $.ajax({
+        //             url: '/owner/ordering/' + serviceId + '/packages',
+        //             type: 'GET',
+        //             success: function(data) {
+        //                 $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
+        //                 $.each(data, function(i, pkg) {
+        //                     $('#package_id').append(`
+    //                         <option value="${pkg.ldp_id}" data-price="${pkg.ldp_price}"  ${pkg.ldp_id == "{{ old('package_id') }}" ? 'selected' : ''}>
+    //                           ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()} / ${pkg.ldp_unit}
+    //                         </option>
+    //                     `);
+        //                 });
+        //             }
+        //         });
+        //     }
+        // });
+
+        // Simpan old() value ke JS
+        let oldPackageId = "{{ old('package_id') }}";
+
+        $('#service_id').on('change', function() {
+            var serviceId = $(this).val();
+            $('#package_id').html('<option>Loading...</option>');
+
+            if (serviceId) {
+                $.ajax({
+                    url: '/owner/ordering/' + serviceId + '/packages',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
+                        $.each(data, function(i, pkg) {
+                            $('#package_id').append(`
+                        <option value="${pkg.ldp_id}" data-price="${pkg.ldp_price}"
+                            ${pkg.ldp_id == oldPackageId ? 'selected' : ''}>
+                            ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()} / ${pkg.ldp_unit}
+                        </option>
+                    `);
+                        });
+                    }
+                });
+            }
+        });
+
+        // Trigger otomatis jika old service ada (validasi gagal)
+        $(document).ready(function() {
+            if ("{{ old('service_id') }}") {
+                $('#service_id').trigger('change');
+            }
+        });
+
+
+
+        // =====================
+        // HITUNG TOTAL HARGA
+        // =====================
+        //  $('#package_id, #quantity').on('change keyup', function () {
+        //      let price = $('#package_id option:selected').data('price');
+        //      let qty   = $('#quantity').val();
+
+        //      if (price && qty) {
+        //          let total = price * qty;
+        //          $('#total_price').val("Rp " + total.toLocaleString());
+        //      }
+        //  });
+        let oldTotal = "{{ old('total') }}";
+
+        $('#package_id, #quantity').on('change keyup', function() {
+            hitungTotal();
+        });
+
+        function hitungTotal() {
+            let price = $('#package_id option:selected').data('price');
+            let qty = $('#quantity').val();
+
+            if (price && qty) {
+                let total = price * qty;
+                $('#total_price').val("Rp " + Number(total).toLocaleString());
+            } else {
+                $('#total_price').val("");
+            }
+        }
+
+        $('#quantity').on('keyup change', function() {
+            hitungTotal();
+        });
+
+        // AJAX load paket berdasarkan service terpilih
+        $('#service_id').on('change', function() {
+            var serviceId = $(this).val();
+            $('#package_id').html('<option>Loading...</option>');
+
+            $.ajax({
+                url: '/owner/ordering/' + serviceId + '/packages',
+                type: 'GET',
+                success: function(data) {
+                    $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
+
+                    $.each(data, function(i, pkg) {
+                        $('#package_id').append(`
+                        <option value="${pkg.ldp_id}" data-price="${pkg.ldp_price}"
+                            ${pkg.ldp_id == oldPackageId ? 'selected' : ''}>
+                            ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()} / ${pkg.ldp_unit}
+                        </option>
+                    `);
+                    });
+                    hitungTotal();
+                }
+            });
+        });
+
+        // Auto trigger pada awal load untuk old() values
+        $(document).ready(function() {
+            if ("{{ old('service_id') }}") {
+                $('#service_id').trigger('change');
+            }
+        });
+    </script>
+@endpush

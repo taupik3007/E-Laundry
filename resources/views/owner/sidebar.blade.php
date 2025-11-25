@@ -36,6 +36,46 @@
                  <!-- Dashboard -->
                  <!-- ---------------------------------- -->
 
+                <li class="nav-small-cap">
+                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                     <span class="hide-menu">PESANAN</span>
+                 </li>
+                 <li class="sidebar-item">
+                     <a class="sidebar-link" href="/owner/ordering" aria-expanded="false">
+                         <span>
+                             <i class="ti ti-shopping-cart"></i>
+                         </span>
+                         <span class="hide-menu">Pesanan</span>
+                     </a>
+                 </li>
+
+                 <li class="sidebar-item">
+                     <a class="sidebar-link" href="/owner/pick-up" aria-expanded="false">
+                         <span>
+                             <i class="ti ti-truck"></i>
+                         </span>
+                         <span class="hide-menu">Penjemputan</span>
+                     </a>
+                 </li>
+                 <li class="sidebar-item">
+                     <a class="sidebar-link" href="/owner/ordering/history" aria-expanded="false">
+                         <span>
+                             <i class="ti ti-history"></i>
+                         </span>
+                         <span class="hide-menu">Histori Pesanan</span>
+                     </a>
+                 </li>
+
+                <li class="sidebar-item">
+                     <a class="sidebar-link" href="/owner/laundry-service" aria-expanded="false">
+                         <span>
+                             <i class="ti ti-file-text"></i>
+                         </span>
+                         <span class="hide-menu">Layanan</span>
+                     </a>
+                 </li>
+                 
+
                  <li class="nav-small-cap">
                      <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                      <span class="hide-menu">KELOLA DATA</span>
