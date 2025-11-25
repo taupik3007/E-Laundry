@@ -240,6 +240,7 @@ public function updateWeight(Request $request, $id)
         'pym_qrcode_url'        => '-',
         'pym_payment_status'    => true,
         'pym_amount'            => $amount,
+        'pym_amount_paid'       => $order->ord_total,
         'pym_paid_at'           => now(),
         'pym_expiry_time'       => now(),
         'pym_raw_response'      => '-',

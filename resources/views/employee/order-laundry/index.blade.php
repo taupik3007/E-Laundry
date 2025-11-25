@@ -231,7 +231,7 @@ E-Laundry Garut | Daftar Pemesanan
           <!-- SECTION CASH -->
           <div id="cashSection{{ $order->ord_id }}" style="display:none;">
             <label>Jumlah Bayar</label>
-            <input type="text" class="form-control"
+            <input type="text" class="form-control" min="0"
                   id="jumlahBayar{{ $order->ord_id }}"
                   name="payment_amount"
                   oninput="formatBayar{{ $order->ord_id }}(this)">
@@ -298,20 +298,32 @@ E-Laundry Garut | Daftar Pemesanan
 }
 
 function formatBayar{{ $order->ord_id }}(input) {
-  let angka = input.value.replace(/[^0-9]/g, '');
-  if (angka) {
-    input.value = "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  } else {
-    input.value = "";
-  }
+    let angka = input.value.replace(/[^0-9]/g, '');
 
-  let total = {{ $order->ord_total }};
-  let bayar = parseInt(angka) || 0;
-  let kembali = bayar - total;
+    // CEGAH ANGKA MINUS
+    if (angka.startsWith('-')) {
+        angka = '0';
+    }
 
-  document.getElementById("kembalian{{ $order->ord_id }}").value =
-      "Rp " + kembali.toLocaleString("id-ID");
+    // Format angka
+    if (angka) {
+        input.value = "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    } else {
+        input.value = "";
+    }
+
+    let total = {{ $order->ord_total }};
+    let bayar = parseInt(angka) || 0;
+
+    // JANGAN PERNAH IZINKAN NILAI MINUS
+    bayar = Math.max(bayar, 0);
+
+    let kembali = bayar - total;
+
+    document.getElementById("kembalian{{ $order->ord_id }}").value =
+        "Rp " + kembali.toLocaleString("id-ID");
 }
+
                               </script>
                             @endforeach 
                         </tbody>

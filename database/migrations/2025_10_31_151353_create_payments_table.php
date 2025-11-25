@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('pym_qrcode_url');
             $table->boolean('pym_payment_status');
             $table->bigInteger('pym_amount');
+            $table->bigInteger('pym_amount_paid');
             $table->datetime('pym_paid_at');
             $table->datetime('pym_expiry_time');
             $table->string('pym_raw_response');

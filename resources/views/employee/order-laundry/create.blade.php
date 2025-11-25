@@ -132,7 +132,7 @@
                         <div class="mb-4 row">
                             <label class="col-sm-3 col-form-label">Jumlah / Berat</label>
                             <div class="col-sm-9">
-                                <input type="number" id="quantity" name="quantity" class="form-control"
+                                <input type="number" id="quantity" name="quantity" class="form-control" min="0" step="any"
                                     value="{{ old('quantity') }}" placeholder="Masukkan qty / kg" required>
                             </div>
                         </div>
@@ -149,10 +149,17 @@
                         <div class="mb-4 row">
                             <label class="col-sm-3 col-form-label">No. Telepon</label>
                             <div class="col-sm-9">
-                                <input type="number" name="ord_phone_number" class="form-control"
-                                    value="{{ old('ord_phone_number') }}" placeholder="08xxxx" required>
+                                <div class="input-group">
+                                    <span class="input-group-text">+62</span>
+                                    <input type="tel" id="phone" name="ord_phone_number" class="form-control"
+                                           placeholder="81234567890"
+                                           pattern="^[0-9]{8,12}$"
+                                           maxlength="12"
+                                           required>
+                                </div>
                             </div>
                         </div>
+                        
 
                         {{-- Metode Penjemputan --}}
                         {{-- <div class="mb-4 row">
@@ -247,6 +254,37 @@
 
         btn.textContent = "Input Manual"; // TOMBOL BERUBAH
     }
+});
+
+    </script>
+
+    <script>
+        document.getElementById('quantity').addEventListener('keydown', function(e) {
+    if (e.key === '-' || e.key === '+') {
+        e.preventDefault();
+    }
+});
+
+    </script>
+
+    <script>
+        document.querySelector('input[name="ord_phone_number"]').addEventListener('input', function () {
+    this.value = this.value.replace(/[^0-9+]/g, ''); // hilangkan huruf & simbol lain
+});
+
+    </script>
+
+    <script>
+        document.getElementById('phone').addEventListener('input', function () {
+    // hanya angka
+    let val = this.value.replace(/[^0-9]/g, '');
+
+    // jika user mengawali dengan 0 → hapus otomatis
+    if (val.startsWith('0')) {
+        val = val.substring(1);
+    }
+
+    this.value = val;
 });
 
     </script>
