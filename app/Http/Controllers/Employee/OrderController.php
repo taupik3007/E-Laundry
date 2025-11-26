@@ -234,7 +234,8 @@ public function updateWeight(Request $request, $id)
         $method = 3; // qris
     }
     
-    $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
+    // $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
+    // dd($amount);
 
     // ===== INSERT KE PAYMENTS =====
     Payment::create([
@@ -254,10 +255,17 @@ public function updateWeight(Request $request, $id)
     ]);
 
     // ===== UPDATE STATUS ORDER =====
-    $order->update([
+    if ($request->payment_method == 'cash') {
+       $order->update([
         'ord_status' => 'Selesai'
     ]);
 
+    } elseif ($request->payment_method == 'transfer') {
+        $method = 2;
+    } else {
+        $method = 3; // qris
+    }
+    
     // dd('Payment');
     return redirect('employee/ordering/history');  
 }
