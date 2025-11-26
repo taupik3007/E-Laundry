@@ -78,6 +78,7 @@ Route::get('/employee/ordering/history', [OrderController::class, 'history'])->n
 Route::get('/employee/ordering/{id}/detail', [OrderController::class, 'detail'])->name('order.detaill');
 Route::put('/employee/ordering/{id}/payment', [OrderController::class, 'payment'])->name('order.payment');
 Route::get('/employee/ordering/history', [OrderController::class, 'history'])->name('order.history');
+Route::get('/employee/ordering/payment-receipt', [OrderController::class, 'receipt'])->name('order.receipt');
     
 
 

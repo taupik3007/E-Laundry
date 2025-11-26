@@ -238,6 +238,11 @@ E-Laundry Garut | Daftar Pemesanan
             
             <label>Kembalian</label>
             <input type="text" class="form-control" id="kembalian{{ $order->ord_id }}" readonly>
+            <small id="warningMinus{{ $order->ord_id }}" 
+              class="text-danger" 
+              style="display:none;">
+         Kembalian minus! Kekurangan akan dimasukkan sebagai utang.
+       </small>
           </div>
 
           <!-- SECTION QRIS -->
@@ -320,9 +325,21 @@ function formatBayar{{ $order->ord_id }}(input) {
 
     let kembali = bayar - total;
 
+    let kembalianField = document.getElementById("kembalian{{ $order->ord_id }}");
+    let warning = document.getElementById("warningMinus{{ $order->ord_id }}");
+
     document.getElementById("kembalian{{ $order->ord_id }}").value =
         "Rp " + kembali.toLocaleString("id-ID");
+
+    if (kembali < 0) {
+        warning.style.display = "block";
+    } else {
+        warning.style.display = "none";
+    }
+
 }
+
+// Tampilkan peringatan jika minus
 
                               </script>
                             @endforeach 

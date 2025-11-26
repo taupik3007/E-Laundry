@@ -215,11 +215,6 @@ public function updateWeight(Request $request, $id)
 
     public function payment(Request $request, $id)
 {
-    // $request->validate([
-    //     'payment_method' => 'required',
-    //     'payment_amount' => 'required|numeric',
-    // ]);
-
     $order = Order::findOrFail($id);
     if ($request->payment_method == "qris") {
         $amount = $order->ord_total; // langsung full
@@ -227,8 +222,14 @@ public function updateWeight(Request $request, $id)
         $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
     }
     
-    // Hitung kembalian
-    $method = $request->method == 'cash' ? 1 : ($request->method == 'transfer' ? 2 : 3);
+    if ($request->payment_method == 'cash') {
+        $method = 1;
+    } elseif ($request->payment_method == 'transfer') {
+        $method = 2;
+    } else {
+        $method = 3; // qris
+    }
+    
     $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
 
     // ===== INSERT KE PAYMENTS =====
@@ -254,9 +255,11 @@ public function updateWeight(Request $request, $id)
     ]);
 
     // dd('Payment');
-    return redirect('employee/ordering/');  
+    return redirect('employee/ordering/history');  
+}
 
-    // return redirect()->back()->with('success', 'Pembayaran berhasil diproses!');
+public function receipt(){
+    return view('employee.order-laundry.payment-receipt');
 }
 
 
