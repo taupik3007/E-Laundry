@@ -354,4 +354,12 @@ public function receipt(){
 
     return back()->with('qris_url_'.$order->ord_id, $qrisUrl);
 }
+public function qrispayment($id){
+    $payment = Payment::where('pym_order_id',$id)->first();
+    // dd($payment);
+    return view('employee.order-laundry.qris-payment',compact(['payment']));
+}
+
+
+
 }

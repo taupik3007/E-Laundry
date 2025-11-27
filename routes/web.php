@@ -79,7 +79,7 @@ Route::get('/employee/ordering/{id}/detail', [OrderController::class, 'detail'])
 Route::put('/employee/ordering/{id}/payment', [OrderController::class, 'payment'])->name('order.payment');
 Route::get('/employee/ordering/history', [OrderController::class, 'history'])->name('order.history');
 Route::get('/employee/ordering/payment-receipt', [OrderController::class, 'receipt'])->name('order.receipt');
-    
+Route::get('/employee/ordering/{id}/qris-payment', [OrderController::class, 'qrisPayment'])->name('order.qrisPayment');
 Route::put('/employee/ordering/payment/{id}', [OrderController::class, 'processPayment'])->name('ordering.payment');
 
 

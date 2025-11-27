@@ -160,7 +160,7 @@
                                     <td id="button-{{ $order->ord_id }}">
                                         @if ($order->ord_status == 'menunggu pengantaran' || $order->ord_status == 'menunggu pengambilan')
                                              @if($order->payment)
-                                          <a href="/awikwok" class="btn btn-success">pembayaran</a>
+                                          <a href="/employee/ordering/{{$order->ord_id}}/qris-payment" class="btn btn-success">pembayaran</a>
                                           @else
                                             <button class="btn btn-success" data-bs-toggle="modal"
                                                 data-bs-target="#modalBayar{{ $order->ord_id }}">Pembayaran</button>

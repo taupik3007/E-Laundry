@@ -17,4 +17,8 @@ class Payment extends Model
     const UPDATED_AT = 'pym_updated_at';
     const DELETED_AT = 'pym_deleted_at';
 
+    public function order()
+{
+    return $this->belongsTo(Order::class, 'pym_order_id', 'ord_id');
+}
 }
