@@ -310,7 +310,7 @@ public function receipt(){
 
         // update order
         $order->update([
-            'ord_payment_status' => 'paid',
+            'ord_status' => 'Selesai'
         ]);
 
         return back()->with('success', 'Pembayaran cash berhasil');

@@ -111,35 +111,17 @@
                         </thead>
                         <tbody>
 
+                            @foreach($payments as $no => $payment)
                             <tr>
-                                <td>1</td>
-                                <td>2025-11-25</td>
-                                <td>#INV00123</td>
-                                <td>Rizky</td>
-                                <td>Cash</td>
-                                <td>Rp 25.000</td>
+                                <td>{{ $no+1 }}</td>
+                                <td>{{ Carbon\Carbon::parse($payment->pym_paid_at)->format('Y-m-d') }}</td>
+                                <td>#{{ $payment->invoice_no ?? '-' }}</td>
+                                <td>{{ $payment->order->ord_customer_name ?? '-' }}</td>
+                                <td>{{ $payment->method_name }}</td>
+                                <td>Rp {{ number_format($payment->pym_amount_paid, 0, ',', '.') }}</td>
                                 <td><span class="badge bg-success">Lunas</span></td>
                             </tr>
-
-                            <tr>
-                                <td>2</td>
-                                <td>2025-11-25</td>
-                                <td>#INV00124</td>
-                                <td>Dinda</td>
-                                <td>Transfer</td>
-                                <td>Rp 30.000</td>
-                                <td><span class="badge bg-success">Lunas</span></td>
-                            </tr>
-
-                            <tr>
-                                <td>3</td>
-                                <td>2025-11-24</td>
-                                <td>#INV00122</td>
-                                <td>Aldi</td>
-                                <td>QRIS</td>
-                                <td>Rp 20.000</td>
-                                <td><span class="badge bg-warning text-dark">Menunggu</span></td>
-                            </tr>
+                        @endforeach
 
                         </tbody>
                     </table>

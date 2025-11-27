@@ -31,5 +31,11 @@ class Order extends Model
     return $this->hasOne(Payment::class, 'pym_order_id', 'ord_id');
 }
 
+public function customer()
+{
+    return $this->belongsTo(User::class, 'ord_customer_id', 'usr_id');
+}
+
+
 
 }

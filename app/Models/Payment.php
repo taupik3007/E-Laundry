@@ -21,4 +21,14 @@ class Payment extends Model
 {
     return $this->belongsTo(Order::class, 'pym_order_id', 'ord_id');
 }
+
+public function getMethodNameAttribute()
+{
+    return [
+        1 => 'Cash',
+        2 => 'Transfer',
+        3 => 'QRIS'
+    ][$this->pym_order_method] ?? '-';
+}
+
 }
