@@ -26,4 +26,10 @@ class Order extends Model
         return $this->belongsTo(LaundryService::class, 'ord_service_id', 'lds_id');
     }
 
+    public function payment()
+{
+    return $this->hasOne(Payment::class, 'pym_order_id', 'ord_id');
+}
+
+
 }
