@@ -81,6 +81,8 @@ Route::get('/employee/ordering/history', [OrderController::class, 'history'])->n
 Route::get('/employee/ordering/payment-receipt', [OrderController::class, 'receipt'])->name('order.receipt');
 Route::get('/employee/ordering/{id}/qris-payment', [OrderController::class, 'qrisPayment'])->name('order.qrisPayment');
 Route::put('/employee/ordering/payment/{id}', [OrderController::class, 'processPayment'])->name('ordering.payment');
+Route::post('/midtrans/callback', [OrderController::class, 'callback']);
+
 
 
 Route::get('/employee/expenditure', [ExpenditureController::class, 'index'])->name('expenditure.index');

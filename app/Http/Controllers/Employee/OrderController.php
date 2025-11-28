@@ -408,6 +408,35 @@ public function qrispayment($id)
         'qris' => $payment->pym_qrcode_url,
     ]);
 }
+public function callback(Request $request)
+{
+   $notif = $request->all();
+
+    $payment = Payment::where('pym_gateaway_references', $notif['order_id'])->first();
+
+    if (!$payment) {
+        return response()->json(['message' => 'Payment not found'], 404);
+    }
+
+    $status = $notif['transaction_status'];
+
+    if ($status == 'settlement') {
+
+        // Update payment
+        $payment->update([
+            'pym_payment_status' => 1,
+            'pym_paid_at' => now(),
+        ]);
+
+        // Update order
+        $payment->order->update([
+            'ord_status' => 'Selesai'
+        ]);
+    }
+
+    return response()->json(['message' => 'Callback OK']);
+}
+
 
 
 

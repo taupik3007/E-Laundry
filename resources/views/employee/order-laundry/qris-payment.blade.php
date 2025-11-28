@@ -83,5 +83,20 @@
     </div>
 
 </div>
+@if ($payment->pym_status == 'paid')
+    <div class="alert alert-success">
+        Pembayaran berhasil! Pesanan otomatis selesai 💙
+    </div>
+@else
+    <div class="alert alert-warning">
+        Menunggu pembayaran QRIS…
+    </div>
+
+    <script>
+        setTimeout(() => {
+            location.reload();
+        }, 8000);
+    </script>
+@endif
 
 @endsection
