@@ -129,8 +129,9 @@
                                                         break;
 
                                                     case 'dalam pengantaran':
+                                                    $options = ['dalam pengantaran'];
                                                     case 'menunggu pengambilan':
-                                                        $options = ['selesai'];
+                                                    $options = ['menunggu pengambilan'];
                                                         break;
                                                 }
                                             @endphp
