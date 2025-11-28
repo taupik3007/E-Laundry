@@ -22,9 +22,9 @@ class LaundryServiceSeeder extends Seeder
                 'lds_updated_at' => now(),
             ],
             [
-                'lds_name' => 'Cuci Setrika',
-                'lds_image' => 'images/services/cuci_setrika.png',
-                'lds_sys_note' => 'Layanan cuci, kering, dan setrika lengkap',
+                'lds_name' => 'Sofa',
+                'lds_image' => 'images/services/sofa.png',
+                'lds_sys_note' => 'Layanan cuci Sofa',
                 'lds_created_at' => now(),
                 'lds_updated_at' => now(),
             ],
