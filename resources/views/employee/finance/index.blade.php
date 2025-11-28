@@ -72,12 +72,12 @@
 
                         <div class="col-md-4">
                             <label class="form-label">Dari Tanggal</label>
-                            <input type="date" name="start_date" class="form-control">
+                            <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}" >
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label">Sampai Tanggal</label>
-                            <input type="date" name="end_date" class="form-control">
+                            <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
                         </div>
 
                         <div class="col-md-4 d-flex align-items-end">

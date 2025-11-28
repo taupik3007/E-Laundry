@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 class FinanceController extends Controller
 {
-    function index(){
+    function index(Request $request){
         $todayIncome = Payment::whereDate('pym_paid_at', Carbon::today())->whereHas('order', function ($q) {
             $q->where('ord_status', 'Selesai');
         })
@@ -25,6 +25,12 @@ class FinanceController extends Controller
     ->where('pym_payment_status', 1)
     ->whereHas('order', function ($q) {
         $q->where('ord_status', 'Selesai');
+    })
+    ->when($request->start_date && $request->end_date, function ($query) use ($request) {
+        $query->whereBetween('pym_paid_at', [
+            $request->start_date . " 00:00:00",
+            $request->end_date . " 23:59:59"
+        ]);
     })
     ->orderBy('pym_paid_at', 'DESC')
     ->get();
