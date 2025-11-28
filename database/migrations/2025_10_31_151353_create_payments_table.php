@@ -22,9 +22,9 @@ return new class extends Migration
             $table->boolean('pym_payment_status');
             $table->bigInteger('pym_amount');
             $table->bigInteger('pym_amount_paid');
-            $table->datetime('pym_paid_at');
+            $table->datetime('pym_paid_at')->nullable();
             $table->datetime('pym_expiry_time');
-            $table->string('pym_raw_response');
+            $table->longText('pym_raw_response');
             $table->renameColumn('updated_at', 'pym_updated_at');
             $table->renameColumn('created_at', 'pym_created_at');
              $table->unsignedBigInteger('pym_created_by')->nullable();

@@ -10,7 +10,8 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
 use Midtrans\Config;
-use Midtrans\CoreApi;   
+use Midtrans\CoreApi; 
+use Midtrans\Snap;  
 use Carbon\Carbon;
 
 
@@ -219,55 +220,91 @@ public function updateWeight(Request $request, $id)
 
     public function payment(Request $request, $id)
 {
-    $order = Order::findOrFail($id);
-    if ($request->payment_method == "qris") {
-        $amount = $order->ord_total; // langsung full
-    } else {
-        $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
-    }
-    
-    if ($request->payment_method == 'cash') {
-        $method = 1;
-    } elseif ($request->payment_method == 'transfer') {
-        $method = 2;
-    } else {
-        $method = 3; // qris
-    }
-    
-    // $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
-    // dd($amount);
+     $order = Order::findOrFail($id);
 
-    // ===== INSERT KE PAYMENTS =====
+    // Tentukan method
+    $method = match($request->payment_method) {
+        'cash' => 1,
+        'transfer' => 2,
+        default => 3 // qris
+    };
+
+    // CASE QRIS → MIDTRANS OTOMATIS
+    if ($method == 3) 
+    {
+        // 1. SETUP MIDTRANS
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = false;
+        // Config::$isSanitized = true;
+        // Config::$is3ds = true;
+
+        // 2. DATA TRANSAKSI
+        $params = [
+    "payment_type" => "qris",
+    "transaction_details" => [
+        "order_id" => "PAY-" . $order->ord_id . "-" . time(),
+        "gross_amount" => $order->ord_total,
+    ]
+];
+
+        // 3. REQUEST KE MIDTRANS
+        $response = CoreApi::charge($params);
+        // dd($snap);
+
+        // QR CODE URL MIDTRANS
+        $qrisUrl = $response->actions[0]->url;
+        // dd($qrisUrl);
+
+        // 4. SIMPAN PAYMENT STATUS → pending
+        Payment::create([
+            'pym_order_id' => $order->ord_id,
+            'pym_order_method' => 3,
+            'pym_payment_gateaway' => 'midtrans',
+            'pym_gateaway_references' => $params['transaction_details']['order_id'],
+            'pym_qrcode_url' => $qrisUrl,
+            'pym_payment_status' => false, // masih pending
+            'pym_amount' => $order->ord_total,
+            'pym_amount_paid' => 0,
+            'pym_paid_at' => null,
+            'pym_expiry_time' => now()->addMinutes(15),
+            'pym_raw_response' => json_encode($response),
+            'pym_sys_note' => 'Menunggu pembayaran QRIS Midtrans',
+            'pym_created_by' => auth()->id(),
+        ]);
+
+        // 5. TAMPILKAN HALAMAN QRIS
+        return redirect()->to("/employee/ordering/{$order->ord_id}/qris-payment");
+    }
+
+    // ======================== ||
+    // CASE CASH / TRANSFER     ||
+    // ======================== ||
+
+    $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
+
     Payment::create([
-        'pym_order_id'          => $order->ord_id,
-        'pym_order_method'      => $method,
-        'pym_payment_gateaway'  => 'manual',
+        'pym_order_id' => $order->ord_id,
+        'pym_order_method' => $method,
+        'pym_payment_gateaway' => 'manual',
         'pym_gateaway_references' => '-',
-        'pym_qrcode_url'        => '-',
-        'pym_payment_status'    => true,
-        'pym_amount'            => $amount,
-        'pym_amount_paid'       => $order->ord_total,
-        'pym_paid_at'           => now(),
-        'pym_expiry_time'       => now(),
-        'pym_raw_response'      => '-',
-        'pym_sys_note'          => 'Transaksi manual / offline',
-        'pym_created_by'        => auth()->id(),
+        'pym_qrcode_url' => '-',
+        'pym_payment_status' => true,
+        'pym_amount' => $amount,
+        'pym_amount_paid' => $order->ord_total,
+        'pym_paid_at' => now(),
+        'pym_expiry_time' => now(),
+        'pym_raw_response' => '-',
+        'pym_sys_note' => 'Transaksi manual',
+        'pym_created_by' => auth()->id(),
     ]);
 
-    // ===== UPDATE STATUS ORDER =====
-    if ($request->payment_method == 'cash') {
-       $order->update([
+    // UPDATE STATUS ORDER
+    $order->update([
         'ord_status' => 'Selesai'
     ]);
 
-    } elseif ($request->payment_method == 'transfer') {
-        $method = 2;
-    } else {
-        $method = 3; // qris
-    }
-    
-    // dd('Payment');
-    return redirect('employee/ordering/history');  
+    return redirect('employee/ordering/history');
+  
 }
 
 public function receipt(){
@@ -354,11 +391,24 @@ public function receipt(){
 
     return back()->with('qris_url_'.$order->ord_id, $qrisUrl);
 }
-public function qrispayment($id){
-    $payment = Payment::where('pym_order_id',$id)->first();
-    // dd($payment);
-    return view('employee.order-laundry.qris-payment',compact(['payment']));
+public function qrispayment($id)
+{
+    // Ambil data order
+    $order = Order::findOrFail($id);
+
+    // Ambil payment khusus QRIS (method = 3)
+    $payment = Payment::where('pym_order_id', $order->ord_id)
+        ->where('pym_order_method', 3) // QRIS
+        ->latest()
+        ->firstOrFail();
+
+    return view('employee.order-laundry.qris-payment', [
+        'order' => $order,
+        'payment' => $payment,
+        'qris' => $payment->pym_qrcode_url,
+    ]);
 }
+
 
 
 
