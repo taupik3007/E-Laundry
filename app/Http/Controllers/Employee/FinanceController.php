@@ -22,10 +22,8 @@ class FinanceController extends Controller
     ->sum('pym_amount_paid');
 
     $payments = Payment::with(['order'])
-    ->where('pym_payment_status', 1)
-    ->whereHas('order', function ($q) {
-        $q->where('ord_status', 'Selesai');
-    })
+   
+    
     ->when($request->start_date && $request->end_date, function ($query) use ($request) {
         $query->whereBetween('pym_paid_at', [
             $request->start_date . " 00:00:00",

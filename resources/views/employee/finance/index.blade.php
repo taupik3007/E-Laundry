@@ -119,7 +119,14 @@
                                 <td>{{ $payment->order->ord_customer_name ?? '-' }}</td>
                                 <td>{{ $payment->method_name }}</td>
                                 <td>Rp {{ number_format($payment->pym_amount_paid, 0, ',', '.') }}</td>
-                                <td><span class="badge bg-success">Lunas</span></td>
+                                <td>
+                                    @if( $payment->pym_payment_status == 1)
+                                    <span class="badge bg-success">Lunas</span>
+                                    @else
+                                    <span class="badge bg-danger">Menunggu </span>
+
+                                    @endif
+                                    </td>
                             </tr>
                         @endforeach
 
