@@ -115,7 +115,7 @@
                             <tr>
                                 <td>{{ $no+1 }}</td>
                                 <td>{{ Carbon\Carbon::parse($payment->pym_paid_at)->format('Y-m-d') }}</td>
-                                <td>#{{ $payment->invoice_no ?? '-' }}</td>
+                                <td>#{{ $payment->order->ord_invoice ?? '-' }}</td>
                                 <td>{{ $payment->order->ord_customer_name ?? '-' }}</td>
                                 <td>{{ $payment->method_name }}</td>
                                 <td>Rp {{ number_format($payment->pym_amount_paid, 0, ',', '.') }}</td>

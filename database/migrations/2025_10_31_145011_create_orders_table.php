@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('ord_customer_id')->nullable();
             $table->foreign('ord_customer_id')->references('usr_id')->on('users')->onDelete('cascade');
             $table->string('ord_customer_name')->nullable();
+            $table->string('ord_invoice');
             // $table->string('ord_name_user');
             // $table->bigInteger('ord_phone_number');
             // $table->string('ord_subdistrict');

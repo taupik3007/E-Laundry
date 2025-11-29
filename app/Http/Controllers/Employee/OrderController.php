@@ -113,6 +113,13 @@ public function updateWeight(Request $request, $id)
             'ord_customer_id'   => 'required_without:ord_customer_name',
             'ord_customer_name' => 'required_without:ord_customer_id',
         ]);
+        $date = now()->format('Y-m-d'); // 2025-11-29
+        $year = now()->format('Y');     // 2025
+        $month = now()->format('m');    // 11
+        $day = now()->format('d');
+        $orderCountToday = Order::whereDate('ord_created_at', now())->count() + 1;
+        $sort =  str_pad($orderCountToday, 3, '0', STR_PAD_LEFT);
+        $invoice = "INV-{$year}{$month}{$day}-{$sort}";
         
         if ($request->ord_customer_id) {
             $user = User::find($request->ord_customer_id);
@@ -130,6 +137,7 @@ public function updateWeight(Request $request, $id)
             'ord_customer_id'  => $customerId,
             'ord_customer_name'=> $customerName,
             'ord_phone_number' => $request->ord_phone_number,
+            'ord_invoice' => $invoice,
             'ord_service_id' => $request->service_id,
             'ord_packages_id' => $request->package_id,
             'ord_quantity' => $request->quantity ?? null,
