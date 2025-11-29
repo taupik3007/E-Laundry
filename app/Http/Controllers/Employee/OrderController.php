@@ -289,8 +289,11 @@ public function updateWeight(Request $request, $id)
     // ======================== ||
 
     $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
+    $paid   = $order->ord_total;
 
-    Payment::create([
+    $cashback = $amount - $paid;
+
+    $payment = Payment::create([
         'pym_order_id' => $order->ord_id,
         'pym_order_method' => $method,
         'pym_payment_gateaway' => 'manual',
@@ -298,7 +301,7 @@ public function updateWeight(Request $request, $id)
         'pym_qrcode_url' => '-',
         'pym_payment_status' => true,
         'pym_amount' => $amount,
-        'pym_amount_paid' => $order->ord_total,
+        'pym_amount_paid' => $paid,
         'pym_paid_at' => now(),
         'pym_expiry_time' => now(),
         'pym_raw_response' => '-',
@@ -306,11 +309,26 @@ public function updateWeight(Request $request, $id)
         'pym_created_by' => auth()->id(),
     ]);
 
-    // UPDATE STATUS ORDER
-    $order->update([
-        'ord_status' => 'Selesai'
-    ]);
+    if ($cashback < 0) {
+        $payment->pym_debt_amount = abs($cashback); // simpan utang
+        $payment->pym_is_debt = true;
 
+        $order->update([
+            'ord_status' => 'Belum Lunas'
+        ]);
+
+    } else {
+        $payment->pym_debt_amount = 0;
+        $payment->pym_is_debt = false;
+        $order->update([
+            'ord_status' => 'Selesai'
+        ]);
+    }
+
+    // UPDATE STATUS ORDER
+    $payment->pym_payment_status = $cashback >= 0;
+    $payment->save();
+    //  dd($payment);
     return redirect('employee/ordering/history');
   
 }

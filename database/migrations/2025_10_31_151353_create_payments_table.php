@@ -25,6 +25,8 @@ return new class extends Migration
             $table->datetime('pym_paid_at')->nullable();
             $table->datetime('pym_expiry_time');
             $table->longText('pym_raw_response');
+            $table->bigInteger('pym_debt_amount')->default(0);
+            $table->boolean('pym_is_debt')->default(false);
             $table->renameColumn('updated_at', 'pym_updated_at');
             $table->renameColumn('created_at', 'pym_created_at');
              $table->unsignedBigInteger('pym_created_by')->nullable();

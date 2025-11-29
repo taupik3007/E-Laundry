@@ -12,6 +12,7 @@ use App\Http\Controllers\Employee\FinanceController;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Employee\DebtController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\Owner\EmployeeController;
@@ -113,6 +114,9 @@ Route::post('/employee/price-service/create', [PriceServiceController::class, 's
 Route::get('/employee/price-service/{id}/edit', [PriceServiceController::class, 'edit'])->name('price_service.edit');
 Route::post('/employee/price-service/{id}/edit', [PriceServiceController::class, 'update'])->name('price_service.update');
 Route::delete('/employee/price-service/{id}/destroy', [PriceServiceController::class, 'destroy'])->name('price_service.destroy');
+
+Route::get('/employee/debt', [DebtController::class, 'index'])->name('debt.index');
+Route::put('/employee/debt/{id}', [DebtController::class, 'update'])->name('debt.update');
 
 
 Route::get('/employee/wagw', [MessageController::class, 'wagw'])->name('wagw');
