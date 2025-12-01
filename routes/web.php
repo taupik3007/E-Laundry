@@ -59,14 +59,15 @@ require __DIR__.'/auth.php';
 Route::get('/coba', function () {
     return view('auth.template');
 });
+
+Route::middleware(['auth', 'role:employee'])->group(function () {
 Route::get('/employee/index', function () {
     return view('employee.index');
 })->name('customer.home');
 Route::get('/employee/customers', [CustomerController::class, 'index'])->name('customers.index');
 Route::get('/employee/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
 Route::put('/employee/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
-Route::post('/employee/customers/{id}/toggle-status', [CustomerController::class, 'toggleStatus'])
-    ->name('customers.toggleStatus');
+Route::post('/employee/customers/{id}/toggle-status', [CustomerController::class, 'toggleStatus'])->name('customers.toggleStatus');
 
 Route::get('/employee/ordering', [OrderController::class, 'index'])->name('order.index');
 Route::post('/employee/ordering/{id}/status', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
@@ -75,6 +76,7 @@ Route::get('/employee/ordering/create', [OrderController::class, 'create'])->nam
 Route::get('/employee/ordering/{id}/packages', [OrderController::class, 'ajaxPackages']);
 Route::post('/employee/ordering/create', [OrderController::class, 'store'])->name('order.store');
 Route::get('/employee/ordering/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
+Route::delete('/employee/ordering/{id}/destroy', [OrderController::class, 'destroy'])->name('order.destroy');
 Route::get('/employee/ordering/history', [OrderController::class, 'history'])->name('order.history');
 Route::get('/employee/ordering/{id}/detail', [OrderController::class, 'detail'])->name('order.detaill');
 Route::put('/employee/ordering/{id}/payment', [OrderController::class, 'payment'])->name('order.payment');
@@ -84,15 +86,12 @@ Route::get('/employee/ordering/{id}/qris-payment', [OrderController::class, 'qri
 Route::put('/employee/ordering/payment/{id}', [OrderController::class, 'processPayment'])->name('ordering.payment');
 Route::post('/midtrans/callback', [OrderController::class, 'callback']);
 
-
-
 Route::get('/employee/expenditure', [ExpenditureController::class, 'index'])->name('expenditure.index');
 Route::get('/employee/expenditure/create', [ExpenditureController::class, 'create'])->name('expenditure.create');
 
 Route::get('/employee/pick-up', [PickUpController::class, 'index'])->name('pickup.index');
 Route::post('/employee/pick-up/{id}/status', [PickUpController::class, 'updateStatus'])->name('pickup.updateStatus');
 Route::get('/employee/pick-up/create', [PickUpController::class, 'create'])->name('pickup.create');
-
 
 Route::get('/employee/laundry-service', [LaundryServiceController::class, 'index'])->name('laundry-service.index');
 Route::get('/employee/laundry-service/create', [LaundryServiceController::class, 'create'])->name('laundry-service.create');
@@ -118,17 +117,16 @@ Route::delete('/employee/price-service/{id}/destroy', [PriceServiceController::c
 Route::get('/employee/debt', [DebtController::class, 'index'])->name('debt.index');
 Route::put('/employee/debt/{id}', [DebtController::class, 'update'])->name('debt.update');
 
-
 Route::get('/employee/wagw', [MessageController::class, 'wagw'])->name('wagw');
 Route::post('/employee/wagw/send', [MessageController::class, 'send'])->name('wagw.send');
 
-
 Route::get('/employee/finance', [FinanceController::class, 'index'])->name('employee.finance');
-
 
 Route::get('/employee/pick-up/{id}/detail', [PickUpController::class, 'detail'])->name('pickup.detail');
 Route::delete('/employee/pick-up/{id}/destroy', [PickUpController::class, 'destroy'])->name('pickup.destroy');
+});
 
+Route::middleware(['auth', 'role:owner'])->group(function () {
 Route::get('/owner/customers', [CustomersController::class, 'index'])->name('customers.index');
 
 Route::get('/owner/employee', [EmployeeController::class, 'index'])->name('owner.employee.index');
@@ -162,7 +160,12 @@ Route::post('/owner/laundry-service/create', [ServiceController::class, 'store']
 Route::get('/owner/laundry-service/{id}/edit', [ServiceController::class, 'edit'])->name('laundry-service.edit');
 Route::post('/owner/laundry-service/{id}/update', [ServiceController::class, 'update'])->name('laundry-service.update');
 Route::delete('/owner/laundry-service/{id}/destroy', [ServiceController::class, 'destroy'])->name('laundry-service.destroy');
+});
 
+Route::middleware(['auth', 'role:customer'])->group(function () {
+    Route::get('/customer/dashboard', function () {
+        return view('customer.dashboard');
+    })->name('customer.dashboard');
 Route::get('/customer/laundry-order', [OrderLaundryController::class, 'index'])->name('laundry-order.index');
 Route::get('/customer/laundry-order/create', [OrderLaundryController::class, 'create'])->name('laundry-order.create');
 // Route::get('/employee/laundry-service/{id}/packages', [LaundryPackageController::class, 'ajaxPackages']);
@@ -173,7 +176,7 @@ Route::post('/customer/laundry-order/{id}/edit', [OrderLaundryController::class,
 Route::delete('/customer/laundry-order/{id}/destroy', [OrderLaundryController::class, 'destroy'])->name('laundry-order.destroy');
 
 Route::get('/customer/laundry-order/{id}/detail', [OrderLaundryController::class, 'detail'])->name('laundry-order.detaill');
-
+});
 
 
 

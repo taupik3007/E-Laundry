@@ -1,4 +1,4 @@
-@extends('owner.master')
+@extends('employee.master')
 
 @push('link')
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -20,7 +20,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item" aria-current="page">Daftar Pesanan</li>
                                 <li class="breadcrumb-item">
-                                    <a class="text-muted text-decoration-none" href="/owner/ordering/create">Tambah
+                                    <a class="text-muted text-decoration-none" href="/employee/ordering/create">Tambah
                                         Pesanan</a>
                                 </li>
                                 <li class="breadcrumb-item">
@@ -49,7 +49,7 @@
                 <div class="mb-5 position-relative">
 
                     <h4 class="card-title mb-0">Daftar Pesanan</h4>
-                    <a href="/owner/ordering/create" class="btn btn-primary position-absolute top-0 end-0">Tambah
+                    <a href="/employee/ordering/create" class="btn btn-primary position-absolute top-0 end-0">Tambah
                         Pesanan</a>
 
                 </div>
@@ -63,6 +63,7 @@
                             <tr>
                                 <th width="10%">No</th>
                                 <th>Nama Customer</th>
+                                <th>Invoice</th>
                                 <th>Jenis Layanan</th>
                                 <th>Berat/Unit</th>
                                 <th>Total</th>
@@ -78,6 +79,7 @@
                                 <tr>
                                     <td>{{ $no + 1 }}</td>
                                     <td>{{ $order->ord_customer_name }}</td>
+                                    <td>{{ $order->ord_invoice ?? '-' }}</td>
                                     <td>{{ $order->service->lds_name ?? '-' }} Paket {{ $order->package->ldp_name ?? '-' }}
                                     </td>
                                     <td>{{ $order->ord_quantity ?? '-' }} {{ $order->package->ldp_unit ?? '-' }}</td>
@@ -130,6 +132,7 @@
 
                                                     case 'dalam pengantaran':
                                                     $options = ['dalam pengantaran'];
+                                                    break;
                                                     case 'menunggu pengambilan':
                                                     $options = ['menunggu pengambilan'];
                                                         break;
@@ -159,7 +162,7 @@
                                     </td>
 
                                     <td id="button-{{ $order->ord_id }}">
-                                        @if ($order->ord_status == 'menunggu pengantaran' || $order->ord_status == 'menunggu pengambilan')
+                                        @if ($order->ord_status == 'menunggu pengantaran' || $order->ord_status == 'dalam pengantaran' || $order->ord_status == 'menunggu pengambilan')
                                              @if($order->payment)
                                           <a href="/employee/ordering/{{$order->ord_id}}/qris-payment" class="btn btn-success">pembayaran</a>
                                           @else
@@ -171,8 +174,8 @@
                                                 data-bs-target="#modalTimbang{{ $order->ord_id }}">Timbang</button>
                                         @endif
 
-                                        <a href="/owner/ordering/{{ $order->ord_id }}/destroy" class="btn btn-danger"
-                                            data-confirm-delete="true">Delete</a>
+                                            <a href="/employee/ordering/{{ $order->ord_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="modalTimbang{{ $order->ord_id }}">
@@ -342,6 +345,7 @@
                             <tr>
                                 <th width="10%">No</th>
                                 <th>Nama Customer</th>
+                                <th>Invoice</th>
                                 <th>Jenis Layanan</th>
                                 <th>Berat/Unit</th>
                                 <th>Total</th>
@@ -380,7 +384,7 @@
                 var newStatus = $(this).data('status');
 
                 $.ajax({
-                    url: '/owner/ordering/' + orderId + '/status',
+                    url: '/employee/ordering/' + orderId + '/status',
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -419,19 +423,20 @@
                             var aksiContainer = $('#button-' + orderId);
 
                             if (response.status.toLowerCase() === 'menunggu pengantaran' ||
-                                response.status.toLowerCase() === 'menunggu pengambilan') {
+                                response.status.toLowerCase() === 'menunggu pengambilan'||
+                                response.status.toLowerCase() === 'dalam pengantaran') {
                                 aksiContainer.html(`
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalBayar${orderId}">
                     Pembayaran
                 </button>
-                <a href="/owner/ordering/${orderId}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
             `);
                             } else {
                                 aksiContainer.html(`
                 <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTimbang${orderId}">
                     Timbang
                 </button>
-                <a href="/owner/ordering/${orderId}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
             `);
                             }
 

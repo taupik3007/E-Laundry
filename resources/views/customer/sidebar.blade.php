@@ -79,13 +79,18 @@
                          alt="modernize-img" />
                  </div>
                  <div class="john-title">
-                     <h6 class="mb-0 fs-4 fw-semibold">Mathew</h6>
-                     <span class="fs-2">Designer</span>
-                 </div>
-                 <button class="border-0 bg-transparent text-primary ms-auto" tabindex="0" type="button"
-                     aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="logout">
-                     <i class="ti ti-power fs-6"></i>
-                 </button>
+                    {{-- <h6 class="mb-0 fs-4 fw-semibold">{{ Auth::user()->usr_name }}</h6> --}}
+                    <h6 class="mb-0 fs-4 fw-semibold">Matthew</h6>
+                    {{-- <span class="fs-2">{{ ucfirst(Auth::user()->getRoleNames()->first()) }}</span> --}}
+                    <span class="fs-2">Designer</span>
+                </div>
+                <form method="POST" action="{{ route('logout') }}">
+                   @csrf
+                <button type="submit" class="border-0 bg-transparent text-primary ms-auto" tabindex="0" type="button"
+                    aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="logout">
+                    <i class="ti ti-power fs-6"></i>
+                </button>
+               </form>
              </div>
          </div>
 
