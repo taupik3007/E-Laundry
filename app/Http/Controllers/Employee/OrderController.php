@@ -13,6 +13,7 @@ use Midtrans\Config;
 use Midtrans\CoreApi; 
 use Midtrans\Snap;  
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
 
 class OrderController extends Controller
@@ -148,6 +149,28 @@ public function updateWeight(Request $request, $id)
             'ord_total' => $total ?? null,
         ]);
         // dd($request->ord_customer_id, $customerId, $customerName);
+        $token = env('FONNTE_TOKEN'); // Taruh token di .env
+
+        $response = Http::withHeaders([
+            'Authorization' => $token,
+        ])->post('https://api.fonnte.com/send', [
+            'target' => '089516085820',
+            'message' => 'pesanna anda dengan nomor ----- sedang di proses',
+            'countryCode' => '62',
+        ]);
+
+        if ($response->failed()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal mengirim pesan',
+                'error' => $response->body()
+            ], 500);
+        }
+
+        // return response()->json([
+        //     'status' => true,
+        //     'data' => $response->json()
+        // ]);
         return redirect('employee/ordering/');
 
     }
