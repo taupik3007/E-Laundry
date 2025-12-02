@@ -58,6 +58,7 @@ class OrderController extends Controller
                 $order->ord_status = 'menunggu pengantaran';
             } else {
                 $order->ord_status = 'menunggu pengambilan';
+                
             }
             break;
 
@@ -72,7 +73,8 @@ class OrderController extends Controller
     }
     $order->ord_status = $request->ord_status;
     $order->save();
-
+    // dd($gararetek44);s
+    
     return response()->json([
         'success' => true,
         'message' => 'Status pesanan berhasil diperbarui!',
@@ -150,12 +152,15 @@ public function updateWeight(Request $request, $id)
         ]);
         // dd($request->ord_customer_id, $customerId, $customerName);
         $token = env('FONNTE_TOKEN'); // Taruh token di .env
-
+        $message = "*INFORMASI PESANAN*\n\n"
+    . "Invoice: *{$order->ord_invoice}*\n"
+    . "Total: *Rp {$order->ord_total}*\n\n"
+    . "Pesanan Anda sedang diproses. Terima kasih telah berbelanja ";
         $response = Http::withHeaders([
             'Authorization' => $token,
         ])->post('https://api.fonnte.com/send', [
-            'target' => '089516085820',
-            'message' => 'pesanna anda dengan nomor ----- sedang di proses',
+            'target' => $order->ord_phone_number,
+            'message' => $message,
             'countryCode' => '62',
         ]);
 
