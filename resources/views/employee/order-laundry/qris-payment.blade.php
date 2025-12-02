@@ -1,4 +1,4 @@
-@extends('owner.master')
+@extends('employee.master')
 
 @section('title')
     Pembayaran QRIS

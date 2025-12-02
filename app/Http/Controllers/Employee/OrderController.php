@@ -14,7 +14,7 @@ use Midtrans\CoreApi;
 use Midtrans\Snap;  
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
-
+use RealRashid\SweetAlert\Facades\Alert;
 
 class OrderController extends Controller
 {
@@ -27,6 +27,9 @@ class OrderController extends Controller
         ->where('ord_status', '!=', 'selesai')
         ->where('ord_status', '!=', 'dibatalkan')
         ->get();
+        $title = 'Delete User!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
         return view('employee.order-laundry.index', compact('orderlist'));
     }
 
@@ -251,7 +254,19 @@ public function updateWeight(Request $request, $id)
      */
     public function destroy(string $id)
     {
-        //
+        $order = Order::findOrFail($id);
+
+    if (!in_array($order->ord_status, ['menunggu penjemputan', 'dalam penjemputan', 'menunggu penyerahan'])) {
+        Alert::error('Gagal', 'Pesanan tidak bisa dibatalkan.');
+        return redirect()->back();
+    }
+
+    $order->update([
+        'ord_status' => 'dibatalkan'
+    ]);
+
+    Alert::success('Berhasil', 'Pesanan berhasil dibatalkan.');
+    return redirect()->back();
     }
 
     public function payment(Request $request, $id)

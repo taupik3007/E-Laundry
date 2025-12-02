@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LaundryPackage;
 use App\Models\LaundryService;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -43,8 +44,31 @@ class OrderLaundryController extends Controller
     // $package = LaundryPackage::find($request->package_id);
     // $total = $package->ldp_price * $request->quantity;
 
+    // $request->validate([
+    //     'ord_customer_id'   => 'required_without:ord_customer_name',
+    //     'ord_customer_name' => 'required_without:ord_customer_id',
+    // ]);
+    $date = now()->format('Y-m-d'); // 2025-11-29
+    $year = now()->format('Y');     // 2025
+    $month = now()->format('m');    // 11
+    $day = now()->format('d');
+    $orderCountToday = Order::whereDate('ord_created_at', now())->count() + 1;
+    $sort =  str_pad($orderCountToday, 3, '0', STR_PAD_LEFT);
+    $invoice = "INV-{$year}{$month}{$day}-{$sort}";
+    
+    if ($request->ord_customer_id) {
+        $user = User::find($request->ord_customer_id);
+
+        $customerId = $user->usr_id;
+        $customerName = $user->usr_name;
+    } else {
+        $customerId = null;
+        $customerName = $request->ord_customer_name;
+    }
+
     $order = Order::create([
         'ord_phone_number' => $request->ord_phone_number,
+        'ord_invoice' => $invoice,
         'ord_service_id' => $request->service_id,
         'ord_packages_id' => $request->package_id,
         // 'ord_quantity' => $request->quantity ?? null,
@@ -63,7 +87,7 @@ class OrderLaundryController extends Controller
 
 
     Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
-    // dd($CreateLaundry);
+    //dd($order);
     return redirect('/customer/laundry-order');
 
     }
