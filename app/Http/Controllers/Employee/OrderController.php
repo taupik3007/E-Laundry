@@ -24,9 +24,12 @@ class OrderController extends Controller
     public function index()
     {
         $orderlist = Order::with(['service', 'package'])
-        ->where('ord_status', '!=', 'selesai')
-        ->where('ord_status', '!=', 'dibatalkan')
-        ->get();
+    ->whereNotIn('ord_status', ['selesai', 'dibatalkan'])
+    ->orderBy('ord_created_at', 'DESC')
+    ->get();
+    // dd($orderlist);
+
+
         $title = 'Delete User!';
         $text = "Are you sure you want to delete?";
         confirmDelete($title, $text);

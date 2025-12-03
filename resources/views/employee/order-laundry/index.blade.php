@@ -3,6 +3,15 @@
 @push('link')
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+    {{-- <style>
+        .dataTables_wrapper {
+            overflow-x: auto;
+        }
+
+        table.dataTable {
+            white-space: nowrap;
+        }
+    </style> --}}
 @endpush
 
 @section('title')
@@ -61,11 +70,11 @@
                         <thead>
 
                             <tr>
-                                <th width="10%">No</th>
-                                <th>Nama Customer</th>
+
                                 <th>Invoice</th>
-                                <th>Jenis Layanan</th>
-                                <th>Berat/Unit</th>
+                                <th width="20%" >Nama Customer</th>
+
+
                                 <th>Total</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -77,12 +86,10 @@
                         <tbody>
                             @foreach ($orderlist as $no => $order)
                                 <tr>
-                                    <td>{{ $no + 1 }}</td>
-                                    <td>{{ $order->ord_customer_name }}</td>
+
                                     <td>{{ $order->ord_invoice ?? '-' }}</td>
-                                    <td>{{ $order->service->lds_name ?? '-' }} Paket {{ $order->package->ldp_name ?? '-' }}
-                                    </td>
-                                    <td>{{ $order->ord_quantity ?? '-' }} {{ $order->package->ldp_unit ?? '-' }}</td>
+                                    <td>{{ $order->ord_customer_name }}</td>
+                                   
                                     <td>
                                         Rp
                                         {{ number_format($order->ord_total ?? $order->package->ldp_price * $order->ord_quantity, 0, ',', '.') }}
@@ -131,10 +138,10 @@
                                                         break;
 
                                                     case 'dalam pengantaran':
-                                                    $options = ['dalam pengantaran'];
-                                                    break;
+                                                        $options = ['dalam pengantaran'];
+                                                        break;
                                                     case 'menunggu pengambilan':
-                                                    $options = ['menunggu pengambilan'];
+                                                        $options = ['menunggu pengambilan'];
                                                         break;
                                                 }
                                             @endphp
@@ -162,19 +169,25 @@
                                     </td>
 
                                     <td id="button-{{ $order->ord_id }}">
-                                        @if ($order->ord_status == 'menunggu pengantaran' || $order->ord_status == 'dalam pengantaran' || $order->ord_status == 'menunggu pengambilan')
-                                             @if($order->payment)
-                                          <a href="/employee/ordering/{{$order->ord_id}}/qris-payment" class="btn btn-success">pembayaran</a>
-                                          @else
-                                            <button class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#modalBayar{{ $order->ord_id }}">Pembayaran</button>
-                                          @endif
+                                        @if (
+                                            $order->ord_status == 'menunggu pengantaran' ||
+                                                $order->ord_status == 'dalam pengantaran' ||
+                                                $order->ord_status == 'menunggu pengambilan')
+                                            @if ($order->payment)
+                                                <a href="/employee/ordering/{{ $order->ord_id }}/qris-payment"
+                                                    class="btn btn-success">pembayaran</a>
+                                            @else
+                                                <button class="btn btn-success" data-bs-toggle="modal"
+                                                    data-bs-target="#modalBayar{{ $order->ord_id }}">Pembayaran</button>
+                                            @endif
+                                        @elseif($order->ord_status == 'belum lunas')
                                         @else
                                             <button class="btn btn-info" data-bs-toggle="modal"
                                                 data-bs-target="#modalTimbang{{ $order->ord_id }}">Timbang</button>
                                         @endif
 
-                                            <a href="/employee/ordering/{{ $order->ord_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                        <a href="/employee/ordering/{{ $order->ord_id }}/destroy" class="btn btn-danger"
+                                            data-confirm-delete="true">Delete</a>
 
                                     </td>
                                 </tr>
@@ -251,7 +264,7 @@
                                                     <!-- SECTION CASH -->
                                                     <div id="cashSection{{ $order->ord_id }}" style="display:none;">
                                                         <label>Jumlah Bayar</label>
-                                                        <input type="text" class="form-control"
+                                                        <input type="text" class="form-control" required
                                                             id="jumlahBayar{{ $order->ord_id }}" name="payment_amount"
                                                             oninput="formatBayar{{ $order->ord_id }}(this)">
 
@@ -343,11 +356,9 @@
 
 
                             <tr>
-                                <th width="10%">No</th>
-                                <th>Nama Customer</th>
+
                                 <th>Invoice</th>
-                                <th>Jenis Layanan</th>
-                                <th>Berat/Unit</th>
+                                <th>Nama Customer</th>
                                 <th>Total</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -367,13 +378,20 @@
 @push('script')
     <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script> --}}
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+    {{-- <script>
+    $('#file_export').DataTable({
+    scrollX: true,      // WAJIB supaya table bisa digeser
+    autoWidth: false,   // Biar kolom gak maksa melebar
+});
+
+</script> --}}
 
     <script>
         $(document).ready(function() {
@@ -416,14 +434,14 @@
                                 .text(response.status)
                                 .removeClass(
                                     'btn-warning btn-info btn-success btn-danger btn-secondary btn-primary'
-                                    )
+                                )
                                 .addClass(newColor);
 
                             // ====== UPDATE TOMBOL TIMBANG ↔ PEMBAYARAN ======
                             var aksiContainer = $('#button-' + orderId);
 
                             if (response.status.toLowerCase() === 'menunggu pengantaran' ||
-                                response.status.toLowerCase() === 'menunggu pengambilan'||
+                                response.status.toLowerCase() === 'menunggu pengambilan' ||
                                 response.status.toLowerCase() === 'dalam pengantaran') {
                                 aksiContainer.html(`
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalBayar${orderId}">
