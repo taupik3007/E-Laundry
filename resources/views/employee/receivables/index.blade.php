@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-SITAW | Daftar Pelanggan
+SITAW | Daftar Piutang
 @endsection
 
 @section('content')
@@ -15,10 +15,10 @@ SITAW | Daftar Pelanggan
         <div class="card-body px-4 py-3">
             <div class="row align-items-center">
                 <div class="col-9">
-                    <h4 class="fw-semibold mb-8">Pelanggan</h4>
+                    <h4 class="fw-semibold mb-8">Piutang</h4>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item" aria-current="page">Daftar Pelanggan</li>
+                            <li class="breadcrumb-item" aria-current="page">Daftar Piutang</li>
                         </ol>
                     </nav>
                 </div>
@@ -34,7 +34,7 @@ SITAW | Daftar Pelanggan
     <div class="card">
         <div class="card-body">
 
-            <h4 class="card-title mb-3">Daftar Pelanggan</h4>
+            <h4 class="card-title mb-3">Daftar Piutang</h4>
 
             <div class="table-responsive">
                 <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
