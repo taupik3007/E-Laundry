@@ -66,8 +66,9 @@
                     <div class="text-center">
                         <img src="../assets/images/svgs/icon-speech-bubble.svg" width="50" height="50" class="mb-3"
                             alt="modernize-img" />
-                        <p class="fw-semibold fs-3 text-success mb-1">Keuangan</p>
-                        <h5 class="fw-semibold text-success mb-0">$96k</h5>
+                        <p class="fw-semibold fs-3 text-success mb-1">Piutang</p>
+                        <h5 class="fw-semibold text-success mb-0">Rp. {{ number_format($credit / 1000, 0) . 'K' }}
+</h5>
                     </div>
                 </div>
             </div>
