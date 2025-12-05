@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
+use App\Http\Controllers\Customer\DebtCustController;
 use App\Http\Controllers\Customer\OrderLaundryController;
 use App\Http\Controllers\Employee\CustomerController;
 use App\Http\Controllers\Employee\ExpenditureController;
@@ -163,19 +165,26 @@ Route::delete('/owner/laundry-service/{id}/destroy', [ServiceController::class, 
 });
 
 Route::middleware(['auth', 'role:customer'])->group(function () {
-    Route::get('/customer/dashboard', function () {
-        return view('customer.dashboard');
-    })->name('customer.dashboard');
+// Route::get('/customer/dashboard', function () {
+//         return view('customer.dashboard');
+//     })->name('customer.dashboard');
+Route::get('/customer/dashboard', [CustomerDashboardController::class, 'index'])->name('customer.dashboard');
+Route::post('/weather-location', [CustomerDashboardController::class, 'byLocation'])->name('weather.byLocation');
+
 Route::get('/customer/laundry-order', [OrderLaundryController::class, 'index'])->name('laundry-order.index');
 Route::get('/customer/laundry-order/create', [OrderLaundryController::class, 'create'])->name('laundry-order.create');
 // Route::get('/employee/laundry-service/{id}/packages', [LaundryPackageController::class, 'ajaxPackages']);
 Route::get('/customer/laundry-order/{id}/packages', [OrderLaundryController::class, 'ajaxPackages']);
-Route::post('customer/laundry-order/create', [OrderLaundryController::class, 'store'])->name('laundry-order.store');
+Route::post('/customer/laundry-order/create', [OrderLaundryController::class, 'store'])->name('laundry-order.store');
 Route::get('/customer/laundry-order/{id}/edit', [OrderLaundryController::class, 'edit'])->name('laundry-order.edit');
 Route::post('/customer/laundry-order/{id}/edit', [OrderLaundryController::class, 'update'])->name('laundry-order.update');
 Route::delete('/customer/laundry-order/{id}/destroy', [OrderLaundryController::class, 'destroy'])->name('laundry-order.destroy');
+Route::get('/customer/laundry-order/history', [OrderLaundryController::class, 'history'])->name('laundry-order.history');
 
-Route::get('/customer/laundry-order/{id}/detail', [OrderLaundryController::class, 'detail'])->name('laundry-order.detaill');
+Route::get('/customer/debt', [DebtCustController::class, 'index'])->name('debt.index');
+
+Route::get('/customer/laundry-order/{id}/detail', [OrderLaundryController::class, 'detailorder'])->name('laundry-order.detaill');
+Route::get('/customer/laundry-order/history/{id}/detail', [OrderLaundryController::class, 'detail'])->name('laundry-order.detail');
 });
 
 

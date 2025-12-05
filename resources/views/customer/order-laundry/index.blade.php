@@ -67,7 +67,7 @@
                           @foreach ($orderlist as $no => $order)
                             <tr>
                               <td>{{ $no + 1 }}</td>
-                              <td></td>
+                              <td>{{ $order->ord_customer_name}}</td>
                               <td>{{ $order->service->lds_name ?? '-' }}</td>
                               <td>{{ $order->package->ldp_name ?? '-' }}</td>
                               <td>{{ $order->ord_quantity }} {{ $order->package->ldp_unit ?? '-' }}</td>
@@ -84,12 +84,23 @@
                                 @endif
                             </td> --}}
 
-                                <td>
-                                    <a href="/customer/laundry-order/{{ $order->ord_id}}/detail" class="btn btn-warning">Detail</a>
-                                    <a href="/customer/laundry-order/{{ $order->ord_id}}/edit" class="btn btn-primary">Edit</a>
-                                    <a href="/customer/laundry-order/{{ $order->ord_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
- 
-                               </td>
+                            <td>
+                              <a href="/customer/laundry-order/{{ $order->ord_id }}/detail"
+                                 class="btn btn-warning">Detail</a>
+                          
+                              @if(in_array($order->ord_status, [
+                                  'menunggu penjemputan',
+                                  'dalam penjemputan',
+                                  'menunggu penyerahan'
+                              ]))
+                                  <a href="/customer/laundry-order/{{ $order->ord_id }}/edit"
+                                     class="btn btn-primary">Edit</a>
+                          
+                                  <a href="/customer/laundry-order/{{ $order->ord_id }}/destroy"
+                                     class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                              @endif
+                          </td>
+                          
                             </tr>
                             @endforeach
                         

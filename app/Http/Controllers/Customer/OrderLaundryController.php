@@ -9,6 +9,8 @@ use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
+
 
 class OrderLaundryController extends Controller
 {
@@ -18,6 +20,8 @@ class OrderLaundryController extends Controller
     public function index()
     {
         $orderlist = Order::with(['service', 'package'])
+        ->orderBy('ord_created_at', 'DESC')
+        ->whereIn('ord_status', ['menunggu penjemputan', 'dalam penjemputan', 'menunggu penyerahan', 'proses',  'menunggu pengantaran', 'dalam pengantaran', 'menunggu pengambilan'])
         ->get();
         $title = 'Delete User!';
          $text = "Are you sure you want to delete?";
@@ -56,6 +60,8 @@ class OrderLaundryController extends Controller
     $sort =  str_pad($orderCountToday, 3, '0', STR_PAD_LEFT);
     $invoice = "INV-{$year}{$month}{$day}-{$sort}";
     
+    $user = auth('web')->user();
+
     if ($request->ord_customer_id) {
         $user = User::find($request->ord_customer_id);
 
@@ -67,6 +73,8 @@ class OrderLaundryController extends Controller
     }
 
     $order = Order::create([
+        'ord_customer_id'   => $user->usr_id,
+        'ord_customer_name' => $user->usr_name,
         'ord_phone_number' => $request->ord_phone_number,
         'ord_invoice' => $invoice,
         'ord_service_id' => $request->service_id,
@@ -87,7 +95,7 @@ class OrderLaundryController extends Controller
 
 
     Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
-    //dd($order);
+    // dd($order);
     return redirect('/customer/laundry-order');
 
     }
@@ -132,8 +140,8 @@ class OrderLaundryController extends Controller
             // 'ord_total' => $total ?? null,
         ]);
 
-        Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
-        // dd($CreateLaundry);
+       Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
+        // dd($UpdateOrder);
         return redirect('/customer/laundry-order');
 
     }
@@ -143,6 +151,15 @@ class OrderLaundryController extends Controller
         $order = Order::with(['service', 'package'])
         ->where('ord_id', $id)
         ->firstOrFail();
+        
+        return view('customer.order-laundry.detail-history', compact('order'));
+    }
+    public function detailorder($id)
+    {
+        $order = Order::with(['service', 'package'])
+        ->where('ord_id', $id)
+        ->firstOrFail();
+        
         return view('customer.order-laundry.detail', compact('order'));
     }
 
@@ -157,6 +174,31 @@ class OrderLaundryController extends Controller
         Alert::success('Berhasil Dihapus', 'Order berhasil dihapus.');
         return redirect()->back();
     }
+
+    public function history(Request $request)
+{
+    // $history = Order::where('ord_customer_id', auth()->id())
+    //             ->whereIn('ord_status', ['selesai', 'dibatalkan'])
+    //             ->orderBy('ord_id', 'DESC')
+    //             ->get();
+    $query = Order::where('ord_customer_id', Auth::id())
+        ->whereIn('ord_status', ['selesai', 'dibatalkan'])
+        ->with(['service', 'package']);
+
+    // Filter tanggal jika ada input
+    if ($request->start_date && $request->end_date) {
+        $query->whereBetween('ord_created_at', [
+            $request->start_date . " 00:00:00",
+            $request->end_date . " 23:59:59"
+        ]);
+    }
+
+    $history = $query->orderBy('ord_created_at', 'desc')->get();
+
+    return view('customer.order-laundry.history', compact('history'));
+
+}
+
 
     public function ajaxPackages($id)
 {

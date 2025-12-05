@@ -70,9 +70,19 @@ return view('employee.receivables.index', compact('debts'));
     // Update status utang
     $payment->pym_is_debt = $payment->pym_debt_amount > 0 ? true : false;
 
+    $payment->pym_payment_status = $payment->pym_debt_amount == 0 ? 1 : 0;
+
         // dd($payment);
 
     $payment->save();
+
+    $order = $payment->order;  // relasi di model Payment
+    if ($payment->pym_debt_amount == 0) {
+        $order->ord_status = "selesai";
+    } else {
+        $order->ord_status = "Belum Lunas";
+    }
+    $order->save();
 
     return redirect()->route('debt.index')->with('success', 'Pembayaran berhasil diperbarui!');
 

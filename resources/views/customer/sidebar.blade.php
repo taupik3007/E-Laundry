@@ -25,7 +25,7 @@
                  <!-- Dashboard -->
                  <!-- ---------------------------------- -->
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="{{ route('customer.home') }}" aria-expanded="false">
+                     <a class="sidebar-link" href="{{ route('customer.dashboard') }}" aria-expanded="false">
                          <span>
                              <i class="ti ti-aperture"></i>
                          </span>
@@ -47,13 +47,27 @@
                  </li>
 
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="/customer/order-history" aria-expanded="false">
+                     <a class="sidebar-link" href="/customer/laundry-order/history" aria-expanded="false">
                          <span>
                              <i class="ti ti-history"></i>
                          </span>
                          <span class="hide-menu">Histori Pemesanan</span>
                      </a>
                  </li>
+
+                 <!-- PIUTANG -->
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Hutang Piutang</span>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->is('customer/debt') ? 'active' : '' }}"
+                        href="/customer/debt">
+                        <span><i class="ti ti-cash"></i></span>
+                        <span class="hide-menu">Piutang</span>
+                    </a>
+                </li>
                  
 
                  <li class="nav-small-cap">
@@ -75,14 +89,14 @@
          <div class="fixed-profile p-3 mx-4 mb-2 bg-secondary-subtle rounded mt-3">
              <div class="hstack gap-3">
                  <div class="john-img">
-                     <img src="../assets/images/profile/user-1.jpg" class="rounded-circle" width="40" height="40"
+                     <img src="{{ asset('assets/images/profile/user-1.jpg')}}" class="rounded-circle" width="40" height="40"
                          alt="modernize-img" />
                  </div>
                  <div class="john-title">
-                    {{-- <h6 class="mb-0 fs-4 fw-semibold">{{ Auth::user()->usr_name }}</h6> --}}
-                    <h6 class="mb-0 fs-4 fw-semibold">Matthew</h6>
-                    {{-- <span class="fs-2">{{ ucfirst(Auth::user()->getRoleNames()->first()) }}</span> --}}
-                    <span class="fs-2">Designer</span>
+                    <h6 class="mb-0 fs-4 fw-semibold">{{ Auth::user()->usr_name }}</h6>
+                    {{-- <h6 class="mb-0 fs-4 fw-semibold">Matthew</h6> --}}
+                    <span class="fs-2">{{ ucfirst(Auth::user()->getRoleNames()->first()) }}</span>
+                    {{-- <span class="fs-2">Designer</span> --}}
                 </div>
                 <form method="POST" action="{{ route('logout') }}">
                    @csrf

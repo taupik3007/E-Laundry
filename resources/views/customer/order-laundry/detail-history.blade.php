@@ -1,5 +1,4 @@
-{{-- halaman detail order --}}
- @extends('customer.master')
+@extends('customer.master')
 
 @push('link')
 <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -17,19 +16,17 @@ E-Laundry Garut | Detail Pemesanan
     <div class="card-body px-4 py-3">
       <div class="row align-items-center">
         <div class="col-9">
-          <h4 class="fw-semibold mb-8">Order Laundry</h4>
+          <h4 class="fw-semibold mb-8">RIWAYAT LAUNDRY</h4>
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-            <li class="breadcrumb-item" aria-current="page">Daftar Orderan</li>
               <li class="breadcrumb-item">
-                <a class="text-muted text-decoration-none" href="/customer/laundry-order/create">Tambah Order</a>
+                <a class="text-muted text-decoration-none" href="/customer/dashboard">Dashboard</a>
               </li>
               <li class="breadcrumb-item">
-                <a class="text-muted text-decoration-none" >Edit Order</a>
+                <a class="text-muted text-decoration-none" href="/customer/laundry-order/history">Riwayat</a>
               </li>
-              <li class="breadcrumb-item">
-                <a class="text-muted text-decoration-none" >Detail Pemesanan</a>
-              </li>
+            <li class="breadcrumb-item" aria-current="page">Detail Pemesanan</li>
+
             </ol>
            
           </nav>

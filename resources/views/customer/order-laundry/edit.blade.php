@@ -1,4 +1,4 @@
-@extends('employee.master')
+@extends('customer.master')
 
 @section('title')
 E-Laundry Garut | Edit Pesanan

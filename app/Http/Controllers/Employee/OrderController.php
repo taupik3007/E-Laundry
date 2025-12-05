@@ -367,7 +367,7 @@ public function updateWeight(Request $request, $id)
         $payment->pym_debt_amount = 0;
         $payment->pym_is_debt = false;
         $order->update([
-            'ord_status' => 'Selesai'
+            'ord_status' => 'selesai'
         ]);
     }
 
