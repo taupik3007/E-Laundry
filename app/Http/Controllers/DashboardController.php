@@ -22,9 +22,14 @@ class DashboardController extends Controller
     $todaySales = Payment::where('pym_payment_status', 1)
     ->whereDate('pym_created_at', today())
     ->sum('pym_amount');
+    $monthlySales = Payment::where('pym_payment_status', 1)
+    ->whereMonth('pym_created_at', now()->month)
+    ->whereYear('pym_created_at', now()->year)
+    ->sum('pym_amount');
+
     $credit = Payment::where('pym_payment_status', 0)->sum('pym_debt_amount');
         // dd($service);
         $member = User::role('customer')->count();
-        return view('employee.dashboard',compact(['service','order','orderDone','member','todaySales','credit']));
+        return view('employee.dashboard',compact(['service','order','orderDone','member','todaySales','credit','monthlySales']));
     }
 }

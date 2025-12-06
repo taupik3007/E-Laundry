@@ -68,7 +68,7 @@
                             alt="modernize-img" />
                         <p class="fw-semibold fs-3 text-success mb-1">Piutang</p>
                         <h5 class="fw-semibold text-success mb-0">Rp. {{ number_format($credit / 1000, 0) . 'K' }}
-</h5>
+                        </h5>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                                     <img src="../assets/images/profile/user-1.jpg" alt="modernize-img" width="40"
                                         height="40">
                                 </div>
-                                <h5 class="fw-semibold mb-0 fs-5">Selamat Datang {{Auth()->user()->usr_name}} !</h5>
+                                <h5 class="fw-semibold mb-0 fs-5">Selamat Datang {{ Auth()->user()->usr_name }} !</h5>
                             </div>
                             <div class="d-flex align-items-center">
                                 <div class="border-end pe-4 border-muted border-opacity-10">
@@ -109,10 +109,11 @@
                                     <p class="mb-0 text-dark">Pemasukan Hari ini</p>
                                 </div>
                                 <div class="ps-4">
-                                    <h3 class="mb-1 fw-semibold fs-8 d-flex align-content-center">35%<i
+                                    <h3 class="mb-1 fw-semibold fs-8 d-flex align-content-center">
+                                        {{ 'Rp ' . number_format($monthlySales, 0, ',', '.') }}<i
                                             class="ti ti-arrow-up-right fs-5 lh-base text-success"></i>
                                     </h3>
-                                    <p class="mb-0 text-dark">Overall Performance</p>
+                                    <p class="mb-0 text-dark">Pemasukan Bulan ini</p>
                                 </div>
                             </div>
                         </div>
@@ -136,50 +137,39 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
+        <div class="col-lg-8 d-flex align-items-stretch">
             <div class="card w-100">
                 <div class="card-body">
-                    <h4 class="card-title fw-semibold">Revenue Updates</h4>
-                    <p class="card-subtitle mb-4">Overview of Profit</p>
-                    <div class="d-flex align-items-center">
-                        <div class="me-4">
-                            <span class="round-8 text-bg-primary rounded-circle me-2 d-inline-block"></span>
-                            <span class="fs-2">Footware</span>
-                        </div>
-                        <div>
-                            <span class="round-8 text-bg-secondary rounded-circle me-2 d-inline-block"></span>
-                            <span class="fs-2">Fashionware</span>
-                        </div>
-                    </div>
-                    <div id="revenue-chart" class="revenue-chart mx-n3"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4 d-flex align-items-stretch">
-            <div class="card w-100">
-                <div class="card-body">
-                    <h4 class="card-title fw-semibold">Sales Overview</h4>
-                    <p class="card-subtitle mb-2">Every Month</p>
-                    <div id="sales-overview" class="mb-4"></div>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <div
-                                class="bg-primary-subtle text-primary rounded-2 me-8 p-8 d-flex align-items-center justify-content-center">
-                                <i class="ti ti-grid-dots fs-6"></i>
+                    <div>
+                        <h4 class="card-title fw-semibold mb-1">
+                            Grafik Pemasukan
+                        </h4>
+                        <p class="card-subtitle">Bulanan</p>
+                        <div id="salary" class="mb-7 pb-8 mx-n4"></div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="bg-primary-subtle rounded me-8 p-8 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-grid-dots text-primary fs-6"></i>
+                                </div>
+                                <div>
+                                    <p class="fs-3 mb-0 fw-normal">Salary</p>
+                                    <h6 class="fw-semibold text-dark fs-4 mb-0">
+                                        $36,358
+                                    </h6>
+                                </div>
                             </div>
-                            <div>
-                                <h6 class="fw-semibold text-dark fs-4 mb-0">$23,450</h6>
-                                <p class="fs-3 mb-0 fw-normal">Profit</p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <div
-                                class="bg-secondary-subtle text-secondary rounded-2 me-8 p-8 d-flex align-items-center justify-content-center">
-                                <i class="ti ti-grid-dots fs-6"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-semibold text-dark fs-4 mb-0">$23,450</h6>
-                                <p class="fs-3 mb-0 fw-normal">Expance</p>
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="text-bg-light rounded me-8 p-8 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-grid-dots text-muted fs-6"></i>
+                                </div>
+                                <div>
+                                    <p class="fs-3 mb-0 fw-normal">Profit</p>
+                                    <h6 class="fw-semibold text-dark fs-4 mb-0">
+                                        $5,296
+                                    </h6>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -255,6 +245,7 @@
 
 
 @push('script')
-    <script src="../assets/libs/owl.carousel/dist/owl.carousel.min.js"></script>
-    <script src="../assets/js/dashboards/dashboard.js"></script>
+    <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboards/dashboard.js') }}"></script>
 @endpush
