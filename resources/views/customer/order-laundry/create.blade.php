@@ -61,9 +61,16 @@ E-Laundry Garut | Tambah Pesanan
           <div class="mb-4 row">
             <label class="col-sm-3 col-form-label">No. Telepon</label>
             <div class="col-sm-9">
-              <input type="number" name="ord_phone_number" class="form-control" placeholder="08xxxx" required>
+                <div class="input-group">
+                    <span class="input-group-text">+62</span>
+                    <input type="tel" id="phone" name="ord_phone_number" class="form-control"
+                           placeholder="81234567890"
+                           pattern="^[0-9]{8,12}$"
+                           maxlength="12"
+                           required>
+                </div>
             </div>
-          </div>
+        </div>
 
           {{-- Metode Penjemputan --}}
           <div class="mb-4 row">

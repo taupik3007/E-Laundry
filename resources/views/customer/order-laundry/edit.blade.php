@@ -13,7 +13,7 @@ E-Laundry Garut | Edit Pesanan
         <h4 class="card-title mb-0">Edit Pesanan</h4>
       </div>
 
-      <form action="" method="post">
+      <form action="{{ route('laundry-order.update', $order->ord_id) }}" method="post">
         @csrf
 
         <div class="card-body">
@@ -25,10 +25,10 @@ E-Laundry Garut | Edit Pesanan
               <select id="service_id" name="service_id" class="form-control" required>
                 <option value="">-- Pilih Layanan --</option>
                 @foreach($services as $service)
-                    <option value="{{ $service->lds_id }}"
-                      {{ $order->ord_service_id == $service->lds_id ? 'selected' : '' }}>
-                      {{ $service->lds_name }}
-                    </option>
+                  <option value="{{ $service->lds_id }}"
+                    {{ $order->ord_service_id == $service->lds_id ? 'selected' : '' }}>
+                    {{ $service->lds_name }}
+                  </option>
                 @endforeach
               </select>
             </div>
@@ -51,34 +51,23 @@ E-Laundry Garut | Edit Pesanan
             </div>
           </div>
 
-          {{-- Qty/Berat --}}
-          {{-- <div class="mb-4 row">
-            <label class="col-sm-3 col-form-label">Jumlah / Berat</label>
-            <div class="col-sm-9">
-              <input type="number" id="quantity" name="quantity" class="form-control"
-                     value="{{ $order->ord_quantity }}" required>
-            </div>
-          </div> --}}
-
-          {{-- Total --}}
-          {{-- <div class="mb-4 row">
-            <label class="col-sm-3 col-form-label">Total Harga</label>
-            <div class="col-sm-9">
-              <input type="text" id="total_price" class="form-control"
-                     value="Rp {{ number_format($order->ord_total,0,',','.') }}" readonly>
-            </div>
-          </div> --}}
-
-          {{-- No HP --}}
+          {{-- No Telepon --}}
+         
           <div class="mb-4 row">
             <label class="col-sm-3 col-form-label">No. Telepon</label>
             <div class="col-sm-9">
-              <input type="number" name="ord_phone_number" class="form-control"
-                     value="{{ $order->ord_phone_number }}" required>
+                <div class="input-group">
+                    <span class="input-group-text">+62</span>
+                    <input type="tel" id="phone" name="ord_phone_number" value="{{ $order->ord_phone_number }}" class="form-control"
+                           placeholder="81234567890"
+                           pattern="^[0-9]{8,12}$"
+                           maxlength="12"
+                           required>
+                </div>
             </div>
-          </div>
+        </div>
 
-          {{-- Metode Penjemputan --}}
+          {{-- Penjemputan --}}
           <div class="mb-4 row">
             <label class="col-sm-3 col-form-label">Metode Penjemputan</label>
             <div class="col-sm-9">
@@ -90,7 +79,7 @@ E-Laundry Garut | Edit Pesanan
             </div>
           </div>
 
-          {{-- Metode Pengantaran --}}
+          {{-- Pengantaran --}}
           <div class="mb-4 row">
             <label class="col-sm-3 col-form-label">Metode Pengantaran</label>
             <div class="col-sm-9">
@@ -106,23 +95,26 @@ E-Laundry Garut | Edit Pesanan
           <div class="mb-4 row {{ ($order->ord_pickup_method=='pickup' || $order->ord_delivery_method=='delivery') ? '' : 'd-none' }}" id="address_wrapper">
             <label class="col-sm-3 col-form-label">Alamat</label>
             <div class="col-sm-9">
-              <textarea name="address" class="form-control" rows="3" placeholder="Catatan" required>{{ $order->ord_address }}</textarea>
+              <textarea name="address" class="form-control" rows="3"
+                        placeholder="Alamat Lengkap">{{ $order->ord_address }}</textarea>
             </div>
           </div>
 
-          <div class="mb-4 row align-items-center">
-            <label class="form-label col-sm-3 col-form-label">Catatan</label>
+          {{-- Catatan --}}
+          <div class="mb-4 row">
+            <label class="col-sm-3 col-form-label">Catatan</label>
             <div class="col-sm-9">
-              <textarea name="note" class="form-control" rows="3" placeholder="Catatan" required>{{ $order->ord_note }}</textarea>
+              <textarea name="note" class="form-control" rows="3"
+                        placeholder="Catatan">{{ $order->ord_note }}</textarea>
             </div>
-        </div>
+          </div>
 
           {{-- Submit --}}
           <div class="row">
             <div class="col-sm-3"></div>
             <div class="col-sm-9">
-              <button class="btn btn-primary">Simpan Perubahan</button>
-              <a href="{{ route('laundry-order.index') }}" class="btn btn-warning">Batal</a>
+              <button class="btn btn-primary" type="submit">Kirim</button>
+              <a href="/customer/laundry-order" class="btn btn-warning">Batal</a>
             </div>
           </div>
 
@@ -136,27 +128,20 @@ E-Laundry Garut | Edit Pesanan
 
 @push('script')
 <script>
-
-// =========================
-// TAMPIL/SEMBUNYIKAN ALAMAT
-// =========================
+// SHOW ALAMAT OTOMATIS
 function checkAddress() {
-    let pick = $('#pickup_method').val();
-    let del  = $('#delivery_method').val();
+  let pick = $('#pickup_method').val();
+  let del  = $('#delivery_method').val();
 
-    if (pick === 'pickup' || del === 'delivery') {
-        $('#address_wrapper').removeClass('d-none');
-    } else {
-        $('#address_wrapper').addClass('d-none');
-    }
+  if (pick === 'pickup' || del === 'delivery') {
+      $('#address_wrapper').removeClass('d-none');
+      $('#address_wrapper textarea').attr('required', true);
+  } else {
+      $('#address_wrapper').addClass('d-none');
+      $('#address_wrapper textarea').removeAttr('required');
+  }
 }
 
-$('#pickup_method, #delivery_method').on('change', checkAddress);
-
-
-// =========================
-// LOAD PAKET BY SERVICE
-// =========================
 $('#service_id').on('change', function () {
     var serviceId = $(this).val();
     $('#package_id').html('<option>Loading...</option>');
@@ -178,20 +163,10 @@ $('#service_id').on('change', function () {
         });
     }
 });
+// event saat berubah
+$('#pickup_method, #delivery_method').on('change', checkAddress);
 
-
-// =========================
-// HITUNG TOTAL OTOMATIS
-// =========================
-$('#package_id, #quantity').on('change keyup', function () {
-    let price = $('#package_id option:selected').data('price');
-    let qty   = $('#quantity').val();
-
-    if (price && qty) {
-        let total = price * qty;
-        $('#total_price').val("Rp " + total.toLocaleString());
-    }
-});
-
+// saat halaman load pertama
+checkAddress();
 </script>
 @endpush

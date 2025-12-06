@@ -141,7 +141,7 @@ class OrderLaundryController extends Controller
         ]);
 
        Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
-        // dd($UpdateOrder);
+        //dd($UpdateOrder);
         return redirect('/customer/laundry-order');
 
     }
