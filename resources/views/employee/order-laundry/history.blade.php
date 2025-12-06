@@ -45,28 +45,34 @@ E-Laundry Garut | Daftar Pemesanan
           <div class="d-flex justify-content-between align-items-center mb-3">
         </div>
         
-       <!-- TOMBOL FILTER TAHUN -->
-<div class="btn-group mb-3" role="group">
-    @foreach(range(date('Y'), 2022) as $year)
-        <button class="btn btn-sm filter-year {{ request('year') == $year ? 'btn-primary' : 'btn-outline-primary' }}"
-                data-year="{{ $year }}">
-            {{ $year }}
-        </button>
-    @endforeach
-</div>
+       {{-- FILTER RANGE --}}
+       <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-body">
+            <h6 class="fw-semibold mb-3">Filter Rentang Tanggal</h6>
 
-<!-- TOMBOL FILTER BULAN -->
-<div class="d-flex flex-wrap gap-2 mb-4">
-    @foreach ([
-        1=>'Jan',2=>'Feb',3=>'Mar',4=>'Apr',5=>'Mei',6=>'Jun',
-        7=>'Jul',8=>'Agu',9=>'Sep',10=>'Okt',11=>'Nov',12=>'Des'
-    ] as $num => $monthName)
-        <button class="btn btn-sm filter-month {{ request('month') == $num ? 'btn-success' : 'btn-outline-success' }}"
-                data-month="{{ $num }}">
-            {{ $monthName }}
-        </button>
-    @endforeach
-</div>
+            <form action="" method="GET">
+                <div class="row g-3">
+
+                    <div class="col-md-4">
+                        <label class="form-label">Dari Tanggal</label>
+                        <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}" >
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Sampai Tanggal</label>
+                        <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
+                    </div>
+
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button class="btn btn-primary me-2" type="submit">Filter</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('order.history') }}'">Reset</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+  
 
         
         <div class="card">

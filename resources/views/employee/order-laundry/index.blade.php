@@ -123,7 +123,6 @@
 
                                                     case 'dalam penjemputan':
                                                     case 'menunggu penyerahan':
-                                                        $options = ['proses'];
                                                         break;
 
                                                     case 'proses':

@@ -78,8 +78,6 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="/employee/customers/{{ $customer->usr_id }}/edit"
-                                            class="btn btn-primary">Edit</a>
                                         <a href="/employee/customers/{{ $customer->usr_id }}/destroy"
                                             class="btn btn-danger" data-confirm-delete="true">Delete</a>
 

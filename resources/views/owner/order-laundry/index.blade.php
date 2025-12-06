@@ -114,7 +114,6 @@
 
                                                     case 'dalam penjemputan':
                                                     case 'menunggu penyerahan':
-                                                        $options = ['proses'];
                                                         break;
 
                                                     case 'proses':
@@ -158,22 +157,39 @@
                                     </td>
 
                                     <td id="button-{{ $order->ord_id }}">
-                                        @if ($order->ord_status == 'menunggu pengantaran' || $order->ord_status == 'menunggu pengambilan')
-                                         
+                                        @if (
+                                            $order->ord_status == 'menunggu pengantaran' ||
+                                                $order->ord_status == 'dalam pengantaran' ||
+                                                $order->ord_status == 'menunggu pengambilan')
+                                            @if ($order->payment)
+                                                <a href="/owner/ordering/{{ $order->ord_id }}/qris-payment"
+                                                    class="btn btn-success">pembayaran</a>
+                                            @else
+                                                <button class="btn btn-success" data-bs-toggle="modal"
+                                                    data-bs-target="#modalBayar{{ $order->ord_id }}">Pembayaran</button>
+                                            @endif
+                                        @elseif($order->ord_status == 'belum lunas')
                                         @else
                                             <button class="btn btn-info" data-bs-toggle="modal"
                                                 data-bs-target="#modalTimbang{{ $order->ord_id }}">Timbang</button>
                                         @endif
 
-                                        <a href="/owner/ordering/{{ $order->ord_id }}/destroy" class="btn btn-danger"
-                                            data-confirm-delete="true">Delete</a>
+                                        @if(in_array($order->ord_status, [
+                                  'menunggu penjemputan',
+                                  'dalam penjemputan',
+                                  'menunggu penyerahan'
+                              ]))                          
+                                  <a href="/owner/laundry-order/{{ $order->ord_id }}/destroy"
+                                     class="btn btn-danger" data-confirm-delete="true">Dibatalkan</a>
+                              @endif
+
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="modalTimbang{{ $order->ord_id }}">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <form method="POST"
-                                                action="{{ route('order.updateWeight', $order->ord_id) }}">
+                                                action="{{ route('orderown.updateWeight', $order->ord_id) }}">
                                                 @csrf
                                                 @method('PUT')
 
@@ -214,7 +230,7 @@
                                 <div class="modal fade" id="modalBayar{{ $order->ord_id }}">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
-                                            <form method="POST" action="{{ route('order.payment', $order->ord_id) }}">
+                                            <form method="POST" action="{{ route('orderown.payment', $order->ord_id) }}">
                                                 @csrf
                                                 @method('PUT')
 
@@ -425,7 +441,6 @@
                 <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTimbang${orderId}">
                     Timbang
                 </button>
-                <a href="/owner/ordering/${orderId}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
             `);
                             }
 

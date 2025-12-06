@@ -227,16 +227,16 @@ public function updateWeight(Request $request, $id)
     {
         $query = Order::with(['service', 'package'])
             ->whereIn('ord_status', ['Selesai', 'dibatalkan']);
+     // Filter tanggal jika ada input
+     if ($request->start_date && $request->end_date) {
+        $query->whereBetween('ord_created_at', [
+            $request->start_date . " 00:00:00",
+            $request->end_date . " 23:59:59"
+        ]);
+    }
     
-        if ($request->year) {
-            $query->whereYear('ord_created_at', $request->year);
-        }
-    
-        if ($request->month) {
-            $query->whereMonth('ord_created_at', $request->month);
-        }
-    
-        $orderHistory = $query->get();
+    $orderHistory = $query->orderBy('ord_created_at', 'desc')->get();
+
     
         // request AJAX → return rows only
         if ($request->ajax()) {

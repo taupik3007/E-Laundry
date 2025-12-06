@@ -7,7 +7,10 @@ use App\Models\LaundryPackage;
 use Illuminate\Http\Request;
 use App\Models\LaundryService;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\User;
+use Midtrans\Config;
+use Midtrans\CoreApi; 
 
 class LaundryOrderController extends Controller
 {
@@ -19,6 +22,7 @@ class LaundryOrderController extends Controller
         $orderlist = Order::with(['service', 'package'])
         ->where('ord_status', '!=', 'selesai')
         ->where('ord_status', '!=', 'dibatalkan')
+        ->where('ord_status', '!=', 'belum lunas')
         ->get();
         return view('owner.order-laundry.index', compact('orderlist'));
     }
@@ -174,15 +178,14 @@ public function updateWeight(Request $request, $id)
         $query = Order::with(['service', 'package'])
             ->whereIn('ord_status', ['Selesai', 'dibatalkan']);
     
-        if ($request->year) {
-            $query->whereYear('ord_created_at', $request->year);
-        }
-    
-        if ($request->month) {
-            $query->whereMonth('ord_created_at', $request->month);
-        }
-    
-        $orderHistory = $query->get();
+            if ($request->start_date && $request->end_date) {
+                $query->whereBetween('ord_updated_at', [
+                    $request->start_date . " 00:00:00",
+                    $request->end_date . " 23:59:59"
+                ]);
+            }
+            
+            $orderHistory = $query->orderBy('ord_updated_at', 'desc')->get();
     
         // request AJAX → return rows only
         if ($request->ajax()) {
@@ -203,51 +206,113 @@ public function updateWeight(Request $request, $id)
     {
         //
     }
-public function payment(Request $request, $id)
-{
-    // $request->validate([
-    //     'payment_method' => 'required',
-    //     'payment_amount' => 'required|numeric',
-    // ]);
-
-    $order = Order::findOrFail($id);
-    if ($request->payment_method == "qris") {
-        $amount = $order->ord_total; // langsung full
-    } else {
-        $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
-    }
+    public function payment(Request $request, $id)
+    {
+         $order = Order::findOrFail($id);
     
-    // Hitung kembalian
-    $method = $request->method == 'cash' ? 1 : ($request->method == 'transfer' ? 2 : 3);
-    $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
-
-    // ===== INSERT KE PAYMENTS =====
-    Payment::create([
-        'pym_order_id'          => $order->ord_id,
-        'pym_order_method'      => $method,
-        'pym_payment_gateaway'  => 'manual',
-        'pym_gateaway_references' => '-',
-        'pym_qrcode_url'        => '-',
-        'pym_payment_status'    => true,
-        'pym_amount'            => $amount,
-        'pym_paid_at'           => now(),
-        'pym_expiry_time'       => now(),
-        'pym_raw_response'      => '-',
-        'pym_sys_note'          => 'Transaksi manual / offline',
-        'pym_created_by'        => auth()->id(),
-    ]);
-
-    // ===== UPDATE STATUS ORDER =====
-    $order->update([
-        'ord_status' => 'Selesai'
-    ]);
-
-    // dd('Payment');
-    return redirect('owner/ordering/');  
-
-    // return redirect()->back()->with('success', 'Pembayaran berhasil diproses!');
-}
-
+        // Tentukan method
+        $method = match($request->payment_method) {
+            'cash' => 1,
+            'transfer' => 2,
+            default => 3 // qris
+        };
+    
+        // CASE QRIS → MIDTRANS OTOMATIS
+        if ($method == 3) 
+        {
+            // 1. SETUP MIDTRANS
+            Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+            Config::$isProduction = false;
+            // Config::$isSanitized = true;
+            // Config::$is3ds = true;
+    
+            // 2. DATA TRANSAKSI
+            $params = [
+        "payment_type" => "qris",
+        "transaction_details" => [
+            "order_id" => "PAY-" . $order->ord_id . "-" . time(),
+            "gross_amount" => $order->ord_total,
+        ]
+    ];
+    
+            // 3. REQUEST KE MIDTRANS
+            $response = CoreApi::charge($params);
+            // dd($snap);
+    
+            // QR CODE URL MIDTRANS
+            $qrisUrl = $response->actions[0]->url;
+            // dd($qrisUrl);
+    
+            // 4. SIMPAN PAYMENT STATUS → pending
+            Payment::create([
+                'pym_order_id' => $order->ord_id,
+                'pym_order_method' => 3,
+                'pym_payment_gateaway' => 'midtrans',
+                'pym_gateaway_references' => $params['transaction_details']['order_id'],
+                'pym_qrcode_url' => $qrisUrl,
+                'pym_payment_status' => false, // masih pending
+                'pym_amount' => $order->ord_total,
+                'pym_amount_paid' => 0,
+                'pym_paid_at' => null,
+                'pym_expiry_time' => now()->addMinutes(15),
+                'pym_raw_response' => json_encode($response),
+                'pym_sys_note' => 'Menunggu pembayaran QRIS Midtrans',
+                'pym_created_by' => auth()->id(),
+            ]);
+    
+            // 5. TAMPILKAN HALAMAN QRIS
+            return redirect()->to("/owner/ordering/{$order->ord_id}/qris-payment");
+        }
+    
+        // ======================== ||
+        // CASE CASH / TRANSFER     ||
+        // ======================== ||
+    
+        $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
+        $paid   = $order->ord_total;
+    
+        $cashback = $amount - $paid;
+    
+        $payment = Payment::create([
+            'pym_order_id' => $order->ord_id,
+            'pym_order_method' => $method,
+            'pym_payment_gateaway' => 'manual',
+            'pym_gateaway_references' => '-',
+            'pym_qrcode_url' => '-',
+            'pym_payment_status' => true,
+            'pym_amount' => $amount,
+            'pym_amount_paid' => $paid,
+            'pym_paid_at' => now(),
+            'pym_expiry_time' => now(),
+            'pym_raw_response' => '-',
+            'pym_sys_note' => 'Transaksi manual',
+            'pym_created_by' => auth()->id(),
+        ]);
+    
+        if ($cashback < 0) {
+            $payment->pym_debt_amount = abs($cashback); // simpan utang
+            $payment->pym_is_debt = true;
+    
+            $order->update([
+                'ord_status' => 'Belum Lunas'
+            ]);
+    
+        } else {
+            $payment->pym_debt_amount = 0;
+            $payment->pym_is_debt = false;
+            $payment->pym_payment_status = 1;
+            $order->update([
+                'ord_status' => 'selesai'
+            ]);
+        }
+    
+        // UPDATE STATUS ORDER
+        $payment->pym_payment_status = $cashback >= 0;
+        $payment->save();
+        //  dd($payment);
+        return redirect('owner/ordering/history');
+      
+    }
 
     public function ajaxPackages($id)
     {
