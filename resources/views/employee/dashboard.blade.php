@@ -104,14 +104,14 @@
                             <div class="d-flex align-items-center">
                                 <div class="border-end pe-4 border-muted border-opacity-10">
                                     <h3 class="mb-1 fw-semibold fs-8 d-flex align-content-center">
-                                        {{ 'Rp ' . number_format($todaySales, 0, ',', '.') }}
+                                        {{ 'Rp ' . number_format($todaySales, 0, ',', '.') }},-
                                         <i class="ti ti-arrow-up-right fs-5 lh-base text-success"></i>
                                     </h3>
                                     <p class="mb-0 text-dark">Pemasukan Hari ini</p>
                                 </div>
                                 <div class="ps-4">
                                     <h3 class="mb-1 fw-semibold fs-8 d-flex align-content-center">
-                                        {{ 'Rp ' . number_format($monthlySales, 0, ',', '.') }}<i
+                                        {{ 'Rp ' . number_format($monthlySales, 0, ',', '.') }},-<i
                                             class="ti ti-arrow-up-right fs-5 lh-base text-success"></i>
                                     </h3>
                                     <p class="mb-0 text-dark">Pemasukan Bulan ini</p>
@@ -190,8 +190,8 @@
                           <i class="ti ti-grid-dots fs-6"></i>
                         </div>
                         <div>
-                          <p class="fs-3 mb-0 fw-normal">Total Sales</p>
-                          <h6 class="fw-semibold text-dark fs-4 mb-0">$36,358</h6>
+                          <p class="fs-3 mb-0 fw-normal">Bulan ini</p>
+                          <h6 class="fw-semibold text-dark fs-4 mb-0">Rp.{{$currentIncome}},-</h6>
                         </div>
                       </div>
                       <div class="d-flex align-items-center">
@@ -199,8 +199,8 @@
                           <i class="ti ti-grid-dots fs-6"></i>
                         </div>
                         <div>
-                          <p class="fs-3 mb-0 fw-normal">Expenses</p>
-                          <h6 class="fw-semibold text-dark fs-4 mb-0">$5,296</h6>
+                          <p class="fs-3 mb-0 fw-normal">Bulan Sebelumnya</p>
+                          <h6 class="fw-semibold text-dark fs-4 mb-0">Rp.{{$previousIncome}},-</h6>
                         </div>
                       </div>
                     </div>
@@ -213,11 +213,30 @@
                 <div class="col-sm-6 d-flex align-items-stretch">
                     <div class="card w-100">
                         <div class="card-body">
+                            <div class="p-2 bg-info-subtle rounded-2 d-inline-block mb-3">
+                                <img src="../assets/images/svgs/icon-bar.svg" alt="modernize-img" class="img-fluid"
+                                    width="24" height="24">
+                            </div>
+                            {{-- <div id="growth" class="mb-3"></div> --}}
+                            <h4 class="mb-1 fw-semibold d-flex align-content-center">{{$percentage}}%
+                                @if($percentage >= 0)
+                                <i class="ti ti-arrow-up-right fs-5 text-success"></i>
+                                @else
+                                <i class="ti ti-arrow-down-right fs-5 text-danger"></i>
+                                @endif
+                            </h4>
+                            <p class="mb-0">Growth</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 d-flex align-items-stretch">
+                    <div class="card w-100">
+                        <div class="card-body">
                             <div class="p-2 bg-primary-subtle rounded-2 d-inline-block mb-3">
                                 <i
                                     class="ti ti-receipt-2 fs-5 text-danger"  width="24" height="24"></i>
                             </div>
-                            <div id="sales-two" class="mb-3 mx-n4"></div>
+                            {{-- <div id="sales-two" class="mb-3 mx-n4"></div> --}}
                             <h4 class="mb-1 fw-semibold d-flex align-content-center">Rp. {{ number_format($credit / 1000, 0) . 'K' }}
                                 {{-- <i class="ti ti-arrow-down-right fs-5 text-danger"></i> --}}
                             </h4>
@@ -225,21 +244,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 d-flex align-items-stretch">
-                    <div class="card w-100">
-                        <div class="card-body">
-                            <div class="p-2 bg-info-subtle rounded-2 d-inline-block mb-3">
-                                <img src="../assets/images/svgs/icon-bar.svg" alt="modernize-img" class="img-fluid"
-                                    width="24" height="24">
-                            </div>
-                            <div id="growth" class="mb-3"></div>
-                            <h4 class="mb-1 fw-semibold d-flex align-content-center">24%<i
-                                    class="ti ti-arrow-up-right fs-5 text-success"></i>
-                            </h4>
-                            <p class="mb-0">Growth</p>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <div class="card">
                 <div class="card-body">

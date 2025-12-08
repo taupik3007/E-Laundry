@@ -5,7 +5,7 @@ use App\Models\LaundryPackage;
 use App\Models\LaundryService;
 use App\Models\Order;
 use App\Models\Payment;
-
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -46,9 +46,31 @@ class DashboardController extends Controller
                 ->sum('pym_amount')
         );
     }
+    $now = Carbon::now();
+    $lastMonth = Carbon::now()->subMonth();
+
+    // total bulan ini
+    $currentIncome = Payment::whereYear('pym_created_at', $now->year)
+        ->whereMonth('pym_created_at', $now->month)
+        ->sum('pym_amount');
+
+    // total bulan kemarin
+    $previousIncome = Payment::whereYear('pym_created_at', $lastMonth->year)
+        ->whereMonth('pym_created_at', $lastMonth->month)
+        ->sum('pym_amount');
+
+    // hitung persentase
+    if ($previousIncome == 0) {
+        $percentage = $currentIncome > 0 ? 100 : 0; 
+    } else {
+        $percentage = (($currentIncome - $previousIncome) / $previousIncome) * 100;
+    }
+    $percentage =round($percentage, 2);
 
         // dd($service);
         $member = User::role('customer')->count();
-        return view('employee.dashboard',compact(['service','order','orderDone','member','todaySales','credit','monthlySales','creditCount','income','months','totals']));
+        return view('employee.dashboard',compact(['service','order','orderDone','member','todaySales','credit','monthlySales','creditCount','income','months','totals' ,'currentIncome' ,
+        'previousIncome',
+        'percentage' ]));
     }
 }
