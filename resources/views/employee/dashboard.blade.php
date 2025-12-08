@@ -67,7 +67,8 @@
                         <img src="../assets/images/svgs/icon-speech-bubble.svg" width="50" height="50" class="mb-3"
                             alt="modernize-img" />
                         <p class="fw-semibold fs-3 text-success mb-1">Piutang</p>
-                        <h5 class="fw-semibold text-success mb-0">Rp. {{ number_format($credit / 1000, 0) . 'K' }}
+                        <h5 class="fw-semibold text-success mb-0">
+                            {{$creditCount}}
                         </h5>
                     </div>
                 </div>
@@ -88,7 +89,7 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-8 d-flex align-items-stretch">
+        <div class="col-lg-12 d-flex align-items-stretch">
             <div class="card w-100 bg-primary-subtle overflow-hidden shadow-none">
                 <div class="card-body position-relative">
                     <div class="row">
@@ -127,7 +128,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-12 col-lg-4 d-flex align-items-stretch">
+        {{-- <div class="col-sm-12 col-lg-4 d-flex align-items-stretch">
             <div class="card w-100">
                 <div class="card-body p-4">
                     <h4 class="fw-semibold">$10,230</h4>
@@ -135,9 +136,9 @@
                     <div id="expense"></div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="col-lg-8 d-flex align-items-stretch">
+        {{-- <div class="col-lg-8 d-flex align-items-stretch">
             <div class="card w-100">
                 <div class="card-body">
                     <div>
@@ -175,21 +176,52 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
+        <div class="col-md-6 col-lg-8 d-flex align-items-stretch">
+              <div class="card w-100">
+                <div class="card-body">
+                  <div>
+                    <h4 class="card-title fw-semibold">Grafik Penjualan</h4>
+                    <p class="card-subtitle">Bulanan</p>
+                    <div id="salary" class="mb-7 pb-8 mx-n4"></div>
+                    <div class="d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center">
+                        <div class="bg-primary-subtle text-primary rounded-2 me-8 p-8 d-flex align-items-center justify-content-center">
+                          <i class="ti ti-grid-dots fs-6"></i>
+                        </div>
+                        <div>
+                          <p class="fs-3 mb-0 fw-normal">Total Sales</p>
+                          <h6 class="fw-semibold text-dark fs-4 mb-0">$36,358</h6>
+                        </div>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <div class="bg-light-subtle text-muted rounded-2 me-8 p-8 d-flex align-items-center justify-content-center">
+                          <i class="ti ti-grid-dots fs-6"></i>
+                        </div>
+                        <div>
+                          <p class="fs-3 mb-0 fw-normal">Expenses</p>
+                          <h6 class="fw-semibold text-dark fs-4 mb-0">$5,296</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
         <div class="col-lg-4">
             <div class="row">
                 <div class="col-sm-6 d-flex align-items-stretch">
                     <div class="card w-100">
                         <div class="card-body">
                             <div class="p-2 bg-primary-subtle rounded-2 d-inline-block mb-3">
-                                <img src="../assets/images/svgs/icon-cart.svg" alt="modernize-img" class="img-fluid"
-                                    width="24" height="24">
+                                <i
+                                    class="ti ti-receipt-2 fs-5 text-danger"  width="24" height="24"></i>
                             </div>
                             <div id="sales-two" class="mb-3 mx-n4"></div>
-                            <h4 class="mb-1 fw-semibold d-flex align-content-center">$16.5k<i
-                                    class="ti ti-arrow-up-right fs-5 text-success"></i>
+                            <h4 class="mb-1 fw-semibold d-flex align-content-center">Rp. {{ number_format($credit / 1000, 0) . 'K' }}
+                                {{-- <i class="ti ti-arrow-down-right fs-5 text-danger"></i> --}}
                             </h4>
-                            <p class="mb-0">Sales</p>
+                            <p class="mb-0">Piutang</p>
                         </div>
                     </div>
                 </div>
@@ -240,12 +272,26 @@
         </div>
 
     </div>
+   
+<script>
+    const months = @json($months);   // ["Jul","Aug","Sep","Oct","Nov","Dec"]
+    const totals = @json($totals);   // [10000,20000,15000,...]
+</script>
+
 @endsection
 
 
 
 @push('script')
+   
+
     <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboards/dashboard.js') }}"></script>
+    <script src="{{asset('assets/js/dashboards/employee.js')}}"></script>
+    {{-- <script src="{{asset('assets/js/dashboards/dashboard.js')}}"></script> --}}
+
+
+    
+       
+ 
 @endpush
