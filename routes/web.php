@@ -128,6 +128,9 @@ Route::get('/employee/finance', [FinanceController::class, 'index'])->name('empl
 
 Route::get('/employee/pick-up/{id}/detail', [PickUpController::class, 'detail'])->name('pickup.detail');
 Route::delete('/employee/pick-up/{id}/destroy', [PickUpController::class, 'destroy'])->name('pickup.destroy');
+
+Route::get('/employee/profile', [ProfileController::class, 'edit_photo'])->name('employee.profile.edit');
+Route::patch('/employee/profile', [ProfileController::class, 'update_photo'])->name('employee.profile.update');
 });
 
 Route::middleware(['auth', 'role:owner'])->group(function () {
@@ -170,6 +173,9 @@ Route::post('/owner/laundry-service/create', [ServiceController::class, 'store']
 Route::get('/owner/laundry-service/{id}/edit', [ServiceController::class, 'edit'])->name('laundry-service.edit');
 Route::post('/owner/laundry-service/{id}/update', [ServiceController::class, 'update'])->name('laundry-service.update');
 Route::delete('/owner/laundry-service/{id}/destroy', [ServiceController::class, 'destroy'])->name('laundry-service.destroy');
+
+Route::get('/owner/profile', [ProfileController::class, 'edit_photo'])->name('owner.profile.edit');
+Route::patch('/owner/profile', [ProfileController::class, 'update_photo'])->name('owner.profile.update');
 });
 
 Route::middleware(['auth', 'role:customer'])->group(function () {
@@ -193,6 +199,9 @@ Route::get('/customer/debt', [DebtCustController::class, 'index'])->name('debt.i
 
 Route::get('/customer/laundry-order/{id}/detail', [OrderLaundryController::class, 'detailorder'])->name('laundry-order.detaill');
 Route::get('/customer/laundry-order/history/{id}/detail', [OrderLaundryController::class, 'detail'])->name('laundry-order.detail');
+
+Route::get('/customer/profile', [ProfileController::class, 'edit_photo'])->name('customer.profile.edit');
+Route::patch('/customer/profile', [ProfileController::class, 'update_photo'])->name('customer.profile.update');
 });
 
 
