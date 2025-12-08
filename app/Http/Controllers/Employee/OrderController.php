@@ -24,7 +24,7 @@ class OrderController extends Controller
     public function index()
     {
         $orderlist = Order::with(['service', 'package'])
-    ->whereNotIn('ord_status', ['selesai', 'dibatalkan'])
+    ->whereNotIn('ord_status', ['selesai', 'dibatalkan', 'belum lunas'])
     ->orderBy('ord_created_at', 'DESC')
     ->get();
     // dd($orderlist);
@@ -375,7 +375,15 @@ public function updateWeight(Request $request, $id)
     $payment->pym_payment_status = $cashback >= 0;
     $payment->save();
     //  dd($payment);
-    return redirect('employee/ordering/history');
+    
+// REDIRECT BERDASARKAN STATUS HUTANG
+if ($cashback < 0) {
+    return redirect()->to("/employee/debt")
+        ->with('warning', 'Pembayaran kurang, silakan selesaikan piutang!');
+} else {
+    return redirect()->to("/employee/ordering/history")
+        ->with('success', 'Pembayaran selesai!');
+}
   
 }
 
