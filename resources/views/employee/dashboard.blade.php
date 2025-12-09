@@ -68,13 +68,13 @@
                             alt="modernize-img" />
                         <p class="fw-semibold fs-3 text-success mb-1">Piutang</p>
                         <h5 class="fw-semibold text-success mb-0">
-                            {{$creditCount}}
+                            {{ $creditCount }}
                         </h5>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="item">
+        {{-- <div class="item">
             <div class="card border-0 zoom-in bg-info-subtle shadow-none">
                 <div class="card-body">
                     <div class="text-center">
@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <div class="row">
@@ -178,36 +178,38 @@
             </div>
         </div> --}}
         <div class="col-md-6 col-lg-8 d-flex align-items-stretch">
-              <div class="card w-100">
+            <div class="card w-100">
                 <div class="card-body">
-                  <div>
-                    <h4 class="card-title fw-semibold">Grafik Penjualan</h4>
-                    <p class="card-subtitle">Bulanan</p>
-                    <div id="salary" class="mb-7 pb-8 mx-n4"></div>
-                    <div class="d-flex align-items-center justify-content-between">
-                      <div class="d-flex align-items-center">
-                        <div class="bg-primary-subtle text-primary rounded-2 me-8 p-8 d-flex align-items-center justify-content-center">
-                          <i class="ti ti-grid-dots fs-6"></i>
+                    <div>
+                        <h4 class="card-title fw-semibold">Grafik Penjualan</h4>
+                        <p class="card-subtitle">Bulanan</p>
+                        <div id="salary" class="mb-7 pb-8 mx-n4"></div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="bg-primary-subtle text-primary rounded-2 me-8 p-8 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-grid-dots fs-6"></i>
+                                </div>
+                                <div>
+                                    <p class="fs-3 mb-0 fw-normal">Bulan ini</p>
+                                    <h6 class="fw-semibold text-dark fs-4 mb-0">Rp.{{ $currentIncome }},-</h6>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div
+                                    class="bg-light-subtle text-muted rounded-2 me-8 p-8 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-grid-dots fs-6"></i>
+                                </div>
+                                <div>
+                                    <p class="fs-3 mb-0 fw-normal">Bulan Sebelumnya</p>
+                                    <h6 class="fw-semibold text-dark fs-4 mb-0">Rp.{{ $previousIncome }},-</h6>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                          <p class="fs-3 mb-0 fw-normal">Bulan ini</p>
-                          <h6 class="fw-semibold text-dark fs-4 mb-0">Rp.{{$currentIncome}},-</h6>
-                        </div>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <div class="bg-light-subtle text-muted rounded-2 me-8 p-8 d-flex align-items-center justify-content-center">
-                          <i class="ti ti-grid-dots fs-6"></i>
-                        </div>
-                        <div>
-                          <p class="fs-3 mb-0 fw-normal">Bulan Sebelumnya</p>
-                          <h6 class="fw-semibold text-dark fs-4 mb-0">Rp.{{$previousIncome}},-</h6>
-                        </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
+        </div>
         <div class="col-lg-4">
             <div class="row">
                 <div class="col-sm-6 d-flex align-items-stretch">
@@ -218,11 +220,11 @@
                                     width="24" height="24">
                             </div>
                             {{-- <div id="growth" class="mb-3"></div> --}}
-                            <h4 class="mb-1 fw-semibold d-flex align-content-center">{{$percentage}}%
-                                @if($percentage >= 0)
-                                <i class="ti ti-arrow-up-right fs-5 text-success"></i>
+                            <h4 class="mb-1 fw-semibold d-flex align-content-center">{{ $percentage }}%
+                                @if ($percentage >= 0)
+                                    <i class="ti ti-arrow-up-right fs-5 text-success"></i>
                                 @else
-                                <i class="ti ti-arrow-down-right fs-5 text-danger"></i>
+                                    <i class="ti ti-arrow-down-right fs-5 text-danger"></i>
                                 @endif
                             </h4>
                             <p class="mb-0">Growth</p>
@@ -233,32 +235,35 @@
                     <div class="card w-100">
                         <div class="card-body">
                             <div class="p-2 bg-primary-subtle rounded-2 d-inline-block mb-3">
-                                <i
-                                    class="ti ti-receipt-2 fs-5 text-danger"  width="24" height="24"></i>
+                                <i class="ti ti-receipt-2 fs-5 text-danger" width="24" height="24"></i>
                             </div>
                             {{-- <div id="sales-two" class="mb-3 mx-n4"></div> --}}
-                            <h4 class="mb-1 fw-semibold d-flex align-content-center">Rp. {{ number_format($credit / 1000, 0) . 'K' }}
+                            <h4 class="mb-1 fw-semibold d-flex align-content-center">Rp.
+                                {{ number_format($credit / 1000, 0) . 'K' }}
                                 {{-- <i class="ti ti-arrow-down-right fs-5 text-danger"></i> --}}
                             </h4>
                             <p class="mb-0">Piutang</p>
                         </div>
                     </div>
                 </div>
-                
+
             </div>
             <div class="card">
                 <div class="card-body">
                     <div class="row alig n-items-start">
                         <div class="col-8">
-                            <h4 class="card-title mb-9 fw-semibold"> Monthly Earnings </h4>
+                            <h4 class="card-title mb-9 fw-semibold"> Pemasukan Mingguan </h4>
                             <div class="d-flex align-items-center mb-3">
-                                <h4 class="fw-semibold mb-0 me-8">$6,820</h4>
+                                @php
+                                    $weekTotals = end($totals);
+                                @endphp
+                                <h4 class="fw-semibold mb-0 me-8">Rp. {{ number_format($weekTotals, 0, ',', '.') }},-</h4>
                                 <div class="d-flex align-items-center">
                                     <span
                                         class="me-2 rounded-circle bg-success-subtle text-success round-20 d-flex align-items-center justify-content-center">
                                         <i class="ti ti-arrow-up-left"></i>
                                     </span>
-                                    <p class="text-dark me-1 fs-3 mb-0">+9%</p>
+                                    <p class="text-dark me-1 fs-3 mb-0">{{$growth}}</p>
                                 </div>
                             </div>
                         </div>
@@ -275,28 +280,134 @@
                 </div>
             </div>
         </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-5 position-relative">
+
+                    <h4 class="card-title mb-0">Daftar Pesanan</h4>
+
+                </div>
+                <p class="card-subtitle mb-3">
+
+                </p>
+                <div class="table-responsive">
+                    <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
+
+                        <thead>
+                            <tr>
+                                <th width="10%">No</th>
+                                <th>Nama Customer</th>
+                                <th>Jenis Layanan</th>
+                                <th>Berat/Unit</th>
+                                <th>Total</th>
+                                <th>Tanggal Selesai</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="order-history-body">
+                            {{-- @include('employee.order-laundry.history-table') --}}
+                        </tbody>
+                        <tfoot>
+                            <!-- start row -->
+
+
+                            <tr>
+                                <th width="10%">No</th>
+                                <th>Nama Customer</th>
+                                <th>Jenis Layanan</th>
+                                <th>Berat/Unit</th>
+                                <th>Total</th>
+                                <th>Tanggal Selesai</th>
+                            </tr>
+                            <!-- end row -->
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
 
     </div>
-   
-<script>
-    const months = @json($months);   // ["Jul","Aug","Sep","Oct","Nov","Dec"]
-    const totals = @json($totals);   // [10000,20000,15000,...]
-</script>
 
+
+
+    <script>
+        const months = @json($months); // ["Jul","Aug","Sep","Oct","Nov","Dec"]
+        const totals = @json($totals); // [10000,20000,15000,...]
+    </script>
 @endsection
 
 
 
 @push('script')
-   
-
     <script src="{{ asset('assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-    <script src="{{asset('assets/js/dashboards/employee.js')}}"></script>
+    <script src="{{ asset('assets/js/dashboards/employee.js') }}"></script>
     {{-- <script src="{{asset('assets/js/dashboards/dashboard.js')}}"></script> --}}
 
+    <script>
+        var options = {
+            chart: {
+                id: "weekly-earning",
+                type: "area",
+                height: 56,
+                sparkline: {
+                    enabled: true,
+                },
+                group: "sparklines",
+                fontFamily: "inherit",
+                foreColor: "#adb0bb",
+            },
 
-    
-       
- 
+            // DATA WEEKLY (DINAMIS)
+            series: [{
+                name: "Weekly Earnings",
+                color: "var(--bs-primary)",
+                data: @json($totals), // <— TOTAL UANG PER MINGGU
+            }, ],
+
+            stroke: {
+                curve: "smooth",
+                width: 2,
+            },
+
+            fill: {
+                type: "gradient",
+                gradient: {
+                    shadeIntensity: 0,
+                    inverseColors: false,
+                    opacityFrom: 0.1,
+                    opacityTo: 0,
+                    stops: [20, 180],
+                },
+            },
+
+            markers: {
+                size: 0,
+            },
+
+            tooltip: {
+                theme: "dark",
+                fixed: {
+                    enabled: true,
+                    position: "right",
+                },
+                x: {
+                    show: true,
+                    formatter: function(_, {
+                        dataPointIndex
+                    }) {
+                        return @json($weeks)[dataPointIndex];
+                        // contoh: "01 - 07"
+                    }
+                },
+                y: {
+                    formatter: function(value) {
+                        return "Rp " + value.toLocaleString("id-ID");
+                    }
+                }
+            },
+        };
+
+        new ApexCharts(document.querySelector("#monthly-earning"), options).render();
+    </script>
 @endpush

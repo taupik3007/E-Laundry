@@ -67,10 +67,59 @@ class DashboardController extends Controller
     }
     $percentage =round($percentage, 2);
 
+
+    // mingguan
+    $startOfMonth = Carbon::now()->startOfMonth();
+$endOfMonth   = Carbon::now()->endOfMonth();
+
+$weeks  = [];
+$totals = [];
+
+$currentStart = $startOfMonth;
+
+while ($currentStart <= $endOfMonth) {
+
+    $currentEnd = $currentStart->copy()->addDays(6);
+
+    if ($currentEnd > $endOfMonth) {
+        $currentEnd = $endOfMonth;
+    }
+
+    // Label contoh: "01 - 07"
+    $weeks[] = $currentStart->format('d') . ' - ' . $currentEnd->format('d');
+
+    $total = Payment::where('pym_payment_status', 1)
+        ->whereBetween('pym_created_at', [
+            $currentStart->format('Y-m-d') . ' 00:00:00',
+            $currentEnd->format('Y-m-d')   . ' 23:59:59'
+        ])
+        ->sum('pym_amount');
+
+    $totals[] = (int)$total;
+
+    $currentStart = $currentStart->copy()->addDays(7);
+}
+
+// Hitung Growth
+$growth = 0;
+
+if (count($totals) >= 2) {
+    $prev = $totals[count($totals)-2];
+    $now  = $totals[count($totals)-1];
+
+    if ($prev > 0) {
+        $growth = (($now - $prev) / $prev) * 100;
+    }
+}
+
+$growth = round($growth, 2);
+
         // dd($service);
         $member = User::role('customer')->count();
         return view('employee.dashboard',compact(['service','order','orderDone','member','todaySales','credit','monthlySales','creditCount','income','months','totals' ,'currentIncome' ,
         'previousIncome',
-        'percentage' ]));
+        'percentage','weeks' ,
+        'totals' ,
+        'growth' ]));
     }
 }
