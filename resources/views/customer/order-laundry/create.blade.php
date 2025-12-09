@@ -1,7 +1,7 @@
 @extends('customer.master')
 
 @section('title')
-E-Laundry Garut | Tambah Pesanan
+E-Laundry | Tambah Pesanan
 @endsection
 
 @section('content')

@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SITAW | Order Laundry
+    E-Laundry | Daftar Pesanan 
 @endsection
 
 @section('content')
@@ -15,15 +15,15 @@
             <div class="card-body px-4 py-3">
               <div class="row align-items-center">
                 <div class="col-9">
-                  <h4 class="fw-semibold mb-8">Order Laundry</h4>
+                  <h4 class="fw-semibold mb-8">Tambah Pesanan </h4>
                   <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                    <li class="breadcrumb-item" aria-current="page">Daftar Orderan</li>
+                    <li class="breadcrumb-item" aria-current="page">Daftar Pesanan </li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/customer/laundry-order/create">Tambah Order</a>
+                        <a class="text-muted text-decoration-none" href="/customer/laundry-order/create">Tambah Pesanan Laundry</a>
                       </li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" >Edit Order</a>
+                        <a class="text-muted text-decoration-none" >Edit Pesanan</a>
                       </li>
                     </ol>
                    
@@ -41,7 +41,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-5 position-relative">
-                    <h4 class="card-title mb-0">Order Laundry</h4>
+                    <h4 class="card-title mb-0">Tambah Pesanan Laundry</h4>
                     <a href="/customer/laundry-order/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Order</a>
                 </div>
                 <p class="card-subtitle mb-3">

@@ -7,7 +7,7 @@
 
 @section('title')
 
-E-Laundry Garut | Daftar Pemesanan
+E-Laundry | Daftar Riwayat Laundry
 @endsection
 
 @section('content')
@@ -23,7 +23,7 @@ E-Laundry Garut | Daftar Pemesanan
                         <a class="text-muted text-decoration-none" href="/employee/ordering/create">Dashboard</a>
                       </li>
                     <li class="breadcrumb-item" aria-current="page">Riwayat Laundry</li>
-                    <li class="breadcrumb-item" aria-current="page">Detail Pemesanan</li>
+                    <li class="breadcrumb-item" aria-current="page">Detail Pesanan</li>
 
                     </ol>
                    

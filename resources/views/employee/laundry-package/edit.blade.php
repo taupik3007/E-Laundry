@@ -1,7 +1,7 @@
 @extends('employee.master')
 
 @section('title')
-    E-Laundry Garut | Edit Paket - {{ $service->lds_name }}
+    E-Laundry | Edit Paket - {{ $service->lds_name }}
 @endsection
 
 @section('content')

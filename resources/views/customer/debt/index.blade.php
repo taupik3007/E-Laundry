@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-SITAW | Daftar Piutang
+E-Laundry | Daftar Piutang
 @endsection
 
 @section('content')
