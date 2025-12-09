@@ -12,7 +12,9 @@
 <div class="d-flex align-items-center gap-4 mb-4">
   <div class="position-relative">
     <div class="border border-2 border-primary rounded-circle">
-      <img src="{{ asset ('assets/images/profile/user-1.jpg')}}" class="rounded-circle m-1" alt="user1" width="60" />
+      <img src="{{ auth()->check() && auth()->user()->usr_profile_photo
+        ? asset('storage/' . auth()->user()->usr_profile_photo)
+        : asset('assets/images/profile/user-1.jpg') }}" class="rounded-circle m-1" alt="user1" width="60" />
     </div>
     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-primary"> 3
       <span class="visually-hidden">unread messages</span>

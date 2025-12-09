@@ -138,7 +138,10 @@
                     <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" aria-expanded="false">
                       <div class="d-flex align-items-center">
                         <div class="user-profile-img">
-                          <img src="{{asset('assets/images/profile/user-1.jpg')}}" class="rounded-circle" width="35" height="35" alt="modernize-img" />
+                          <img src="{{ auth()->check() && auth()->user()->usr_profile_photo
+                            ? asset('storage/' . auth()->user()->usr_profile_photo)
+                            : asset('assets/images/profile/user-1.jpg') }}" class="rounded-circle" width="40" height="40"
+                             alt="modernize-img" class="rounded-circle" width="35" height="35" alt="modernize-img" />
                         </div>
                       </div>
                     </a>
@@ -158,7 +161,7 @@
                           </div>
                         </div>
                         <div class="message-body">
-                          <a href="/profile/" class="py-8 px-7 mt-8 d-flex align-items-center">
+                          <a href="{{ route('customer.profile.edit') }}" class="py-8 px-7 mt-8 d-flex align-items-center">
                             <span class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
                               <img src="./assets/images/svgs/icon-account.svg" alt="modernize-img" width="24" height="24" />
                             </span>

@@ -156,7 +156,7 @@
                           </div>
                         </div>
                         <div class="message-body">
-                          <a href="/profile/" class="py-8 px-7 mt-8 d-flex align-items-center">
+                          <a href="{{ route('employee.profile.edit') }}" class="py-8 px-7 mt-8 d-flex align-items-center">
                             <span class="d-flex align-items-center justify-content-center text-bg-light rounded-1 p-6">
                               <img src="./assets/images/svgs/icon-account.svg" alt="modernize-img" width="24" height="24" />
                             </span>

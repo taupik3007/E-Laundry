@@ -25,6 +25,8 @@ return new class extends Migration
             $table->enum('usr_gender', ['laki-laki', 'perempuan']);
             $table->string('usr_religion')->nullable();
             $table->string('usr_telephone')->nullable();
+            $table->string('usr_profile_photo')->nullable();
+            $table->string('usr_address')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
