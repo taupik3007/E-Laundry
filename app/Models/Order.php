@@ -36,6 +36,12 @@ public function customer()
     return $this->belongsTo(User::class, 'ord_customer_id', 'usr_id');
 }
 
+public function details()
+{
+    return $this->hasMany(OrderDetail::class, 'odt_order_id', 'ord_id');
+}
+
+
 
 
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LaundryPackage;
 use App\Models\LaundryService;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -77,8 +78,8 @@ class OrderLaundryController extends Controller
         'ord_customer_name' => $user->usr_name,
         'ord_phone_number' => $request->ord_phone_number,
         'ord_invoice' => $invoice,
-        'ord_service_id' => $request->service_id,
-        'ord_packages_id' => $request->package_id,
+        // 'ord_service_id' => $request->service_id,
+        // 'ord_packages_id' => $request->package_id,
         // 'ord_quantity' => $request->quantity ?? null,
         'ord_pickup_method' => $request->pickup_method,
         'ord_delivery_method' => $request->delivery_method,
@@ -86,6 +87,29 @@ class OrderLaundryController extends Controller
         'ord_note' => $request->note ?? null,
         // 'ord_total' => $total ?? null,
     ]);
+
+         // 3. Ambil semua array detail
+         $services = $request->service_id;
+         $packages = $request->package_id;
+         $quantities = $request->quantity;
+     
+         $grandTotal = 0;
+     
+         foreach ($services as $i => $service) {
+     
+             $package = LaundryPackage::find($packages[$i]);
+     
+             $price = $package->ldp_price;
+     
+             // simpan detail
+             OrderDetail::create([
+                 'odt_order_id' => $order->ord_id,
+                 'odt_service_id' => $service,
+                 'odt_package_id' => $packages[$i],
+                 'odt_price' => $price,
+             ]);
+    
+         }     
 
     if ($request->pickup_method == 'delivery') {
         $order->ord_status = 'menunggu penjemputan';

@@ -36,6 +36,7 @@ E-Laundry Garut | Detail Pemesanan
         </div>
         <div class="col-3">
           <div class="text-center mb-n5">
+            
             <img src="{{ asset('assets/images/breadcrumb/ChatBc.png') }}" alt="laundry-img"
               class="img-fluid mb-n4" />
           </div>
@@ -51,12 +52,9 @@ E-Laundry Garut | Detail Pemesanan
            class="card-img-top rounded-0 object-fit-cover" 
            alt="laundry-img" height="220">
 
-      <img src="{{ asset('assets/images/profile/user-5.jpg') }}"
-           alt="foto-customer"
-           class="img-fluid rounded-circle position-absolute"
-           style="bottom: -20px; left: 20px; width: 60px; height: 60px; border: 3px solid #fff;"
-           data-bs-toggle="tooltip" data-bs-placement="top"
-           data-bs-title="Nama Customer">
+           <img src="{{ auth()->check() && auth()->user()->usr_profile_photo
+            ? asset('storage/' . auth()->user()->usr_profile_photo)
+            : asset('assets/images/breadcrumb/ChatBc.png') }}" class="img-fluid rounded-circle position-absolute" style="bottom: -20px; left: 20px; width: 60px; height: 60px; border: 3px solid #fff;" data-bs-toggle="tooltip" data-bs-placement="top" alt="laundry-img"/>
     </div>
 
     <div class="card-body p-4 mt-4">
@@ -70,15 +68,56 @@ E-Laundry Garut | Detail Pemesanan
 
           </p>
         </div>
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
           <p class="mb-1"><strong>Jenis Layanan :</strong> {{ $order->service->lds_name ?? '-' }}</p>
           <p class="mb-1"><strong>Paket :</strong> {{ $order->package->ldp_name ?? '-' }}</p>
           <p class="mb-1"><strong>Jumlah Unit:</strong> {{ $order->ord_quantity }} {{ $order->package->ldp_unit ?? '-' }}</p>
           <p class="mb-1"><strong>Total Biaya:</strong> Rp {{ number_format($order->ord_total, 0, ',', '.') }}</p>
           
-        </div>
+        </div> --}}
       </div>
     </div>
+  
+  <div class="card-body border-top p-4">
+    <h5 class="fw-semibold mb-3">Detail Layanan</h5>
+    <div class="col-12">
+      <table id="file_export" class="table w-100 table-striped table-bordered display text-nowrap">
+          <thead>
+              <tr>
+                <th width="10%">No</th>
+                  <th style="width: 40%">Layanan</th>
+                  <th style="width: 30%">Paket</th>
+                  <th style="width: 15%">Harga per item</th>
+                  <th style="width: 15%">Jumlah item</th>
+                  <th style="width: 15%">Harga Laundry</th>
+              </tr>
+          </thead>
+  
+          <tbody>
+              @foreach ($order->details as $no =>  $detail)
+                  <tr>
+                    <td>{{ $no + 1 }}</td>
+                      <td>{{ $detail->service->lds_name }}</td>
+                      <td>{{ $detail->package->ldp_name }}</td>
+                      <td>Rp {{ number_format($detail->package->ldp_price, 0, ',', '.') }}/{{$detail->package->ldp_unit}}</td>
+                      <td>{{ $detail->odt_quantity }} {{$detail->package->ldp_unit}}</td>
+                      <td>Rp {{ number_format($detail->odt_total, 0, ',', '.') }}</td>
+                  </tr>
+              @endforeach
+          </tbody>
+  
+          <tfoot>
+              <tr class="fw-bold">
+                <td></td>
+                <td></td>
+                <td></td>
+                  <td colspan="2" class="text-end">Total yang harus di bayar</td>
+                  <td>Rp {{ number_format($order->details->sum('odt_total'), 0, ',', '.') }}</td>
+              </tr>
+          </tfoot>
+      </table>
+  </div>
+  </div>
 
     <div class="card-body border-top p-4">
       <h5 class="fw-semibold mb-3">Alamat Penjemputan</h5>

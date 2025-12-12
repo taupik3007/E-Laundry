@@ -20,28 +20,36 @@ E-Laundry Garut | Tambah Pesanan
 
           {{-- Nomor Telepon --}}
           {{-- Layanan --}}
-          <div class="mb-4 row">
-            <label class="col-sm-3 col-form-label">Layanan</label>
-            <div class="col-sm-9">
-            <select id="service_id" name="service_id" class="form-control" required>
-              <option value="">-- Pilih Layanan --</option>
-              @foreach($services as $service)
-                <option value="{{ $service->lds_id }}">{{ $service->lds_name }}</option>
-              @endforeach
-            </select>
-          </div>
-          </div>
-
-          {{-- Paket --}}
-          <div class="mb-4 row">
-            <label class="col-sm-3 col-form-label">Paket Layanan</label>
-            <div class="col-sm-9">
-            <select id="package_id" name="package_id" class="form-control" required>
-              <option value="">-- Pilih Paket --</option>
-            </select>
-          </div>
-          </div>
-
+          <div id="order-details">
+            <div class="row mb-3 order-row">
+        
+                <label class="col-sm-3 col-form-label">Detail Layanan</label>
+        
+                <div class="col-sm-9">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-control service-select" name="service_id[]" class="form-control" required>
+                                <option value="">-- Pilih Layanan --</option>
+                                @foreach ($services as $item)
+                                    <option value="{{ $item->lds_id }}">{{ $item->lds_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+        
+                        <div class="col-md-4">
+                            <select class="form-control package-select" name="package_id[]" class="form-control" required>
+                                <option value="">-- Pilih Paket --</option>
+                            </select>
+                        </div>
+        
+                        <div class="col-md-1 d-flex align-items-center">
+                            <button type="button" class="btn btn-success btn-add-row">+</button>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
           {{-- Qty/Berat --}}
           {{-- <div class="mb-4 row">
             <label class="col-sm-3 col-form-label">Jumlah / Berat</label>
@@ -94,7 +102,7 @@ E-Laundry Garut | Tambah Pesanan
                 <option value="delivery">Diantar Laundry</option>
               </select>
             </div>
-          </div>
+          </div> 
 
           {{-- Alamat (Auto muncul jika perlu) --}}
           <div class="mb-4 row d-none" id="address_wrapper">
@@ -160,27 +168,28 @@ $('#pickup_method, #delivery_method').on('change', checkAddress);
 // =====================
 // AMBIL PAKET DARI AJAX
 // =====================
-$('#service_id').on('change', function() {
+// event perubahan service => load paket
+$(document).on("change", ".service-select", function () {
+    let row = $(this).closest(".order-row");
+    let serviceId = $(this).val();
+    let packageSelect = row.find(".package-select");
 
-    var serviceId = $(this).val();
-    $('#package_id').html('<option>Loading...</option>');
+    packageSelect.html("<option>Loading...</option>");
 
-    if (serviceId) {
-        $.ajax({
-            url: '/customer/laundry-order/' + serviceId + '/packages',
-            type: 'GET',
-            success: function(data) {
-                $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
-                $.each(data, function(i, pkg) {
-                    $('#package_id').append(`
-                        <option value="${pkg.ldp_id}" data-price="${pkg.ldp_price}">
-                          ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()} / ${pkg.ldp_unit}
-                        </option>
-                    `);
-                });
-            }
-        });
-    }
+    $.ajax({
+        url: "/customer/laundry-order/" + serviceId + "/packages",
+        type: "GET",
+        success: function (data) {
+            packageSelect.empty().append('<option value="">-- Pilih Paket --</option>');
+            $.each(data, function (i, pkg) {
+                packageSelect.append(`
+                    <option value="${pkg.ldp_id}" data-price="${pkg.ldp_price}">
+                        ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()}
+                    </option>
+                `);
+            });
+        }
+    });
 });
 
 
@@ -196,6 +205,27 @@ $('#service_id').on('change', function() {
 //         $('#total_price').val("Rp " + total.toLocaleString());
 //     }
 // });
+document.addEventListener('click', function(e) {
+        // tambah baris
+        if (e.target.classList.contains('btn-add-row')) {
+            let container = document.getElementById('order-details');
+            let newRow = container.querySelector('.order-row').cloneNode(true);
+    
+            newRow.querySelectorAll('select, input').forEach(el => el.value = '');
+    
+            container.appendChild(newRow);
+            refreshButtons();
+        }
+    
+        // hapus baris
+        if (e.target.classList.contains('btn-remove-row')) {
+            e.target.closest('.order-row').remove();
+            refreshButtons();
+        }
+    });
+    
+    // pertama kali jalankan
+    refreshButtons();
 </script>
 
 @endpush

@@ -111,49 +111,45 @@
 
   <div class="receipt-container">
     <div class="header">
-      <img src="https://cdn-icons-png.flaticon.com/512/891/891462.png">
+      <img src="{{ asset('assets/images/hero-img/laundry-basket.png')}}">
       <div class="title">Struk Pembayaran</div>
       <div style="font-size:12px; color:#555;">Laundry Bersih Selalu • RW 04</div>
     </div>
 
     <!-- Info Transaksi -->
     <div class="info-row">
-      <span>No. Pesanan</span>
-      <span>#ORD-2025-00123</span>
+      <span>No. Invoice</span>
+      <span>#{{ $payment->order->ord_invoice }}</span>
     </div>
     <div class="info-row">
       <span>Tanggal</span>
-      <span>25 Nov 2025</span>
+      <span>{{ \Carbon\Carbon::parse($payment->order->ord_created_at)->translatedFormat('d F Y') }}</span>
+      
     </div>
     <div class="info-row">
       <span>Pelanggan</span>
-      <span>Eka Wariah</span>
+      <span>{{ $payment->order->ord_customer_name }}</span>
     </div>
 
     <!-- Rincian Item -->
     <div class="section-title">Detail Pesanan</div>
 
     <div class="item">
-      <span>Cuci Kering</span>
-      <span>Rp 8.000</span>
+      <span>{{ $payment->order->service->lds_name ?? '-' }} {{ $payment->order->package->ldp_name ?? '-' }} {{ $payment->order->ord_quantity }} {{ $payment->order->package->ldp_unit ?? '-' }}</span>
+      <span>Rp {{ number_format($payment->order->ord_total, 0, ',', '.') }}</span>
     </div>
-    <div class="item">
-      <span>Lipat Premium</span>
-      <span>Rp 5.000</span>
-    </div>
-
     <div class="total-box">
       <div class="total-row">
         <span>Subtotal</span>
-        <span>Rp 13.000</span>
+        <span>Rp {{ number_format($payment->order->ord_total, 0, ',', '.') }}</span>
       </div>
       <div class="total-row">
         <span>Discount</span>
-        <span>Rp 0</span>
+        <span>Rp {{ number_format($payment->pym_discount ?? 0, 0, ',', '.') }}</span>
       </div>
       <div class="grand-total">
         <span>Total Bayar</span>
-        <span>Rp 13.000</span>
+        <span>Rp {{ number_format(($payment->order->ord_total - ($payment->pym_discount ?? 0)), 0, ',', '.') }}</span>
       </div>
     </div>
 
@@ -170,6 +166,12 @@
     </div>
 
   </div>
+
+  <script>
+    window.addEventListener("load", function() {
+        window.print(); // otomatis memunculkan print dialog
+    });
+  </script>
 
 </body>
 </html>

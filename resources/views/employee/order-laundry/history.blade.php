@@ -96,6 +96,7 @@ E-Laundry Garut | Daftar Pemesanan
             <th>Berat/Unit</th>
             <th>Total</th>
             <th>Tanggal Selesai</th>
+            <th>Aksi</th>
             
         </tr>
       </thead>
@@ -113,6 +114,7 @@ E-Laundry Garut | Daftar Pemesanan
             <th>Berat/Unit</th>
             <th>Total</th>
             <th>Tanggal Selesai</th>
+            <th>Aksi</th>
         </tr>
         <!-- end row -->
     </tfoot>

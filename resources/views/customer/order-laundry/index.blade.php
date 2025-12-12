@@ -53,10 +53,8 @@
                             <!-- start row -->
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama</th>
-                                <th>Layanan</th>
-                                <th>Paket Layanan</th>
-                                <th>Unit</th>
+                                <th>No. Invoice</th>
+                                <th>Total Harga</th>
                                 <th>Status</th>
                                 {{-- <th>Metode</th> --}}
                                 <th>Aksi</th>
@@ -67,10 +65,8 @@
                           @foreach ($orderlist as $no => $order)
                             <tr>
                               <td>{{ $no + 1 }}</td>
-                              <td>{{ $order->ord_customer_name}}</td>
-                              <td>{{ $order->service->lds_name ?? '-' }}</td>
-                              <td>{{ $order->package->ldp_name ?? '-' }}</td>
-                              <td>{{ $order->ord_quantity }} {{ $order->package->ldp_unit ?? '-' }}</td>
+                              <td>{{ $order->ord_invoice}}</td>
+                              <td>{{ $order->ord_total ?? '-' }}</td>
                               <td>{{ $order->ord_status ?? '-' }}</td>
                               {{-- <td>
                                 @if(in_array($order->ord_status, ['Menunggu', 'Dalam Penjemputan', 'proses']))
@@ -111,10 +107,8 @@
 
                             <tr>
                               <th width="10%">No</th>
-                                <th>Nama</th>
-                                <th>Layanan</th>
-                                <th>Paket Layanan</th>
-                                <th>Unit</th>
+                                <th>No. Invoice</th>
+                                <th>Total Harga</th>
                                 <th>Status</th>
                                 {{-- <th>Metode</th> --}}
                                 <th>Aksi</th>

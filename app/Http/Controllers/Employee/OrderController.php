@@ -7,6 +7,7 @@ use App\Models\LaundryPackage;
 use Illuminate\Http\Request;
 use App\Models\LaundryService;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Payment;
 use App\Models\User;
 use Midtrans\Config;
@@ -91,14 +92,34 @@ class OrderController extends Controller
 
 public function updateWeight(Request $request, $id)
 {
-    $order = Order::findOrFail($id);
-    $package = LaundryPackage::find($order->ord_packages_id);
+    $order = Order::with('details.package')->findOrFail($id);
 
-    $order->ord_quantity = $request->ord_quantity;
-    $order->ord_total  = $package->ldp_price * $request->ord_quantity;
-    $order->ord_status  = "proses";
+    $details = $request->input('details', []);
 
+    $grandTotal = 0;
 
+    foreach ($order->details as $detail) {
+
+        // Ambil qty baru
+        $newQty = $details[$detail->odt_id]['odt_quantity'] ?? $detail->odt_quantity;
+
+        // Update quantity
+        $detail->odt_quantity = $newQty;
+
+        // Harga tetap ambil dari package
+        $price = $detail->package->ldp_price;
+
+        // Hitung ulang total per item
+        $detail->odt_total = $price * $newQty;
+
+        $detail->save();
+
+        // Tambah ke grand total
+        $grandTotal += $detail->odt_total;
+    }
+
+    // Simpan grand total ke tabel orders
+    $order->ord_total = $grandTotal;
     $order->save();
 
     // dd($order);
@@ -141,20 +162,20 @@ public function updateWeight(Request $request, $id)
         }
     
         $package = LaundryPackage::find($request->package_id);
-        $total = $package->ldp_price * $request->quantity;
+        // $total = $package->ldp_price * $request->quantity;
         $order = Order::create([
             'ord_customer_id'  => $customerId,
             'ord_customer_name'=> $customerName,
             'ord_phone_number' => $request->ord_phone_number,
             'ord_invoice' => $invoice,
-            'ord_service_id' => $request->service_id,
-            'ord_packages_id' => $request->package_id,
-            'ord_quantity' => $request->quantity ?? null,
+            // 'ord_service_id' => $request->service_id,
+            // 'ord_packages_id' => $request->package_id,
+            // 'ord_quantity' => $request->quantity ?? null,
             'ord_delivery_method' => $request->delivery_method,
             'ord_address' => $request->address ?? null,
             'ord_status'  => 'proses',
             'ord_note' => $request->note ?? null,
-            'ord_total' => $total ?? null,
+            // 'ord_total' => $total ?? null,
         ]);
         // dd($request->ord_customer_id, $customerId, $customerName);
         $token = env('FONNTE_TOKEN'); // Taruh token di .env
@@ -177,6 +198,39 @@ public function updateWeight(Request $request, $id)
                 'error' => $response->body()
             ], 500);
         }
+
+         // 3. Ambil semua array detail
+    $services = $request->service_id;
+    $packages = $request->package_id;
+    $quantities = $request->quantity;
+
+    $grandTotal = 0;
+
+    foreach ($services as $i => $service) {
+
+        $package = LaundryPackage::find($packages[$i]);
+
+        $qty = $quantities[$i];
+        $price = $package->ldp_price;
+        $total = $qty * $price;
+
+        // simpan detail
+        OrderDetail::create([
+            'odt_order_id' => $order->ord_id,
+            'odt_service_id' => $service,
+            'odt_package_id' => $packages[$i],
+            'odt_quantity' => $qty,
+            'odt_price' => $price,
+            'odt_total' => $total,
+        ]);
+
+        $grandTotal += $total;
+    }
+
+    // 4. update total order
+    $order->update([
+        'ord_total' => $grandTotal
+    ]);
 
         // return response()->json([
         //     'status' => true,
@@ -387,8 +441,10 @@ if ($cashback < 0) {
   
 }
 
-public function receipt(){
-    return view('employee.order-laundry.payment-receipt');
+public function receipt($id){
+    $payment = Payment::with('order', 'order.customer')->findOrFail($id);
+
+    return view('employee.order-laundry.payment-receipt', compact('payment'));
 }
 
 
