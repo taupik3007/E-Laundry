@@ -5,7 +5,7 @@
 @endpush
 
 @section('title')
-    E-Laundry Garut | Dashboard
+    E-Laundry | Dashboard
 @endsection
 
 @section('content')
