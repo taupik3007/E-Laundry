@@ -173,56 +173,56 @@ document.addEventListener("DOMContentLoaded", function () {
     // =====================================
     // monthly-earning
     // =====================================
-    var options = {
-        chart: {
-            id: "monthly-earning",
-            type: "area",
-            height: 56,
-            sparkline: {
-                enabled: true,
-            },
-            group: 'sparklines',
-            fontFamily: "inherit",
-            foreColor: "#adb0bb",
-        },
-        series: [
-            {
-                name: 'monthly earnings',
-                color: "var(--bs-primary)",
-                data: [25, 66, 20, 40, 12, 58, 20],
-            },
-        ],
-        stroke: {
-            curve: "smooth",
-            width: 2,
-        },
-        fill: {
-            type: "gradient",
-            gradient: {
-                shadeIntensity: 0,
-                inverseColors: false,
-                opacityFrom: 0.10,
-                opacityTo: 0,
-                stops: [20, 180],
-            },
-        },
+    // var options = {
+    //     chart: {
+    //         id: "monthly-earning",
+    //         type: "area",
+    //         height: 56,
+    //         sparkline: {
+    //             enabled: true,
+    //         },
+    //         group: 'sparklines',
+    //         fontFamily: "inherit",
+    //         foreColor: "#adb0bb",
+    //     },
+    //     series: [
+    //         {
+    //             name: 'monthly earnings',
+    //             color: "var(--bs-primary)",
+    //             data: [25, 66, 20, 40, 12, 58, 20],
+    //         },
+    //     ],
+    //     stroke: {
+    //         curve: "smooth",
+    //         width: 2,
+    //     },
+    //     fill: {
+    //         type: "gradient",
+    //         gradient: {
+    //             shadeIntensity: 0,
+    //             inverseColors: false,
+    //             opacityFrom: 0.10,
+    //             opacityTo: 0,
+    //             stops: [20, 180],
+    //         },
+    //     },
 
 
-        markers: {
-            size: 0,
-        },
-        tooltip: {
-            theme: "dark",
-            fixed: {
-                enabled: true,
-                position: "right",
-            },
-            x: {
-                show: false,
-            },
-        },
-    };
-    new ApexCharts(document.querySelector("#monthly-earning"), options).render();
+    //     markers: {
+    //         size: 0,
+    //     },
+    //     tooltip: {
+    //         theme: "dark",
+    //         fixed: {
+    //             enabled: true,
+    //             position: "right",
+    //         },
+    //         x: {
+    //             show: false,
+    //         },
+    //     },
+    // };
+    // new ApexCharts(document.querySelector("#monthly-earning"), options).render();
 
 
     // =====================================
