@@ -14,6 +14,7 @@ use App\Http\Controllers\Employee\FinanceController;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardOwnerController;
 use App\Http\Controllers\Employee\DebtController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
@@ -44,9 +45,8 @@ Route::get('/employee/dashboard',[DashboardController::class, 'employeeDashboard
 Route::get('/customer/home', function () {
     return view('customer.home');
 })->name('customer.home');
-Route::get('/owner/dashboard', function () {
-    return view('owner.dashboard');
-})->name('owner.dashboard');
+Route::get('/owner/dashboard',[DashboardOwnerController::class, 'ownerDashboard'] )->name('owner.dashboard');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

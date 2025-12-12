@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    SITAW | Daftar Layanan
+    E-laundry | Daftar Harga Layanan
 @endsection
 
 @section('content')

@@ -6,7 +6,7 @@
 @endpush
 
 @section('title')
-    E-Laundry Garut | Daftar Pemesanan
+    E-Laundry | Daftar Pesanan
 @endsection
 
 @section('content')

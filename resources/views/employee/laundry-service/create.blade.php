@@ -5,7 +5,7 @@
 @endpush
 
 @section('title')
-    E-Laundry Garut | Tambah Layanan
+    E-Laundry | Tambah Layanan
 @endsection
 
 @section('content')
