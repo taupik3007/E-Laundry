@@ -187,6 +187,8 @@
                                         <a href="/employee/ordering/{{ $order->ord_id }}/destroy" class="btn btn-danger"
                                             data-confirm-delete="true">Delete</a>
 
+                                        <a href="/employee/ordering/{{ $order->ord_id }}/detail" class="btn btn-warning">Detail</a>
+
                                     </td>
                                 </tr>
                                 <!-- Modal Timbangan -->

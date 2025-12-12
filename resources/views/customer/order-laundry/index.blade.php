@@ -66,7 +66,7 @@
                             <tr>
                               <td>{{ $no + 1 }}</td>
                               <td>{{ $order->ord_invoice}}</td>
-                              <td>{{ $order->ord_total ?? '-' }}</td>
+                              <td>Rp {{ number_format($order->ord_total, 0, ',', '.') }}</td>
                               <td>{{ $order->ord_status ?? '-' }}</td>
                               {{-- <td>
                                 @if(in_array($order->ord_status, ['Menunggu', 'Dalam Penjemputan', 'proses']))

@@ -22,6 +22,7 @@ class OrderLaundryController extends Controller
     {
         $orderlist = Order::with(['service', 'package'])
         ->orderBy('ord_created_at', 'DESC')
+        ->where('ord_customer_id', auth()->user()->usr_id)
         ->whereIn('ord_status', ['menunggu penjemputan', 'dalam penjemputan', 'menunggu penyerahan', 'proses',  'menunggu pengantaran', 'dalam pengantaran', 'menunggu pengambilan'])
         ->get();
         $title = 'Delete User!';

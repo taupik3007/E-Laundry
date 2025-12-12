@@ -120,6 +120,9 @@ public function updateWeight(Request $request, $id)
 
     // Simpan grand total ke tabel orders
     $order->ord_total = $grandTotal;
+    $order->update([
+        'ord_status' => 'proses'
+    ]);
     $order->save();
 
     // dd($order);
@@ -229,7 +232,8 @@ public function updateWeight(Request $request, $id)
 
     // 4. update total order
     $order->update([
-        'ord_total' => $grandTotal
+        'ord_total' => $grandTotal,
+        'ord_status' => 'proses'
     ]);
 
         // return response()->json([
@@ -301,9 +305,12 @@ public function updateWeight(Request $request, $id)
     }
     
 
-    public function detail()
+    public function detail($id)
     {
-        return view('employee.order-laundry.detail');
+        $order = Order::with(['service', 'package'])
+        ->where('ord_id', $id)
+        ->firstOrFail();
+        return view('employee.order-laundry.detail', compact('order'));
     }
 
     /**
