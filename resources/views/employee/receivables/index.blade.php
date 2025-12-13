@@ -124,24 +124,35 @@ E-Laundry | Daftar Piutang
         </div>
     </div>
 </div>
-
 <script>
-function formatBayar{{ $payment->pym_id }}(input) {
-    let angka = input.value.replace(/[^0-9]/g, "");
-    if (!angka) angka = 0;
-    let total = {{ $payment->pym_debt_amount }};
-    if (angka > total) {
-        angka = total;
-        alert("Jumlah bayar tidak boleh lebih dari sisa utang");
-        input.value = "Rp " + angka.toLocaleString("id-ID"); // update input langsung
+    function formatBayar{{ $payment->pym_id }}(input) {
+        // ambil angka saja
+        let angka = input.value.replace(/[^0-9]/g, '');
+        let total = {{ $payment->pym_debt_amount }};
+    
+        let bayar = parseInt(angka) || 0;
+    
+        // 🔒 batas maksimal = sisa piutang
+        if (bayar > total) {
+            bayar = total;
+        }
+    
+        // format input bayar
+        if (bayar > 0) {
+            input.value = "Rp " + bayar.toLocaleString("id-ID");
+        } else {
+            input.value = "";
+        }
+    
+        // hitung sisa piutang
+        let sisa = total - bayar;
+    
+        document.getElementById("sisa{{ $payment->pym_id }}").value =
+            "Rp " + sisa.toLocaleString("id-ID");
     }
-    let sisa = total - angka;
+    </script>
+    
 
-    input.value = "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    document.getElementById("sisa{{ $payment->pym_id }}").value =
-        "Rp " + sisa.toLocaleString("id-ID");
-}
-</script>
 @endforeach
 @endsection
 

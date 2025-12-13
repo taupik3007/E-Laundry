@@ -289,6 +289,11 @@
                                                         <label>Kembalian</label>
                                                         <input type="text" class="form-control"
                                                             id="kembalian{{ $order->ord_id }}" readonly>
+                                                            <small id="infoPiutang{{ $order->ord_id }}"
+                                                                class="text-danger"
+                                                                style="display:none;">
+                                                             Total minus akan dimasukkan ke piutang
+                                                         </small>
                                                     </div>
 
                                                     <!-- SECTION QRIS -->
@@ -344,14 +349,14 @@
                                     
 
                                 <script>
-                                    function hitungKembalian{{ $order->ord_id }}() {
-                                        let total = {{ $order->ord_total }};
-                                        let bayar = parseInt(document.getElementById("jumlahBayar{{ $order->ord_id }}").value) || 0;
-                                        let kembali = bayar - total;
+                                    // function hitungKembalian{{ $order->ord_id }}() {
+                                    //     let total = {{ $order->ord_total }};
+                                    //     let bayar = parseInt(document.getElementById("jumlahBayar{{ $order->ord_id }}").value) || 0;
+                                    //     let kembali = bayar - total;
 
-                                        document.getElementById("kembalian{{ $order->ord_id }}").value =
-                                            "Rp " + kembali.toLocaleString("id-ID");
-                                    }
+                                    //     document.getElementById("kembalian{{ $order->ord_id }}").value =
+                                    //         "Rp " + kembali.toLocaleString("id-ID");
+                                    // }
 
                                     function toggleMetode{{ $order->ord_id }}(select) {
                                         let cash = document.getElementById("cashSection{{ $order->ord_id }}");
@@ -369,22 +374,60 @@
                                         }
                                     }
 
+                                    // function formatBayar{{ $order->ord_id }}(input) {
+                                    //     let angka = input.value.replace(/[^0-9]/g, '');
+                                    //     if (angka) {
+                                    //         input.value = "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                    //     } else {
+                                    //         input.value = "";
+                                    //     }
+
+                                    //     let total = {{ $order->ord_total }};
+                                    //     let bayar = parseInt(angka) || 0;
+                                    //     let kembali = bayar - total;
+
+                                    //     document.getElementById("kembalian{{ $order->ord_id }}").value =
+                                    //         "Rp " + kembali.toLocaleString("id-ID");
+                                    // }
+                                    
+                                </script>
+                                <script>
                                     function formatBayar{{ $order->ord_id }}(input) {
+                                        // ambil angka saja
                                         let angka = input.value.replace(/[^0-9]/g, '');
-                                        if (angka) {
-                                            input.value = "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                        let total = {{ $order->ord_total }};
+                                    
+                                        let bayar = parseInt(angka) || 0;
+                                    
+                                        // 🔒 batas maksimal = total harga
+                                        if (bayar > total) {
+                                            bayar = total;
+                                        }
+                                    
+                                        // format input jumlah bayar
+                                        if (bayar > 0) {
+                                            input.value = "Rp " + bayar.toLocaleString("id-ID");
                                         } else {
                                             input.value = "";
                                         }
-
-                                        let total = {{ $order->ord_total }};
-                                        let bayar = parseInt(angka) || 0;
+                                    
+                                        // ➖ kembalian boleh minus (utang)
                                         let kembali = bayar - total;
-
-                                        document.getElementById("kembalian{{ $order->ord_id }}").value =
-                                            "Rp " + kembali.toLocaleString("id-ID");
+                                    
+                                        let kembalianInput = document.getElementById("kembalian{{ $order->ord_id }}");
+                                        let infoPiutang   = document.getElementById("infoPiutang{{ $order->ord_id }}");
+                                        if (kembali < 0) {
+                                            kembalianInput.value =
+                                                "- Rp " + Math.abs(kembali).toLocaleString("id-ID");
+                                            infoPiutang.style.display = "block";
+                                        } else {
+                                            kembalianInput.value =
+                                                "Rp " + kembali.toLocaleString("id-ID");
+                                            infoPiutang.style.display = "none";
+                                        }
                                     }
-                                </script>
+                                    </script>
+                                    
                             @endforeach
                         </tbody>
                         <tfoot>
