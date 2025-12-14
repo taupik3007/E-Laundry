@@ -72,7 +72,7 @@
                             <tr>
                                 <th width="10%">No</th>
                                 <th>Invoice</th>
-                                <th width="20%" >Nama Customer</th>
+                                <th width="20%">Nama Customer</th>
                                 <th>Total</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -87,7 +87,7 @@
                                     <td>{{ $no + 1 }}</td>
                                     <td>{{ $order->ord_invoice ?? '-' }}</td>
                                     <td>{{ $order->ord_customer_name }}</td>
-                                   
+
                                     <td>
                                         Rp
                                         {{ number_format($order->ord_total ?? $order->details->sum('odt_total'), 0, ',', '.') }}
@@ -187,68 +187,68 @@
                                         <a href="/employee/ordering/{{ $order->ord_id }}/destroy" class="btn btn-danger"
                                             data-confirm-delete="true">Delete</a>
 
-                                        <a href="/employee/ordering/{{ $order->ord_id }}/detail" class="btn btn-warning">Detail</a>
+                                        <a href="/employee/ordering/{{ $order->ord_id }}/detail"
+                                            class="btn btn-warning">Detail</a>
 
                                     </td>
                                 </tr>
                                 <!-- Modal Timbangan -->
-<div class="modal fade" id="modalTimbang{{ $order->ord_id }}">
-    <div class="modal-dialog">
-        <div class="modal-content">
+                                <div class="modal fade" id="modalTimbang{{ $order->ord_id }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
 
-            <form method="POST" action="{{ route('order.updateWeight', $order->ord_id) }}">
-                @csrf
-                @method('PUT')
+                                            <form method="POST"
+                                                action="{{ route('order.updateWeight', $order->ord_id) }}">
+                                                @csrf
+                                                @method('PUT')
 
-                <div class="modal-header">
-                    <h5 class="modal-title">Input Timbangan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Input Timbangan</h5>
+                                                    <button type="button" class="btn-close"
+                                                        data-bs-dismiss="modal"></button>
+                                                </div>
 
-                <div class="modal-body">
+                                                <div class="modal-body">
 
-                    @foreach ($order->details as $detail)
-                        <div class="mb-3 p-2 border rounded">
-                            <p class="fw-bold">{{ $detail->service->lds_name }} {{ $detail->package->ldp_name }}</p>
+                                                    @foreach ($order->details as $detail)
+                                                        <div class="mb-3 p-2 border rounded">
+                                                            <p class="fw-bold">{{ $detail->service->lds_name }}
+                                                                {{ $detail->package->ldp_name }}</p>
 
-                            <label>Jumlah ({{ $detail->package->ldp_unit }})</label>
-                            <input type="number"
-                                   step="0.1"
-                                   id="qty{{ $detail->odt_id }}"
-                                   name="details[{{ $detail->odt_id }}][odt_quantity]"
-                                   class="form-control mb-2 qty-input-{{ $order->ord_id }}"
-                                   value="{{ $detail->odt_quantity }}"
-                                   data-original="{{ $detail->odt_quantity }}"
-                                   data-id="{{ $detail->odt_id }}"
-                                   data-price="{{ $detail->odt_price }}">
+                                                            <label>Jumlah ({{ $detail->package->ldp_unit }})</label>
+                                                            <input type="number" step="0.1"
+                                                                id="qty{{ $detail->odt_id }}"
+                                                                name="details[{{ $detail->odt_id }}][odt_quantity]"
+                                                                class="form-control mb-2 qty-input-{{ $order->ord_id }}"
+                                                                value="{{ $detail->odt_quantity }}"
+                                                                data-original="{{ $detail->odt_quantity }}"
+                                                                data-id="{{ $detail->odt_id }}"
+                                                                data-price="{{ $detail->odt_price }}">
 
-                            <label>Harga per {{ $detail->package->ldp_unit }}</label>
-                            <input type="text"
-                                   class="form-control mb-2"
-                                   value="Rp {{ number_format($detail->odt_price, 0, ',', '.') }}"
-                                   readonly>
-                        </div>
-                    @endforeach
+                                                            <label>Harga per {{ $detail->package->ldp_unit }}</label>
+                                                            <input type="text" class="form-control mb-2"
+                                                                value="Rp {{ number_format($detail->odt_price, 0, ',', '.') }}"
+                                                                readonly>
+                                                        </div>
+                                                    @endforeach
 
-                    <label>Total Harga</label>
-                    <input type="text"
-                        id="grandTotal{{ $order->ord_id }}"
-                        class="form-control"
-                        readonly>
+                                                    <label>Total Harga</label>
+                                                    <input type="text" id="grandTotal{{ $order->ord_id }}"
+                                                        class="form-control" readonly>
 
-                </div>
+                                                </div>
 
-                <div class="modal-footer">
-                    <button class="btn btn-primary">Simpan</button>
-                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-primary">Simpan</button>
+                                                </div>
 
-            </form>
+                                            </form>
 
-        </div>
-    </div>
-</div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                
+
                                 <!-- MODAL PEMBAYARAN -->
                                 <!-- MODAL PEMBAYARAN -->
                                 <div class="modal fade" id="modalBayar{{ $order->ord_id }}">
@@ -289,11 +289,10 @@
                                                         <label>Kembalian</label>
                                                         <input type="text" class="form-control"
                                                             id="kembalian{{ $order->ord_id }}" readonly>
-                                                            <small id="infoPiutang{{ $order->ord_id }}"
-                                                                class="text-danger"
-                                                                style="display:none;">
-                                                             Total minus akan dimasukkan ke piutang
-                                                         </small>
+                                                        <small id="infoPiutang{{ $order->ord_id }}" class="text-danger"
+                                                            style="display:none;">
+                                                            Total minus akan dimasukkan ke piutang
+                                                        </small>
                                                     </div>
 
                                                     <!-- SECTION QRIS -->
@@ -332,21 +331,22 @@
                                 <script>
                                     function hitTotal{{ $order->ord_id }}() {
                                         let grandTotal = 0;
-                                    
+
                                         @foreach ($order->details as $detail)
                                             let qty{{ $detail->odt_id }} = parseFloat(document.getElementById("qty{{ $detail->odt_id }}").value) || 0;
-                                            let price{{ $detail->odt_id }} = parseFloat(document.getElementById("price{{ $detail->odt_id }}").value) || 0;
+                                            let price{{ $detail->odt_id }} = parseFloat(document.getElementById("price{{ $detail->odt_id }}")
+                                                .value) || 0;
                                             grandTotal += qty{{ $detail->odt_id }} * price{{ $detail->odt_id }};
                                         @endforeach
-                                    
+
                                         document.getElementById("grandTotal{{ $order->ord_id }}").value =
                                             "Rp " + grandTotal.toLocaleString("id-ID");
                                     }
-                                    
+
                                     // Jalankan saat modal pertama kali dibuka
                                     hitTotal{{ $order->ord_id }}();
-                                    </script>
-                                    
+                                </script>
+
 
                                 <script>
                                     // function hitungKembalian{{ $order->ord_id }}() {
@@ -389,33 +389,32 @@
                                     //     document.getElementById("kembalian{{ $order->ord_id }}").value =
                                     //         "Rp " + kembali.toLocaleString("id-ID");
                                     // }
-                                    
                                 </script>
                                 <script>
                                     function formatBayar{{ $order->ord_id }}(input) {
                                         // ambil angka saja
                                         let angka = input.value.replace(/[^0-9]/g, '');
                                         let total = {{ $order->ord_total }};
-                                    
+
                                         let bayar = parseInt(angka) || 0;
-                                    
+
                                         // 🔒 batas maksimal = total harga
                                         if (bayar > total) {
                                             bayar = total;
                                         }
-                                    
+
                                         // format input jumlah bayar
                                         if (bayar > 0) {
                                             input.value = "Rp " + bayar.toLocaleString("id-ID");
                                         } else {
                                             input.value = "";
                                         }
-                                    
+
                                         // ➖ kembalian boleh minus (utang)
                                         let kembali = bayar - total;
-                                    
+
                                         let kembalianInput = document.getElementById("kembalian{{ $order->ord_id }}");
-                                        let infoPiutang   = document.getElementById("infoPiutang{{ $order->ord_id }}");
+                                        let infoPiutang = document.getElementById("infoPiutang{{ $order->ord_id }}");
                                         if (kembali < 0) {
                                             kembalianInput.value =
                                                 "- Rp " + Math.abs(kembali).toLocaleString("id-ID");
@@ -426,8 +425,7 @@
                                             infoPiutang.style.display = "none";
                                         }
                                     }
-                                    </script>
-                                    
+                                </script>
                             @endforeach
                         </tbody>
                         <tfoot>
@@ -548,48 +546,47 @@
         });
     </script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-        
+        document.addEventListener("DOMContentLoaded", function() {
+
             // Loop tiap modal (tiap order)
             document.querySelectorAll("[id^='modalTimbang']").forEach(modal => {
-        
+
                 let orderId = modal.id.replace("modalTimbang", "");
-        
+
                 // Saat modal dibuka
-                modal.addEventListener("show.bs.modal", function () {
-        
+                modal.addEventListener("show.bs.modal", function() {
+
                     // Reset semua nilai ke original
                     modal.querySelectorAll(".qty-input-" + orderId).forEach(input => {
                         input.value = input.dataset.original;
                     });
-        
+
                     // Hitung ulang total
                     hitTotal(orderId);
                 });
-        
+
                 // Saat input berubah
                 modal.querySelectorAll(".qty-input-" + orderId).forEach(input => {
                     input.addEventListener("input", () => hitTotal(orderId));
                 });
-        
+
             });
-        
+
         });
-        
+
         // Fungsi hitung total
         function hitTotal(orderId) {
             let total = 0;
-        
+
             document.querySelectorAll("#modalTimbang" + orderId + " .qty-input-" + orderId)
                 .forEach(input => {
                     let qty = parseFloat(input.value) || 0;
                     let price = parseFloat(input.dataset.price) || 0;
                     total += qty * price;
                 });
-        
+
             document.getElementById("grandTotal" + orderId).value =
                 "Rp " + total.toLocaleString("id-ID");
         }
-        </script>
-        
+    </script>
 @endpush

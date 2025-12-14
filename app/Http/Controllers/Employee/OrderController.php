@@ -180,28 +180,10 @@ public function updateWeight(Request $request, $id)
             'ord_note' => $request->note ?? null,
             // 'ord_total' => $total ?? null,
         ]);
-        // dd($request->ord_customer_id, $customerId, $customerName);
-        $token = env('FONNTE_TOKEN'); // Taruh token di .env
-        $message = "*INFORMASI PESANAN*\n\n"
-    . "Invoice: *{$order->ord_invoice}*\n"
-    . "Total: *Rp {$order->ord_total}*\n\n"
-    . "Pesanan Anda sedang diproses. Terima kasih telah berbelanja ";
-        $response = Http::withHeaders([
-            'Authorization' => $token,
-        ])->post('https://api.fonnte.com/send', [
-            'target' => $order->ord_phone_number,
-            'message' => $message,
-            'countryCode' => '62',
-        ]);
+        // $order = Order::findOrfail($order->ord_id);
+        // dd($order);
 
-        if ($response->failed()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Gagal mengirim pesan',
-                'error' => $response->body()
-            ], 500);
-        }
-
+       
          // 3. Ambil semua array detail
     $services = $request->service_id;
     $packages = $request->package_id;
@@ -235,6 +217,43 @@ public function updateWeight(Request $request, $id)
         'ord_total' => $grandTotal,
         'ord_status' => 'proses'
     ]);
+
+
+     // dd($request->ord_customer_id, $customerId, $customerName);
+        $token = env('FONNTE_TOKEN'); // Taruh token di .env
+        $packageText = '';
+$no = 1;
+        foreach ($order->details as $detail) {
+         $packageText .= $no . ". "
+        . $detail->package->ldp_name 
+        . " x" . $detail->odt_quantity
+        . " - Rp " . number_format($detail->odt_total, 0, ',', '.')
+        . "\n";
+        $no++;
+        }
+        // dd($order->ord_total);
+        $message = "*INFORMASI PESANAN*\n\n"
+    . "Invoice: *{$order->ord_invoice}*\n"
+    . "Rincian*\n\n"
+    . $packageText . "\n"
+    . "Total: *Rp {$order->ord_total}*\n\n"
+    . "Pesanan Anda sedang diproses. Terima kasih telah berbelanja ";
+        $response = Http::withHeaders([
+            'Authorization' => $token,
+        ])->post('https://api.fonnte.com/send', [
+            'target' => $order->ord_phone_number,
+            'message' => $message,
+            'countryCode' => '62',
+        ]);
+
+        if ($response->failed()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal mengirim pesan',
+                'error' => $response->body()
+            ], 500);
+        }
+
 
         // return response()->json([
         //     'status' => true,

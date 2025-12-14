@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
    function employeeDashboard(){
+    $orderList = Order::with(['service', 'package'])
+    ->whereNotIn('ord_status', ['selesai', 'dibatalkan', 'belum lunas'])
+    ->orderBy('ord_created_at', 'DESC')
+    ->get();
 
     $service = LaundryService::count();
     $order = Order::whereNotIn('ord_status', ['selesai', 'dibatalkan'])->count();
@@ -149,7 +153,8 @@ class DashboardController extends Controller
         'percentage',
         'weeks',           // → label minggu
         'totals',          // tetap tidak diubah (boleh walaupun redundant)
-        'growth'
+        'growth',
+        'orderList'
     ]));
 }
 

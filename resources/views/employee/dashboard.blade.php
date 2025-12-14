@@ -296,16 +296,145 @@
                         <thead>
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama Customer</th>
-                                <th>Jenis Layanan</th>
-                                <th>Berat/Unit</th>
+                                <th>Invoice</th>
+                                <th>Nama</th>
                                 <th>Total</th>
-                                <th>Tanggal Selesai</th>
+                                <th>Aksi</th>
+                                
 
                             </tr>
                         </thead>
                         <tbody id="order-history-body">
-                            {{-- @include('employee.order-laundry.history-table') --}}
+                           @foreach ($orderList as $no => $order)
+                                <tr>
+                                    <td>{{ $no + 1 }}</td>
+                                    <td>{{ $order->ord_invoice ?? '-' }}</td>
+                                    <td>{{ $order->ord_customer_name }}</td>
+
+                                    <td>
+                                        Rp
+                                        {{ number_format($order->ord_total ?? $order->details->sum('odt_total'), 0, ',', '.') }}
+
+                                    </td>
+                                    
+
+                                    <td id="button-{{ $order->ord_id }}">
+                                    
+
+                                        <a href="/employee/ordering/{{ $order->ord_id }}/detail"
+                                            class="btn btn-warning">Detail</a>
+
+                                    </td>
+                                </tr>
+                                <!-- Modal Timbangan -->
+                               
+
+
+                                <!-- MODAL PEMBAYARAN -->
+                                <!-- MODAL PEMBAYARAN -->
+                           
+
+
+                                
+                                <script>
+                                    function hitTotal{{ $order->ord_id }}() {
+                                        let grandTotal = 0;
+
+                                        @foreach ($order->details as $detail)
+                                            let qty{{ $detail->odt_id }} = parseFloat(document.getElementById("qty{{ $detail->odt_id }}").value) || 0;
+                                            let price{{ $detail->odt_id }} = parseFloat(document.getElementById("price{{ $detail->odt_id }}")
+                                                .value) || 0;
+                                            grandTotal += qty{{ $detail->odt_id }} * price{{ $detail->odt_id }};
+                                        @endforeach
+
+                                        document.getElementById("grandTotal{{ $order->ord_id }}").value =
+                                            "Rp " + grandTotal.toLocaleString("id-ID");
+                                    }
+
+                                    // Jalankan saat modal pertama kali dibuka
+                                    hitTotal{{ $order->ord_id }}();
+                                </script>
+
+
+                                <script>
+                                    // function hitungKembalian{{ $order->ord_id }}() {
+                                    //     let total = {{ $order->ord_total }};
+                                    //     let bayar = parseInt(document.getElementById("jumlahBayar{{ $order->ord_id }}").value) || 0;
+                                    //     let kembali = bayar - total;
+
+                                    //     document.getElementById("kembalian{{ $order->ord_id }}").value =
+                                    //         "Rp " + kembali.toLocaleString("id-ID");
+                                    // }
+
+                                    function toggleMetode{{ $order->ord_id }}(select) {
+                                        let cash = document.getElementById("cashSection{{ $order->ord_id }}");
+                                        let qris = document.getElementById("qrisSection{{ $order->ord_id }}");
+
+                                        if (select.value === "cash") {
+                                            cash.style.display = "block";
+                                            qris.style.display = "none";
+                                        } else if (select.value === "qris") {
+                                            cash.style.display = "none";
+                                            qris.style.display = "block";
+                                        } else {
+                                            cash.style.display = "none";
+                                            qris.style.display = "none";
+                                        }
+                                    }
+
+                                    // function formatBayar{{ $order->ord_id }}(input) {
+                                    //     let angka = input.value.replace(/[^0-9]/g, '');
+                                    //     if (angka) {
+                                    //         input.value = "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                                    //     } else {
+                                    //         input.value = "";
+                                    //     }
+
+                                    //     let total = {{ $order->ord_total }};
+                                    //     let bayar = parseInt(angka) || 0;
+                                    //     let kembali = bayar - total;
+
+                                    //     document.getElementById("kembalian{{ $order->ord_id }}").value =
+                                    //         "Rp " + kembali.toLocaleString("id-ID");
+                                    // }
+                                </script>
+                                <script>
+                                    function formatBayar{{ $order->ord_id }}(input) {
+                                        // ambil angka saja
+                                        let angka = input.value.replace(/[^0-9]/g, '');
+                                        let total = {{ $order->ord_total }};
+
+                                        let bayar = parseInt(angka) || 0;
+
+                                        // 🔒 batas maksimal = total harga
+                                        if (bayar > total) {
+                                            bayar = total;
+                                        }
+
+                                        // format input jumlah bayar
+                                        if (bayar > 0) {
+                                            input.value = "Rp " + bayar.toLocaleString("id-ID");
+                                        } else {
+                                            input.value = "";
+                                        }
+
+                                        // ➖ kembalian boleh minus (utang)
+                                        let kembali = bayar - total;
+
+                                        let kembalianInput = document.getElementById("kembalian{{ $order->ord_id }}");
+                                        let infoPiutang = document.getElementById("infoPiutang{{ $order->ord_id }}");
+                                        if (kembali < 0) {
+                                            kembalianInput.value =
+                                                "- Rp " + Math.abs(kembali).toLocaleString("id-ID");
+                                            infoPiutang.style.display = "block";
+                                        } else {
+                                            kembalianInput.value =
+                                                "Rp " + kembali.toLocaleString("id-ID");
+                                            infoPiutang.style.display = "none";
+                                        }
+                                    }
+                                </script>
+                            @endforeach
                         </tbody>
                         <tfoot>
                             <!-- start row -->
@@ -313,11 +442,11 @@
 
                             <tr>
                                 <th width="10%">No</th>
-                                <th>Nama Customer</th>
-                                <th>Jenis Layanan</th>
-                                <th>Berat/Unit</th>
+                                <th>Invoice</th>
+                                <th>Nama</th>
                                 <th>Total</th>
-                                <th>Tanggal Selesai</th>
+                                <th>Aksi</th>
+
                             </tr>
                             <!-- end row -->
                         </tfoot>
