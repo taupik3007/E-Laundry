@@ -415,7 +415,12 @@ $no = 1;
     // ======================== ||
 
     $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
+    
     $paid   = $order->ord_total;
+    if($amount >= $paid ){
+        $amount = $paid;
+    }
+
 
     $cashback = $amount - $paid;
 

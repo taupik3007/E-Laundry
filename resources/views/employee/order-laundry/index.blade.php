@@ -399,9 +399,9 @@
                                         let bayar = parseInt(angka) || 0;
 
                                         // 🔒 batas maksimal = total harga
-                                        if (bayar > total) {
-                                            bayar = total;
-                                        }
+                                        // if (bayar > total) {
+                                        //     bayar = total;
+                                        // }
 
                                         // format input jumlah bayar
                                         if (bayar > 0) {
