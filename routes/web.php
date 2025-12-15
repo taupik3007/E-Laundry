@@ -38,7 +38,7 @@ Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
 Route::get('/employee/dashboard',[DashboardController::class, 'employeeDashboard'] )->name('employee.dashboard');
