@@ -100,7 +100,7 @@
                     </a>
                 </li>
 
-                <!-- KELUAR -->
+                {{-- <!-- KELUAR -->
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">KELUAR</span>
@@ -114,7 +114,7 @@
                             <span class="hide-menu ms-1">Keluar</span>
                         </button>
                     </form>
-                </li>
+                </li> --}}
             </ul>
         </nav>
 
