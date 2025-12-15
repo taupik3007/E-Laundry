@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Payment;
+use App\Models\ReceivablePayments;
 use Illuminate\Http\Request;
 
 class DebtController extends Controller
@@ -84,6 +86,15 @@ return view('employee.receivables.index', compact('debts'));
     }
     $order->save();
 
+    ReceivablePayments::create([
+        'rp_order_id'    => $order->ord_id,
+        'rp_amount_paid' => $amountPay,
+        'rp_remaining'   => $payment->pym_debt_amount,
+        'rp_paid_at'     => now(),
+        'rp_created_by'  => auth()->id(),
+        'rp_sys_note'    => 'Pembayaran cicilan utang',
+    ]);
+
     return redirect()->route('debt.index')->with('success', 'Pembayaran berhasil diperbarui!');
 
     }
@@ -91,8 +102,61 @@ return view('employee.receivables.index', compact('debts'));
     /**
      * Remove the specified resource from storage.
      */
+
+     public function receipt($id){
+        $payment = Payment::with('order', 'order.customer')->findOrFail($id);
+        $order = Order::with(['service', 'package'])
+        ->where('ord_id', $id)
+        ->firstOrFail();
+    
+        return view('employee.receivables.receipt', compact('payment', 'order'));
+    }
+
     public function destroy(string $id)
     {
         //
     }
+
+    public function history(Request $request)
+    {
+        // 1. query builder dulu (BELUM get)
+    $query = ReceivablePayments::with([
+        'order.customer',
+        'order.payment'
+    ]);
+
+    // 2. filter tanggal (PAKAI rp_paid_at)
+    if ($request->start_date && $request->end_date) {
+        $query->whereBetween('rp_paid_at', [
+            $request->start_date . ' 00:00:00',
+            $request->end_date . ' 23:59:59'
+        ]);
+    }
+
+    // 3. baru get
+    $history = $query
+        ->orderBy('rp_paid_at', 'desc')
+        ->get();
+
+    return view('employee.receivables.history', compact('history'));
+        // $query = ReceivablePayments::with([
+        //     'order.customer',
+        //     'order.payment'
+        // ])
+        // ->orderBy('rp_paid_at', 'desc')
+        // ->get();
+
+        // if ($request->start_date && $request->end_date) {
+        //     $query->whereBetween('ord_created_at', [
+        //         $request->start_date . " 00:00:00",
+        //         $request->end_date . " 23:59:59"
+        //     ]);
+        //     $history = $query->orderBy('ord_created_at', 'desc')->get();
+        // }
+        
+    
+        // return view('employee.receivables.history',compact('history'));
+        
+    }
+   
 }

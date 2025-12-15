@@ -65,7 +65,14 @@
                     <a class="sidebar-link {{ request()->is('customer/debt') ? 'active' : '' }}"
                         href="/customer/debt">
                         <span><i class="ti ti-cash"></i></span>
-                        <span class="hide-menu">Piutang</span>
+                        <span class="hide-menu">Hutang</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link"
+                        href="/customer/debt/history">
+                        <span><i class="ti ti-cash"></i></span>
+                        <span class="hide-menu">History Pembayaran</span>
                     </a>
                 </li>
                  

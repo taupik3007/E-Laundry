@@ -85,6 +85,13 @@
                         <span class="hide-menu">Piutang</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link"
+                        href="/employee/debt/history">
+                        <span><i class="ti ti-cash"></i></span>
+                        <span class="hide-menu">History Piutang</span>
+                    </a>
+                </li>
 
                 <!-- LAPORAN -->
                 <li class="nav-small-cap">

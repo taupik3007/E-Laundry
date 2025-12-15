@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
+use App\Models\ReceivablePayments;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class CustomerController extends Controller
@@ -103,4 +105,34 @@ public function update(Request $request, string $id)
     return response()->json(['success' => true]);
 }
 
+public function history(Request $request)
+    {
+        $customerId = Auth::user()->id; 
+        // kalau pakai tabel customer sendiri:
+        // $customerId = Auth::user()->customer_id;
+
+        $query = ReceivablePayments::with([
+            'order.customer',
+            'order.payment'
+        ])
+        ->whereHas('order', function ($q) use ($customerId) {
+            $q->where('ord_customer_id', $customerId);
+        });
+
+        // filter tanggal cicilan
+        if ($request->start_date && $request->end_date) {
+            $query->whereBetween('rp_paid_at', [
+                $request->start_date . ' 00:00:00',
+                $request->end_date . ' 23:59:59'
+            ]);
+        }
+
+        $history = $query
+            ->orderBy('rp_paid_at', 'desc')
+            ->get();
+
+        return view('customer.receivables.history', compact('history'));
+    }
 }
+
+

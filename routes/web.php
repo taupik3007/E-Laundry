@@ -122,6 +122,8 @@ Route::delete('/employee/price-service/{id}/destroy', [PriceServiceController::c
 
 Route::get('/employee/debt', [DebtController::class, 'index'])->name('debt.index');
 Route::put('/employee/debt/{id}', [DebtController::class, 'update'])->name('debt.update');
+Route::get('/employee/debt/{id}/receipt', [DebtController::class, 'receipt'])->name('debt.receipt');
+Route::get('/employee/debt/history', [DebtController::class, 'history'])->name('debt.history');
 
 Route::get('/employee/wagw', [MessageController::class, 'wagw'])->name('wagw');
 Route::post('/employee/wagw/send', [MessageController::class, 'send'])->name('wagw.send');
@@ -204,6 +206,7 @@ Route::get('/customer/laundry-order/history/{id}/detail', [OrderLaundryControlle
 
 Route::get('/customer/profile', [ProfileController::class, 'edit_photo'])->name('customer.profile.edit');
 Route::patch('/customer/profile', [ProfileController::class, 'update_photo'])->name('customer.profile.update');
+Route::get('/customer/debt/history', [DebtCustController::class, 'history'])->name('customer.history');
 });
 
 
