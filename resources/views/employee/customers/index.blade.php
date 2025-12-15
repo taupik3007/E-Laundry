@@ -55,7 +55,7 @@
                                 <th>Email</th>
                                 <th>Tanggal Registrasi</th>
                                 <th>Status</th>
-                                <th>Aksi</th>
+                                {{-- <th>Aksi</th> --}}
 
                             </tr>
                             <!-- end row -->
@@ -77,11 +77,11 @@
                                             </label>
                                         </div>
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         <a href="/employee/customers/{{ $customer->usr_id }}/destroy"
                                             class="btn btn-danger" data-confirm-delete="true">Delete</a>
 
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>
@@ -95,7 +95,7 @@
                                 <th>Email</th>
                                 <th>Tanggal Registrasi</th>
                                 <th>Status</th>
-                                <th>Aksi</th>
+                                {{-- <th>Aksi</th> --}}
                             </tr>
                             <!-- end row -->
                         </tfoot>
