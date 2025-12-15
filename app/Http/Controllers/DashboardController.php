@@ -21,14 +21,14 @@ class DashboardController extends Controller
     $order = Order::whereNotIn('ord_status', ['selesai', 'dibatalkan'])->count();
     $orderDone = Order::whereNotIn('ord_status', ['dibatalkan'])->count();
 
-    $todaySales = Payment::where('pym_payment_status', 1)
-        ->whereDate('pym_created_at', today())
-        ->sum('pym_amount');
+    $todaySales =  Payment::whereDate('pym_paid_at', Carbon::today())
+      ->where('pym_amount', '>', 0)      // sudah ada pembayaran
+      ->sum('pym_amount');
 
-    $monthlySales = Payment::where('pym_payment_status', 1)
-        ->whereMonth('pym_created_at', now()->month)
-        ->whereYear('pym_created_at', now()->year)
-        ->sum('pym_amount');
+    $monthlySales = Payment::where('pym_amount', '>', 0)
+      ->whereMonth('pym_paid_at', now()->month)
+      ->whereYear('pym_paid_at', now()->year)
+      ->sum('pym_amount');
 
     $creditCount = Payment::where('pym_payment_status', 0)->count();
     $credit      = Payment::where('pym_payment_status', 0)->sum('pym_debt_amount');
