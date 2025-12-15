@@ -234,10 +234,10 @@ $no = 1;
         // dd($order->ord_total);
         $message = "*INFORMASI PESANAN*\n\n"
     . "Invoice: *{$order->ord_invoice}*\n"
-    . "Rincian*\n\n"
+    . "Rincian\n\n"
     . $packageText . "\n"
     . "Total: *Rp {$order->ord_total}*\n\n"
-    . "Pesanan Anda sedang diproses. Terima kasih telah berbelanja ";
+    . "Pesanan Anda sedang diproses. Terima kasih telah Mempercayakan kepada Garut Laundry ";
         $response = Http::withHeaders([
             'Authorization' => $token,
         ])->post('https://api.fonnte.com/send', [
@@ -449,6 +449,43 @@ $no = 1;
         $order->update([
             'ord_status' => 'selesai'
         ]);
+
+        // dd($order);
+         $token = env('FONNTE_TOKEN'); // Taruh token di .env
+        $packageText = '';
+$no = 1;
+        foreach ($order->details as $detail) {
+         $packageText .= $no . ". "
+        . $detail->package->ldp_name 
+        . " x" . $detail->odt_quantity
+        . " - Rp " . number_format($detail->odt_total, 0, ',', '.')
+        . "\n";
+        $no++;
+        }
+        // dd($order->ord_total);
+        $message = "*PESANAN SELESAI*\n\n"
+    . "Invoice: *{$order->ord_invoice}*\n"
+    . "Rincian\n\n"
+    . $packageText . "\n"
+    . "Total: *Rp {$order->ord_total}*\n\n"
+    . "Pesanan Anda Telah Selesai. Terima kasih telah Mempercayakan kepada Garut Laundry ";
+        $response = Http::withHeaders([
+            'Authorization' => $token,
+        ])->post('https://api.fonnte.com/send', [
+            'target' => preg_replace('/[^0-9]/', '', $order->ord_phone_number),
+            'message' => $message,
+            'countryCode' => '62',
+        ]);
+
+        if ($response->failed()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Gagal mengirim pesan',
+                'error' => $response->body()
+            ], 500);
+        }
+           
+        
     }
 
     // UPDATE STATUS ORDER

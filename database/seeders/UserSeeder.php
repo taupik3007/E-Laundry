@@ -65,7 +65,7 @@ class UserSeeder extends Seeder
             'usr_religion' => 'Islam',
             'usr_telephone' => '085864296239',
         ]);
-        $owner1->assignRole('owner');
+        $owner1->assignRole('employee');
 
     }
 }
