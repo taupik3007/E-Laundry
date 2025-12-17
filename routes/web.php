@@ -18,6 +18,7 @@ use App\Http\Controllers\DashboardOwnerController;
 use App\Http\Controllers\Employee\DebtController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Owner\EmployeeController;
 use App\Http\Controllers\Owner\ServiceController;
 use App\Http\Controllers\Owner\Pick_UpController;
@@ -39,9 +40,13 @@ Route::get('/tracking', [LandingController::class, 'tracking'])
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 
-Route::get('/', function () {
-    return view('landing');
-});
+// Route::get('/', function () {
+//     return view('landing');
+// });
+
+Route::get('/', [LandingController::class, 'index'])
+    ->name('landing.index');
+
 
 Route::get('/employee/dashboard',[DashboardController::class, 'employeeDashboard'] )->name('employee.dashboard');
 Route::get('/customer/home', function () {

@@ -202,72 +202,54 @@
                     </span>Kami</h2>
 
                 <div class="w-full bg-white rounded-lg shadow-xl flex items-center justify-center px-6">
-                    <div class="owl-carousel w-full pt-4 ">
+                    <div class="owl-carousel w-full pt-4">
 
-                        <!-- ITEM TEMPLATE -->
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
-                            <div class="h-56 w-full">
-                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
-                                    class="w-full h-full object-cover" alt="">
-                            </div>
-                            <div class="p-6 flex-1 flex flex-col justify-start">
-                                <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
-                                <p class="text-gray-600 text-sm">Layanan cepat dan wangi.</p>
-                            </div>
-                        </div>
+                        @foreach ($services as $service)
+                            <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
+                                
+                                <div class="h-56 w-full">
+                                    <img 
+                                        src="{{ asset('storage/' . $service->lds_image) }}"
+                                        class="w-full h-full object-cover"
+                                        alt="{{ $service->lds_name }}">
+                                </div>
+                    
+                                <div class="p-6 flex-1 flex flex-col justify-start">
+                                    <h3 class="font-semibold text-xl mb-2">
+                                        {{ $service->lds_name }}
+                                    </h3>
+                    
+                                    <p class="text-gray-600 text-sm">
+                                        {{ $service->lds_description ?? 'Layanan laundry terbaik kami.' }}
+                                    </p>
 
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
-                            <div class="h-56 w-full">
-                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
-                                    class="w-full h-full object-cover" alt="">
-                            </div>
-                            <div class="p-6 flex-1 flex flex-col justify-start">
-                                <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
-                                <p class="text-gray-600 text-sm">Layanan cepat dan wangi.</p>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
-                            <div class="h-56 w-full">
-                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
-                                    class="w-full h-full object-cover" alt="">
-                            </div>
-                            <div class="p-6 flex-1 flex flex-col justify-start">
-                                <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
-                                <p class="text-gray-600 text-sm">Layanan cepat dan wangi.</p>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
-                            <div class="h-56 w-full">
-                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
-                                    class="w-full h-full object-cover" alt="">
-                            </div>
-                            <div class="p-6 flex-1 flex flex-col justify-start">
-                                <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
-                                <p class="text-gray-600 text-sm">Layanan cepat dan wangi.</p>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
-                            <div class="h-56 w-full">
-                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
-                                    class="w-full h-full object-cover" alt="">
-                            </div>
-                            <div class="p-6 flex-1 flex flex-col justify-start">
-                                <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
-                                <p class="text-gray-600 text-sm">Layanan cepat dan wangi.</p>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-[430px] my-2">
-                            <div class="h-56 w-full">
-                                <img src="https://imgv2-2-f.scribdassets.com/img/document/741626810/original/73b7412868/1?v=1"
-                                    class="w-full h-full object-cover" alt="">
-                            </div>
-                            <div class="p-6 flex-1 flex flex-col justify-start">
-                                <h3 class="font-semibold text-xl mb-2">Cuci Kering</h3>
-                                <p class="text-gray-600 text-sm">Layanan cepat dan wangi.</p>
-                            </div>
-                        </div>
+                                    {{-- LIST PAKET --}}
+            <div class="mt-auto">
+                @if ($service->packages->count() > 0)
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        @foreach ($service->packages as $package)
+                            <li class="flex justify-between border-b pb-1">
+                                <span>{{ $package->ldp_name }}</span>
+                                <span>{{ $package->ldp_duration }}</span>
+                                <span class="font-semibold text-[#4C9FFF]">
+                                    Rp {{ number_format($package->ldp_price) }}
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p class="text-xs text-gray-400">
+                        Paket belum tersedia
+                    </p>
+                @endif
+            </div>
 
+                                </div>
+                            </div>
+                        @endforeach
+                    
                     </div>
+                    
                 </div>
             </div>
         </section>
