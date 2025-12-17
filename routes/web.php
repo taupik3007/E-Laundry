@@ -23,6 +23,7 @@ use App\Http\Controllers\Owner\ServiceController;
 use App\Http\Controllers\Owner\Pick_UpController;
 use App\Http\Controllers\Owner\LaundryOrderController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Owner\EmployesController;
 use App\Http\Controllers\Owner\CustomersController;
 use App\Http\Controllers\Owner\DebtOwnController;
