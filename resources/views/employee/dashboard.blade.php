@@ -299,9 +299,7 @@
                                 <th>Invoice</th>
                                 <th>Nama</th>
                                 <th>Total</th>
-                                <th>Aksi</th>
-                                
-
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody id="order-history-body">
@@ -316,15 +314,10 @@
                                         {{ number_format($order->ord_total ?? $order->details->sum('odt_total'), 0, ',', '.') }}
 
                                     </td>
+                                    <td>{{ $order->ord_status }}</td>
+                                   
+
                                     
-
-                                    <td id="button-{{ $order->ord_id }}">
-                                    
-
-                                        <a href="/employee/ordering/{{ $order->ord_id }}/detail"
-                                            class="btn btn-warning">Detail</a>
-
-                                    </td>
                                 </tr>
                                 <!-- Modal Timbangan -->
                                
@@ -445,7 +438,7 @@
                                 <th>Invoice</th>
                                 <th>Nama</th>
                                 <th>Total</th>
-                                <th>Aksi</th>
+                                <th>Status</th>
 
                             </tr>
                             <!-- end row -->

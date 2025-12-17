@@ -83,8 +83,8 @@
             <th width="10%">No</th>
             <th>Invoice</th>
             <th>Pelanggan</th>
-            <th>Total Tagihan</th>
-            <th>Pembayaran Tagihan</th>
+            <th>Total Bayar</th>
+            <th>Sisa Hutang</th>
             <th>Tanggal Pembayaran</th>
         </tr>
       </thead>
@@ -112,8 +112,8 @@
             <th width="10%">No</th>
             <th>Invoice</th>
             <th>Pelanggan</th>
-            <th>Total Tagihan</th>
-            <th>Pembayaran Tagihan</th>
+            <th>Total Bayar</th>
+            <th>Sisa Hutang</th>
             <th>Tanggal Pembayaran</th>
         </tr>
         <!-- end row -->
