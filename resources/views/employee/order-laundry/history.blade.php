@@ -93,12 +93,12 @@
       <thead>
         <tr>
             <th width="10%">No</th>
-            <th>Nama Customer</th>
-            {{-- <th>Jenis Layanan</th>
-            <th>Berat/Unit</th> --}}
+            <th>Invoice</th>
+            <th width="20%">Nama Customer</th>
             <th>Total</th>
             <th>Tanggal Selesai</th>
             <th>Aksi</th>
+         
             
         </tr>
       </thead>
@@ -111,12 +111,11 @@
 
         <tr>
             <th width="10%">No</th>
-            <th>Nama Customer</th>
-            {{-- <th>Jenis Layanan</th>
-            <th>Berat/Unit</th> --}}
+            <th>Invoice</th>
+            <th width="20%">Nama Customer</th>
             <th>Total</th>
             <th>Tanggal Selesai</th>
-            <th>Aksi</th>
+         <th>Aksi</th>
         </tr>
         <!-- end row -->
     </tfoot>
