@@ -283,21 +283,32 @@
                     </h1>
 
 
-                    <div class="w-full max-w-xl mx-auto mb-4">
-                        <div class="flex items-stretch border border-gray-300 rounded-full overflow-hidden">
+                    <form action="{{ route('tracking') }}" method="GET">
+                        <div class="w-full max-w-xl mx-auto mb-4">
+                            <div class="flex items-stretch border border-gray-300 rounded-full overflow-hidden">
 
-                            <input type="text"
-                                class="flex-1 px-4 py-2 font-inter outline-none focus:outline-none focus:ring-0"
-                                placeholder="Masukan ID Pesanan" />
+                                <!-- Prefix INV- -->
+                                <span
+                                    class="px-4 flex items-center bg-gray-100 text-gray-600 font-inter text-sm select-none">
+                                    INV-
+                                </span>
 
+                                <!-- Input -->
+                                <input type="text" name="invoice"
+                                    class="flex-1 px-4 py-2 font-inter outline-none focus:ring-0"
+                                    placeholder="Masukan ID Pesanan" required />
 
-                            <a href="#services"
-                                class="bg-[#4C9FFF] px-6 flex items-center justify-center text-white hover:bg-blue-500 transition">
-                                <i class="ti ti-search text-lg"></i>
-                            </a>
+                                <!-- Button -->
+                                <button type="submit"
+                                    class="bg-[#4C9FFF] px-6 flex items-center justify-center text-white hover:bg-blue-500 transition">
+                                    <i class="ti ti-search text-lg"></i>
+                                </button>
 
+                            </div>
                         </div>
-                    </div>
+                    </form>
+
+
 
 
                 </div>
@@ -326,121 +337,125 @@
         <!-- CONTACT -->
         <section class="snap-section min-h-screen flex items-center bg-gray-100 pt-28 md:pt-0">
 
-    <footer class="w-full">
-        <div
-            class="max-w-7xl mx-auto px-6 py-12 
+            <footer class="w-full">
+                <div
+                    class="max-w-7xl mx-auto px-6 py-12 
             grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-16 gap-y-10">
 
-            <!-- Kolom 1 -->
-            <div class="space-y-3 pr-8">
-                <img src="{{ asset('landing-img/logo-fix.png') }}" alt="E-Laundry Garut Logo"
-                    class="w-72">
+                    <!-- Kolom 1 -->
+                    <div class="space-y-3 pr-8">
+                        <img src="{{ asset('landing-img/logo-fix.png') }}" alt="E-Laundry Garut Logo" class="w-72">
 
-                <p class="text-gray-600 text-sm leading-relaxed max-w-sm">
-                    <span class="text-[#4C9FFF] font-semibold">Garut laundry</span> Laundry cepat,
-                    bersih, dan wangi. Melayani Garut dan sekitarnya dengan sepenuh hati.
-                </p>
+                        <p class="text-gray-600 text-sm leading-relaxed max-w-sm">
+                            <span class="text-[#4C9FFF] font-semibold">Garut laundry</span> Laundry cepat,
+                            bersih, dan wangi. Melayani Garut dan sekitarnya dengan sepenuh hati.
+                        </p>
 
-                <div class="flex items-center gap-3 mt-4">
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-[#4C9FFF]/10 flex items-center justify-center text-[#4C9FFF] hover:bg-[#4C9FFF] hover:text-white transition">
-                        <i class="ti ti-brand-instagram text-xl"></i>
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-[#4C9FFF]/10 flex items-center justify-center text-[#4C9FFF] hover:bg-[#4C9FFF] hover:text-white transition">
-                        <i class="ti ti-brand-tiktok text-xl"></i>
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-[#4C9FFF]/10 flex items-center justify-center text-[#4C9FFF] hover:bg-[#4C9FFF] hover:text-white transition">
-                        <i class="ti ti-brand-facebook text-xl"></i>
-                    </a>
+                        <div class="flex items-center gap-3 mt-4">
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-[#4C9FFF]/10 flex items-center justify-center text-[#4C9FFF] hover:bg-[#4C9FFF] hover:text-white transition">
+                                <i class="ti ti-brand-instagram text-xl"></i>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-[#4C9FFF]/10 flex items-center justify-center text-[#4C9FFF] hover:bg-[#4C9FFF] hover:text-white transition">
+                                <i class="ti ti-brand-tiktok text-xl"></i>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-[#4C9FFF]/10 flex items-center justify-center text-[#4C9FFF] hover:bg-[#4C9FFF] hover:text-white transition">
+                                <i class="ti ti-brand-facebook text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Kolom 2 - Layanan -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-4">Layanan</h3>
+
+                        <ul class="space-y-2 text-gray-700 text-sm">
+                            <li>
+                                <a href="#" class="flex items-center gap-2 group">
+                                    <span
+                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
+                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Kering</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="flex items-center gap-2 group">
+                                    <span
+                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
+                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Lipat</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="flex items-center gap-2 group">
+                                    <span
+                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
+                                    <span class="group-hover:text-[#4C9FFF] transition">Dry Clean</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="flex items-center gap-2 group">
+                                    <span
+                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
+                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Sepatu</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="flex items-center gap-2 group">
+                                    <span
+                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
+                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Karpet</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Kolom 3 - Kontak -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">Kontak</h3>
+
+                        <ul class="space-y-2 text-gray-600 mb-4">
+                            <li class="flex items-center gap-3">
+                                <i class="ti ti-map-pin text-xl text-[#4C9FFF]"></i>
+                                Garut, Jawa Barat
+                            </li>
+
+                            <li class="flex items-center gap-3">
+                                <i class="ti ti-phone text-xl text-[#4C9FFF]"></i>
+                                0812-3456-7890
+                            </li>
+
+                            <li class="flex items-center gap-3">
+                                <i class="ti ti-mail text-xl text-[#4C9FFF]"></i>
+                                support@elaundry.id
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Kolom 4 - Map -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">Lokasi Kami</h3>
+
+                        <div class="rounded-lg overflow-hidden shadow-md w-full h-40 md:h-48">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1979.171569943113!2d107.882595!3d-7.201635!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68b13e691cc551%3A0x8c33c3b24cb1565c!2sGarut%20Laundry!5e0!3m2!1sen!2sus!4v1763739056604!5m2!1sen!2sus"
+                                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
 
-            <!-- Kolom 2 - Layanan -->
-            <div>
-                <h3 class="font-semibold text-lg mb-4">Layanan</h3>
-
-                <ul class="space-y-2 text-gray-700 text-sm">
-                    <li>
-                        <a href="#" class="flex items-center gap-2 group">
-                            <span class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
-                            <span class="group-hover:text-[#4C9FFF] transition">Cuci Kering</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="flex items-center gap-2 group">
-                            <span class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
-                            <span class="group-hover:text-[#4C9FFF] transition">Cuci Lipat</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="flex items-center gap-2 group">
-                            <span class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
-                            <span class="group-hover:text-[#4C9FFF] transition">Dry Clean</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="flex items-center gap-2 group">
-                            <span class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
-                            <span class="group-hover:text-[#4C9FFF] transition">Cuci Sepatu</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="flex items-center gap-2 group">
-                            <span class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
-                            <span class="group-hover:text-[#4C9FFF] transition">Cuci Karpet</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Kolom 3 - Kontak -->
-            <div>
-                <h3 class="font-semibold text-lg mb-3">Kontak</h3>
-
-                <ul class="space-y-2 text-gray-600 mb-4">
-                    <li class="flex items-center gap-3">
-                        <i class="ti ti-map-pin text-xl text-[#4C9FFF]"></i>
-                        Garut, Jawa Barat
-                    </li>
-
-                    <li class="flex items-center gap-3">
-                        <i class="ti ti-phone text-xl text-[#4C9FFF]"></i>
-                        0812-3456-7890
-                    </li>
-
-                    <li class="flex items-center gap-3">
-                        <i class="ti ti-mail text-xl text-[#4C9FFF]"></i>
-                        support@elaundry.id
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Kolom 4 - Map -->
-            <div>
-                <h3 class="font-semibold text-lg mb-3">Lokasi Kami</h3>
-
-                <div class="rounded-lg overflow-hidden shadow-md w-full h-40 md:h-48">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1979.171569943113!2d107.882595!3d-7.201635!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68b13e691cc551%3A0x8c33c3b24cb1565c!2sGarut%20Laundry!5e0!3m2!1sen!2sus!4v1763739056604!5m2!1sen!2sus"
-                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                <div class="bg-[#4C9FFF] py-4 text-center text-sm text-white">
+                    © 2025 E-Laundry Garut | Manage by : Gutax Gitex program
                 </div>
-            </div>
-
-        </div>
-
-        <div class="bg-[#4C9FFF] py-4 text-center text-sm text-white">
-            © 2025 E-Laundry Garut | Manage by : Gutax Gitex program
-        </div>
-    </footer>
-</section>
+            </footer>
+        </section>
 
 
 

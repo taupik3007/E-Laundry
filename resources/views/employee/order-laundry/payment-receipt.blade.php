@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Struk Pembayaran</title>
+
   <style>
     body {
       background: #f4f6f9;
@@ -105,73 +106,155 @@
       font-size: 12px;
       color: #777;
     }
+    @media print {
+
+@page {
+  size: 80mm auto;   /* ukuran kertas struk */
+  margin: 0;
+}
+
+body {
+  background: #fff;
+  padding: 0;
+}
+
+.receipt-container {
+  width: 80mm;
+  max-width: 80mm;
+  margin: 0;
+  padding: 10px;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+}
+
+.header img {
+  width: 50px;
+}
+
+.title {
+  font-size: 16px;
+}
+
+.info-row,
+.item,
+.total-row {
+  font-size: 12px;
+}
+
+.grand-total {
+  font-size: 14px;
+}
+
+.footer {
+  font-size: 10px;
+}
+
+}
+
   </style>
+  
 </head>
+
 <body>
 
-  <div class="receipt-container">
-    <div class="header">
-      <img src="{{ asset('assets/images/hero-img/laundry-basket.png')}}">
-      <div class="title">Struk Pembayaran</div>
-      <div style="font-size:12px; color:#555;">Laundry Bersih Selalu • RW 04</div>
+<div class="receipt-container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="{{ asset('assets/images/hero-img/laundry-basket.png') }}">
+    <div class="title">Struk Pembayaran</div>
+    <div style="font-size:12px; color:#555;">
+      Laundry Bersih Selalu • RW 04
+    </div>
+  </div>
+
+  <!-- INFO TRANSAKSI -->
+  <div class="info-row">
+    <span>No. Invoice</span>
+    <span>#{{ $payment->order->ord_invoice }}</span>
+  </div>
+
+  <div class="info-row">
+    <span>Tanggal</span>
+    <span>
+      {{ \Carbon\Carbon::parse($payment->created_at)->translatedFormat('d F Y') }}
+    </span>
+  </div>
+
+  <div class="info-row">
+    <span>Pelanggan</span>
+    <span>{{ $payment->order->ord_customer_name }}</span>
+  </div>
+
+  <!-- DETAIL PESANAN -->
+  <div class="section-title">Detail Pesanan</div>
+
+  @foreach ($order->details as $detail)
+  <div class="item">
+    <span>
+      {{ $detail->service->lds_name }}
+      {{ $detail->package->ldp_name }}
+      {{ $detail->odt_quantity }} {{ $detail->package->ldp_unit }}
+    </span>
+    <span>
+      Rp {{ number_format($detail->odt_total, 0, ',', '.') }}
+    </span>
+  </div>
+@endforeach
+
+  <!-- RINGKASAN PIUTANG -->
+  <div class="total-box">
+
+    <div class="total-row">
+      <span>Total Tagihan</span>
+      <span>
+        Rp {{ number_format($payment->order->ord_total - ($payment->pym_discount ?? 0), 0, ',', '.') }}
+      </span>
     </div>
 
-    <!-- Info Transaksi -->
-    <div class="info-row">
-      <span>No. Invoice</span>
-      <span>#{{ $payment->order->ord_invoice }}</span>
-    </div>
-    <div class="info-row">
-      <span>Tanggal</span>
-      <span>{{ \Carbon\Carbon::parse($payment->order->ord_created_at)->translatedFormat('d F Y') }}</span>
-      
-    </div>
-    <div class="info-row">
-      <span>Pelanggan</span>
-      <span>{{ $payment->order->ord_customer_name }}</span>
+    <div class="total-row">
+      <span>Sudah Dibayar</span>
+      <span>
+        Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}
+      </span>
     </div>
 
-    <!-- Rincian Item -->
-    <div class="section-title">Detail Pesanan</div>
-
-    <div class="item">
-      <span>{{ $payment->order->service->lds_name ?? '-' }} {{ $payment->order->package->ldp_name ?? '-' }} {{ $payment->order->ord_quantity }} {{ $payment->order->package->ldp_unit ?? '-' }}</span>
-      <span>Rp {{ number_format($payment->order->ord_total, 0, ',', '.') }}</span>
-    </div>
-    <div class="total-box">
-      <div class="total-row">
-        <span>Subtotal</span>
-        <span>Rp {{ number_format($payment->order->ord_total, 0, ',', '.') }}</span>
-      </div>
-      <div class="total-row">
-        <span>Discount</span>
-        <span>Rp {{ number_format($payment->pym_discount ?? 0, 0, ',', '.') }}</span>
-      </div>
-      <div class="grand-total">
-        <span>Total Bayar</span>
-        <span>Rp {{ number_format(($payment->order->ord_total - ($payment->pym_discount ?? 0)), 0, ',', '.') }}</span>
-      </div>
-    </div>
-
-    <!-- QRIS -->
-    <div class="qris-box">
-      <p style="font-size:14px; color:#444;">Metode Pembayaran: <b>QRIS</b></p>
-      <img src="https://i.ibb.co/bK9syjC/qr-sample.png">
-      <p style="font-size:12px;color:#777;">Scan untuk melihat bukti pembayaran</p>
-    </div>
-
-    <div class="footer">
-      Terima kasih telah menggunakan layanan kami ❤️<br>
-      *Barang yang sudah diambil tidak bisa dikomplain*
+    <div class="grand-total">
+      <span>Sisa Piutang</span>
+      <span>
+        Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}
+      </span>
     </div>
 
   </div>
 
-  <script>
-    window.addEventListener("load", function() {
-        window.print(); // otomatis memunculkan print dialog
-    });
-  </script>
+  <!-- QRIS (opsional, muncul kalau masih ada piutang) -->
+  {{-- @if($payment->pym_debt_amount > 0)
+  <div class="qris-box">
+    <p style="font-size:14px; color:#444;">
+      Metode Pembayaran: <b>{{ strtoupper($payment->pym_method ?? 'CASH') }}</b>
+    </p>
+    <img src="https://i.ibb.co/bK9syjC/qr-sample.png">
+    <p style="font-size:12px;color:#777;">
+      Scan untuk pembayaran selanjutnya
+    </p>
+  </div>
+  @endif --}}
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Terima kasih telah menggunakan layanan kami ❤️<br>
+    {{-- *Pembayaran dicatat sebagai cicilan/piutang* --}}
+  </div>
+
+</div>
+
+<script>
+  window.addEventListener("load", function () {
+    window.print();
+  });
+</script>
 
 </body>
 </html>

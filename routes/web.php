@@ -32,6 +32,8 @@ Route::get('/landing', function () {
     return view('landing');
 });
 
+Route::get('/tracking', [LandingController::class, 'tracking'])
+    ->name('tracking');
 
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');

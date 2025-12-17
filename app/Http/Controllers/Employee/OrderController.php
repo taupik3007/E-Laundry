@@ -510,9 +510,15 @@ if ($cashback < 0) {
 }
 
 public function receipt($id){
-    $payment = Payment::with('order', 'order.customer')->findOrFail($id);
+     $payment = Payment::with('order', 'order.customer')->findOrFail($id);
+        $order = Order::with(['service', 'package'])
+        ->where('ord_id', $id)
+        ->firstOrFail();
+    
+        return view('employee.order-laundry.payment-receipt', compact('payment', 'order'));
+    // $payment = Payment::with('order', 'order.customer')->findOrFail($id);
 
-    return view('employee.order-laundry.payment-receipt', compact('payment'));
+    // return view('', compact('payment'));
 }
 
 
