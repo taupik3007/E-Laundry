@@ -108,7 +108,7 @@
                     <div class="flex justify-between">
                         <span class="text-gray-500">Tanggal</span>
                         <span class="font-medium">
-                            {{ $order->created_at?->format('d M Y') ?? '-' }}
+                            {{ $order->ord_created_at?->format('d M Y') ?? '-' }}
                         </span>
                     </div>
 

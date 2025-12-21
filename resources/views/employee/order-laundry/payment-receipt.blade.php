@@ -72,13 +72,18 @@
       border: 1px solid #e5e7eb;
     }
 
-    .total-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      font-size: 15px;
-      font-weight: 600;
-    }
+    .total-row.total-bold {
+    font-weight: bold;
+    font-size: 14px; /* opsional biar lebih tegas */
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 8px 0;
+}
 
     .grand-total {
       display: flex;
@@ -90,6 +95,18 @@
       font-weight: 700;
       color: #000;
     }
+    .divider {
+    border-top: 1px dashed #999;
+    margin: 8px 0;
+}
+
+.payment-summary .row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin: 8px 0;
+}
+
 
     .qris-box {
       text-align: center;
@@ -163,9 +180,9 @@ body {
   <!-- HEADER -->
   <div class="header">
     <img src="{{ asset('assets/images/hero-img/laundry-basket.png') }}">
-    <div class="title">Struk Pembayaran</div>
+    <div class="title">Garut Laundry</div>
     <div style="font-size:12px; color:#555;">
-      Laundry Bersih Selalu • RW 04
+      Jl. Terusan Pahlawan No.94, Sukagalih, Kec. Tarogong Kidul, Kabupaten Garut, Jawa Barat 
     </div>
   </div>
 
@@ -207,25 +224,44 @@ body {
   <div class="total-box">
 
     <div class="total-row">
-      <span>Total Tagihan</span>
+      <span>Sub Total</span>
+      <span>
+        Rp {{ number_format($payment->order->ord_total, 0, ',', '.') }}
+      </span>
+    </div>
+
+    <div class="total-row">
+      <span>Discount</span>
+      <span>
+        Rp {{ number_format($payment->pym_discount ?? 0, 0, ',', '.') }}
+    </span>
+    </div>
+
+    <div class="total-row total-bold">
+      <span>Total</span>
       <span>
         Rp {{ number_format($payment->order->ord_total - ($payment->pym_discount ?? 0), 0, ',', '.') }}
       </span>
     </div>
 
-    <div class="total-row">
-      <span>Sudah Dibayar</span>
-      <span>
-        Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}
-      </span>
+    <hr class="divider">
+
+<div class="payment-summary">
+    <div class="row">
+        <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
+        <span>Rp {{ number_format($payment->pym_cash_received,0,',','.') }}</span>
     </div>
 
-    <div class="grand-total">
-      <span>Sisa Piutang</span>
-      <span>
-        Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}
-      </span>
+    <div class="row">
+        @if($payment->pym_is_debt)
+            <span>Sisa Piutang</span>
+            <span>Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}</span>
+        @else
+            <span>Kembali</span>
+            <span>Rp {{ number_format($payment->pym_change_amount,0,',','.') }}</span>
+        @endif
     </div>
+</div>
 
   </div>
 

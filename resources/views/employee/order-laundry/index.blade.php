@@ -135,12 +135,10 @@
                                                         $options = ['dalam pengantaran'];
                                                         break;
 
-                                                    case 'dalam pengantaran':
-                                                        $options = ['dalam pengantaran'];
-                                                        break;
-                                                    case 'menunggu pengambilan':
-                                                        $options = ['menunggu pengambilan'];
-                                                        break;
+                                                        case 'dalam pengantaran':
+                                                        case 'menunggu pengambilan':
+                                                            $options = ['selesai'];
+                                                            break;
                                                 }
                                             @endphp
 
@@ -165,8 +163,49 @@
                                         </div>
 
                                     </td>
-
                                     <td id="button-{{ $order->ord_id }}">
+
+                                        {{-- JIKA SUDAH BAYAR --}}
+                                        @if ($order->payment && $order->payment->pym_payment_status == 1)
+                                            <span class="badge bg-success">
+                                                <i class="bx bx-check-circle"></i> Sudah Dibayar
+                                            </span>
+                                    
+                                        {{-- JIKA BELUM BAYAR & MASIH BOLEH BAYAR --}}
+                                        @elseif (in_array($order->ord_status, [
+                                            'proses',
+                                            'menunggu pengantaran',
+                                            'dalam pengantaran',
+                                            'menunggu pengambilan'
+                                        ]))
+                                            <button class="btn btn-success"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalBayar{{ $order->ord_id }}">
+                                                Pembayaran
+                                            </button>
+                                    
+                                        {{-- STATUS LAIN --}}
+                                        @else
+                                            <button class="btn btn-info"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalTimbang{{ $order->ord_id }}">
+                                                Timbang
+                                            </button>
+                                        @endif
+                                    
+                                        {{-- AKSI --}}
+                                        <a href="/employee/ordering/{{ $order->ord_id }}/detail" class="btn btn-warning">Detail</a>
+                                    
+                                        <a href="/employee/ordering/{{ $order->ord_id }}/destroy"
+                                            class="btn btn-danger"
+                                            data-confirm-delete="true">
+                                            Delete
+                                        </a>
+                                    
+                                    </td>
+                                    
+                                    
+                                    {{-- <td id="button-{{ $order->ord_id }}">
                                         @if (
                                             $order->ord_status == 'menunggu pengantaran' ||
                                                 $order->ord_status == 'dalam pengantaran' ||
@@ -190,7 +229,7 @@
                                         <a href="/employee/ordering/{{ $order->ord_id }}/detail"
                                             class="btn btn-warning">Detail</a>
 
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 <!-- Modal Timbangan -->
                                 <div class="modal fade" id="modalTimbang{{ $order->ord_id }}">
@@ -309,6 +348,20 @@
                                                 <div class="modal-footer">
                                                     <button class="btn btn-primary">Konfirmasi Pembayaran</button>
                                                 </div>
+                                                @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+@if (session('warning'))
+    <div class="alert alert-warning alert-dismissible fade show">
+        {{ session('warning') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
                                             </form>
                                         </div>
                                     </div>
@@ -517,23 +570,40 @@
                             // ====== UPDATE TOMBOL TIMBANG ↔ PEMBAYARAN ======
                             var aksiContainer = $('#button-' + orderId);
 
-                            if (response.status.toLowerCase() === 'menunggu pengantaran' ||
-                                response.status.toLowerCase() === 'menunggu pengambilan' ||
-                                response.status.toLowerCase() === 'dalam pengantaran') {
-                                aksiContainer.html(`
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalBayar${orderId}">
-                    Pembayaran
-                </button>
-                <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-            `);
-                            } else {
-                                aksiContainer.html(`
-                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTimbang${orderId}">
-                    Timbang
-                </button>
-                <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-            `);
-                            }
+if (response.paid) {
+    aksiContainer.html(`
+        <span class="badge bg-success">
+            <i class="bx bx-check-circle"></i> Sudah Dibayar
+        </span>
+        <a href="/employee/ordering/${orderId}/detail" class="btn btn-warning">Detail</a>
+        <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger">Delete</a>
+    `);
+} else if (
+    response.status.toLowerCase() === 'menunggu pengantaran' ||
+    response.status.toLowerCase() === 'menunggu pengambilan' ||
+    response.status.toLowerCase() === 'dalam pengantaran'
+) {
+    aksiContainer.html(`
+        <button class="btn btn-success"
+            data-bs-toggle="modal"
+            data-bs-target="#modalBayar${orderId}">
+            Pembayaran
+        </button>
+        <a href="/employee/ordering/${orderId}/detail" class="btn btn-warning">Detail</a>
+        <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger">Delete</a>
+    `);
+} else {
+    aksiContainer.html(`
+        <button class="btn btn-info"
+            data-bs-toggle="modal"
+            data-bs-target="#modalTimbang${orderId}">
+            Timbang
+        </button>
+        <a href="/employee/ordering/${orderId}/detail" class="btn btn-warning">Detail</a>
+        <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger">Delete</a>
+    `);
+}
+
 
                         }
                     },

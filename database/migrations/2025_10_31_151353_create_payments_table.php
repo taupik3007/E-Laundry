@@ -22,6 +22,8 @@ return new class extends Migration
             $table->boolean('pym_payment_status');
             $table->bigInteger('pym_amount');
             $table->bigInteger('pym_amount_paid');
+            $table->bigInteger('pym_cash_received')->default(0);
+            $table->bigInteger('pym_change_amount')->default(0);
             $table->datetime('pym_paid_at')->nullable();
             $table->datetime('pym_expiry_time');
             $table->longText('pym_raw_response');

@@ -223,26 +223,35 @@
                                         {{ $service->lds_description ?? 'Layanan laundry terbaik kami.' }}
                                     </p>
 
-                                    {{-- LIST PAKET --}}
-            <div class="mt-auto">
-                @if ($service->packages->count() > 0)
-                    <ul class="text-sm text-gray-700 space-y-1">
-                        @foreach ($service->packages as $package)
-                            <li class="flex justify-between border-b pb-1">
-                                <span>{{ $package->ldp_name }}</span>
-                                <span>{{ $package->ldp_duration }}</span>
-                                <span class="font-semibold text-[#4C9FFF]">
-                                    Rp {{ number_format($package->ldp_price) }}
-                                </span>
-                            </li>
-                        @endforeach
-                    </ul>
-                @else
-                    <p class="text-xs text-gray-400">
-                        Paket belum tersedia
-                    </p>
-                @endif
-            </div>
+   {{-- LIST PAKET (SCROLLABLE) --}}
+<div class="mt-3 border-t pt-2">
+    @if ($service->packages->count() > 0)
+        <ul class="text-sm text-gray-700 space-y-2 
+                   max-h-32 overflow-y-auto pr-1">
+
+            @foreach ($service->packages as $package)
+                <li class="flex justify-between border-b pb-1">
+                    <span>
+                        {{ $package->ldp_name }}
+                        <span class="text-xs text-gray-400">
+                            ({{ $package->ldp_duration }})
+                        </span>
+                    </span>
+
+                    <span class="font-semibold text-[#4C9FFF]">
+                        Rp {{ number_format($package->ldp_price) }}
+                    </span>
+                </li>
+            @endforeach
+
+        </ul>
+    @else
+        <p class="text-xs text-gray-400">
+            Paket belum tersedia
+        </p>
+    @endif
+</div>
+
 
                                 </div>
                             </div>
@@ -352,49 +361,24 @@
                     <!-- Kolom 2 - Layanan -->
                     <div>
                         <h3 class="font-semibold text-lg mb-4">Layanan</h3>
-
+                    
                         <ul class="space-y-2 text-gray-700 text-sm">
-                            <li>
-                                <a href="#" class="flex items-center gap-2 group">
-                                    <span
-                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
-                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Kering</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="flex items-center gap-2 group">
-                                    <span
-                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
-                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Lipat</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="flex items-center gap-2 group">
-                                    <span
-                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
-                                    <span class="group-hover:text-[#4C9FFF] transition">Dry Clean</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="flex items-center gap-2 group">
-                                    <span
-                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
-                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Sepatu</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="flex items-center gap-2 group">
-                                    <span
-                                        class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition"></span>
-                                    <span class="group-hover:text-[#4C9FFF] transition">Cuci Karpet</span>
-                                </a>
-                            </li>
+                            @foreach ($services as $service)
+                                <li>
+                                    <a href="#" class="flex items-center gap-2 group">
+                                        <span
+                                            class="w-2 h-2 rounded-full bg-[#4C9FFF] opacity-50 group-hover:opacity-100 transition">
+                                        </span>
+                    
+                                        <span class="group-hover:text-[#4C9FFF] transition">
+                                            {{ $service->lds_name }}
+                                        </span>
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
+                    
 
                     <!-- Kolom 3 - Kontak -->
                     <div>

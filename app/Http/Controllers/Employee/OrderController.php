@@ -41,54 +41,57 @@ class OrderController extends Controller
      * Show the form for creating a new resource.
      */
 
-    public function updateStatus(Request $request, $id)
-{
-    $request->validate([
-        'ord_status' => 'required|string'
-    ]);
+     public function updateStatus(Request $request, $id)
+     {
+         $order = Order::findOrFail($id);
+     
+        //  switch (strtolower($order->ord_status)) {
+     
+        //      case 'menunggu penjemputan':
+        //          $order->ord_status = 'dalam penjemputan';
+        //          break;
+     
+        //      case 'dalam penjemputan':
+        //      case 'menunggu penyerahan':
+        //          $order->ord_status = 'proses';
+        //          break;
+     
+        //      case 'proses':
+        //          if ($order->ord_delivery_method === 'delivery') {
+        //              $order->ord_status = 'menunggu pengantaran';
+        //          } else {
+        //              $order->ord_status = 'menunggu pengambilan';
+        //          }
+        //          break;
+     
+        //      case 'menunggu pengantaran':
+        //          $order->ord_status = 'dalam pengantaran';
+        //          break;
+     
+        //      case 'menunggu pengambilan':
+        //          $order->ord_status = 'selesai';
+        //          break;
 
-    $order = Order::findOrFail($id);
-    // $order->ord_status = $request->ord_status;
-    switch ($order->ord_status) {
-
-        case 'menunggu penjemputan':
-            $order->ord_status = 'dalam penjemputan';
-            break;
-
-        case 'dalam penjemputan':
-        case 'menunggu penyerahan':
-            $order->ord_status = 'proses'; // ketika barang sudah tiba & timbang
-            break;
-
-        case 'Proses':
-            if ($order->ord_delivery_method == 'delivery') {
-                $order->ord_status = 'menunggu pengantaran';
-            } else {
-                $order->ord_status = 'menunggu pengambilan';
-                
-            }
-            break;
-
-        case 'menunggu pengantaran':
-            $order->ord_status = 'dalam pengantaran';
-            break;
-
-        case 'dalam pengantaran':
-        case 'menunggu diambil':
-            $order->ord_status = 'selesai';
-            break;
-    }
-    $order->ord_status = $request->ord_status;
-    $order->save();
-    // dd($gararetek44);s
-    
-    return response()->json([
-        'success' => true,
-        'message' => 'Status pesanan berhasil diperbarui!',
-        'status' => $order->ord_status,
-    ]);
-
-}
+        //     case 'dalam pengantaran':
+        //         $order->ord_status = 'selesai';
+        //         break;
+     
+        //      default:
+        //          return response()->json([
+        //              'success' => false,
+        //              'message' => 'Status tidak dikenali: ' . $order->ord_status
+        //          ], 422);
+        //  }
+        $order->ord_status = strtolower($request->ord_status);
+         $order->save();
+     
+         return response()->json([
+             'success' => true,
+             'status'  => $order->ord_status,
+             'paid'    => $order->payment && $order->payment->pym_payment_status == 1
+         ]);
+     }
+     
 
 public function updateWeight(Request $request, $id)
 {
@@ -415,13 +418,15 @@ $no = 1;
     // ======================== ||
 
     $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
+    $receive = (int) preg_replace('/[^0-9]/', '', $request->payment_amount);
+    
     
     $paid   = $order->ord_total;
     if($amount >= $paid ){
         $amount = $paid;
     }
 
-
+    $change = max(0, $receive - $paid);
     $cashback = $amount - $paid;
 
     $payment = Payment::create([
@@ -433,6 +438,8 @@ $no = 1;
         'pym_payment_status' => true,
         'pym_amount' => $amount,
         'pym_amount_paid' => $paid,
+        'pym_cash_received' => $receive,
+        'pym_change_amount' => $change,
         'pym_paid_at' => now(),
         'pym_expiry_time' => now(),
         'pym_raw_response' => '-',
@@ -451,9 +458,14 @@ $no = 1;
     } else {
         $payment->pym_debt_amount = 0;
         $payment->pym_is_debt = false;
-        $order->update([
-            'ord_status' => 'selesai'
-        ]);
+        if (in_array($order->ord_status, [
+            'menunggu pengambilan',
+            'dalam pengantaran'
+        ])) {
+            $order->update([
+                'ord_status' => 'selesai'
+            ]);
+        }
 
         // dd($order);
          $token = env('FONNTE_TOKEN'); // Taruh token di .env
@@ -499,13 +511,21 @@ $no = 1;
     //  dd($payment);
     
 // REDIRECT BERDASARKAN STATUS HUTANG
-if ($cashback < 0) {
-    return redirect()->to("/employee/debt")
-        ->with('warning', 'Pembayaran kurang, silakan selesaikan piutang!');
-} else {
-    return redirect()->to("/employee/ordering/history")
-        ->with('success', 'Pembayaran selesai!');
-}
+// if ($cashback < 0) {
+//     return redirect()->to("/employee/debt")
+//         ->with('warning', 'Pembayaran kurang, silakan selesaikan piutang!');
+// } else {
+//     return redirect()->to("/employee/ordering/history")
+//         ->with('success', 'Pembayaran selesai!');
+// }
+
+return redirect()->back()->with(
+    $cashback < 0 ? 'warning' : 'success',
+    $cashback < 0
+        ? 'Pembayaran kurang, masuk piutang'
+        : 'Pembayaran berhasil'
+);
+
   
 }
 
@@ -554,11 +574,22 @@ public function receipt($id){
             'pym_expiry_time'       => null,
             'pym_raw_response'      => 'cash_payment',
         ]);
+        $order->load('payment');
 
         // update order
-        $order->update([
-            'ord_status' => 'Selesai'
-        ]);
+        if (
+            in_array($order->ord_status, [
+                'menunggu pengambilan',
+                'dalam pengantaran'
+            ])
+        ) {
+            $order->update([
+                'ord_status' => 'Selesai'
+            ]);
+        }
+        // $order->update([
+        //     'ord_status' => 'Selesai'
+        // ]);
 
         return back()->with('success', 'Pembayaran cash berhasil');
     }

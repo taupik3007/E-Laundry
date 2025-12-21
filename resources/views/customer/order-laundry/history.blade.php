@@ -88,30 +88,33 @@ E-Laundry | Daftar Riwayat Laundry
 
       <thead>
         <tr>
-            <th width="10%">No</th>
-            <th>Service Layanan dan Jenis Layanan</th>
-            <th>Berat/Unit</th>
-            <th>Total</th>
-            <th>Tanggal Selesai</th>
-            <th>Aksi</th>
+          <th width="10%">No</th>
+          <th>Invoice</th>
+          <th width="20%">Nama Customer</th>
+          <th>Total</th>
+          <th>Tanggal Selesai</th>
+          <th>Aksi</th>
         </tr>
       </thead>
       <tbody>
         @foreach ($history as $no => $order)
           <tr>
             <td>{{ $no + 1 }}</td>
-            <td>{{ $order->service->lds_name ?? '-' }} Paket {{ $order->package->ldp_name ?? '-' }}</td>
-            <td>{{ $order->ord_quantity }} {{ $order->package->ldp_unit ?? '-' }}</td>
+            <td>{{ $order->ord_invoice ?? '-' }}</td>
+            <td>{{ $order->ord_customer_name }}</td>
+            {{-- <td>{{ $order->service->lds_name ?? '-' }}</td>
+            <td>{{ $order->ord_quantity ?? '-' }} {{ $order->package->ldp_unit ?? '-' }}</td> --}}
             <td>
-              Rp
-              {{ number_format($order->ord_total ?? $order->package->ldp_price * $order->ord_quantity, 0, ',', '.') }}
-          </td>
-          <td>{{ $order->ord_updated_at }}</td>
+                Rp
+                {{ number_format($order->ord_total ?? $order->details->sum('odt_total'), 0, ',', '.') }}
+        
+            </td>
+            <td>{{ $order->ord_updated_at->format('d/m/Y H:i') }}</td>
             <td>
               <a href="/customer/laundry-order/history/{{ $order->ord_id}}/detail" class="btn btn-warning">Detail</a>
             </td>
           </tr>
-        @endforeach
+        @endforeach 
       </tbody>
       
     <tfoot>
@@ -120,11 +123,11 @@ E-Laundry | Daftar Riwayat Laundry
 
         <tr>
           <th width="10%">No</th>
-          <th>Service Layanan dan Jenis Layanan</th>
-          <th>Berat/Unit</th>
-          <th>Total</th>
-          <th>Tanggal Selesai</th>
-          <th>Aksi</th>
+            <th>Invoice</th>
+            <th width="20%">Nama Customer</th>
+            <th>Total</th>
+            <th>Tanggal Selesai</th>
+            <th>Aksi</th>
         </tr>
         <!-- end row -->
     </tfoot>

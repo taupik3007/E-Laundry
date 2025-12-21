@@ -12,7 +12,7 @@
     </td>
     <td>{{ $order->ord_updated_at->format('d/m/Y H:i') }}</td>
     <td>
-        <a href="{{ route('payment.receipt', $order->payment->pym_id) }}"
+        <a href="{{ route('payment.receipt', $order->payment->pym_id) }}" 
            class="btn btn-sm btn-primary" target="_blank">
             <i class="ti ti-printer"></i> Cetak Struk
         </a>
