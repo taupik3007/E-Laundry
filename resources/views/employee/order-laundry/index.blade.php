@@ -83,7 +83,8 @@
                         </thead>
                         <tbody>
                             @foreach ($orderlist as $no => $order)
-                                <tr>
+                            <tr id="order-row-{{ $order->ord_id }}">
+
                                     <td>{{ $no + 1 }}</td>
                                     <td>{{ $order->ord_invoice ?? '-' }}</td>
                                     <td>{{ $order->ord_customer_name }}</td>
@@ -170,9 +171,28 @@
                                             <span class="badge bg-success">
                                                 <i class="bx bx-check-circle"></i> Sudah Dibayar
                                             </span>
+
+                                        {{-- BELUM LUNAS (DP / PIUTANG) --}}
+    @elseif (
+        $order->payment &&
+        $order->payment->pym_payment_status == 0 &&
+        $order->payment->pym_is_debt == 1 &&
+        in_array($order->ord_status, [
+            'proses',
+            'menunggu pengantaran',
+            'dalam pengantaran',
+            'menunggu pengambilan',
+            'selesai'
+        ])
+    )
+        <span class="badge bg-danger">
+            <i class="bx bx-time-five"></i>
+            DP
+        </span>
                                     
                                         {{-- JIKA BELUM BAYAR & MASIH BOLEH BAYAR --}}
-                                        @elseif (in_array($order->ord_status, [
+                                        @elseif ( !$order->payment &&
+                                        in_array($order->ord_status, [
                                             'proses',
                                             'menunggu pengantaran',
                                             'dalam pengantaran',
@@ -524,8 +544,9 @@
 </script> --}}
 
     <script>
+        var table;
         $(document).ready(function() {
-            $('.change-status').on('click', function(e) {
+            $(document).on('click', '.change-status', function(e) {
                 e.preventDefault();
 
                 var orderId = $(this).data('id');
@@ -566,6 +587,22 @@
                                     'btn-warning btn-info btn-success btn-danger btn-secondary btn-primary'
                                 )
                                 .addClass(newColor);
+                                var dropdownMenu = statusButton.next('.dropdown-menu');
+dropdownMenu.empty();
+
+response.options.forEach(function(opt) {
+    dropdownMenu.append(`
+        <li>
+            <a class="dropdown-item change-status"
+               href="#"
+               data-id="${orderId}"
+               data-status="${opt}">
+                ${opt}
+            </a>
+        </li>
+    `);
+});
+
 
                             // ====== UPDATE TOMBOL TIMBANG ↔ PEMBAYARAN ======
                             var aksiContainer = $('#button-' + orderId);
@@ -575,6 +612,17 @@ if (response.paid) {
         <span class="badge bg-success">
             <i class="bx bx-check-circle"></i> Sudah Dibayar
         </span>
+        <a href="/employee/ordering/${orderId}/detail" class="btn btn-warning">Detail</a>
+        <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger">Delete</a>
+    `);
+} else if (response.is_debt) {
+    // 🔥 DP / PIUTANG
+    aksiContainer.html(`
+        <span class="badge bg-danger">
+            <i class="bx bx-time-five"></i>
+            DP
+        </span>
+
         <a href="/employee/ordering/${orderId}/detail" class="btn btn-warning">Detail</a>
         <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger">Delete</a>
     `);
@@ -606,6 +654,12 @@ if (response.paid) {
 
 
                         }
+                        if (response.success && newStatus.toLowerCase() === 'selesai') {
+                            $('#order-row-' + orderId).fadeOut(200);
+    setTimeout(() => location.reload(), 300);
+                    }
+
+
                     },
                     error: function(xhr) {
                         alert('❌ Gagal mengubah status.');
@@ -615,6 +669,7 @@ if (response.paid) {
             });
         });
     </script>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 

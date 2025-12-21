@@ -42,55 +42,44 @@ class OrderController extends Controller
      */
 
      public function updateStatus(Request $request, $id)
-     {
-         $order = Order::findOrFail($id);
-     
-        //  switch (strtolower($order->ord_status)) {
-     
-        //      case 'menunggu penjemputan':
-        //          $order->ord_status = 'dalam penjemputan';
-        //          break;
-     
-        //      case 'dalam penjemputan':
-        //      case 'menunggu penyerahan':
-        //          $order->ord_status = 'proses';
-        //          break;
-     
-        //      case 'proses':
-        //          if ($order->ord_delivery_method === 'delivery') {
-        //              $order->ord_status = 'menunggu pengantaran';
-        //          } else {
-        //              $order->ord_status = 'menunggu pengambilan';
-        //          }
-        //          break;
-     
-        //      case 'menunggu pengantaran':
-        //          $order->ord_status = 'dalam pengantaran';
-        //          break;
-     
-        //      case 'menunggu pengambilan':
-        //          $order->ord_status = 'selesai';
-        //          break;
+{
+    $order = Order::findOrFail($id);
+    $order->ord_status = strtolower($request->ord_status);
+    $order->save();
 
-        //     case 'dalam pengantaran':
-        //         $order->ord_status = 'selesai';
-        //         break;
-     
-        //      default:
-        //          return response()->json([
-        //              'success' => false,
-        //              'message' => 'Status tidak dikenali: ' . $order->ord_status
-        //          ], 422);
-        //  }
-        $order->ord_status = strtolower($request->ord_status);
-         $order->save();
-     
-         return response()->json([
-             'success' => true,
-             'status'  => $order->ord_status,
-             'paid'    => $order->payment && $order->payment->pym_payment_status == 1
-         ]);
-     }
+    $options = [];
+
+    switch ($order->ord_status) {
+        case 'menunggu penjemputan':
+            $options = ['dalam penjemputan', 'dibatalkan'];
+            break;
+
+        case 'proses':
+            $options = $order->ord_delivery_method == 'delivery'
+                ? ['menunggu pengantaran']
+                : ['menunggu pengambilan'];
+            break;
+
+        case 'menunggu pengantaran':
+            $options = ['dalam pengantaran'];
+            break;
+
+        case 'dalam pengantaran':
+        case 'menunggu pengambilan':
+            $options = ['selesai'];
+            break;
+    }
+
+    return response()->json([
+        'success' => true,
+        'status'  => $order->ord_status,
+        'options' => $options,
+        'paid'    => $order->payment && $order->payment->pym_payment_status == 1,
+        'is_debt' => $order->payment && $order->payment->pym_is_debt == 1,
+        'debt_amount' => $order->payment?->pym_debt_amount ?? 0,
+    ]);
+}
+
      
 
 public function updateWeight(Request $request, $id)
@@ -451,9 +440,9 @@ $no = 1;
         $payment->pym_debt_amount = abs($cashback); // simpan utang
         $payment->pym_is_debt = true;
 
-        $order->update([
-            'ord_status' => 'Belum Lunas'
-        ]);
+        //  $order->update([
+        //      'ord_status' => 'Belum Lunas'
+        // ]);
 
     } else {
         $payment->pym_debt_amount = 0;
