@@ -90,6 +90,7 @@ Route::get('/employee/ordering/{id}/edit', [OrderController::class, 'edit'])->na
 Route::delete('/employee/ordering/{id}/destroy', [OrderController::class, 'destroy'])->name('order.destroy');
 Route::get('/employee/ordering/history', [OrderController::class, 'history'])->name('order.history');
 Route::get('/employee/ordering/{id}/detail', [OrderController::class, 'detail'])->name('order.detaill');
+Route::get('/employee/ordering/{order}/midtrans-token', [OrderController::class, 'midtransToken'])->name('order.midtrans.token');
 Route::put('/employee/ordering/{id}/payment', [OrderController::class, 'payment'])->name('order.payment');
 Route::get('/employee/ordering/history', [OrderController::class, 'history'])->name('order.history');
 Route::get('/employee/ordering/payment-receipt', [OrderController::class, 'receipt'])->name('order.receipt');

@@ -83,7 +83,7 @@
                         </thead>
                         <tbody>
                             @foreach ($orderlist as $no => $order)
-                            <tr id="order-row-{{ $order->ord_id }}">
+                                <tr id="order-row-{{ $order->ord_id }}">
 
                                     <td>{{ $no + 1 }}</td>
                                     <td>{{ $order->ord_invoice ?? '-' }}</td>
@@ -136,10 +136,10 @@
                                                         $options = ['dalam pengantaran'];
                                                         break;
 
-                                                        case 'dalam pengantaran':
-                                                        case 'menunggu pengambilan':
-                                                            $options = ['selesai'];
-                                                            break;
+                                                    case 'dalam pengantaran':
+                                                    case 'menunggu pengambilan':
+                                                        $options = ['selesai'];
+                                                        break;
                                                 }
                                             @endphp
 
@@ -172,64 +172,54 @@
                                                 <i class="bx bx-check-circle"></i> Sudah Dibayar
                                             </span>
 
-                                        {{-- BELUM LUNAS (DP / PIUTANG) --}}
-    @elseif (
-        $order->payment &&
-        $order->payment->pym_payment_status == 0 &&
-        $order->payment->pym_is_debt == 1 &&
-        in_array($order->ord_status, [
-            'proses',
-            'menunggu pengantaran',
-            'dalam pengantaran',
-            'menunggu pengambilan',
-            'selesai'
-        ])
-    )
-        <span class="badge bg-danger">
-            <i class="bx bx-time-five"></i>
-            DP
-        </span>
-                                    
-                                        {{-- JIKA BELUM BAYAR & MASIH BOLEH BAYAR --}}
-                                        @elseif ( !$order->payment &&
-                                        in_array($order->ord_status, [
-                                            'proses',
-                                            'menunggu pengantaran',
-                                            'dalam pengantaran',
-                                            'menunggu pengambilan'
-                                        ]))
-                                            <button class="btn btn-success"
-                                                data-bs-toggle="modal"
+                                            {{-- BELUM LUNAS (DP / PIUTANG) --}}
+                                        @elseif (
+                                            $order->payment &&
+                                                $order->payment->pym_payment_status == 0 &&
+                                                $order->payment->pym_is_debt == 1 &&
+                                                in_array($order->ord_status, [
+                                                    'proses',
+                                                    'menunggu pengantaran',
+                                                    'dalam pengantaran',
+                                                    'menunggu pengambilan',
+                                                    'selesai',
+                                                ]))
+                                            <span class="badge bg-danger">
+                                                <i class="bx bx-time-five"></i>
+                                                DP
+                                            </span>
+
+                                            {{-- JIKA BELUM BAYAR & MASIH BOLEH BAYAR --}}
+                                        @elseif (
+                                            !$order->payment &&
+                                                in_array($order->ord_status, ['proses', 'menunggu pengantaran', 'dalam pengantaran', 'menunggu pengambilan']))
+                                            <button class="btn btn-success" data-bs-toggle="modal"
                                                 data-bs-target="#modalBayar{{ $order->ord_id }}">
                                                 Pembayaran
                                             </button>
-                                    
-                                        {{-- STATUS LAIN --}}
+
+                                            {{-- STATUS LAIN --}}
                                         @else
-                                            <button class="btn btn-info"
-                                                data-bs-toggle="modal"
+                                            <button class="btn btn-info" data-bs-toggle="modal"
                                                 data-bs-target="#modalTimbang{{ $order->ord_id }}">
                                                 Timbang
                                             </button>
                                         @endif
-                                    
+
                                         {{-- AKSI --}}
-                                        <a href="/employee/ordering/{{ $order->ord_id }}/detail" class="btn btn-warning">Detail</a>
-                                    
-                                        <a href="/employee/ordering/{{ $order->ord_id }}/destroy"
-                                            class="btn btn-danger"
+                                        <a href="/employee/ordering/{{ $order->ord_id }}/detail"
+                                            class="btn btn-warning">Detail</a>
+
+                                        <a href="/employee/ordering/{{ $order->ord_id }}/destroy" class="btn btn-danger"
                                             data-confirm-delete="true">
                                             Delete
                                         </a>
-                                    
+
                                     </td>
-                                    
-                                    
+
+
                                     {{-- <td id="button-{{ $order->ord_id }}">
-                                        @if (
-                                            $order->ord_status == 'menunggu pengantaran' ||
-                                                $order->ord_status == 'dalam pengantaran' ||
-                                                $order->ord_status == 'menunggu pengambilan')
+                                        @if ($order->ord_status == 'menunggu pengantaran' || $order->ord_status == 'dalam pengantaran' || $order->ord_status == 'menunggu pengambilan')
                                             @if ($order->payment)
                                                 <a href="/employee/ordering/{{ $order->ord_id }}/qris-payment"
                                                     class="btn btn-success">pembayaran</a>
@@ -332,55 +322,65 @@
                                                     <!-- METODE -->
                                                     <label>Metode Pembayaran</label>
                                                     <select name="payment_method" class="form-control mb-2"
-                                                        onchange="toggleMetode{{ $order->ord_id }}(this)" required>
+                                                        onchange="toggleMetode({{ $order->ord_id }}, this)" required>
                                                         <option value="">-- Pilih Metode --</option>
                                                         <option value="cash">Cash</option>
-                                                        <option value="qris">QRIS</option>
+                                                        <option value="transfer">Transfer</option>
                                                     </select>
 
                                                     <!-- SECTION CASH -->
                                                     <div id="cashSection{{ $order->ord_id }}" style="display:none;">
                                                         <label>Jumlah Bayar</label>
-                                                        <input type="text" class="form-control" required
+                                                        <input type="text" class="form-control"
                                                             id="jumlahBayar{{ $order->ord_id }}" name="payment_amount"
                                                             oninput="formatBayar{{ $order->ord_id }}(this)">
 
                                                         <label>Kembalian</label>
                                                         <input type="text" class="form-control"
                                                             id="kembalian{{ $order->ord_id }}" readonly>
-                                                        <small id="infoPiutang{{ $order->ord_id }}" class="text-danger"
-                                                            style="display:none;">
-                                                            Total minus akan dimasukkan ke piutang
-                                                        </small>
+
+                                                        <button class="btn btn-success mt-3" type="submit">
+                                                            Konfirmasi Pembayaran Cash
+                                                        </button>
+                                                    </div>
+
+                                                    {{-- transfer section --}}
+                                                    <div id="transferSection{{ $order->ord_id }}" style="display:none;">
+                                                        <button type="button" class="btn btn-primary w-100"
+                                                            onclick="bayarMidtrans({{ $order->ord_id }})">
+                                                            Bayar via Midtrans
+                                                        </button>
                                                     </div>
 
                                                     <!-- SECTION QRIS -->
-                                                    <div id="qrisSection{{ $order->ord_id }}" style="display:none;"
+                                                    {{-- <div id="qrisSection{{ $order->ord_id }}" style="display:none;"
                                                         class="text-center">
                                                         <p class="mt-2">Scan QRIS untuk membayar:</p>
                                                         <img src="{{ asset('assets/images/qris/qris-demo.png') }}"
                                                             class="img-fluid" style="max-width:250px;">
                                                         <p class="text-muted mt-2">Tunjukkan bukti pembayaran ke admin</p>
-                                                    </div>
+                                                    </div> --}}
 
                                                 </div>
 
-                                                <div class="modal-footer">
+                                                {{-- <div class="modal-footer">
                                                     <button class="btn btn-primary">Konfirmasi Pembayaran</button>
-                                                </div>
+                                                </div> --}}
                                                 @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
+                                                    <div class="alert alert-success alert-dismissible fade show">
+                                                        {{ session('success') }}
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="alert"></button>
+                                                    </div>
+                                                @endif
 
-@if (session('warning'))
-    <div class="alert alert-warning alert-dismissible fade show">
-        {{ session('warning') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
+                                                @if (session('warning'))
+                                                    <div class="alert alert-warning alert-dismissible fade show">
+                                                        {{ session('warning') }}
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="alert"></button>
+                                                    </div>
+                                                @endif
 
                                             </form>
                                         </div>
@@ -431,21 +431,26 @@
                                     //         "Rp " + kembali.toLocaleString("id-ID");
                                     // }
 
-                                    function toggleMetode{{ $order->ord_id }}(select) {
-                                        let cash = document.getElementById("cashSection{{ $order->ord_id }}");
-                                        let qris = document.getElementById("qrisSection{{ $order->ord_id }}");
+                                    function toggleMetode(orderId, select) {
+                                        let cash = document.getElementById("cashSection" + orderId);
+                                        let transfer = document.getElementById("transferSection" + orderId);
+                                        let bayar = document.getElementById("jumlahBayar" + orderId);
+
+                                        cash.style.display = "none";
+                                        transfer.style.display = "none";
+                                        bayar.required = false;
 
                                         if (select.value === "cash") {
                                             cash.style.display = "block";
-                                            qris.style.display = "none";
-                                        } else if (select.value === "qris") {
-                                            cash.style.display = "none";
-                                            qris.style.display = "block";
-                                        } else {
-                                            cash.style.display = "none";
-                                            qris.style.display = "none";
+                                            bayar.required = true;
+                                        }
+
+                                        if (select.value === "transfer") {
+                                            transfer.style.display = "block";
                                         }
                                     }
+
+
 
                                     // function formatBayar{{ $order->ord_id }}(input) {
                                     //     let angka = input.value.replace(/[^0-9]/g, '');
@@ -521,6 +526,30 @@
         </div>
     </div>
     </div>
+
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+
+<script>
+function bayarMidtrans(orderId) {
+    fetch(`/employee/ordering/${orderId}/midtrans-token`)
+        .then(res => res.json())
+        .then(data => {
+            snap.pay(data.snap_token, {
+                onSuccess: function(result) {
+                    location.reload();
+                },
+                onPending: function(result) {
+                    alert("Menunggu pembayaran");
+                },
+                onError: function(result) {
+                    alert("Pembayaran gagal");
+                }
+            });
+        });
+}
+</script>
+
 @endsection
 
 
@@ -587,11 +616,11 @@
                                     'btn-warning btn-info btn-success btn-danger btn-secondary btn-primary'
                                 )
                                 .addClass(newColor);
-                                var dropdownMenu = statusButton.next('.dropdown-menu');
-dropdownMenu.empty();
+                            var dropdownMenu = statusButton.next('.dropdown-menu');
+                            dropdownMenu.empty();
 
-response.options.forEach(function(opt) {
-    dropdownMenu.append(`
+                            response.options.forEach(function(opt) {
+                                dropdownMenu.append(`
         <li>
             <a class="dropdown-item change-status"
                href="#"
@@ -601,23 +630,23 @@ response.options.forEach(function(opt) {
             </a>
         </li>
     `);
-});
+                            });
 
 
                             // ====== UPDATE TOMBOL TIMBANG ↔ PEMBAYARAN ======
                             var aksiContainer = $('#button-' + orderId);
 
-if (response.paid) {
-    aksiContainer.html(`
+                            if (response.paid) {
+                                aksiContainer.html(`
         <span class="badge bg-success">
             <i class="bx bx-check-circle"></i> Sudah Dibayar
         </span>
         <a href="/employee/ordering/${orderId}/detail" class="btn btn-warning">Detail</a>
         <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger">Delete</a>
     `);
-} else if (response.is_debt) {
-    // 🔥 DP / PIUTANG
-    aksiContainer.html(`
+                            } else if (response.is_debt) {
+                                // 🔥 DP / PIUTANG
+                                aksiContainer.html(`
         <span class="badge bg-danger">
             <i class="bx bx-time-five"></i>
             DP
@@ -626,12 +655,12 @@ if (response.paid) {
         <a href="/employee/ordering/${orderId}/detail" class="btn btn-warning">Detail</a>
         <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger">Delete</a>
     `);
-} else if (
-    response.status.toLowerCase() === 'menunggu pengantaran' ||
-    response.status.toLowerCase() === 'menunggu pengambilan' ||
-    response.status.toLowerCase() === 'dalam pengantaran'
-) {
-    aksiContainer.html(`
+                            } else if (
+                                response.status.toLowerCase() === 'menunggu pengantaran' ||
+                                response.status.toLowerCase() === 'menunggu pengambilan' ||
+                                response.status.toLowerCase() === 'dalam pengantaran'
+                            ) {
+                                aksiContainer.html(`
         <button class="btn btn-success"
             data-bs-toggle="modal"
             data-bs-target="#modalBayar${orderId}">
@@ -640,8 +669,8 @@ if (response.paid) {
         <a href="/employee/ordering/${orderId}/detail" class="btn btn-warning">Detail</a>
         <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger">Delete</a>
     `);
-} else {
-    aksiContainer.html(`
+                            } else {
+                                aksiContainer.html(`
         <button class="btn btn-info"
             data-bs-toggle="modal"
             data-bs-target="#modalTimbang${orderId}">
@@ -650,14 +679,14 @@ if (response.paid) {
         <a href="/employee/ordering/${orderId}/detail" class="btn btn-warning">Detail</a>
         <a href="/employee/ordering/${orderId}/destroy" class="btn btn-danger">Delete</a>
     `);
-}
+                            }
 
 
                         }
                         if (response.success && newStatus.toLowerCase() === 'selesai') {
                             $('#order-row-' + orderId).fadeOut(200);
-    setTimeout(() => location.reload(), 300);
-                    }
+                            setTimeout(() => location.reload(), 300);
+                        }
 
 
                     },
@@ -669,7 +698,7 @@ if (response.paid) {
             });
         });
     </script>
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 

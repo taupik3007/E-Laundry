@@ -406,17 +406,13 @@ $no = 1;
     // CASE CASH / TRANSFER     ||
     // ======================== ||
 
-    $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
-    $receive = (int) preg_replace('/[^0-9]/', '', $request->payment_amount);
-    
-    
-    $paid   = $order->ord_total;
-    if($amount >= $paid ){
-        $amount = $paid;
-    }
+    $amount = (int) preg_replace('/[^0-9]/', '', $request->payment_amount);
+$receive = (int) preg_replace('/[^0-9]/', '', $request->payment_amount);
+$paid    = (int) $order->ord_total;
 
-    $change = max(0, $receive - $paid);
-    $cashback = $amount - $paid;
+$amount  = min($receive, $paid);
+$change  = max(0, $receive - $paid);
+$cashback = $receive - $paid;
 
     $payment = Payment::create([
         'pym_order_id' => $order->ord_id,
@@ -517,6 +513,34 @@ return redirect()->back()->with(
 
   
 }
+
+
+public function midtransToken(Order $order)
+{
+   Config::$serverKey = config('services.midtrans.server_key');
+    Config::$isProduction = false;
+    Config::$isSanitized = true;
+    Config::$is3ds = true;
+
+    // 2. PARAM TRANSAKSI
+    $params = [
+        'transaction_details' => [
+            'order_id' => 'ORDER-' . $order->ord_id . '-' . time(),
+            'gross_amount' => (int) $order->ord_total,
+        ],
+        'customer_details' => [
+            'first_name' => $order->ord_customer_name ?? 'Customer',
+        ],
+    ];
+
+    // 3. SNAP TOKEN
+    $snapToken = Snap::getSnapToken($params);
+
+    return response()->json([
+        'snap_token' => $snapToken
+    ]);
+}
+
 
 public function receipt($id){
      $payment = Payment::with('order', 'order.customer')->findOrFail($id);
