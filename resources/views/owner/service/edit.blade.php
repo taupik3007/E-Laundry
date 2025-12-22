@@ -41,7 +41,7 @@
           <div class="px-4 py-3 border-bottom">
             <h4 class="card-title mb-0">Tambah Layanan </h4>
           </div>
-          <form action="{{ route('laundry-service.update', $EditService->lds_id) }}" method="post" enctype="multipart/form-data">
+          <form action="{{ route('service.update', $EditService->lds_id) }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
                 {{-- Nama Layanan --}}
@@ -87,7 +87,7 @@
                     <div class="col-sm-3"></div>
                     <div class="col-sm-9">
                         <input type="submit" class="btn btn-primary" value="Kirim">
-                        <a href="{{ route('laundry-service.index') }}" class="btn btn-warning">Batal</a>
+                        <a href="{{ route('owner.service.index') }}" class="btn btn-warning">Batal</a>
                     </div>
                 </div>
             </div>
