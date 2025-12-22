@@ -19,7 +19,7 @@ class ServiceController extends Controller
         $title = 'Delete User!';
         $text = "Are you sure you want to delete?";
         confirmDelete($title, $text);
-        return view('owner.laundry-service.index', compact('LaundryService'));
+        return view('owner.service.index', compact('LaundryService'));
     }
 
     /**
@@ -27,7 +27,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        return view('owner.laundry-service.create');
+        return view('owner.service.create');
     }
 
     /**
@@ -51,7 +51,7 @@ class ServiceController extends Controller
 
         Alert::success('Berhasil Menambah', 'Berhasil menambah data Layanan Service');
         // dd($CreateLaundry);
-        return redirect('/owner/laundry-service');
+        return redirect('/owner/service');
     }
 
     /**
@@ -68,7 +68,7 @@ class ServiceController extends Controller
     public function edit(string $id)
     {
         $EditService = LaundryService::findOrFail($id);
-        return view('employee.laundry-service.edit', compact('EditService'));
+        return view('owner.service.edit', compact('EditService'));
     }
 
     /**
@@ -92,7 +92,7 @@ class ServiceController extends Controller
 
     Alert::success('Berhasil Mengubah', 'Berhasil mengubah data Layanan Service');
     //dd($service);
-    return redirect()->route('laundry-service.index')
+    return redirect()->route('owner.service.index')
                      ->with('success', 'Layanan berhasil diperbarui!');
     }
 

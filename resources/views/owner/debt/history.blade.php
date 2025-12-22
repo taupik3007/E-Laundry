@@ -1,4 +1,4 @@
-@extends('employee.master')
+@extends('owner.master')
 
 @push('link')
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -102,7 +102,7 @@
 
  </tbody>
       {{-- <tbody id="order-history-body">
-        @include('employee.receivables.history-table')
+        @include('owner.receivables.history-table')
     </tbody> --}}
     <tfoot>
         <!-- start row -->

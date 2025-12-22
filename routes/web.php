@@ -22,6 +22,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Owner\EmployeeController;
 use App\Http\Controllers\Owner\ServiceController;
 use App\Http\Controllers\Owner\Pick_UpController;
+use App\Http\Controllers\Owner\PackageController;
 use App\Http\Controllers\Owner\LaundryOrderController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Owner\EmployesController;
@@ -178,13 +179,22 @@ Route::get('/owner/finance', [FinancesController::class, 'index'])->name('owner.
 
 Route::get('/owner/debt', [DebtOwnController::class, 'index'])->name('debt-own.index');
 Route::put('/owner/debt/{id}', [DebtOwnController::class, 'update'])->name('debt-own.update');
+Route::get('/owner/debt/{id}/receipt', [DebtOwnController::class, 'receipt'])->name('debt.receipt');
+Route::get('/owner/debt/history', [DebtOwnController::class, 'history'])->name('debt.history');
 
-Route::get('/owner/laundry-service', [ServiceController::class, 'index'])->name('laundry-service.index');
-Route::get('/owner/laundry-service/create', [ServiceController::class, 'create'])->name('laundry-service.create');
-Route::post('/owner/laundry-service/create', [ServiceController::class, 'store'])->name('laundry-service.store');
-Route::get('/owner/laundry-service/{id}/edit', [ServiceController::class, 'edit'])->name('laundry-service.edit');
-Route::post('/owner/laundry-service/{id}/update', [ServiceController::class, 'update'])->name('laundry-service.update');
-Route::delete('/owner/laundry-service/{id}/destroy', [ServiceController::class, 'destroy'])->name('laundry-service.destroy');
+Route::get('/owner/service', [ServiceController::class, 'index'])->name('owner.service.index');
+Route::get('/owner/service/create', [ServiceController::class, 'create'])->name('service.create');
+Route::post('/owner/service/create', [ServiceController::class, 'store'])->name('service.store');
+Route::get('/owner/service/{id}/edit', [ServiceController::class, 'edit'])->name('service.edit');
+Route::post('/owner/service/{id}/update', [ServiceController::class, 'update'])->name('service.update');
+Route::delete('/owner/service/{id}/destroy', [ServiceController::class, 'destroy'])->name('service.destroy');
+
+Route::get('/owner/service/{id}/packages', [PackageController::class, 'index'])->name('packages.index');
+Route::get('/owner/service/{id}/packages/create', [PackageController::class, 'create'])->name('packages.create');
+Route::post('/owner/service/{id}/packages/store', [PackageController::class, 'store'])->name('packages.store');
+Route::get('/owner/service/{id}/packages/{packageId}/edit', [PackageController::class, 'edit'])->name('packages.edit');
+Route::post('/owner/service/{id}/packages/{packageId}/update', [PackageController::class, 'update'])->name('packages.update');
+Route::delete('/owner/service/{id}/packages/{packageId}/destroy', [PackageController::class, 'destroy'])->name('packages.destroy');
 
 Route::get('/owner/profile', [ProfileController::class, 'edit_photo'])->name('owner.profile.edit');
 Route::patch('/owner/profile', [ProfileController::class, 'update_photo'])->name('owner.profile.update');

@@ -65,6 +65,10 @@ E-Laundry | Daftar Piutang
                                     data-bs-target="#modalBayar{{ $payment->pym_id }}">
                                     Bayar Utang
                                 </button>
+                                <a href="{{ route('debt.receipt', $payment->pym_id) }}"
+                                    class="btn btn-sm btn-primary" target="_blank">
+                                     <i class="ti ti-printer"></i> Cetak Struk
+                                 </a>
                             </td>
                         </tr>
                         @endforeach

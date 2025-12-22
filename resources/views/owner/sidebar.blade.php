@@ -58,7 +58,7 @@
                  </li>
 
                 <li class="sidebar-item">
-                     <a class="sidebar-link" href="/owner/laundry-service" aria-expanded="false">
+                     <a class="sidebar-link" href="/owner/service" aria-expanded="false">
                          <span>
                              <i class="ti ti-file-text"></i>
                          </span>
@@ -89,6 +89,26 @@
                     </a>
                 </li>
 
+                <!-- PIUTANG -->
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Hutang Piutang</span>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link {{ request()->is('owner/debt') ? 'active' : '' }}"
+                        href="/owner/debt">
+                        <span><i class="ti ti-cash"></i></span>
+                        <span class="hide-menu">Piutang</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link"
+                        href="/owner/debt/history">
+                        <span><i class="ti ti-cash"></i></span>
+                        <span class="hide-menu">History Piutang</span>
+                    </a>
+                </li>
 
                  <li class="nav-small-cap">
                      <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
@@ -102,13 +122,6 @@
                          <span class="hide-menu">Keuangan</span>
                      </a>
                  </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link {{ request()->is('owner/debt') ? 'active' : '' }}"
-                        href="/owner/debt">
-                        <span><i class="ti ti-cash"></i></span>
-                        <span class="hide-menu">Piutang</span>
-                    </a>
-                </li>
           </ul>
         </nav>
         <div class="fixed-profile p-3 mx-8 mb-2 bg-secondary-subtle rounded mt-3">

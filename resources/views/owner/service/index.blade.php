@@ -43,7 +43,7 @@
                 <div class="mb-5 position-relative">
 
                     <h4 class="card-title mb-0">Daftar Layanan</h4>
-                    <a href="/owner/laundry-service/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Layanan</a>
+                    <a href="/owner/service/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Layanan</a>
                 </div>
                 <p class="card-subtitle mb-3">
                     
@@ -71,9 +71,9 @@
                                        alt="{{ $service->lds_name }}" width="80">
                               </td>
                                 <td>
-                                  <a href="/owner/laundry-service/{{ $service->lds_id}}/edit" class="btn btn-primary">Edit</a>
-                                  <a href="/owner/laundry-service/{{ $service->lds_id }}/package" class="btn btn-primary">Paket</a>
-                                  <a href="/owner/laundry-service/{{ $service->lds_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                  <a href="/owner/service/{{ $service->lds_id}}/edit" class="btn btn-primary">Edit</a>
+                                  <a href="/owner/service/{{ $service->lds_id }}/packages" class="btn btn-primary">Paket</a>
+                                  <a href="/owner/service/{{ $service->lds_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
 
                              </td>
                             </tr>

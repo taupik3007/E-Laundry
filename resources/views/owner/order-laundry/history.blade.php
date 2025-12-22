@@ -91,11 +91,11 @@ E-Laundry | Daftar Riwayat Pesanan
       <thead>
         <tr>
             <th width="10%">No</th>
+            <th>Invoice</th>
             <th>Nama Customer</th>
-            <th>Jenis Layanan</th>
-            <th>Berat/Unit</th>
             <th>Total</th>
             <th>Tanggal Selesai</th>
+            <th>Aksi</th>
             
         </tr>
       </thead>
@@ -108,11 +108,11 @@ E-Laundry | Daftar Riwayat Pesanan
 
         <tr>
             <th width="10%">No</th>
+            <th>Invoice</th>
             <th>Nama Customer</th>
-            <th>Jenis Layanan</th>
-            <th>Berat/Unit</th>
             <th>Total</th>
             <th>Tanggal Selesai</th>
+            <th>Aksi</th>
         </tr>
         <!-- end row -->
     </tfoot>

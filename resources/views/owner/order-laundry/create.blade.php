@@ -94,54 +94,48 @@
                             </div>
                         </div>
 
-                        {{-- Layanan --}}
-                        <div class="mb-4 row">
-                            <label class="col-sm-3 col-form-label">Layanan</label>
-                            <div class="col-sm-9">
-                                <select id="service_id" name="service_id" class="form-control" required>
-                                    <option value="">-- Pilih Layanan --</option>
-                                    @foreach ($services as $item)
-                                        <option value="{{ $item->lds_id }}"
-                                            {{ old('service_id') == $item->lds_id ? 'selected' : '' }}>
-                                            {{ $item->lds_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('service_id')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
+                        <div id="order-details">
+                            <div class="row mb-3 order-row">
+                        
+                                <label class="col-sm-3 col-form-label">Detail Layanan</label>
+                        
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <select class="form-control service-select" name="service_id[]" class="form-control" required>
+                                                <option value="">-- Pilih Layanan --</option>
+                                                @foreach ($services as $item)
+                                                    <option value="{{ $item->lds_id }}">{{ $item->lds_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                        
+                                        <div class="col-md-4">
+                                            <select class="form-control package-select" name="package_id[]" class="form-control" required>
+                                                <option value="">-- Pilih Paket --</option>
+                                            </select>
+                                        </div>
+                        
+                                        <div class="col-md-3">
+                                            <input class="form-control qty-input" type="number" name="quantity[]" class="form-control" min="0" step="any"
+                                                placeholder="Qty / Kg" required>
+                                        </div>
+                        
+                                        <div class="col-md-1 d-flex align-items-center">
+                                            <button type="button" class="btn btn-success btn-add-row">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                        
                             </div>
                         </div>
-
-
-                        {{-- Paket --}}
-                        <div class="mb-4 row">
-                            <label class="col-sm-3 col-form-label">Paket Layanan</label>
-                            <div class="col-sm-9">
-                                <select id="package_id" name="package_id" class="form-control" required>
-                                    <option value="">-- Pilih Paket --</option>
-                                </select>
-                                @error('package_id')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
-                            </div>
-                        </div>
-
-
-                        {{-- Qty/Berat --}}
-                        <div class="mb-4 row">
-                            <label class="col-sm-3 col-form-label">Jumlah / Berat</label>
-                            <div class="col-sm-9">
-                                <input type="number" id="quantity" name="quantity" class="form-control"
-                                    value="{{ old('quantity') }}" placeholder="Masukkan qty / kg" required>
-                            </div>
-                        </div>
+                        
 
                         {{-- Total --}}
                         <div class="mb-4 row">
                             <label class="col-sm-3 col-form-label">Total Harga</label>
                             <div class="col-sm-9">
-                                <input type="text" id="total_price" name="total" value="{{ old('total') }}"
+                                <input type="text" id="total_price1" name="total" value="{{ old('total') }}"
                                     class="form-control" readonly>
                             </div>
                         </div>
@@ -149,10 +143,17 @@
                         <div class="mb-4 row">
                             <label class="col-sm-3 col-form-label">No. Telepon</label>
                             <div class="col-sm-9">
-                                <input type="number" name="ord_phone_number" class="form-control"
-                                    value="{{ old('ord_phone_number') }}" placeholder="08xxxx" required>
+                                <div class="input-group">
+                                    <span class="input-group-text">+62</span>
+                                    <input type="tel" id="phone" name="ord_phone_number" class="form-control"
+                                           placeholder="81234567890"
+                                           pattern="^[0-9]{8,12}$"
+                                           maxlength="12"
+                                           required>
+                                </div>
                             </div>
                         </div>
+                        
 
                         {{-- Metode Penjemputan --}}
                         {{-- <div class="mb-4 row">
