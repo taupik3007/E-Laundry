@@ -17,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         ]);
+         $middleware->validateCsrfTokens(except: [
+        'employee/ordering/midtrans/callback',
+    ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
