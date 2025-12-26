@@ -3,6 +3,8 @@
 @push('link')
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+
 @endpush
 
 @section('title')
@@ -174,4 +176,16 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var tooltipTriggerList = [].slice.call(
+                document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            );
+        
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+        </script>
+        
 @endpush

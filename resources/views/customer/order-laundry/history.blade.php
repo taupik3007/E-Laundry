@@ -111,7 +111,13 @@ E-Laundry | Daftar Riwayat Laundry
             </td>
             <td>{{ $order->ord_updated_at->format('d/m/Y H:i') }}</td>
             <td>
-              <a href="/customer/laundry-order/history/{{ $order->ord_id}}/detail" class="btn btn-warning">Detail</a>
+        
+              <a href="/customer/laundry-order/history/{{ $order->ord_id}}/detail"
+                class="text-warning"
+                data-bs-toggle="tooltip"
+                title="Detail Pesanan">
+               <span class="iconify" data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition" data-width="25"></span>
+             </a>
             </td>
           </tr>
         @endforeach 
@@ -185,6 +191,7 @@ E-Laundry | Daftar Riwayat Laundry
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
 <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 
     
     

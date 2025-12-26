@@ -60,15 +60,29 @@ E-Laundry | Daftar Piutang
                             <td>Rp {{ number_format($payment->pym_amount) }}</td>
                             <td>Rp {{ number_format($payment->pym_debt_amount) }}</td>
                             <td>
-                                <button class="btn btn-success btn-sm"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalBayar{{ $payment->pym_id }}">
-                                    Bayar Utang
-                                </button>
+                                <div class="d-flex align-items-center gap-3">
+                                <a href="#"
+                                class="text-success d-inline-flex align-items-center justify-content-center"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalBayar{{ $payment->pym_id }}"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Bayar Utang">
+                                    <span class="iconify"
+                                        data-icon="ic:twotone-price-change"
+                                        data-width="25"></span>
+                                </a>
                                 <a href="{{ route('debt.receipt', $payment->pym_id) }}"
-                                    class="btn btn-sm btn-primary" target="_blank">
-                                     <i class="ti ti-printer"></i> Cetak Struk
-                                 </a>
+                                    target="_blank"
+                                    class="text-primary d-inline-flex align-items-center justify-content-center me-2"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Cetak Struk">
+                                    <span class="iconify"
+                                        data-icon="line-md:file-download-filled"
+                                        data-width="25"></span>
+                                </a>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -171,6 +185,7 @@ E-Laundry | Daftar Piutang
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 
 {{-- HITUNG TOTAL UTANG --}}
 {{-- <script>

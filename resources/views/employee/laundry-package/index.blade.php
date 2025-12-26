@@ -75,8 +75,23 @@
                                 <td>{{ $package->ldp_description }}</td>
                                 <td>{{ $package->ldp_duration }}</td>
                                 <td>
-                                 <a href="/employee/laundry-service/{{ $service->lds_id}}/package/{{$package->ldp_id}}/edit" class="btn btn-primary">Edit</a>
-                                 <a href="/employee/laundry-service/{{ $service->lds_id}}/package/{{$package->ldp_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                <div class="d-flex align-items-center gap-3">
+                                <a href="/employee/laundry-service/{{ $service->lds_id}}/package/{{$package->ldp_id}}/edit"
+                                  class="text-primary"
+                                  data-bs-toggle="tooltip"
+                                  title="Edit">
+                                 <span class="iconify" data-icon="line-md:pencil" data-width="25"></span>
+                               </a>
+
+                               <a href="/employee/laundry-service/{{ $service->lds_id}}/package/{{$package->ldp_id}}/destroy"
+                                class="text-danger"
+                                data-confirm-delete="true"
+                                data-bs-toggle="tooltip"
+                                title="Hapus">
+                               <span class="iconify" data-icon="line-md:trash" data-width="25"></span>
+                             </a>
+                                </div>
+        
                                 </td>
                             </tr>
                        
@@ -116,4 +131,5 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 @endpush

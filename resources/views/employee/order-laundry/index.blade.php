@@ -3,6 +3,7 @@
 @push('link')
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
     {{-- <style>
         .dataTables_wrapper {
             overflow-x: auto;
@@ -168,27 +169,40 @@
 
                                         {{-- JIKA SUDAH BAYAR --}}
                                         @if ($order->payment && $order->payment->pym_payment_status == 1)
-                                            <span class="badge bg-success">
-                                                <i class="bx bx-check-circle"></i> Sudah Dibayar
+                                            <span class="btn btn-success d-inline-flex align-items-center gap-1"  data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            title="Pembayaran sudah lunas" >
+                                            <span class="iconify"
+                                            data-icon="ic:baseline-price-check"
+                                            data-width="20"></span>
                                             </span>
 
                                         {{-- BELUM LUNAS (DP / PIUTANG) --}}
-    @elseif (
-        $order->payment &&
-        $order->payment->pym_payment_status == 0 &&
-        $order->payment->pym_is_debt == 1 &&
-        in_array($order->ord_status, [
-            'proses',
-            'menunggu pengantaran',
-            'dalam pengantaran',
-            'menunggu pengambilan',
-            'selesai'
-        ])
-    )
-        <span class="badge bg-danger">
-            <i class="bx bx-time-five"></i>
-            DP
-        </span>
+                                            @elseif (
+                                                $order->payment &&
+                                                $order->payment->pym_payment_status == 0 &&
+                                                $order->payment->pym_is_debt == 1 &&
+                                                in_array($order->ord_status, [
+                                                    'proses',
+                                                    'menunggu pengantaran',
+                                                    'dalam pengantaran',
+                                                    'menunggu pengambilan',
+                                                    'selesai'
+                                                ])
+                                            )
+                                            <a href="{{ route('debt.byOrder', $order->ord_id) }}"
+                                                class="btn btn-danger d-inline-flex align-items-center gap-1"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                title="Bayar sebagian">
+                                             
+                                                 <span class="iconify"
+                                                     data-icon="mdi:cash-clock"
+                                                     data-width="20"
+                                                     data-height="20"></span>
+                                             </a>
+                                             
+ 
                                     
                                         {{-- JIKA BELUM BAYAR & MASIH BOLEH BAYAR --}}
                                         @elseif ( !$order->payment &&
@@ -200,26 +214,56 @@
                                         ]))
                                             <button class="btn btn-success"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#modalBayar{{ $order->ord_id }}">
-                                                Pembayaran
+                                                data-bs-target="#modalBayar{{ $order->ord_id }}"
+                                                data-bs-toggle="tooltip"
+                                                title="Pembayaran"
+                                                >
+                                                <span class="iconify"
+                                                    data-icon="tabler:user-dollar"
+                                                    data-width="20"
+                                                    data-height="20"></span>
                                             </button>
                                     
                                         {{-- STATUS LAIN --}}
                                         @else
-                                            <button class="btn btn-info"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalTimbang{{ $order->ord_id }}">
-                                                Timbang
-                                            </button>
+                                        <button class="btn btn-info d-inline-flex align-items-center justify-content-center"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalTimbang{{ $order->ord_id }}"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Timbang">
+                                    
+                                        <span class="iconify"
+                                            data-icon="ic:baseline-balance"
+                                            data-width="18"></span>
+                                    </button>
+                                    
                                         @endif
                                     
                                         {{-- AKSI --}}
-                                        <a href="/employee/ordering/{{ $order->ord_id }}/detail" class="btn btn-warning">Detail</a>
-                                    
+                                        {{-- <a href="/employee/ordering/{{ $order->ord_id }}/detail" class="iconify fs-5" data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition">D</a>
+                                         --}}
+                                         <a href="/employee/ordering/{{ $order->ord_id }}/detail"
+                                            class="btn btn-info"
+                                            data-bs-toggle="tooltip"
+                                            title="Detail Pesanan">
+                                         
+                                             <span class="iconify"
+                                                   data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition"
+                                                   data-width="22"
+                                                   data-height="22"></span>
+                                         </a>
+                                         
+                                         
                                         <a href="/employee/ordering/{{ $order->ord_id }}/destroy"
                                             class="btn btn-danger"
-                                            data-confirm-delete="true">
-                                            Delete
+                                            data-confirm-delete="true"
+                                            data-bs-toggle="tooltip"
+                                            title="Hapus Pesanan">
+                                            <span class="iconify"
+                                                   data-icon="line-md:file-remove-filled"
+                                                   data-width="22"
+                                                   data-height="22"></span>
                                         </a>
                                     
                                     </td>
@@ -369,19 +413,18 @@
                                                     <button class="btn btn-primary">Konfirmasi Pembayaran</button>
                                                 </div>
                                                 @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
+                                                    <div class="alert alert-success alert-dismissible fade show">
+                                                        {{ session('success') }}
+                                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                    </div>
+                                                @endif
 
-@if (session('warning'))
-    <div class="alert alert-warning alert-dismissible fade show">
-        {{ session('warning') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-
+                                                @if (session('warning'))
+                                                    <div class="alert alert-warning alert-dismissible fade show">
+                                                        {{ session('warning') }}
+                                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                    </div>
+                                                @endif
                                             </form>
                                         </div>
                                     </div>
@@ -542,6 +585,7 @@
 });
 
 </script> --}}
+
 
     <script>
         var table;

@@ -131,6 +131,7 @@ Route::get('/employee/debt', [DebtController::class, 'index'])->name('debt.index
 Route::put('/employee/debt/{id}', [DebtController::class, 'update'])->name('debt.update');
 Route::get('/employee/debt/{id}/receipt', [DebtController::class, 'receipt'])->name('debt.receipt');
 Route::get('/employee/debt/history', [DebtController::class, 'history'])->name('debt.history');
+Route::get('/employee/debt/order/{order}', [DebtController::class, 'byOrder'])->name('debt.byOrder');
 
 Route::get('/employee/wagw', [MessageController::class, 'wagw'])->name('wagw');
 Route::post('/employee/wagw/send', [MessageController::class, 'send'])->name('wagw.send');
