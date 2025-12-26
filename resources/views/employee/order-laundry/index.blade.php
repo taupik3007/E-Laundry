@@ -236,10 +236,6 @@
                                             data-icon="ic:baseline-balance"
                                             data-width="18"></span>
                                     </button>
-                                            <button class="btn btn-info" data-bs-toggle="modal"
-                                                data-bs-target="#modalTimbang{{ $order->ord_id }}">
-                                                Timbang
-                                            </button>
                                         @endif
 
                                         {{-- AKSI --}}
