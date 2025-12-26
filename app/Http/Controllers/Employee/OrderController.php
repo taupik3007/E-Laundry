@@ -11,6 +11,7 @@ use App\Models\OrderDetail;
 use App\Models\Payment;
 use App\Models\User;
 use Midtrans\Config;
+use Midtrans\Notification;
 use Midtrans\CoreApi; 
 use Midtrans\Snap;  
 use Carbon\Carbon;
@@ -24,6 +25,7 @@ class OrderController extends Controller
      */
     public function index()
     {
+        
         $orderlist = Order::with(['service', 'package'])
     ->whereNotIn('ord_status', ['selesai', 'dibatalkan', 'belum lunas'])
     ->orderBy('ord_created_at', 'DESC')
@@ -406,17 +408,13 @@ $no = 1;
     // CASE CASH / TRANSFER     ||
     // ======================== ||
 
-    $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
-    $receive = (int) preg_replace('/[^0-9]/', '', $request->payment_amount);
-    
-    
-    $paid   = $order->ord_total;
-    if($amount >= $paid ){
-        $amount = $paid;
-    }
+    $amount = (int) preg_replace('/[^0-9]/', '', $request->payment_amount);
+$receive = (int) preg_replace('/[^0-9]/', '', $request->payment_amount);
+$paid    = (int) $order->ord_total;
 
-    $change = max(0, $receive - $paid);
-    $cashback = $amount - $paid;
+$amount  = min($receive, $paid);
+$change  = max(0, $receive - $paid);
+$cashback = $receive - $paid;
 
     $payment = Payment::create([
         'pym_order_id' => $order->ord_id,
@@ -517,6 +515,34 @@ return redirect()->back()->with(
 
   
 }
+
+
+public function midtransToken(Order $order)
+{
+   Config::$serverKey = config('services.midtrans.server_key');
+    Config::$isProduction = false;
+    Config::$isSanitized = true;
+    Config::$is3ds = true;
+
+    // 2. PARAM TRANSAKSI
+    $params = [
+        'transaction_details' => [
+            'order_id' => $order->ord_invoice,
+            'gross_amount' => (int) $order->ord_total,
+        ],
+        'customer_details' => [
+            'first_name' => $order->ord_customer_name ?? 'Customer',
+        ],
+    ];
+
+    // 3. SNAP TOKEN
+    $snapToken = Snap::getSnapToken($params);
+
+    return response()->json([
+        'snap_token' => $snapToken
+    ]);
+}
+
 
 public function receipt($id){
      $payment = Payment::with('order', 'order.customer')->findOrFail($id);
@@ -640,31 +666,65 @@ public function qrispayment($id)
 }
 public function callback(Request $request)
 {
-   $notif = $request->all();
+    $serverKey = config('midtrans.server_key');
+    $signatureKey = hash(
+        'sha512',
+        $request->order_id .
+        $request->status_code .
+        $request->gross_amount .
+        $serverKey
+    );
 
-    $payment = Payment::where('pym_gateaway_references', $notif['order_id'])->first();
-
-    if (!$payment) {
-        return response()->json(['message' => 'Payment not found'], 404);
+    if ($signatureKey !== $request->signature_key) {
+        return response()->json(['message' => 'Invalid signature'], 403);
     }
 
-    $status = $notif['transaction_status'];
+    $order = Order::where('ord_invoice', $request->order_id )->firstOrFail();
+    
+  
 
-    if ($status == 'settlement') {
+    if (
+        $request->transaction_status == 'settlement' ||
+        $request->transaction_status == 'capture'
+    ) {
+        // Payment::create(
+            
+        //     [
+        //         'pym_order_id' => $order->ord_id,
+        //         'pym_order_method' => 3, // midtrans
+        //         'pym_payment_gateaway' => 'midtrans',
+        //         'pym_gateaway_references' => $request->transaction_id,
+        //         'pym_payment_status' => 1,
+        //         'pym_amount' => $request->gross_amount,
+        //         'pym_amount_paid' => $request->gross_amount,
+        //         'pym_cash_received' => $request->gross_amount,
+        //         'pym_paid_at' => now(),
+        //         'pym_raw_response' => json_encode($request->all()),
+        //     ]
+        // );
+        Payment::create([
+        'pym_order_id' => $order->ord_id,
+        'pym_order_method' => 3,
+        'pym_payment_gateaway' => 'midtrans',
+        'pym_gateaway_references' => $request->transaction_id,
+        'pym_qrcode_url' => '-',
+        'pym_payment_status' => true,
+        'pym_amount' => $request->gross_amount,
+        'pym_amount_paid' => $request->gross_amount,
+        'pym_cash_received' => $request->gross_amount,
+        'pym_change_amount' => 0,
+        'pym_paid_at' => now(),
+        'pym_expiry_time' => now(),
+        'pym_raw_response' => json_encode($request->all()),
+        'pym_sys_note' => 'Transfer',
+        'pym_created_by' => auth()->id(),
+    ]);
+        // $order->update(['ord_phone_number' =>0]);
 
-        // Update payment
-        $payment->update([
-            'pym_payment_status' => 1,
-            'pym_paid_at' => now(),
-        ]);
-
-        // Update order
-        $payment->order->update([
-            'ord_status' => 'Selesai'
-        ]);
+        // $order->update(['ord_status' => 'proses']);
     }
 
-    return response()->json(['message' => 'Callback OK']);
+    return response()->json(['message' => 'OK']);
 }
 
 
