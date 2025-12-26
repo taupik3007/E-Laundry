@@ -243,7 +243,6 @@
                                         @endif
 
                                         {{-- AKSI --}}
-<<<<<<< HEAD
                                         {{-- <a href="/employee/ordering/{{ $order->ord_id }}/detail" class="iconify fs-5" data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition">D</a>
                                          --}}
                                          <a href="/employee/ordering/{{ $order->ord_id }}/detail"
@@ -420,16 +419,17 @@
                                                 {{-- <div class="modal-footer">
                                                     <button class="btn btn-primary">Konfirmasi Pembayaran</button>
                                                 </div> --}}
-                                                @if (session('success'))
+                                                {{-- @if (session('success'))
                                                     <div class="alert alert-success alert-dismissible fade show">
                                                         {{ session('success') }}
                                                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                    
                                                 @if (session('warning'))
                                                     <div class="alert alert-warning alert-dismissible fade show">
                                                         {{ session('warning') }}
                                                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                                     </div>
-                                                @endif
+                                                @endif --}}
                                             </form>
                                         </div>
                                     </div>
