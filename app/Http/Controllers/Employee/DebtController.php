@@ -24,6 +24,19 @@ return view('employee.receivables.index', compact('debts'));
     /**
      * Show the form for creating a new resource.
      */
+
+     public function byOrder(Order $order)
+{
+    $piutang = Payment::where('pym_order_id', $order->ord_id)->firstOrFail();
+
+    return view('employee.receivables.index', [
+        'debts' => collect([$piutang]),
+        'fromOrder' => true,
+        'order' => $order
+    ]);
+}
+
+
     public function create()
     {
         //

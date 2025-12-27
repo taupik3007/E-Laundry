@@ -81,19 +81,33 @@
                             </td> --}}
 
                             <td>
-                              <a href="/customer/laundry-order/{{ $order->ord_id }}/detail"
-                                 class="btn btn-warning">Detail</a>
-                          
+                              <div class="d-flex align-items-center gap-3">
+                                         <a href="/customer/laundry-order/{{ $order->ord_id }}/detail"
+                                          class="text-warning"
+                                          data-bs-toggle="tooltip"
+                                          title="Detail Pesanan">
+                                         <span class="iconify" data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition" data-width="25"></span>
+                                       </a>
                               @if(in_array($order->ord_status, [
                                   'menunggu penjemputan',
                                   'dalam penjemputan',
                                   'menunggu penyerahan'
                               ]))
-                                  <a href="/customer/laundry-order/{{ $order->ord_id }}/edit"
-                                     class="btn btn-primary">Edit</a>
-                          
-                                  <a href="/customer/laundry-order/{{ $order->ord_id }}/destroy"
-                                     class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                              
+                                     <a href="/customer/laundry-order/{{ $order->ord_id }}/edit"
+                                      class="text-primary"
+                                      data-bs-toggle="tooltip"
+                                      title="Edit">
+                                     <span class="iconify" data-icon="line-md:pencil" data-width="25"></span>
+                                   </a>
+                                     <a href="/customer/laundry-order/{{ $order->ord_id }}/destroy"
+                                      class="text-danger"
+                                      data-bs-toggle="tooltip"
+                                      title="Batalkan Pesanan">
+                                     <span class="iconify" data-icon="line-md:trash" data-width="25"></span>
+                                   </a>
+                              </div>
+
                               @endif
                           </td>
                           
@@ -135,4 +149,5 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 @endpush

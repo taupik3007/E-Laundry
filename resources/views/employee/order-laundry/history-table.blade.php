@@ -13,9 +13,13 @@
     <td>{{ $order->ord_updated_at->format('d/m/Y H:i') }}</td>
     <td>
         <a href="{{ route('payment.receipt', $order->payment->pym_id) }}" 
-           class="btn btn-sm btn-primary" target="_blank">
-            <i class="ti ti-printer"></i> Cetak Struk
+           class="btn btn-sm btn-primary" target="_blank" data-bs-toggle="tooltip"
+           data-bs-placement="top"
+           title="Cetak Struk">
+            <i class="iconify fs-5" data-icon="line-md:download"></i>
         </a>
     </td>
 </tr>
 @endforeach
+
+

@@ -135,13 +135,18 @@
     <!-- NAVBAR (fixed) -->
     <nav class="bg-[#ebebeb] shadow-lg fixed w-full z-50 top-0 left-0">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-blue-600">BrandKu</h1>
-            <a href="/login" class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+    
+            <!-- LOGO -->
+            <img id="logo"
+                 src="{{ asset('assets/images/logos/logooo.png') }}"
+                 width="110"
+                 alt="Logo">
+        
+            <!-- BUTTON LOGIN -->
+            <a href="/login"
+               class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                 Login
             </a>
-            {{-- <a href="/login" class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                Login
-            </a> --}}
         </div>
     </nav>
     <a href="https://wa.me/628xxxxxxxxxx" target="_blank"
