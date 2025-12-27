@@ -65,7 +65,7 @@ E-Laundry | Daftar Piutang
                                     data-bs-target="#modalBayar{{ $payment->pym_id }}">
                                     Bayar Utang
                                 </button>
-                                <a href="{{ route('debt.receipt', $payment->pym_id) }}"
+                                <a href="{{ route('owner.debt.receipt', $payment->pym_id) }}"
                                     class="btn btn-sm btn-primary" target="_blank">
                                      <i class="ti ti-printer"></i> Cetak Struk
                                  </a>
@@ -97,7 +97,7 @@ E-Laundry | Daftar Piutang
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
-            <form action="{{ route('debt-own.update', $payment->pym_id) }}" method="POST"> 
+            <form action="{{ route('debt.update', $payment->pym_id) }}" method="POST"> 
             {{-- <form action="" method="POST"> --}}
                 @csrf
                 @method('PUT')
@@ -128,32 +128,49 @@ E-Laundry | Daftar Piutang
         </div>
     </div>
 </div>
-
 <script>
-function formatBayar{{ $payment->pym_id }}(input) {
-    let angka = input.value.replace(/[^0-9]/g, "");
-    if (!angka) angka = 0;
-    let total = {{ $payment->pym_debt_amount }};
-    if (angka > total) {
-        angka = total;
-        alert("Jumlah bayar tidak boleh lebih dari sisa utang");
-        input.value = "Rp " + angka.toLocaleString("id-ID"); // update input langsung
+    function formatBayar{{ $payment->pym_id }}(input) {
+        // ambil angka saja
+        let angka = input.value.replace(/[^0-9]/g, '');
+        let total = {{ $payment->pym_debt_amount }};
+    
+        let bayar = parseInt(angka) || 0;
+    
+        // 🔒 batas maksimal = sisa piutang
+        if (bayar > total) {
+            bayar = total;
+        }
+    
+        // format input bayar
+        if (bayar > 0) {
+            input.value = "Rp " + bayar.toLocaleString("id-ID");
+        } else {
+            input.value = "";
+        }
+    
+        // hitung sisa piutang
+        let sisa = total - bayar;
+    
+        document.getElementById("sisa{{ $payment->pym_id }}").value =
+            "Rp " + sisa.toLocaleString("id-ID");
     }
-    let sisa = total - angka;
+    </script>
+    
 
-    input.value = "Rp " + angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    document.getElementById("sisa{{ $payment->pym_id }}").value =
-        "Rp " + sisa.toLocaleString("id-ID");
-}
-</script>
 @endforeach
 @endsection
 
 
 @push('script')
 <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+    <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
 
 {{-- HITUNG TOTAL UTANG --}}
 {{-- <script>

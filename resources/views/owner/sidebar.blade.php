@@ -41,7 +41,7 @@
                      <span class="hide-menu">PESANAN</span>
                  </li>
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="/owner/ordering" aria-expanded="false">
+                     <a class="sidebar-link" href="/owner/order-laundry" aria-expanded="false">
                          <span>
                              <i class="ti ti-shopping-cart"></i>
                          </span>
@@ -49,7 +49,7 @@
                      </a>
                  </li>
                  <li class="sidebar-item">
-                     <a class="sidebar-link" href="/owner/ordering/history" aria-expanded="false">
+                     <a class="sidebar-link" href="/owner/order-laundry/history" aria-expanded="false">
                          <span>
                              <i class="ti ti-history"></i>
                          </span>

@@ -106,7 +106,7 @@ class PackageController extends Controller
 
     Alert::success('Berhasil Menghapus', 'Berhasil menghapus data Paket Layanan');
     return redirect()
-        ->route('package.index', $serviceId)
+        ->route('packages.index', $serviceId)
         ->with('success', 'Paket berhasil dihapus!');
     }
     

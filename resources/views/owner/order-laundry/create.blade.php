@@ -219,6 +219,7 @@
 
 
 @push('script')
+
     <script>
       document.getElementById('manualBtn').addEventListener('click', function () {
     let manualInput      = document.getElementById('manualInput');
@@ -253,6 +254,37 @@
     </script>
 
     <script>
+        document.getElementById('quantity').addEventListener('keydown', function(e) {
+    if (e.key === '-' || e.key === '+') {
+        e.preventDefault();
+    }
+});
+
+    </script>
+
+    <script>
+        document.querySelector('input[name="ord_phone_number"]').addEventListener('input', function () {
+    this.value = this.value.replace(/[^0-9+]/g, ''); // hilangkan huruf & simbol lain
+});
+
+    </script>
+
+    <script>
+        document.getElementById('phone').addEventListener('input', function () {
+    // hanya angka
+    let val = this.value.replace(/[^0-9]/g, '');
+
+    // jika user mengawali dengan 0 → hapus otomatis
+    if (val.startsWith('0')) {
+        val = val.substring(1);
+    }
+
+    this.value = val;
+});
+
+    </script>
+
+    <script>
         // =====================
         // SHOW ALAMAT OTOMATIS
         // =====================
@@ -275,34 +307,6 @@
         $(document).ready(function() {
             checkAddress();
         });
-
-
-
-        // =====================
-        // AMBIL PAKET DARI AJAX
-        // =====================
-        // $('#service_id').on('change', function() {
-
-        //     var serviceId = $(this).val();
-        //     $('#package_id').html('<option>Loading...</option>');
-
-        //     if (serviceId) {
-        //         $.ajax({
-        //             url: '/owner/ordering/' + serviceId + '/packages',
-        //             type: 'GET',
-        //             success: function(data) {
-        //                 $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
-        //                 $.each(data, function(i, pkg) {
-        //                     $('#package_id').append(`
-    //                         <option value="${pkg.ldp_id}" data-price="${pkg.ldp_price}"  ${pkg.ldp_id == "{{ old('package_id') }}" ? 'selected' : ''}>
-    //                           ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()} / ${pkg.ldp_unit}
-    //                         </option>
-    //                     `);
-        //                 });
-        //             }
-        //         });
-        //     }
-        // });
 
         // Simpan old() value ke JS
         let oldPackageId = "{{ old('package_id') }}";
@@ -403,5 +407,101 @@
                 $('#service_id').trigger('change');
             }
         });
+    </script>
+    <script>
+        function refreshButtons() {
+        let rows = document.querySelectorAll('.order-row');
+        rows.forEach((row, index) => {
+            let btnContainer = row.querySelector('.col-md-1');
+            btnContainer.innerHTML = ''; // kosongkan dulu
+    
+            if (index === 0) {
+                // baris pertama hanya tombol +
+                btnContainer.innerHTML = '<button type="button" class="btn btn-success btn-add-row">+</button>';
+            } else {
+                // baris kedua dst hanya tombol -
+                btnContainer.innerHTML = '<button type="button" class="btn btn-danger btn-remove-row">-</button>';
+            }
+        });
+    }
+    
+    document.addEventListener('click', function(e) {
+        // tambah baris
+        if (e.target.classList.contains('btn-add-row')) {
+            let container = document.getElementById('order-details');
+            let newRow = container.querySelector('.order-row').cloneNode(true);
+    
+            newRow.querySelectorAll('select, input').forEach(el => el.value = '');
+    
+            container.appendChild(newRow);
+            refreshButtons();
+        }
+    
+        // hapus baris
+        if (e.target.classList.contains('btn-remove-row')) {
+            e.target.closest('.order-row').remove();
+            refreshButtons();
+        }
+    });
+    
+    // pertama kali jalankan
+    refreshButtons();
+
+   // Hitung total per row
+function hitungTotalPerRow(row) {
+    let price = row.find(".package-select option:selected").data("price");
+    let qty   = row.find(".qty-input").val();
+    return (price && qty) ? price * qty : 0;
+}
+
+// Hitung semua baris
+function hitungGrandTotal() {
+    let total = 0;
+
+    $(".order-row").each(function () {
+        total += hitungTotalPerRow($(this));
+    });
+
+    $("#total_price1").val("Rp " + Number(total).toLocaleString());
+}
+
+// event perubahan qty / paket
+$(document).on("change keyup", ".package-select, .qty-input", function () {
+    hitungGrandTotal();
+});
+
+// Remove row
+$(document).on("click", ".btn-remove-row", function () {
+    $(this).closest(".order-row").remove();
+    hitungGrandTotal(); // <--- WAJIB BIAR TOTAL UPDATE
+});
+
+
+// event perubahan service => load paket
+$(document).on("change", ".service-select", function () {
+    let row = $(this).closest(".order-row");
+    let serviceId = $(this).val();
+    let packageSelect = row.find(".package-select");
+
+    packageSelect.html("<option>Loading...</option>");
+
+    $.ajax({
+        url: "/owner/ordering/" + serviceId + "/packages",
+        type: "GET",
+        success: function (data) {
+            packageSelect.empty().append('<option value="">-- Pilih Paket --</option>');
+            $.each(data, function (i, pkg) {
+                packageSelect.append(`
+                    <option value="${pkg.ldp_id}" data-price="${pkg.ldp_price}">
+                        ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()}
+                    </option>
+                `);
+            });
+        }
+    });
+});
+
+
+    
     </script>
 @endpush

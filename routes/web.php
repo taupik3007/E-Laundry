@@ -164,16 +164,16 @@ Route::delete('/owner/employee/{id}/destroy', [EmployeeController::class, 'destr
 
 Route::get('/owner/customer', [CustomersController::class, 'index'])->name('owner.employee.index');
 
-Route::get('/owner/ordering', [LaundryOrderController::class, 'index'])->name('order.index');
-Route::post('/owner/ordering/{id}/status', [LaundryOrderController::class, 'updateStatus'])->name('order.updateStatus');
-Route::put('/owner/ordering/{id}/weight', [LaundryOrderController::class, 'updateWeight'])->name('orderown.updateWeight');
-Route::get('/owner/ordering/create', [LaundryOrderController::class, 'create'])->name('order.create');
-Route::get('/owner/ordering/{id}/packages', [LaundryOrderController::class, 'ajaxPackages']);
-Route::post('/owner/ordering/create', [LaundryOrderController::class, 'store'])->name('order.store');
-Route::get('/owner/ordering/{id}/edit', [LaundryOrderController::class, 'edit'])->name('order.edit');
-Route::get('/owner/ordering/{id}/detail', [LaundryOrderController::class, 'detail'])->name('order.detaill');
-Route::put('/owner/ordering/{id}/payment', [LaundryOrderController::class, 'payment'])->name('orderown.payment');
-Route::get('/owner/ordering/history', [LaundryOrderController::class, 'history'])->name('order-own.history');
+Route::get('/owner/order-laundry', [LaundryOrderController::class, 'index'])->name('order.index');
+Route::post('/owner/order-laundry/{id}/status', [LaundryOrderController::class, 'updateStatus'])->name('order.updateStatus');
+Route::put('/owner/order-laundry/{id}/weight', [LaundryOrderController::class, 'updateWeight'])->name('orderown.updateWeight');
+Route::get('/owner/order-laundry/create', [LaundryOrderController::class, 'create'])->name('order.create');
+Route::get('/owner/order-laundry/{id}/packages', [LaundryOrderController::class, 'ajaxPackages']);
+Route::post('/owner/order-laundry/create', [LaundryOrderController::class, 'store'])->name('order.store');
+Route::get('/owner/order-laundry/{id}/edit', [LaundryOrderController::class, 'edit'])->name('order.edit');
+Route::get('/owner/order-laundry/{id}/detail', [LaundryOrderController::class, 'detail'])->name('order.detail');
+Route::put('/owner/order-laundry/{id}/payment', [LaundryOrderController::class, 'payment'])->name('orderown.payment');
+Route::get('/owner/order-laundry/history', [LaundryOrderController::class, 'history'])->name('order-own.history');
 
 Route::get('/owner/pick-up', [Pick_UpController::class, 'index'])->name('pickup.index');
 Route::post('/owner/pick-up/{id}/status', [Pick_UpController::class, 'updateStatus'])->name('pickup.updateStatus');
@@ -183,7 +183,7 @@ Route::get('/owner/finance', [FinancesController::class, 'index'])->name('owner.
 
 Route::get('/owner/debt', [DebtOwnController::class, 'index'])->name('debt-own.index');
 Route::put('/owner/debt/{id}', [DebtOwnController::class, 'update'])->name('debt-own.update');
-Route::get('/owner/debt/{id}/receipt', [DebtOwnController::class, 'receipt'])->name('debt.receipt');
+Route::get('/owner/debt/{id}/receipt', [DebtOwnController::class, 'receipt'])->name('owner.debt.receipt');
 Route::get('/owner/debt/history', [DebtOwnController::class, 'history'])->name('debt.history');
 
 Route::get('/owner/service', [ServiceController::class, 'index'])->name('owner.service.index');

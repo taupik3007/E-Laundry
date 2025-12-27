@@ -33,7 +33,7 @@ class DashboardController extends Controller
     $creditCount = Payment::where('pym_payment_status', 0)->count();
     $credit      = Payment::where('pym_payment_status', 0)->sum('pym_debt_amount');
 
-    $income = [1200000, 1500000, 180000]; 
+    $income = [1200000, 1500000, 180000];
 
 
     // =========================================================

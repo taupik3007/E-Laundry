@@ -76,7 +76,11 @@
                                 <td>{{ $package->ldp_duration }}</td>
                                 <td>
                                  <a href="/owner/service/{{ $service->lds_id}}/packages/{{$package->ldp_id}}/edit" class="btn btn-primary">Edit</a>
-                                 <a href="/owner/service/{{ $service->lds_id}}/packages/{{$package->ldp_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                <form action="/owner/service/{{ $service->lds_id}}/packages/{{$package->ldp_id}}/destroy" method="POST" style="display:inline;">
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="submit" class="btn btn-danger" data-confirm-delete="true">Delete</button>
+                              </form>
                                 </td>
                             </tr>
                        

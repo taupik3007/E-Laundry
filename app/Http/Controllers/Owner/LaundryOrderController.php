@@ -136,7 +136,7 @@ public function updateWeight(Request $request, $id)
             'ord_total' => $total ?? null,
         ]);
         // dd($request->ord_customer_id, $customerId, $customerName);
-        return redirect('owner/ordering/');
+        return redirect('owner/order-laundry/');
     }
 
     public function pickup()
@@ -195,9 +195,12 @@ public function updateWeight(Request $request, $id)
         return view('owner.order-laundry.history', compact('orderHistory'));
     }
 
-    public function detail()
+    public function detail($id)
     {
-        return view('owner.order-laundry.detail');
+        $order = Order::with(['service', 'package'])
+        ->where('ord_id', $id)
+        ->firstOrFail();
+        return view('owner.order-laundry.detail', compact('order'));
     }
     /**
      * Remove the specified resource from storage.
@@ -261,7 +264,7 @@ public function updateWeight(Request $request, $id)
             ]);
     
             // 5. TAMPILKAN HALAMAN QRIS
-            return redirect()->to("/owner/ordering/{$order->ord_id}/qris-payment");
+            return redirect()->to("/owner/order-laundry/{$order->ord_id}/qris-payment");
         }
     
         // ======================== ||
@@ -310,7 +313,7 @@ public function updateWeight(Request $request, $id)
         $payment->pym_payment_status = $cashback >= 0;
         $payment->save();
         //  dd($payment);
-        return redirect('owner/ordering/history');
+        return redirect('owner/order-laundry/history');
       
     }
 
