@@ -519,6 +519,8 @@ return redirect()->back()->with(
 
 public function midtransToken(Order $order)
 {
+
+    
    Config::$serverKey = config('services.midtrans.server_key');
     Config::$isProduction = false;
     Config::$isSanitized = true;
@@ -534,9 +536,40 @@ public function midtransToken(Order $order)
             'first_name' => $order->ord_customer_name ?? 'Customer',
         ],
     ];
+    $payment = Payment::where('pym_order_id', $order->ord_id)
+        ->where('pym_payment_gateaway', 'midtrans')
+        ->where('pym_payment_status', 0)
+        ->latest()
+        ->first();
+
+    if (!$payment) {
+        // 3. BUAT PAYMENT PENDING
+        $payment = Payment::create([
+            'pym_order_id' => $order->ord_id,
+            'pym_order_method' => 3,
+            'pym_payment_gateaway' => 'midtrans',
+
+            'pym_gateaway_references' => null,
+            'pym_qrcode_url' => null,
+            'pym_payment_status' => 0,
+
+            'pym_amount' => $order->ord_total,
+            'pym_amount_paid' => 0,
+            'pym_cash_received' => 0,
+            'pym_change_amount' => 0,
+
+            'pym_paid_at' => null,
+            'pym_expiry_time' => now()->addHours(24),
+
+            'pym_raw_response' => null,
+            'pym_sys_note' => 'Menunggu pembayaran via Midtrans',
+            'pym_created_by' => auth()->id(),
+        ]);
+    }
 
     // 3. SNAP TOKEN
     $snapToken = Snap::getSnapToken($params);
+   
 
     return response()->json([
         'snap_token' => $snapToken
@@ -702,22 +735,12 @@ public function callback(Request $request)
         //         'pym_raw_response' => json_encode($request->all()),
         //     ]
         // );
-        Payment::create([
-        'pym_order_id' => $order->ord_id,
-        'pym_order_method' => 3,
-        'pym_payment_gateaway' => 'midtrans',
+        $payment = Payment::where('pym_order_id',$order->ord_id)->first();
+        $payment->update([
+        
         'pym_gateaway_references' => $request->transaction_id,
-        'pym_qrcode_url' => '-',
         'pym_payment_status' => true,
-        'pym_amount' => $request->gross_amount,
-        'pym_amount_paid' => $request->gross_amount,
-        'pym_cash_received' => $request->gross_amount,
-        'pym_change_amount' => 0,
-        'pym_paid_at' => now(),
-        'pym_expiry_time' => now(),
-        'pym_raw_response' => json_encode($request->all()),
-        'pym_sys_note' => 'Transfer',
-        'pym_created_by' => auth()->id(),
+        
     ]);
         // $order->update(['ord_phone_number' =>0]);
 
