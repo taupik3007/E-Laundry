@@ -26,12 +26,13 @@ class OrderController extends Controller
     public function index()
     {
         
-        $orderlist = Order::with(['service', 'package'])
+        $orderlist = Order::with(['service', 'package','payment'])
     ->whereNotIn('ord_status', ['selesai', 'dibatalkan', 'belum lunas'])
     ->orderBy('ord_created_at', 'DESC')
     ->get();
     // dd($orderlist);
 
+        // dd($orderlist->payment());
 
         $title = 'Delete User!';
         $text = "Are you sure you want to delete?";
