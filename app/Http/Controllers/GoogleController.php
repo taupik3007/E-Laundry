@@ -26,6 +26,11 @@ class GoogleController extends Controller
         'password' => bcrypt('google_' . $googleUser->getId()),
         'usr_nik' => null,
     ]);
+     if ((int) $user->usr_status !== 1) {
+        return redirect('/login')->withErrors([
+            'email' => 'Akun kamu tidak aktif. Silakan hubungi admin.',
+        ]);
+    }
         if ($user->wasRecentlyCreated) {
             $user->assignRole('customer'); // ganti sesuai role default yang kamu mau
         }
