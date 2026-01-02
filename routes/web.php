@@ -56,9 +56,7 @@ Route::get('/customer/home', function () {
 Route::get('/owner/dashboard',[DashboardOwnerController::class, 'ownerDashboard'] )->name('owner.dashboard');
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'dashboardRoute'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -153,6 +151,7 @@ Route::patch('/employee/profile', [ProfileController::class, 'update_photo'])->n
 
 Route::middleware(['auth', 'role:owner'])->group(function () {
 Route::get('/owner/customers', [CustomersController::class, 'index'])->name('customers.index');
+Route::post('/owner/customers/{id}/toggle-status', [CustomerController::class, 'toggleStatus'])->name('owner.customers.toggleStatus');
 
 Route::get('/owner/employee', [EmployeeController::class, 'index'])->name('owner.employee.index');
 Route::get('/owner/employee/create', [EmployeeController::class, 'create'])->name('owner.employee.create');

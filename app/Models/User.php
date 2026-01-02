@@ -25,8 +25,12 @@ class User extends Authenticatable
     'usr_nik',
     'google_id',
     'password',
-    'usr_telephone'
+    'usr_telephone',
+    'usr_status'
 ];
+// protected $casts = [
+//     'usr_status' => 'boolean',
+// ];
 
     /**
      * The attributes that should be hidden for serialization.

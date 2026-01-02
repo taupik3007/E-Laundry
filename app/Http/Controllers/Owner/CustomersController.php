@@ -16,6 +16,15 @@ class CustomersController extends Controller
         $customers = User::role('customer')->get();
         return view('owner.customers.index', compact('customers'));
     }
+    public function toggleStatus($id){
+        $user = User::findOrFail($id);
+        if($user->usr_status == 1){
+            $user->update(['usr_status'=>0]);
+        }else{
+            $user->update(['usr_status'=>1]);
+
+        }
+    }
 
     /**
      * Show the form for creating a new resource.
