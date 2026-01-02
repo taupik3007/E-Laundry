@@ -121,7 +121,7 @@ class OrderLaundryController extends Controller
 
     Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
     // dd($order);
-    return redirect('/customer/laundry-order');
+    return redirect('/customer/order-laundry');
 
     }
 
@@ -136,40 +136,51 @@ class OrderLaundryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        $order = Order::findOrFail($id);
-        $services = LaundryService::all();
-        $packages = LaundryPackage::where('ldp_service_id', $order->ord_service_id)->get();
+    public function edit($id)
+{
+    $order = Order::with('details')->findOrFail($id);
+    $services = LaundryService::all();
 
-        return view('customer.order-laundry.edit', compact('order', 'services', 'packages'));
-    } 
+    return view('customer.order-laundry.edit', compact('order', 'services'));
+}
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $UpdateOrder = Order::findOrFail($id);
-        // $package = LaundryPackage::find($request->package_id);
-        // $total = $package->ldp_price * $request->quantity;
-        $UpdateOrder->update([
-            'ord_phone_number' => $request->ord_phone_number,
-            'ord_service_id' => $request->service_id,
-            'ord_packages_id' => $request->package_id,
-            // 'ord_quantity' => $request->quantity ?? null,
-            'ord_pickup_method' => $request->pickup_method,
-            'ord_delivery_method' => $request->delivery_method,
-            'ord_address' => $request->address ?? null,
-            'ord_note' => $request->note ?? null,
-            // 'ord_total' => $total ?? null,
+    public function update(Request $request, $id)
+{
+    $order = Order::with('details')->findOrFail($id);
+
+    // update data order utama (kalau ada)
+    $order->update([
+        'ord_phone_number'   => $request->ord_phone_number,
+        'ord_pickup_method'  => $request->pickup_method,
+        'ord_delivery_method'=> $request->delivery_method,
+        'ord_address'        => $request->address,
+        'ord_note'           => $request->note,
+    ]);
+
+    // HAPUS DETAIL LAMA
+    $order->details()->delete();
+
+    // SIMPAN DETAIL BARU
+    foreach ($request->service_id as $i => $serviceId) {
+
+        $package = LaundryPackage::find($request->package_id[$i]);
+
+        OrderDetail::create([
+            'odt_order_id'   => $order->ord_id,
+            'odt_service_id' => $serviceId,
+            'odt_package_id' => $request->package_id[$i],
+            'odt_price'      => $package->ldp_price,
         ]);
-
-       Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
-        //dd($UpdateOrder);
-        return redirect('/customer/laundry-order');
-
     }
+
+    Alert::success('Berhasil', 'Order berhasil diperbarui');
+    return redirect('/customer/laundry-order');
+}
+
 
     public function detail($id)
     {

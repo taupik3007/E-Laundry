@@ -18,38 +18,49 @@ E-Laundry | Edit Pesanan
 
         <div class="card-body">
 
-          {{-- Layanan --}}
-          <div class="mb-4 row">
-            <label class="col-sm-3 col-form-label">Layanan</label>
-            <div class="col-sm-9">
-              <select id="service_id" name="service_id" class="form-control" required>
-                <option value="">-- Pilih Layanan --</option>
-                @foreach($services as $service)
-                  <option value="{{ $service->lds_id }}"
-                    {{ $order->ord_service_id == $service->lds_id ? 'selected' : '' }}>
-                    {{ $service->lds_name }}
-                  </option>
-                @endforeach
-              </select>
-            </div>
-          </div>
+@foreach($order->details as $detail)
 
-          {{-- Paket --}}
-          <div class="mb-4 row">
-            <label class="col-sm-3 col-form-label">Paket Layanan</label>
-            <div class="col-sm-9">
-              <select id="package_id" name="package_id" class="form-control" required>
-                <option value="">-- Pilih Paket --</option>
-                @foreach($packages as $pkg)
-                  <option value="{{ $pkg->ldp_id }}"
-                    data-price="{{ $pkg->ldp_price }}"
-                    {{ $order->ord_packages_id == $pkg->ldp_id ? 'selected' : '' }}>
-                    {{ $pkg->ldp_name }} – Rp {{ number_format($pkg->ldp_price) }} / {{ $pkg->ldp_unit }}
-                  </option>
+<div class="order-row">
+
+    {{-- Layanan --}}
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label">Layanan</label>
+        <div class="col-sm-9">
+            <select name="service_id[]"
+                    class="form-control service-select"
+                    required>
+                @foreach($services as $service)
+                    <option value="{{ $service->lds_id }}"
+                        {{ $detail->odt_service_id == $service->lds_id ? 'selected' : '' }}>
+                        {{ $service->lds_name }}
+                    </option>
                 @endforeach
-              </select>
-            </div>
-          </div>
+            </select>
+        </div>
+    </div>
+
+    {{-- Paket --}}
+    <div class="mb-4 row">
+        <label class="col-sm-3 col-form-label">Paket</label>
+        <div class="col-sm-9">
+            <select name="package_id[]"
+                    class="form-control package-select"
+                    required>
+                @foreach(
+                    \App\Models\LaundryPackage::where('ldp_service_id', $detail->odt_service_id)->get()
+                    as $pkg
+                )
+                    <option value="{{ $pkg->ldp_id }}"
+                        {{ $detail->odt_package_id == $pkg->ldp_id ? 'selected' : '' }}>
+                        {{ $pkg->ldp_name }} – Rp {{ number_format($pkg->ldp_price) }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
+</div>
+@endforeach
 
           {{-- No Telepon --}}
          
@@ -128,45 +139,41 @@ E-Laundry | Edit Pesanan
 
 @push('script')
 <script>
-// SHOW ALAMAT OTOMATIS
-function checkAddress() {
-  let pick = $('#pickup_method').val();
-  let del  = $('#delivery_method').val();
+$(document).ready(function () {
 
-  if (pick === 'pickup' || del === 'delivery') {
-      $('#address_wrapper').removeClass('d-none');
-      $('#address_wrapper textarea').attr('required', true);
-  } else {
-      $('#address_wrapper').addClass('d-none');
-      $('#address_wrapper textarea').removeAttr('required');
-  }
-}
+    $(document).on('change', '.service-select', function () {
 
-$('#service_id').on('change', function () {
-    var serviceId = $(this).val();
-    $('#package_id').html('<option>Loading...</option>');
+        let serviceId = $(this).val();
 
-    if (serviceId) {
+        // cari package select dalam 1 order-row
+        let packageSelect = $(this)
+            .closest('.order-row')
+            .find('.package-select');
+
+        packageSelect.html('<option>Loading...</option>');
+
         $.ajax({
-            url: '/customer/laundry-order/' + serviceId + '/packages',
+            url: `/customer/laundry-order/${serviceId}/packages`,
             type: 'GET',
-            success: function(data) {
-                $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
-                $.each(data, function(i, pkg) {
-                    $('#package_id').append(`
-                        <option value="${pkg.ldp_id}" data-price="${pkg.ldp_price}">
-                          ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()} / ${pkg.ldp_unit}
+            success: function (data) {
+
+                packageSelect.empty()
+                    .append('<option value="">-- Pilih Paket --</option>');
+
+                data.forEach(pkg => {
+                    packageSelect.append(`
+                        <option value="${pkg.ldp_id}">
+                            ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()}
                         </option>
                     `);
                 });
+            },
+            error: function () {
+                packageSelect.html('<option>Gagal memuat paket</option>');
             }
         });
-    }
-});
-// event saat berubah
-$('#pickup_method, #delivery_method').on('change', checkAddress);
+    });
 
-// saat halaman load pertama
-checkAddress();
+});
 </script>
 @endpush

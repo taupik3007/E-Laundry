@@ -34,7 +34,7 @@ class FinancesController extends Controller
         ->orderBy('pym_paid_at', 'DESC')
         ->get();
   
-    return view('employee.finance.index', compact(
+    return view('owner.finance.index', compact(
         'todayIncome',
         'monthIncome',
         'payments'

@@ -30,7 +30,7 @@
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item" aria-current="page">Daftar Pesanan</li>
                                 <li class="breadcrumb-item">
-                                    <a class="text-muted text-decoration-none" href="/owner/ordering/create">Tambah
+                                    <a class="text-muted text-decoration-none" href="/owner/order-laundry/create">Tambah
                                         Pesanan</a>
                                 </li>
                                 <li class="breadcrumb-item">
@@ -59,7 +59,7 @@
                 <div class="mb-5 position-relative">
 
                     <h4 class="card-title mb-0">Daftar Pesanan</h4>
-                    <a href="/owner/ordering/create" class="btn btn-primary position-absolute top-0 end-0">Tambah
+                    <a href="/owner/order-laundry/create" class="btn btn-primary position-absolute top-0 end-0">Tambah
                         Pesanan</a>
 
                 </div>
@@ -166,6 +166,7 @@
 
                                     </td>
                                     <td id="button-{{ $order->ord_id }}">
+<<<<<<< HEAD
                                        {{-- 1. SUDAH LUNAS --}}
 @if ($order->payment && $order->payment->pym_payment_status == 1)
 
@@ -375,7 +376,7 @@ in_array($order->ord_status, [
                                             data-icon="ic:baseline-price-check"
                                             data-width="20"></span>
                                             </span>
-                                            {{-- BELUM LUNAS (DP / PIUTANG) 
+                                            {{-- BELUM LUNAS (DP / PIUTANG)
                                         @elseif (
                                             $order->payment &&
                                                 $order->payment->pym_payment_status == 0 &&
@@ -480,7 +481,7 @@ in_array($order->ord_status, [
                                     {{-- <td id="button-{{ $order->ord_id }}">
                                         @if ($order->ord_status == 'menunggu pengantaran' || $order->ord_status == 'dalam pengantaran' || $order->ord_status == 'menunggu pengambilan')
                                             @if ($order->payment)
-                                                <a href="/employee/ordering/{{ $order->ord_id }}/qris-payment"
+                                                <a href="/owner/order-laundry/{{ $order->ord_id }}/qris-payment"
                                                     class="btn btn-success">pembayaran</a>
                                             @else
                                                 <button class="btn btn-success" data-bs-toggle="modal"
@@ -492,10 +493,10 @@ in_array($order->ord_status, [
                                                 data-bs-target="#modalTimbang{{ $order->ord_id }}">Timbang</button>
                                         @endif
 
-                                        <a href="/employee/ordering/{{ $order->ord_id }}/destroy" class="btn btn-danger"
+                                        <a href="/owner/order-laundry/{{ $order->ord_id }}/destroy" class="btn btn-danger"
                                             data-confirm-delete="true">Delete</a>
 
-                                        <a href="/employee/ordering/{{ $order->ord_id }}/detail"
+                                        <a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
                                             class="btn btn-warning">Detail</a>
 
                                     </td> --}}
@@ -786,7 +787,7 @@ in_array($order->ord_status, [
 
 <script>
 function bayarMidtrans(orderId) {
-    fetch(`/owner/ordering/${orderId}/midtrans-token`)
+    fetch(`/owner/order-laundry/${orderId}/midtrans-token`)
         .then(res => res.json())
         .then(data => {
             snap.pay(data.snap_token, {
@@ -825,8 +826,6 @@ function bayarMidtrans(orderId) {
 });
 
 </script> --}}
-
-
     <script>
         var table;
         $(document).ready(function() {
@@ -837,7 +836,7 @@ function bayarMidtrans(orderId) {
                 var newStatus = $(this).data('status');
 
                 $.ajax({
-                    url: '/owner/ordering/' + orderId + '/status',
+                    url: '/owner/order-laundry/' + orderId + '/status',
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
@@ -893,6 +892,7 @@ function bayarMidtrans(orderId) {
 
                             if (response.paid) {
                                 aksiContainer.html(`
+<<<<<<< HEAD
         <span class="btn btn-success d-inline-flex align-items-center gap-1"  
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -1042,15 +1042,9 @@ function bayarMidtrans(orderId) {
 
                         }
                         if (response.success && newStatus.toLowerCase() === 'selesai') {
-    var table = $('#file_export').DataTable();
-    table
-        .row($('#order-row-' + orderId))
-        .remove()
-        .draw(false);
-}
-
-
-
+                            $('#order-row-' + orderId).fadeOut(200);
+                            setTimeout(() => location.reload(), 300);
+                        }
                     },
                     error: function(xhr) {
                         alert('❌ Gagal mengubah status.');

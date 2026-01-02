@@ -26,12 +26,13 @@ class OrderController extends Controller
     public function index()
     {
         
-        $orderlist = Order::with(['service', 'package'])
+        $orderlist = Order::with(['service', 'package','payment'])
     ->whereNotIn('ord_status', ['selesai', 'dibatalkan', 'belum lunas'])
     ->orderBy('ord_created_at', 'DESC')
     ->get();
     // dd($orderlist);
 
+        // dd($orderlist->payment());
 
         $title = 'Delete User!';
         $text = "Are you sure you want to delete?";
@@ -519,6 +520,8 @@ return redirect()->back()->with(
 
 public function midtransToken(Order $order)
 {
+
+    
    Config::$serverKey = config('services.midtrans.server_key');
     Config::$isProduction = false;
     Config::$isSanitized = true;
@@ -534,9 +537,40 @@ public function midtransToken(Order $order)
             'first_name' => $order->ord_customer_name ?? 'Customer',
         ],
     ];
+    $payment = Payment::where('pym_order_id', $order->ord_id)
+        ->where('pym_payment_gateaway', 'midtrans')
+        ->where('pym_payment_status', 0)
+        ->latest()
+        ->first();
+
+    if (!$payment) {
+        // 3. BUAT PAYMENT PENDING
+        $payment = Payment::create([
+            'pym_order_id' => $order->ord_id,
+            'pym_order_method' => 3,
+            'pym_payment_gateaway' => 'midtrans',
+
+            'pym_gateaway_references' => '-',
+            'pym_qrcode_url' => '-',
+            'pym_payment_status' => 0,
+
+            'pym_amount' => $order->ord_total,
+            'pym_amount_paid' => 0,
+            'pym_cash_received' => 0,
+            'pym_change_amount' => 0,
+
+            'pym_paid_at' => null,
+            'pym_expiry_time' => now()->addHours(24),
+
+            'pym_raw_response' => null,
+            'pym_sys_note' => 'Menunggu pembayaran via Midtrans',
+            'pym_created_by' => auth()->id(),
+        ]);
+    }
 
     // 3. SNAP TOKEN
     $snapToken = Snap::getSnapToken($params);
+   
 
     return response()->json([
         'snap_token' => $snapToken
@@ -665,8 +699,8 @@ public function qrispayment($id)
     ]);
 }
 public function callback(Request $request)
-{
-    $serverKey = config('midtrans.server_key');
+{ $serverKey = config('services.midtrans.server_key');
+
     $signatureKey = hash(
         'sha512',
         $request->order_id .
@@ -679,49 +713,49 @@ public function callback(Request $request)
         return response()->json(['message' => 'Invalid signature'], 403);
     }
 
-    $order = Order::where('ord_invoice', $request->order_id )->firstOrFail();
-    
-  
+    $order = Order::where('ord_invoice', $request->order_id)->firstOrFail();
 
-    if (
+    $payment = Payment::where('pym_order_id', $order->ord_id)
+        ->where('pym_payment_gateaway', 'midtrans')
+        ->first();
+
+    if (!$payment) {
+        return response()->json(['message' => 'Payment not found'], 404);
+    }
+
+    // STATUS HANDLING
+    if ($request->transaction_status == 'pending') {
+
+        // 🔥 INI PALING PENTING (VA DISIMPAN DI SINI)
+        $payment->update([
+            'pym_gateaway_references' => $request->transaction_id ?? '-',
+            'pym_payment_status'     => 0,
+            'pym_expiry_time'        => $request->expiry_time ?? $payment->pym_expiry_time,
+            'pym_raw_response'       => json_encode($request->all()),
+            'pym_sys_note'           => 'Menunggu pembayaran via Midtrans',
+        ]);
+
+    } elseif (
         $request->transaction_status == 'settlement' ||
         $request->transaction_status == 'capture'
     ) {
-        // Payment::create(
-            
-        //     [
-        //         'pym_order_id' => $order->ord_id,
-        //         'pym_order_method' => 3, // midtrans
-        //         'pym_payment_gateaway' => 'midtrans',
-        //         'pym_gateaway_references' => $request->transaction_id,
-        //         'pym_payment_status' => 1,
-        //         'pym_amount' => $request->gross_amount,
-        //         'pym_amount_paid' => $request->gross_amount,
-        //         'pym_cash_received' => $request->gross_amount,
-        //         'pym_paid_at' => now(),
-        //         'pym_raw_response' => json_encode($request->all()),
-        //     ]
-        // );
-        Payment::create([
-        'pym_order_id' => $order->ord_id,
-        'pym_order_method' => 3,
-        'pym_payment_gateaway' => 'midtrans',
-        'pym_gateaway_references' => $request->transaction_id,
-        'pym_qrcode_url' => '-',
-        'pym_payment_status' => true,
-        'pym_amount' => $request->gross_amount,
-        'pym_amount_paid' => $request->gross_amount,
-        'pym_cash_received' => $request->gross_amount,
-        'pym_change_amount' => 0,
-        'pym_paid_at' => now(),
-        'pym_expiry_time' => now(),
-        'pym_raw_response' => json_encode($request->all()),
-        'pym_sys_note' => 'Transfer',
-        'pym_created_by' => auth()->id(),
-    ]);
-        // $order->update(['ord_phone_number' =>0]);
 
-        // $order->update(['ord_status' => 'proses']);
+        $payment->update([
+            'pym_payment_status' => 1,
+            'pym_paid_at'        => now(),
+            'pym_raw_response'   => json_encode($request->all()),
+            'pym_sys_note'       => 'Pembayaran Midtrans berhasil',
+        ]);
+
+    } elseif (
+        in_array($request->transaction_status, ['expire', 'cancel'])
+    ) {
+
+        $payment->update([
+            'pym_payment_status' => 0,
+            'pym_sys_note'       => 'Pembayaran Midtrans dibatalkan / expired',
+            'pym_raw_response'   => json_encode($request->all()),
+        ]);
     }
 
     return response()->json(['message' => 'OK']);

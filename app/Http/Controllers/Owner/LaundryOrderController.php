@@ -360,31 +360,72 @@ $no = 1;
     // CASE QRIS → MIDTRANS OTOMATIS
     if ($method == 3) 
     {
-        // 1. SETUP MIDTRANS
-        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        Config::$isProduction = false;
-        // Config::$isSanitized = true;
-        // Config::$is3ds = true;
-
-        // 2. DATA TRANSAKSI
-        $params = [
-    "payment_type" => "qris",
-    "transaction_details" => [
-        "order_id" => "PAY-" . $order->ord_id . "-" . time(),
-        "gross_amount" => $order->ord_total,
-    ]
-];
-
-        // 3. REQUEST KE MIDTRANS
-        $response = CoreApi::charge($params);
-        // dd($snap);
-
-        // QR CODE URL MIDTRANS
-        $qrisUrl = $response->actions[0]->url;
-        // dd($qrisUrl);
-
-        // 4. SIMPAN PAYMENT STATUS → pending
-        Payment::create([
+         $order = Order::findOrFail($id);
+    
+        // Tentukan method
+        $method = match($request->payment_method) {
+            'cash' => 1,
+            'transfer' => 2,
+            default => 3 // qris
+        };
+    
+        // CASE QRIS → MIDTRANS OTOMATIS
+        if ($method == 3) 
+        {
+            // 1. SETUP MIDTRANS
+            Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+            Config::$isProduction = false;
+            // Config::$isSanitized = true;
+            // Config::$is3ds = true;
+    
+            // 2. DATA TRANSAKSI
+            $params = [
+        "payment_type" => "qris",
+        "transaction_details" => [
+            "order_id" => "PAY-" . $order->ord_id . "-" . time(),
+            "gross_amount" => $order->ord_total,
+        ]
+    ];
+    
+            // 3. REQUEST KE MIDTRANS
+            $response = CoreApi::charge($params);
+            // dd($snap);
+    
+            // QR CODE URL MIDTRANS
+            $qrisUrl = $response->actions[0]->url;
+            // dd($qrisUrl);
+    
+            // 4. SIMPAN PAYMENT STATUS → pending
+            Payment::create([
+                'pym_order_id' => $order->ord_id,
+                'pym_order_method' => 3,
+                'pym_payment_gateaway' => 'midtrans',
+                'pym_gateaway_references' => $params['transaction_details']['order_id'],
+                'pym_qrcode_url' => $qrisUrl,
+                'pym_payment_status' => false, // masih pending
+                'pym_amount' => $order->ord_total,
+                'pym_amount_paid' => 0,
+                'pym_paid_at' => null,
+                'pym_expiry_time' => now()->addMinutes(15),
+                'pym_raw_response' => json_encode($response),
+                'pym_sys_note' => 'Menunggu pembayaran QRIS Midtrans',
+                'pym_created_by' => auth()->id(),
+            ]);
+    
+            // 5. TAMPILKAN HALAMAN QRIS
+            return redirect()->to("/owner/order-laundry/{$order->ord_id}/qris-payment");
+        }
+    
+        // ======================== ||
+        // CASE CASH / TRANSFER     ||
+        // ======================== ||
+    
+        $amount = preg_replace('/[^0-9]/', '', $request->payment_amount);
+        $paid   = $order->ord_total;
+    
+        $cashback = $amount - $paid;
+    
+        $payment = Payment::create([
             'pym_order_id' => $order->ord_id,
             'pym_order_method' => 3,
             'pym_payment_gateaway' => 'midtrans',
@@ -453,7 +494,6 @@ $cashback = $receive - $paid;
                 'ord_status' => 'selesai'
             ]);
         }
-
         // dd($order);
          $token = env('FONNTE_TOKEN'); // Taruh token di .env
         $packageText = '';
@@ -489,7 +529,6 @@ $no = 1;
             ], 500);
         }
            
-        
     }
 
     // UPDATE STATUS ORDER

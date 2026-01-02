@@ -8,6 +8,8 @@ use App\Models\Payment;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class DashboardController extends Controller
 {
@@ -33,7 +35,7 @@ class DashboardController extends Controller
     $creditCount = Payment::where('pym_payment_status', 0)->count();
     $credit      = Payment::where('pym_payment_status', 0)->sum('pym_debt_amount');
 
-    $income = [1200000, 1500000, 180000]; 
+    $income = [1200000, 1500000, 180000];
 
 
     // =========================================================
@@ -156,6 +158,18 @@ class DashboardController extends Controller
         'growth',
         'orderList'
     ]));
+}
+
+public function dashboardRoute(){
+   $user = Auth::user();
+
+    if ($user->hasRole('owner')) {
+        return redirect('owner/dashboard');
+    } elseif ($user->hasRole('employee')) {
+        return redirect('employee/dashboard');
+    } else {
+        return redirect('customer/dashboard');
+    }
 }
 
 }

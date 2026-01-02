@@ -63,7 +63,7 @@
                                     <!-- Input Harga -->
                                     <div class="col-sm-8">
 
-                                        <select name="ord_customer_id" id="customerSelect" class="form-control mb-2">
+                                        <select name="ord_customer_id" id="customerSelect" required class="form-control mb-2">
                                             <option value="">-- Pilih Customer --</option>
                                             @foreach ($customers as $customer)
                                                 <option value="{{ $customer->usr_id }}">
@@ -73,7 +73,7 @@
                                         </select>
 
                                         <input type="text" name="ord_customer_name" id="manualInput"
-                                            class="form-control mb-2 d-none" placeholder="Masukkan nama customer">
+                                            class="form-control mb-2 d-none"  placeholder="Masukkan nama customer">
 
                                     </div>
 
@@ -85,7 +85,7 @@
 
 
                                     <input type="text" name="ord_customer_name" id="manualInput" class="form-control"
-                                        placeholder="Masukkan nama customer" style="display:none;" disabled>
+                                        placeholder="Masukkan nama customer" required style="display:none;" disabled>
                                     @error('ord_customer_name')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror

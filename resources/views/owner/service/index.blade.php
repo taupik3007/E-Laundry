@@ -73,7 +73,12 @@
                                 {{-- <td>
                                   <a href="/owner/service/{{ $service->lds_id}}/edit" class="btn btn-primary">Edit</a>
                                   <a href="/owner/service/{{ $service->lds_id }}/packages" class="btn btn-primary">Paket</a>
-                                  <a href="/owner/service/{{ $service->lds_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
+                                  <form action="{{ route('service.destroy', $service->lds_id) }}" method="POST" style="display:inline;">
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="submit" class="btn btn-danger" data-confirm-delete="true">Delete</button>
+                              </form>
+
 
                              </td> --}}
                              <td>

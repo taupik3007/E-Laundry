@@ -205,7 +205,7 @@
                 const userId = this.dataset.id;
                 const status = this.checked ? 1 : 0;
 
-                fetch(`/employee/customers/${userId}/toggle-status`, {
+                fetch(`/owner/customers/${userId}/toggle-status`, {
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
