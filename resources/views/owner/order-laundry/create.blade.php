@@ -1,4 +1,4 @@
-@extends('employee.master')
+@extends('owner.master')
 
 @push('link')
 @endpush
@@ -18,7 +18,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a class="text-muted text-decoration-none" href="/employee/ordering">Daftar
+                                        <a class="text-muted text-decoration-none" href="/owner/ordering">Daftar
                                             Pesanan</a>
                                     </li>
                                     <li class="breadcrumb-item">
@@ -47,9 +47,9 @@
                 <div class="px-4 py-3 border-bottom">
                     <h4 class="card-title mb-0">Tambah Pesanan </h4>
                 </div>
-                <form action="{{ route('order.store') }}" method="post">
+                <form action="{{ route('owner.order.store') }}" method="POST">
                     @csrf
-
+                
                     <div class="card-body">
 
                         {{-- Nomor Telepon --}}
@@ -204,7 +204,7 @@
                             <div class="col-sm-3"></div>
                             <div class="col-sm-9">
                                 <button class="btn btn-primary">Kirim</button>
-                                <a href="/employee/ordering" class="btn btn-warning">Batal</a>
+                                <a href="/owner/ordering" class="btn btn-warning">Batal</a>
                             </div>
                         </div>
 
@@ -317,7 +317,7 @@
 
             if (serviceId) {
                 $.ajax({
-                    url: '/employee/ordering/' + serviceId + '/packages',
+                    url: '/owner/ordering/' + serviceId + '/packages',
                     type: 'GET',
                     success: function(data) {
                         $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
@@ -383,7 +383,7 @@
             $('#package_id').html('<option>Loading...</option>');
 
             $.ajax({
-                url: '/employee/ordering/' + serviceId + '/packages',
+                url: '/owner/ordering/' + serviceId + '/packages',
                 type: 'GET',
                 success: function(data) {
                     $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');

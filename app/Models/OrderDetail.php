@@ -25,4 +25,9 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(LaundryService::class, 'odt_service_id', 'lds_id');
     }
+    public function order()
+{
+    return $this->belongsTo(Order::class, 'odt_order_id', 'ord_id');
+}
+
 }

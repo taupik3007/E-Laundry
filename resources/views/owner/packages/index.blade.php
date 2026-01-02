@@ -75,9 +75,23 @@
                                 <td>{{ $package->ldp_description }}</td>
                                 <td>{{ $package->ldp_duration }}</td>
                                 <td>
-                                 <a href="/owner/service/{{ $service->lds_id}}/packages/{{$package->ldp_id}}/edit" class="btn btn-primary">Edit</a>
-                                 <a href="/owner/service/{{ $service->lds_id}}/packages/{{$package->ldp_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
-                                </td>
+
+                                  <a href="/owner/service/{{ $service->lds_id}}/packages/{{$package->ldp_id}}/edit"
+                                    class="text-primary"
+                                    data-bs-toggle="tooltip"
+                                    title="Edit">
+                                   <span class="iconify" data-icon="line-md:pencil" data-width="25"></span>
+                                 </a>
+  
+                                 <a href="/owner/service/{{ $service->lds_id}}/packages/{{$package->ldp_id}}/destroy"
+                                  class="text-danger"
+                                  data-confirm-delete="true"
+                                  data-bs-toggle="tooltip"
+                                  title="Hapus">
+                                 <span class="iconify" data-icon="line-md:trash" data-width="25"></span>
+                               </a>
+
+                                 </td>
                             </tr>
                        
                         @endforeach
@@ -114,6 +128,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
 @endpush

@@ -9,7 +9,7 @@
 E-Laundry | Daftar Piutang
 @endsection
 
-@section('content')
+@section('content') 
 <div class="datatables">
     <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
         <div class="card-body px-4 py-3">
@@ -60,15 +60,36 @@ E-Laundry | Daftar Piutang
                             <td>Rp {{ number_format($payment->pym_amount) }}</td>
                             <td>Rp {{ number_format($payment->pym_debt_amount) }}</td>
                             <td>
-                                <button class="btn btn-success btn-sm"
+                                {{-- <button class="btn btn-success btn-sm"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalBayar{{ $payment->pym_id }}">
                                     Bayar Utang
-                                </button>
+                                </button> --}}
+                                <a href="#"
+                                class="btn btn-success btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalBayar{{ $payment->pym_id }}"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="top"
+                                title="Bayar Utang">
+                                    <span class="iconify"
+                                        data-icon="ic:twotone-price-change"
+                                        data-width="25"></span> 
+                                </a>
                                 <a href="{{ route('debt.receipt', $payment->pym_id) }}"
+                                    target="_blank"
+                                    class="btn btn-sm btn-primary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Cetak Struk">
+                                    <span class="iconify"
+                                        data-icon="line-md:file-download-filled"
+                                        data-width="25"></span>
+                                </a>
+                                {{-- <a href="{{ route('debt.receipt', $payment->pym_id) }}"
                                     class="btn btn-sm btn-primary" target="_blank">
                                      <i class="ti ti-printer"></i> Cetak Struk
-                                 </a>
+                                 </a> --}}
                             </td>
                         </tr>
                         @endforeach
@@ -154,6 +175,7 @@ function formatBayar{{ $payment->pym_id }}(input) {
 <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
 <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 
 {{-- HITUNG TOTAL UTANG --}}
 {{-- <script>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Models\LaundryPackage;
 use App\Models\LaundryService;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -100,13 +101,28 @@ class PackageController extends Controller
      */
     public function destroy($serviceId, $packageId)
     {
+        $isUsedNow = OrderDetail::where('odt_package_id', $packageId)
+        ->whereNull('odt_deleted_at')
+        ->whereHas('order', function ($q) {
+            $q->whereNotIn('ord_status', ['selesai', 'dibatalkan']);
+        })
+        ->exists();
+
+    if ($isUsedNow) {
+        Alert::error(
+            'Gagal Menghapus',
+            'Paket tidak dapat dihapus karena sedang digunakan pada pesanan aktif.'
+        );
+        return redirect()->back();
+    }
+
         $package = LaundryPackage::findOrFail($packageId);
 
     $package->delete();
 
     Alert::success('Berhasil Menghapus', 'Berhasil menghapus data Paket Layanan');
     return redirect()
-        ->route('package.index', $serviceId)
+        ->route('packages.index', $serviceId)
         ->with('success', 'Paket berhasil dihapus!');
     }
     

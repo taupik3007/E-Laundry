@@ -444,6 +444,7 @@
     {{-- script --}}
     {{-- @include('sweetalert::alert')s --}}
 
+    @include('sweetalert::alert')
     @include('owner.script')
 
 

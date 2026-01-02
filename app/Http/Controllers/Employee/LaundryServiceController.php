@@ -102,7 +102,7 @@ class LaundryServiceController extends Controller
      */
     public function destroy(string $id)
     {
-         // cek apakah ada package yang memakai service ini
+        // cek apakah ada package yang memakai service ini
     $hasPackage = LaundryPackage::where('ldp_service_id', $id)->exists();
 
     if ($hasPackage) {

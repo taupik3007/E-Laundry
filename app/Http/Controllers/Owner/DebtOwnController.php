@@ -29,6 +29,17 @@ return view('owner.debt.index', compact('debts'));
         //
     }
 
+    public function byOrder(Order $order)
+{
+    $piutang = Payment::where('pym_order_id', $order->ord_id)->firstOrFail();
+
+    return view('owner.debt.index', [
+        'debts' => collect([$piutang]),
+        'fromOrder' => true,
+        'order' => $order
+    ]);
+}
+
     /**
      * Store a newly created resource in storage.
      */

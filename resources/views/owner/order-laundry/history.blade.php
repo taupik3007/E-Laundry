@@ -90,13 +90,12 @@ E-Laundry | Daftar Riwayat Pesanan
 
       <thead>
         <tr>
-            <th width="10%">No</th>
-            <th>Invoice</th>
-            <th>Nama Customer</th>
-            <th>Total</th>
-            <th>Tanggal Selesai</th>
-            <th>Aksi</th>
-            
+          <th width="10%">No</th>
+          <th>Invoice</th>
+          <th width="20%">Nama Customer</th>
+          <th>Total</th>
+          <th>Tanggal Selesai</th>
+          <th>Aksi</th> 
         </tr>
       </thead>
       <tbody id="order-history-body">
@@ -107,12 +106,12 @@ E-Laundry | Daftar Riwayat Pesanan
         
 
         <tr>
-            <th width="10%">No</th>
-            <th>Invoice</th>
-            <th>Nama Customer</th>
-            <th>Total</th>
-            <th>Tanggal Selesai</th>
-            <th>Aksi</th>
+          <th width="10%">No</th>
+          <th>Invoice</th>
+          <th width="20%">Nama Customer</th>
+          <th>Total</th>
+          <th>Tanggal Selesai</th>
+          <th>Aksi</th>
         </tr>
         <!-- end row -->
     </tfoot>
@@ -168,6 +167,7 @@ E-Laundry | Daftar Riwayat Pesanan
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 
 <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
 

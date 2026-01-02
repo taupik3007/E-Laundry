@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-    <div class="datatables">
+    <div class="datatables"> 
 
         {{-- HEADER --}}
         <div class="card bg-info-subtle shadow-none position-relative overflow-hidden mb-4">
@@ -123,7 +123,7 @@
                                     @if( $payment->pym_payment_status == 1)
                                     <span class="badge bg-success">Lunas</span>
                                     @else
-                                    <span class="badge bg-danger">Menunggu </span>
+                                    <span class="badge bg-danger">Belum Lunas</span>
 
                                     @endif
                                     </td>

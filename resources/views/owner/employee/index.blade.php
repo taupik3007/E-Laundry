@@ -76,19 +76,35 @@
                                             </label>
                                         </div>
                                     <td>
-                                        <a href="/owner/employee/{{ $employee->usr_id }}/edit"
-                                            class="btn btn-sm btn-primary">Edit</a>
-                                        <button class="btn btn-warning btn-sm btn-edit-password"
-                                            data-id="{{ $employee->usr_id }}" data-name="{{ $employee->usr_name }}">
-                                            Edit Password
-                                        </button>
+                                            <a href="/owner/employee/{{ $employee->usr_id }}/edit"
+                                                class="btn btn-sm btn-primary"
+                                                data-bs-toggle="tooltip"
+                                                title="Edit">
+                                               <span class="iconify" data-icon="line-md:pencil" data-width="25"></span>
+                                             </a>
 
+                                        <button class="btn btn-warning btn-sm btn-edit-password d-inline-flex align-items-center gap-1"
+                                            data-id="{{ $employee->usr_id }}"
+                                            data-name="{{ $employee->usr_name }}"
+                                            data-bs-toggle="tooltip"
+                                            title="Edit Password">
+                                        
+                                            <span class="iconify"
+                                                data-icon="mdi:password-reset"
+                                                data-width="30"></span>
+                                        </button>
+                                        
                                         <form action="{{ route('owner.employee.destroy', $employee->usr_id) }}" method="post"
                                             class="d-inline"
                                             onsubmit="return confirm('Yakin ingin menghapus pegawai ini?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                            <button type="submit" class="btn btn-sm btn-danger"  data-bs-toggle="tooltip"
+                                            title="Edit Password">
+                                        
+                                            <span class="iconify"
+                                                data-icon="line-md:trash"
+                                                data-width="30"></span></button>
                                         </form>
 
                                     </td>
@@ -229,4 +245,5 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 @endpush

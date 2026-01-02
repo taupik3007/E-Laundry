@@ -165,16 +165,18 @@ Route::delete('/owner/employee/{id}/destroy', [EmployeeController::class, 'destr
 
 Route::get('/owner/customer', [CustomersController::class, 'index'])->name('owner.employee.index');
 
-Route::get('/owner/ordering', [LaundryOrderController::class, 'index'])->name('order.index');
-Route::post('/owner/ordering/{id}/status', [LaundryOrderController::class, 'updateStatus'])->name('order.updateStatus');
+Route::get('/owner/ordering', [LaundryOrderController::class, 'index'])->name('owner.order.index');
+Route::post('/owner/ordering/{id}/status', [LaundryOrderController::class, 'updateStatus'])->name('owner.order.updateStatus');
+Route::post('/owner/ordering', [LaundryOrderController::class, 'store'])->name('owner.order.store');
 Route::put('/owner/ordering/{id}/weight', [LaundryOrderController::class, 'updateWeight'])->name('orderown.updateWeight');
 Route::get('/owner/ordering/create', [LaundryOrderController::class, 'create'])->name('order.create');
 Route::get('/owner/ordering/{id}/packages', [LaundryOrderController::class, 'ajaxPackages']);
 Route::post('/owner/ordering/create', [LaundryOrderController::class, 'store'])->name('order.store');
 Route::get('/owner/ordering/{id}/edit', [LaundryOrderController::class, 'edit'])->name('order.edit');
 Route::get('/owner/ordering/{id}/detail', [LaundryOrderController::class, 'detail'])->name('order.detaill');
-Route::put('/owner/ordering/{id}/payment', [LaundryOrderController::class, 'payment'])->name('orderown.payment');
+Route::put('/owner/ordering/{id}/payment', [LaundryOrderController::class, 'payment'])->name('owner.order.payment');
 Route::get('/owner/ordering/history', [LaundryOrderController::class, 'history'])->name('order-own.history');
+Route::delete('/owner/ordering/{id}/destroy', [LaundryOrderController::class, 'destroy'])->name('owner.order.destroy');
 
 Route::get('/owner/pick-up', [Pick_UpController::class, 'index'])->name('pickup.index');
 Route::post('/owner/pick-up/{id}/status', [Pick_UpController::class, 'updateStatus'])->name('pickup.updateStatus');
@@ -186,6 +188,7 @@ Route::get('/owner/debt', [DebtOwnController::class, 'index'])->name('debt-own.i
 Route::put('/owner/debt/{id}', [DebtOwnController::class, 'update'])->name('debt-own.update');
 Route::get('/owner/debt/{id}/receipt', [DebtOwnController::class, 'receipt'])->name('debt.receipt');
 Route::get('/owner/debt/history', [DebtOwnController::class, 'history'])->name('debt.history');
+Route::get('/owner/debt/order/{order}', [DebtOwnController::class, 'byOrder'])->name('debt-own.byOrder');
 
 Route::get('/owner/service', [ServiceController::class, 'index'])->name('owner.service.index');
 Route::get('/owner/service/create', [ServiceController::class, 'create'])->name('service.create');

@@ -70,12 +70,38 @@
                                   <img src="{{ asset('storage/' . $service->lds_image) }}" 
                                        alt="{{ $service->lds_name }}" width="80">
                               </td>
-                                <td>
+                                {{-- <td>
                                   <a href="/owner/service/{{ $service->lds_id}}/edit" class="btn btn-primary">Edit</a>
                                   <a href="/owner/service/{{ $service->lds_id }}/packages" class="btn btn-primary">Paket</a>
                                   <a href="/owner/service/{{ $service->lds_id}}/destroy" class="btn btn-danger" data-confirm-delete="true">Delete</a>
 
-                             </td>
+                             </td> --}}
+                             <td>
+                              <div class="d-flex align-items-center gap-3">
+                                <a href="/owner/service/{{ $service->lds_id}}/edit"
+                                   class="text-primary"
+                                   data-bs-toggle="tooltip"
+                                   title="Edit">
+                                  <span class="iconify" data-icon="line-md:pencil" data-width="25"></span>
+                                </a>
+                            
+                                <a href="/owner/service/{{ $service->lds_id }}/packages"
+                                   class="text-warning"
+                                   data-bs-toggle="tooltip"
+                                   title="Paket">
+                                  <span class="iconify" data-icon="line-md:folder-plus-twotone" data-width="25"></span>
+                                </a>
+                            
+                                <a href="/owner/service/{{ $service->lds_id}}/destroy"
+                                   class="text-danger"
+                                   data-confirm-delete="true"
+                                   data-bs-toggle="tooltip"
+                                   title="Hapus">
+                                  <span class="iconify" data-icon="line-md:trash" data-width="25"></span>
+                                </a>
+                              </div>
+                            </td>
+                            
                             </tr>
                             @endforeach
                         </tbody>
@@ -111,4 +137,5 @@
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 @endpush

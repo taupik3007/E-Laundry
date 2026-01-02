@@ -136,7 +136,7 @@
                     <div class="col-sm-3"></div>
                     <div class="col-sm-9">
                       <button type="submit" class="btn btn-primary">Simpan</button>
-                      <a href="{{ route('packages.index', $service->lds_id) }}" class="btn btn-warning">Batal</a>
+                      <a href="{{ route('package.index', $service->lds_id) }}" class="btn btn-warning">Batal</a>
                     </div>
                 </div>
 
