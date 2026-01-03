@@ -163,6 +163,15 @@ public function updateWeight(Request $request, $id)
      */
     public function store(Request $request)
     {
+//         if ($request->customerId == null && $request->ord_customer_name == null) {
+//     return redirect()
+//         ->back()
+//         ->withErrors([
+//             'customer' => 'Customer wajib dipilih atau diisi.'
+//         ])
+//         ->withInput();
+// }
+
         $request->validate([
             'ord_customer_id'   => 'required_without:ord_customer_name',
             'ord_customer_name' => 'required_without:ord_customer_id',
