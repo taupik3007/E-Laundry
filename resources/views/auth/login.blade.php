@@ -26,9 +26,23 @@
             <div class="position-relative z-index-5">
                 <div class="row">
                     <div class="col-xl-7 col-xxl-8">
-                        <a href="../main/index.html" class="text-nowrap logo-img d-block px-4 py-9 w-100">
+                        {{-- <a href="../main/index.html" class="text-nowrap logo-img d-block px-4 py-9 w-100">
                             <img src="../assets/images/logos/dark-logo.svg" class="dark-logo" alt="Logo-Dark" />
                             <img src="../assets/images/logos/light-logo.svg" class="light-logo" alt="Logo-light" />
+                        </a> --}}
+                        <a href="/"
+                            class="text-nowrap logo-img d-block px-4 py-9 w-100">
+                            <img id="logo" src="{{ asset('assets/images/logos/logooo.png') }}" width="150"
+                                alt="Logo">
+
+                            <script>
+                                const logo = document.getElementById('logo');
+                                const isDark = document.body.classList.contains('dark-theme');
+
+                                logo.src = isDark ?
+                                    "{{ asset('assets/images/logos/logooo.png') }}" :
+                                    "{{ asset('assets/images/logos/logooo.png') }}";
+                            </script>
                         </a>
                         <div class="d-none d-xl-flex align-items-center justify-content-center h-n80">
                             <img src="../assets/images/backgrounds/login-security.svg" alt="modernize-img"
@@ -91,15 +105,14 @@
                                                 Remeber this Device
                                             </label>
                                         </div>
-                                        <a class="text-primary fw-medium fs-3"
-                                            href="/forgot-password">Forgot Password ?</a>
+                                        <a class="text-primary fw-medium fs-3" href="/forgot-password">Forgot Password
+                                            ?</a>
                                     </div>
                                     {{-- <a href="../main/indeax.html" class="btn btn-primary w-100 py-8 mb-4 rounded-2">Sign In</a> --}}
                                     <button class="btn btn-primary w-100 py-8 mb-4 rounded-2"> Sign In</button>
                                     <div class="d-flex align-items-center justify-content-center">
                                         <p class="fs-4 mb-0 fw-medium">Buat Akun Baru?</p>
-                                        <a class="text-primary fw-medium ms-2"
-                                            href="register">Buat Akun</a>
+                                        <a class="text-primary fw-medium ms-2" href="register">Buat Akun</a>
                                     </div>
                                 </form>
                             </div>

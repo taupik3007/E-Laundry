@@ -27,9 +27,19 @@
             <div class="position-relative z-index-5">
                 <div class="row">
                     <div class="col-xl-7 col-xxl-8">
-                        <a href="../main/index.html" class="text-nowrap logo-img d-block px-4 py-9 w-100">
-                            <img src="../assets/images/logos/dark-logo.svg" class="dark-logo" alt="Logo-Dark" />
-                            <img src="../assets/images/logos/light-logo.svg" class="light-logo" alt="Logo-light" />
+                        <a href="/"
+                            class="text-nowrap logo-img d-block px-4 py-9 w-100">
+                            <img id="logo" src="{{ asset('assets/images/logos/logooo.png') }}" width="150"
+                                alt="Logo">
+
+                            <script>
+                                const logo = document.getElementById('logo');
+                                const isDark = document.body.classList.contains('dark-theme');
+
+                                logo.src = isDark ?
+                                    "{{ asset('assets/images/logos/logooo.png') }}" :
+                                    "{{ asset('assets/images/logos/logooo.png') }}";
+                            </script>
                         </a>
                         <div class="d-none d-xl-flex align-items-center justify-content-center h-n80">
                             <img src="../assets/images/backgrounds/login-security.svg" alt="modernize-img"

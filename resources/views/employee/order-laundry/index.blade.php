@@ -395,7 +395,7 @@
                                                         onchange="toggleMetode({{ $order->ord_id }}, this)" required>
                                                         <option value="">-- Pilih Metode --</option>
                                                         <option value="cash">Cash</option>
-                                                        <option value="transfer">Transfer</option>
+                                                        {{-- <option value="transfer">Transfer</option> --}}
                                                     </select>
 
                                                     <!-- SECTION CASH -->
