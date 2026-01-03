@@ -45,8 +45,33 @@ class LaundryOrderController extends Controller
 
      public function updateStatus(Request $request, $id)
 {
-    $order = Order::findOrFail($id);
-    $order->ord_status = strtolower($request->ord_status);
+    $order = Order::with('payment')->findOrFail($id);
+    $newStatus = strtolower($request->ord_status);
+
+    // 🔒 GUARD: JIKA MAU SELESAI, CEK PEMBAYARAN
+    if ($newStatus === 'selesai') {
+
+        // belum ada payment
+        if (!$order->payment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Order ini belum dibayar'
+            ], 422);
+        }
+
+        // ada payment tapi belum lunas & bukan piutang
+        if (
+            $order->payment->pym_payment_status == 0 &&
+            $order->payment->pym_is_debt == 0
+        ) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Order ini belum dibayar'
+            ], 422);
+        }
+    }
+
+    $order->ord_status = $newStatus;
     $order->save();
 
     $options = [];
@@ -253,7 +278,7 @@ $no = 1;
         //     'status' => true,
         //     'data' => $response->json()
         // ]);
-        return redirect('owner/ordering/');
+        return redirect('owner/order-laundry/');
 
     }
 
@@ -442,7 +467,7 @@ $no = 1;
         ]);
 
         // 5. TAMPILKAN HALAMAN QRIS
-        return redirect()->to("/owner/ordering/{$order->ord_id}/qris-payment");
+        return redirect()->to("/owner/order-laundry/{$order->ord_id}/qris-payment");
     }
 
     // ======================== ||
@@ -583,17 +608,20 @@ public function midtransToken(Order $order)
 }
 
 
-public function receipt($id){
-     $payment = Payment::with('order', 'order.customer')->findOrFail($id);
-        $order = Order::with(['service', 'package'])
-        ->where('ord_id', $id)
-        ->firstOrFail();
-    
-        return view('owner.order-laundry.payment-receipt', compact('payment', 'order'));
-    // $payment = Payment::with('order', 'order.customer')->findOrFail($id);
+public function receipt($id)
+{
+    $payment = Payment::with([
+        'order',
+        'order.customer',
+        'order.service',
+        'order.package'
+    ])->findOrFail($id);
 
-    // return view('', compact('payment'));
+    $order = $payment->order; // 🔥 ini kuncinya
+
+    return view('owner.order-laundry.payment-receipt', compact('payment', 'order'));
 }
+
 
 
     public function ajaxPackages($id)
@@ -765,6 +793,13 @@ public function callback(Request $request)
 
     return response()->json(['message' => 'OK']);
 }
+
+public function actionButtons($id)
+{
+    $order = Order::with('payment')->findOrFail($id);
+    return view('owner.order-laundry.partials.action', compact('order'));
+}
+
 
 
 

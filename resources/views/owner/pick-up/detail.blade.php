@@ -23,7 +23,7 @@ E-Laundry Garut | Detail Pemesanan
                     <a class="text-muted text-decoration-none" href="/owner/pick-up">Daftar Penjemputan</a>
                   </li>
                 <li class="breadcrumb-item">
-                  <a class="text-muted text-decoration-none" href="/owner/ordering/create">Tambah Pesanan</a>
+                  <a class="text-muted text-decoration-none" href="/owner/order-laundry/create">Tambah Pesanan</a>
                 </li>
                 <li class="breadcrumb-item">
                   <a class="text-muted text-decoration-none">Detail Penjemputan</a>

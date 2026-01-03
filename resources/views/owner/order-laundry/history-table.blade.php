@@ -12,12 +12,19 @@
     </td>
     <td>{{ $order->ord_updated_at->format('d/m/Y H:i') }}</td>
     <td>
-        <a href="{{ route('payment.receipt', $order->payment->pym_id) }}" 
-           class="btn btn-sm btn-primary" target="_blank" data-bs-toggle="tooltip"
-           data-bs-placement="top"
-           title="Cetak Struk">
-            <i class="iconify fs-5" data-icon="line-md:download"></i>
-        </a>
+        @if ($order->payment)
+    <a href="{{ route('owner.receipt', $order->payment->pym_id) }}"
+       class="btn btn-sm btn-primary"
+       target="_blank"
+       title="Cetak Struk">
+        <i class="iconify fs-5" data-icon="line-md:download"></i>
+    </a>
+@else
+    <button class="btn btn-sm btn-secondary" disabled
+        title="Belum ada pembayaran">
+        <i class="iconify fs-5" data-icon="line-md:download"></i>
+    </button>
+@endif
     </td>
 </tr>
 @endforeach

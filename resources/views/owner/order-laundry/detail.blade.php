@@ -20,11 +20,11 @@ E-Laundry | Detail Pesanan
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
             <li class="breadcrumb-item">
-            <a class="text-muted text-decoration-none" href="/owner/ordering">Daftar Orderan</a>
+            <a class="text-muted text-decoration-none" href="/owner/order-laundry">Daftar Orderan</a>
             </li>
 
               <li class="breadcrumb-item">
-                <a class="text-muted text-decoration-none" href="/owner/ordering/create">Tambah Order</a>
+                <a class="text-muted text-decoration-none" href="/owner/order-laundry/create">Tambah Order</a>
               </li>
               <li class="breadcrumb-item">
                 <a class="text-muted text-decoration-none" >Edit Order</a>

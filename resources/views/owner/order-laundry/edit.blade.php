@@ -19,7 +19,7 @@
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
                   <li class="breadcrumb-item">
-                    <a  class="text-muted text-decoration-none" href="/owner/ordering">Daftar Pesanan</a>
+                    <a  class="text-muted text-decoration-none" href="/owner/order-laundry">Daftar Pesanan</a>
                 </li>
                     <li class="breadcrumb-item">
                       <a class="text-muted text-decoration-none">Tambah Pesanan</a>
@@ -86,7 +86,7 @@
                   <div class="col-sm-3"></div>
                   <div class="col-sm-9">
                     <input type="submit" class="btn btn-primary" value="Kirim" id="">
-                    <a href="/owner/ordering" class="btn btn-warning">Batal</a>
+                    <a href="/owner/order-laundry" class="btn btn-warning">Batal</a>
                   </div>
                 </div>
               </div>

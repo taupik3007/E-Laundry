@@ -21,7 +21,7 @@ E-Laundry Garut | Daftar Pemesanan
                     <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page">Daftar Pesanan</li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/owner/ordering/create">Tambah Pesanan</a>
+                        <a class="text-muted text-decoration-none" href="/owner/order-laundry/create">Tambah Pesanan</a>
                       </li>
                       <li class="breadcrumb-item">
                         <a class="text-muted text-decoration-none">Edit Pesanan</a>
@@ -48,7 +48,7 @@ E-Laundry Garut | Daftar Pemesanan
               <div class="mb-5 position-relative">
 
                 <h4 class="card-title mb-0">Daftar Penjemputan</h4>
-                <a href="/owner/ordering/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Pesanan</a>
+                <a href="/owner/order-laundry/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Pesanan</a>
 
             </div>
                 <p class="card-subtitle mb-3">

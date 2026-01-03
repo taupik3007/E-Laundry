@@ -163,16 +163,20 @@ Route::put('/owner/employee/{id}/change-password', [EmployeeController::class, '
 Route::delete('/owner/employee/{id}/destroy', [EmployeeController::class, 'destroy'])->name('owner.employee.destroy');
 
 Route::get('/owner/customer', [CustomersController::class, 'index'])->name('owner.employee.index');
-Route::get('/owner/order-laundry', [LaundryOrderController::class, 'index'])->name('order.index');
+Route::get('/owner/order-laundry', [LaundryOrderController::class, 'index'])->name('owner.order.index');
 Route::post('/owner/order-laundry/{id}/status', [LaundryOrderController::class, 'updateStatus'])->name('order.updateStatus');
 Route::put('/owner/order-laundry/{id}/weight', [LaundryOrderController::class, 'updateWeight'])->name('orderown.updateWeight');
 Route::get('/owner/order-laundry/create', [LaundryOrderController::class, 'create'])->name('order.create');
 Route::get('/owner/order-laundry/{id}/packages', [LaundryOrderController::class, 'ajaxPackages']);
-Route::post('/owner/order-laundry/create', [LaundryOrderController::class, 'store'])->name('order.store');
+// Route::post('/owner/order-laundry/create', [LaundryOrderController::class, 'store'])->name('order.store');
+Route::post('/owner/order-laundry', [LaundryOrderController::class, 'store'])->name('owner.order.store');
 Route::get('/owner/order-laundry/{id}/edit', [LaundryOrderController::class, 'edit'])->name('order.edit');
 Route::get('/owner/order-laundry/{id}/detail', [LaundryOrderController::class, 'detail'])->name('order.detail');
 Route::put('/owner/order-laundry/{id}/payment', [LaundryOrderController::class, 'payment'])->name('orderown.payment');
 Route::get('/owner/order-laundry/history', [LaundryOrderController::class, 'history'])->name('order-own.history');
+Route::delete('/owner/order-laundry/{id}/destroy', [LaundryOrderController::class, 'destroy'])->name('owner.order.destroy');
+Route::get('/owner/order-laundry/{id}/action', [LaundryOrderController::class, 'actionButtons']);
+Route::get('/owner/order-laundry/{id}/receipt', [LaundryOrderController::class, 'receipt'])->name('owner.receipt');
 
 
 Route::get('/owner/pick-up', [Pick_UpController::class, 'index'])->name('pickup.index');

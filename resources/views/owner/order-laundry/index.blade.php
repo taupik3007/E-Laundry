@@ -139,8 +139,17 @@
 
                                                     case 'dalam pengantaran':
                                                     case 'menunggu pengambilan':
-                                                        $options = ['selesai'];
-                                                        break;
+                                                    $options = [];
+                                                            if (
+                                                                $order->payment &&
+                                                                (
+                                                                    $order->payment->pym_payment_status == 1
+                                                                    || $order->payment->pym_is_debt == 1
+                                                                )
+                                                            ) {
+                                                                $options[] = 'selesai';
+                                                            }
+                                                            break;
                                                 }
                                             @endphp
 
@@ -166,7 +175,6 @@
 
                                     </td>
                                     <td id="button-{{ $order->ord_id }}">
-<<<<<<< HEAD
                                        {{-- 1. SUDAH LUNAS --}}
 @if ($order->payment && $order->payment->pym_payment_status == 1)
 
@@ -177,7 +185,7 @@
           data-icon="ic:baseline-price-check"
           data-width="20"></span>
 </span>
-<a href="/owner/ordering/{{ $order->ord_id }}/detail"
+<a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
     class="btn btn-info"
     data-bs-toggle="tooltip"
     title="Detail Pesanan">
@@ -189,7 +197,7 @@
  </a>
  
  
-<a href="/owner/ordering/{{ $order->ord_id }}/destroy"
+<a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
     class="btn btn-danger"
     data-confirm-delete="true"
     data-bs-toggle="tooltip"
@@ -215,7 +223,7 @@ $order->payment->pym_is_debt == 1
           data-icon="mdi:cash-clock"
           data-width="20"></span>
 </a>
-<a href="/owner/ordering/{{ $order->ord_id }}/detail"
+<a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
     class="btn btn-info"
     data-bs-toggle="tooltip"
     title="Detail Pesanan">
@@ -227,7 +235,7 @@ $order->payment->pym_is_debt == 1
  </a>
  
  
-<a href="/owner/ordering/{{ $order->ord_id }}/destroy"
+<a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
     class="btn btn-danger"
     data-confirm-delete="true"
     data-bs-toggle="tooltip"
@@ -258,7 +266,7 @@ $order->payment->pym_is_debt == 1
           data-icon="tabler:user-dollar"
           data-width="20"></span>
 </button>
-<a href="/owner/ordering/{{ $order->ord_id }}/detail"
+<a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
     class="btn btn-info"
     data-bs-toggle="tooltip"
     title="Detail Pesanan">
@@ -270,7 +278,7 @@ $order->payment->pym_is_debt == 1
  </a>
  
  
-<a href="/owner/ordering/{{ $order->ord_id }}/destroy"
+<a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
     class="btn btn-danger"
     data-confirm-delete="true"
     data-bs-toggle="tooltip"
@@ -299,7 +307,7 @@ in_array($order->ord_status, [
           data-icon="ic:baseline-balance"
           data-width="18"></span>
 </button>
-<a href="/owner/ordering/{{ $order->ord_id }}/detail"
+<a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
     class="btn btn-info"
     data-bs-toggle="tooltip"
     title="Detail Pesanan">
@@ -311,7 +319,7 @@ in_array($order->ord_status, [
  </a>
  
  
-<a href="/owner/ordering/{{ $order->ord_id }}/destroy"
+<a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
     class="btn btn-danger"
     data-confirm-delete="true"
     data-bs-toggle="tooltip"
@@ -340,7 +348,7 @@ in_array($order->ord_status, [
           data-icon="tabler:user-dollar"
           data-width="20"></span>
 </button>
-<a href="/owner/ordering/{{ $order->ord_id }}/detail"
+<a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
     class="btn btn-info"
     data-bs-toggle="tooltip"
     title="Detail Pesanan">
@@ -352,7 +360,7 @@ in_array($order->ord_status, [
  </a>
  
  
-<a href="/owner/ordering/{{ $order->ord_id }}/destroy"
+<a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
     class="btn btn-danger"
     data-confirm-delete="true"
     data-bs-toggle="tooltip"
@@ -563,7 +571,7 @@ in_array($order->ord_status, [
                                 <div class="modal fade" id="modalBayar{{ $order->ord_id }}">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
-                                            <form method="POST" action="{{ route('owner.order.payment', $order->ord_id) }}">
+                                            <form method="POST" action="{{ route('orderown.payment', $order->ord_id) }}">
                                                 @csrf
                                                 @method('PUT')
 
@@ -892,7 +900,6 @@ function bayarMidtrans(orderId) {
 
                             if (response.paid) {
                                 aksiContainer.html(`
-<<<<<<< HEAD
         <span class="btn btn-success d-inline-flex align-items-center gap-1"  
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -902,7 +909,7 @@ function bayarMidtrans(orderId) {
                     data-width="20"></span>
                     </span>
 
-        <a href="/owner/ordering/${orderId}/detail"
+        <a href="/owner/order-laundry/${orderId}/detail"
             class="btn btn-info"
             data-bs-toggle="tooltip"
             title="Detail Pesanan">
@@ -912,7 +919,7 @@ function bayarMidtrans(orderId) {
                 data-width="22"
                 data-height="22"></span>
         </a>
-        <a href="/owner/ordering/${orderId}/destroy"
+        <a href="/owner/order-laundry/${orderId}/destroy"
             class="btn btn-danger"
             data-confirm-delete="true"
             data-bs-toggle="tooltip"
@@ -938,7 +945,7 @@ function bayarMidtrans(orderId) {
 </a>
 
 
-        <a href="/owner/ordering/${orderId}/detail"
+        <a href="/owner/order-laundry/${orderId}/detail"
             class="btn btn-info"
             data-bs-toggle="tooltip"
             title="Detail Pesanan">
@@ -948,7 +955,7 @@ function bayarMidtrans(orderId) {
                 data-width="22"
                 data-height="22"></span>
         </a>
-        <a href="/owner/ordering/${orderId}/destroy"
+        <a href="/owner/order-laundry/${orderId}/destroy"
             class="btn btn-danger"
             data-confirm-delete="true"
             data-bs-toggle="tooltip"
@@ -976,7 +983,7 @@ function bayarMidtrans(orderId) {
                 data-height="20"></span>
         </button>
 
-        <a href="/owner/ordering/${orderId}/detail"
+        <a href="/owner/order-laundry/${orderId}/detail"
             class="btn btn-info"
             data-bs-toggle="tooltip"
             title="Detail Pesanan">
@@ -986,7 +993,7 @@ function bayarMidtrans(orderId) {
                 data-width="22"
                 data-height="22"></span>
         </a>
-        <a href="/owner/ordering/${orderId}/destroy"
+        <a href="/owner/order-laundry/${orderId}/destroy"
             class="btn btn-danger"
             data-confirm-delete="true"
             data-bs-toggle="tooltip"
@@ -1019,7 +1026,7 @@ function bayarMidtrans(orderId) {
                 data-width="18"></span>
         </button>
 
-        <a href="/owner/ordering/${orderId}/detail"
+        <a href="/owner/order-laundry/${orderId}/detail"
             class="btn btn-info"
             data-bs-toggle="tooltip"
             title="Detail Pesanan">
@@ -1028,7 +1035,7 @@ function bayarMidtrans(orderId) {
                 data-width="22"></span>
         </a>
 
-        <a href="/owner/ordering/${orderId}/destroy"
+        <a href="/owner/order-laundry/${orderId}/destroy"
             class="btn btn-danger"
             data-confirm-delete="true"
             data-bs-toggle="tooltip"
@@ -1041,12 +1048,20 @@ function bayarMidtrans(orderId) {
 
 
                         }
-                        if (response.success && newStatus.toLowerCase() === 'selesai') {
-                            $('#order-row-' + orderId).fadeOut(200);
-                            setTimeout(() => location.reload(), 300);
-                        }
+                        // ====== KHUSUS STATUS SELESAI ======
+if (newStatus.toLowerCase() === 'selesai') {
+
+if (!response.paid && !response.is_debt) {
+    alert('❌ Order ini belum dibayar');
+    return; // STOP DI SINI, JANGAN LANJUT
+}
+
+// ✅ BOLEH SELESAI
+$('#order-row-' + orderId).fadeOut(300);
+return;
+}
                     },
-                    error: function(xhr) {
+                    error: function(xhr) {  
                         alert('❌ Gagal mengubah status.');
                     }
 

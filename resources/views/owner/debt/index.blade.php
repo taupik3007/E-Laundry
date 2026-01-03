@@ -186,11 +186,6 @@ E-Laundry | Daftar Piutang
 
 @push('script')
 <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-<<<<<<< HEAD
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
-<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
-=======
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
@@ -199,7 +194,8 @@ E-Laundry | Daftar Piutang
     <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
 
     <script src="{{ asset('assets/js/datatable/datatable-advanced.init.js') }}"></script>
->>>>>>> 826625ccf70f5effcd1d77d89f98d1a41188dc34
+    <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+
 
 {{-- HITUNG TOTAL UTANG --}}
 {{-- <script>

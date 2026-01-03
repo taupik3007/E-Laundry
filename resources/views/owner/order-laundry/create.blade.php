@@ -18,7 +18,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a class="text-muted text-decoration-none" href="/owner/ordering">Daftar
+                                        <a class="text-muted text-decoration-none" href="/owner/order-laundry">Daftar
                                             Pesanan</a>
                                     </li>
                                     <li class="breadcrumb-item">
@@ -204,7 +204,7 @@
                             <div class="col-sm-3"></div>
                             <div class="col-sm-9">
                                 <button class="btn btn-primary">Kirim</button>
-                                <a href="/owner/ordering" class="btn btn-warning">Batal</a>
+                                <a href="/owner/order-laundry" class="btn btn-warning">Batal</a>
                             </div>
                         </div>
 
@@ -317,7 +317,7 @@
 
             if (serviceId) {
                 $.ajax({
-                    url: '/owner/ordering/' + serviceId + '/packages',
+                    url: '/owner/order-laundry/' + serviceId + '/packages',
                     type: 'GET',
                     success: function(data) {
                         $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
@@ -383,7 +383,7 @@
             $('#package_id').html('<option>Loading...</option>');
 
             $.ajax({
-                url: '/owner/ordering/' + serviceId + '/packages',
+                url: '/owner/order-laundry/' + serviceId + '/packages',
                 type: 'GET',
                 success: function(data) {
                     $('#package_id').empty().append('<option value="">-- Pilih Paket --</option>');
@@ -486,7 +486,7 @@ $(document).on("change", ".service-select", function () {
     packageSelect.html("<option>Loading...</option>");
 
     $.ajax({
-        url: "/owner/ordering/" + serviceId + "/packages",
+        url: "/owner/order-laundry/" + serviceId + "/packages",
         type: "GET",
         success: function (data) {
             packageSelect.empty().append('<option value="">-- Pilih Paket --</option>');
