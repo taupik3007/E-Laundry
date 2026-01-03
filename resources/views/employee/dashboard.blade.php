@@ -89,7 +89,7 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-12 d-flex align-items-stretch">
+        <div class="col-lg-100 d-flex align-items-stretch">
             <div class="card w-100 bg-primary-subtle overflow-hidden shadow-none">
                 <div class="card-body position-relative">
                     <div class="row">
