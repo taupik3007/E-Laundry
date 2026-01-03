@@ -46,8 +46,33 @@ class OrderController extends Controller
 
      public function updateStatus(Request $request, $id)
 {
-    $order = Order::findOrFail($id);
-    $order->ord_status = strtolower($request->ord_status);
+    $order = Order::with('payment')->findOrFail($id);
+    $newStatus = strtolower($request->ord_status);
+
+    // 🔒 GUARD: JIKA MAU SELESAI, CEK PEMBAYARAN
+    if ($newStatus === 'selesai') {
+
+        // belum ada payment
+        if (!$order->payment) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Order ini belum dibayar'
+            ], 422);
+        }
+
+        // ada payment tapi belum lunas & bukan piutang
+        if (
+            $order->payment->pym_payment_status == 0 &&
+            $order->payment->pym_is_debt == 0
+        ) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Order ini belum dibayar'
+            ], 422);
+        }
+    }
+
+    $order->ord_status = $newStatus; 
     $order->save();
 
     $options = [];
