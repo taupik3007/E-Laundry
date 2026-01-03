@@ -328,8 +328,6 @@
         </section>
 
 
-
-
         <!-- CONTACT -->
         <section class="snap-section min-h-screen flex items-center bg-gray-100 pt-28 md:pt-0">
 
@@ -423,7 +421,7 @@
                 </div>
 
                 <div class="bg-[#4C9FFF] py-4 text-center text-sm text-white">
-                    © 2025 E-Laundry Garut | Manage by : Gutax Gitex program
+                    © 2026 E-Laundry Garut | Manage by : Gutax Gitex program
                 </div>
             </footer>
         </section>
@@ -445,7 +443,6 @@
         <span data-index="1"></span>
         <span data-index="2"></span>
         <span data-index="3"></span>
-        <span data-index="4"></span>
 
     </div>
 
