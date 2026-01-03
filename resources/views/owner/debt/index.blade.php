@@ -120,7 +120,7 @@ E-Laundry | Daftar Piutang
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
-            <form action="{{ route('debt.update', $payment->pym_id) }}" method="POST"> 
+            <form action="{{ route('debt-own.update', $payment->pym_id) }}" method="POST"> 
             {{-- <form action="" method="POST"> --}}
                 @csrf
                 @method('PUT')

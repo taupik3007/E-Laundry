@@ -41,6 +41,24 @@ public function details()
     return $this->hasMany(OrderDetail::class, 'odt_order_id', 'ord_id');
 }
 
+public function receivablePayments()
+{
+    return $this->hasMany(ReceivablePayments::class,'rp_order_id','ord_id'
+    );
+}
+
+public function hasReceivable(): bool
+    {
+        return $this->receivablePayments()->exists();
+    }
+
+    // 🔴 MASIH PIUTANG?
+    public function isStillDebt(): bool
+    {
+        return optional($this->payment)->pym_debt_amount > 0;
+    }
+
+
 
 
 

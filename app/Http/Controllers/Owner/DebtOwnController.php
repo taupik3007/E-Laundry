@@ -76,6 +76,7 @@ return view('owner.debt.index', compact('debts'));
 
     // Tambah ke pym_amount_paid
     $payment->pym_amount += $amountPay;
+    $payment->pym_cash_received += $amountPay;
 
     // Kurangi pym_debt_amount
     $payment->pym_debt_amount = max($payment->pym_debt_amount - $amountPay, 0);
@@ -90,11 +91,11 @@ return view('owner.debt.index', compact('debts'));
     $payment->save();
 
     $order = $payment->order;  // relasi di model Payment
-    if ($payment->pym_debt_amount == 0) {
-        $order->ord_status = "selesai";
-    } else {
-        $order->ord_status = "Belum Lunas";
-    }
+    // if ($payment->pym_debt_amount == 0) {
+    //     $order->ord_status = "selesai";
+    // } else {
+    //     $order->ord_status = "Belum Lunas";
+    // }
     $order->save();
 
     ReceivablePayments::create([

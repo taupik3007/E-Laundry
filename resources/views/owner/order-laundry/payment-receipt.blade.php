@@ -30,8 +30,8 @@
     }
 
     .header img {
-      width: 70px;
-      margin-bottom: 8px;
+      width: 100px;
+      margin-bottom: 2px;
     }
 
     .title {
@@ -146,7 +146,7 @@ body {
 }
 
 .header img {
-  width: 50px;
+  width: 100px;
 }
 
 .title {
@@ -179,7 +179,7 @@ body {
 
   <!-- HEADER -->
   <div class="header">
-    <img src="{{ asset('assets/images/hero-img/laundry-basket.png') }}">
+    <img src="{{ asset('assets/images/logos/logooo.png')}}">
     <div class="title">Garut Laundry</div>
     <div style="font-size:12px; color:#555;">
       Jl. Terusan Pahlawan No.94, Sukagalih, Kec. Tarogong Kidul, Kabupaten Garut, Jawa Barat 

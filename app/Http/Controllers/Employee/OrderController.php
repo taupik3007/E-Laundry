@@ -9,6 +9,7 @@ use App\Models\LaundryService;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Payment;
+use App\Models\ReceivablePayments;
 use App\Models\User;
 use Midtrans\Config;
 use Midtrans\Notification;
@@ -463,6 +464,15 @@ $cashback = $receive - $paid;
     if ($cashback < 0) {
         $payment->pym_debt_amount = abs($cashback); // simpan utang
         $payment->pym_is_debt = true;
+    
+        ReceivablePayments::create([
+            'rp_order_id'    => $order->ord_id,
+            'rp_amount_paid' => $amount, // ⬅️ BUKAN $amountPay
+            'rp_remaining'   => abs($cashback),
+            'rp_paid_at'     => now(),
+            'rp_created_by'  => auth()->id(),
+            'rp_sys_note'    => 'Pembayaran awal (belum lunas)',
+        ]);
 
         //  $order->update([
         //      'ord_status' => 'Belum Lunas'
@@ -603,17 +613,36 @@ public function midtransToken(Order $order)
 }
 
 
-public function receipt($id){
-     $payment = Payment::with('order', 'order.customer')->findOrFail($id);
-        $order = Order::with(['service', 'package'])
-        ->where('ord_id', $id)
-        ->firstOrFail();
+// public function receipt($id){
+//      $payment = Payment::with('order', 'order.customer')->findOrFail($id);
+//         $order = Order::with(['service', 'package'])
+//         ->where('ord_id', $id)
+//         ->firstOrFail();
     
-        return view('employee.order-laundry.payment-receipt', compact('payment', 'order'));
-    // $payment = Payment::with('order', 'order.customer')->findOrFail($id);
+//         return view('employee.order-laundry.payment-receipt', compact('payment', 'order'));
+//     // $payment = Payment::with('order', 'order.customer')->findOrFail($id);
 
-    // return view('', compact('payment'));
+//     // return view('', compact('payment'));
+// }
+
+public function receipt($id)
+{
+    $payment = Payment::with([
+        'order',
+        'order.customer',
+        'order.service',
+        'order.package',
+        'order.receivablePayments', // ⬅️ penting
+    ])->findOrFail($id);
+
+    $order = $payment->order;
+
+    return view(
+        'employee.order-laundry.payment-receipt',
+        compact('payment', 'order')
+    );
 }
+
 
 
     public function ajaxPackages($id)

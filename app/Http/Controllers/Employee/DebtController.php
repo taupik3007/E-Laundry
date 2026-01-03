@@ -92,11 +92,11 @@ return view('employee.receivables.index', compact('debts'));
     $payment->save();
 
     $order = $payment->order;  // relasi di model Payment
-    if ($payment->pym_debt_amount == 0) {
-        $order->ord_status = "selesai";
-    } else {
-        $order->ord_status = "Belum Lunas";
-    }
+    // if ($payment->pym_debt_amount == 0) {
+    //     $order->ord_status = "selesai";
+    // } else {
+    //     $order->ord_status = "Belum Lunas";
+    // }
     $order->save();
 
     ReceivablePayments::create([
