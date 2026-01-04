@@ -25,8 +25,8 @@ class OrderLaundryController extends Controller
         ->where('ord_customer_id', auth()->user()->usr_id)
         ->whereIn('ord_status', ['menunggu penjemputan', 'dalam penjemputan', 'menunggu penyerahan', 'proses',  'menunggu pengantaran', 'dalam pengantaran', 'menunggu pengambilan'])
         ->get();
-        $title = 'Delete User!';
-         $text = "Are you sure you want to delete?";
+        $title = 'Hapus Kegiatan Laundry!';
+         $text = "Apakah Anda yakin ingin menghapus order laundry?";
          confirmDelete($title, $text);
         return view('customer.order-laundry.index', compact('orderlist'));
     }

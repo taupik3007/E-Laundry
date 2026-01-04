@@ -16,8 +16,8 @@ class LaundryServiceController extends Controller
     public function index()
     {
         $LaundryService = LaundryService::all();
-        $title = 'Delete User!';
-        $text = "Are you sure you want to delete?";
+        $title = 'Hapus Layanan Servis!';
+        $text = "Apakah Anda yakin ingin menghapus?";
         confirmDelete($title, $text);
         return view('employee.laundry-service.index', compact('LaundryService'));
     }

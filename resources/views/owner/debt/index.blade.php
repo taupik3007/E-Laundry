@@ -76,7 +76,7 @@ E-Laundry | Daftar Piutang
                                         data-icon="ic:twotone-price-change"
                                         data-width="25"></span> 
                                 </a>
-                                <a href="{{ route('debt.receipt', $payment->pym_id) }}"
+                                <a href="{{ route('owner.debt.receipt', $payment->pym_id) }}"
                                     target="_blank"
                                     class="btn btn-sm btn-primary"
                                     data-bs-toggle="tooltip"

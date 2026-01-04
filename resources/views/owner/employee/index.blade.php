@@ -79,7 +79,7 @@
                                             <a href="/owner/employee/{{ $employee->usr_id }}/edit"
                                                 class="btn btn-sm btn-primary"
                                                 data-bs-toggle="tooltip"
-                                                title="Edit">
+                                                title="Edit Data">
                                                <span class="iconify" data-icon="line-md:pencil" data-width="25"></span>
                                              </a>
 
@@ -100,7 +100,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger"  data-bs-toggle="tooltip"
-                                            title="Edit Password">
+                                            title="Hapus Pegawai">
                                         
                                             <span class="iconify"
                                                 data-icon="line-md:trash"

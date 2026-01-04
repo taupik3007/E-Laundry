@@ -33,8 +33,8 @@ class LaundryOrderController extends Controller
     // dd($orderlist);
 
 
-        $title = 'Delete User!';
-        $text = "Are you sure you want to delete?";
+        $title = 'Hapus Kegiatan Laundry!';
+        $text = "Apakah Anda yakin ingin menghapus order laundry?";
         confirmDelete($title, $text);
         return view('owner.order-laundry.index', compact('orderlist'));
     }

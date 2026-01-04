@@ -15,8 +15,8 @@ class EmployeeController extends Controller
     public function index()
     {
         $employee = User::role('employee')->get();
-        $title = 'Delete User!';
-        $text = "Are you sure you want to delete?";
+        $title = 'Hapus Pegawai!';
+        $text = "Apakah Anda yakin ingin menghapus?";
         confirmDelete($title, $text);
         return view('owner.employee.index', compact('employee'));
     }

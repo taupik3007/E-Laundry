@@ -18,8 +18,8 @@ class PackageController extends Controller
     {
         $service = LaundryService::findOrFail($serviceId);
          $packages = LaundryPackage::where('ldp_service_id', $serviceId)->get();
-         $title = 'Delete User!';
-         $text = "Are you sure you want to delete?";
+         $title = 'Hapus Paket Layanan!';
+         $text = "Apakah Anda yakin ingin menghapus?";
          confirmDelete($title, $text);
          return view('owner.packages.index', compact('service', 'packages'));
     }
