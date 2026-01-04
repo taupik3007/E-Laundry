@@ -30,7 +30,7 @@
     }
 
     .header img {
-      width: 100px;
+      width: 150px;
       margin-bottom: 2px;
     }
 
@@ -195,7 +195,7 @@ body {
   <div class="info-row">
     <span>Tanggal</span>
     <span>
-      {{ \Carbon\Carbon::parse($payment->created_at)->translatedFormat('d F Y') }}
+      {{ \Carbon\Carbon::parse($payment->created_at)->translatedFormat('d F Y') }} 
     </span>
   </div>
 
@@ -246,7 +246,7 @@ body {
 
     <hr class="divider">
 
-<div class="payment-summary">
+{{-- <div class="payment-summary">
     <div class="row">
         <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
         <span>Rp {{ number_format($payment->pym_cash_received,0,',','.') }}</span>
@@ -261,7 +261,95 @@ body {
             <span>Rp {{ number_format($payment->pym_change_amount,0,',','.') }}</span>
         @endif
     </div>
+</div> --}}
+<div class="payment-summary">
+  {{-- RINGKASAN --}}
+  {{-- <div class="row">
+      <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
+      <span>Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}</span>
+  </div>
+
+  <div class="row">
+      <span>Sisa Piutang</span>
+      <span class="{{ $payment->pym_debt_amount > 0 ? 'text-danger' : 'text-success' }}">
+          Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}
+          @if ($payment->pym_debt_amount == 0)
+              (Lunas)
+          @endif
+      </span>
+  </div> --}}
+
+  {{-- RIWAYAT CICILAN --}}
+  @if ($order->receivablePayments->count() > 0)
+  <div class="row">
+    <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
+    <span>Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}</span>
 </div>
+
+<div class="row">
+    <span>Sisa Piutang</span>
+    <span class="{{ $payment->pym_debt_amount > 0 ? 'text-danger' : 'text-success' }}">
+        Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}
+        @if ($payment->pym_debt_amount == 0)
+            (Lunas)
+        @endif
+    </span>
+</div>
+      <hr>
+      <div class="section-title">Riwayat Pembayaran</div>
+
+      @foreach ($order->receivablePayments as $rp)
+          <div class="border rounded p-2 mb-2 small">
+
+              <div class="d-flex justify-content-between total-bold">
+                <strong style="font-size: 12px;">
+                  {{ \Carbon\Carbon::parse($rp->rp_paid_at)->format('d/m/Y') }}
+              </strong>
+                  <br>
+                  <div class="row">
+                  {{-- <span>Bayar{{ number_format($rp->rp_amount_paid, 0, ',', '.') }}</span> --}}
+                  <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
+                  <span>Rp {{ number_format($rp->rp_amount_paid, 0, ',', '.') }}</span>
+                </div>
+                <div class="row">
+                  <span>Sisa Piutang</span>
+                  <span>
+                      Rp {{ number_format($rp->rp_remaining, 0, ',', '.') }}
+                      @if ($rp->rp_remaining == 0)
+                          <strong class="text-success">(Lunas)</strong>
+                      @endif
+                  </span>
+                </div>
+              </div>
+              {{-- <div class="d-flex justify-content-between">
+                  <span>Sisa Piutang</span>
+                  <span>
+                      Rp {{ number_format($rp->rp_remaining, 0, ',', '.') }}
+                      @if ($rp->rp_remaining == 0)
+                          <strong class="text-success">(Lunas)</strong>
+                      @endif
+                  </span>
+              </div> --}}
+
+          </div>
+      @endforeach
+      @else
+        <div class="row">
+          <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
+          <span>Rp {{ number_format($payment->pym_cash_received,0,',','.') }}</span>
+        </div>
+      <div class="row">
+        <span>Kembali</span>
+            <span>Rp {{ number_format($payment->pym_change_amount,0,',','.') }}</span>
+      </div>
+
+    </div>
+
+  @endif
+
+</div>
+
+
 
   </div>
 

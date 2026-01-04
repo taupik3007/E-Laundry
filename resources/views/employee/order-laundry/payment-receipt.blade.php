@@ -195,7 +195,7 @@ body {
   <div class="info-row">
     <span>Tanggal</span>
     <span>
-      {{ \Carbon\Carbon::parse($payment->created_at)->translatedFormat('d F Y') }}
+      {{ \Carbon\Carbon::parse($payment->created_at)->translatedFormat('d F Y') }} 
     </span>
   </div>
 
@@ -302,7 +302,7 @@ body {
           <div class="border rounded p-2 mb-2 small">
 
               <div class="d-flex justify-content-between total-bold">
-                <strong>
+                <strong style="font-size: 12px;">
                   {{ \Carbon\Carbon::parse($rp->rp_paid_at)->format('d/m/Y') }}
               </strong>
                   <br>
