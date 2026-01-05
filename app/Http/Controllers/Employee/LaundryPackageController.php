@@ -117,13 +117,13 @@ class LaundryPackageController extends Controller
         return redirect()->back();
     }
 
-        $package = LaundryPackage::findOrFail($packageId);
+        $package = LaundryPackage::findOrFail($packageId); 
 
     $package->delete();
 
     Alert::success('Berhasil Menghapus', 'Berhasil menghapus data Paket Layanan');
     return redirect()
-        ->route('packages.index', $serviceId)
+        ->route('package.index', $serviceId)
         ->with('success', 'Paket berhasil dihapus!');
     }
     
