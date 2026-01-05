@@ -149,7 +149,7 @@
             </a>
         </div>
     </nav>
-    <a href="https://wa.me/628xxxxxxxxxx" target="_blank"
+    <a href="https://wa.me/62895395205197" target="_blank"
         class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center text-3xl z-50 animate-bounce">
         <i class="ti ti-brand-whatsapp"></i>
     </a>
@@ -395,12 +395,12 @@
 
                             <li class="flex items-center gap-3">
                                 <i class="ti ti-phone text-xl text-[#4C9FFF]"></i>
-                                0812-3456-7890
+                                +62 895-3952-05197
                             </li>
 
                             <li class="flex items-center gap-3">
                                 <i class="ti ti-mail text-xl text-[#4C9FFF]"></i>
-                                support@elaundry.id
+                                garut.laundry01@gmail.com
                             </li>
                         </ul>
                     </div>
