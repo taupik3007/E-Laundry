@@ -30,8 +30,8 @@
     }
 
     .header img {
-      width: 70px;
-      margin-bottom: 8px;
+      width: 150px;
+      margin-bottom: 2px;
     }
 
     .title {
@@ -161,11 +161,21 @@ body {
 <div class="receipt-container">
 
   <!-- HEADER -->
-  <div class="header">
+  <!-- <div class="header">
     <img src="{{ asset('assets/images/hero-img/laundry-basket.png') }}">
+
+    <img src="{{ asset('assets/images/logos/logooo.png')}}">
     <div class="title">Struk Pembayaran</div>
     <div style="font-size:12px; color:#555;">
       Laundry Bersih Selalu • RW 04
+    </div>
+  </div> -->
+
+  <div class="header">
+    <img src="{{ asset('assets/images/logos/logooo.png')}}">
+    <div class="title">Garut Laundry</div>
+    <div style="font-size:12px; color:#555;">
+      Jl. Terusan Pahlawan No.94, Sukagalih, Kec. Tarogong Kidul, Kabupaten Garut, Jawa Barat 
     </div>
   </div>
 
