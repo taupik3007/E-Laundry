@@ -421,7 +421,7 @@
                 </div>
 
                 <div class="bg-[#4C9FFF] py-4 text-center text-sm text-white">
-                    © 2026 E-Laundry Garut | Manage by : Gutax Gitex program
+                    © 2026 E-Laundry Garut | Manage by : Matcha Project
                 </div>
             </footer>
         </section>
