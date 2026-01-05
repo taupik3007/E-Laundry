@@ -130,7 +130,7 @@ E-Laundry | Tambah Pesanan
             <div class="col-sm-3"></div>
             <div class="col-sm-9">
               <button class="btn btn-primary">Kirim</button>
-              <a href="/employee/ordering" class="btn btn-warning">Batal</a>
+              <a href="/customer/laundry-order" class="btn btn-warning">Batal</a>
             </div>
           </div>
 

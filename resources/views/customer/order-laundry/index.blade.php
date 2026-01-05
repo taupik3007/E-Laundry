@@ -100,12 +100,32 @@
                                       title="Edit">
                                      <span class="iconify" data-icon="line-md:pencil" data-width="25"></span>
                                    </a>
+                                   {{-- <a href="/customer/laundry-order/{{ $order->ord_id }}/destroy"
+                                    class="btn btn-danger" data-confirm-delete="true">Delete</a> --}}
                                      <a href="/customer/laundry-order/{{ $order->ord_id }}/destroy"
                                       class="text-danger"
                                       data-bs-toggle="tooltip"
+                                      data-confirm-delete="true"
                                       title="Batalkan Pesanan">
                                      <span class="iconify" data-icon="line-md:trash" data-width="25"></span>
                                    </a>
+                                   {{-- <form action="{{ route('laundry-order.destroy', $order->ord_id) }}"
+                                    method="POST"
+                                    class="d-inline"
+                                    onsubmit="return confirm('Yakin ingin membatalkan pesanan?')">
+                                  @csrf
+                                  @method('DELETE')
+                              
+                                  <button type="submit"
+                                          class="btn btn-link text-danger p-0"
+                                          data-bs-toggle="tooltip"
+                                          title="Batalkan Pesanan">
+                                      <span class="iconify"
+                                            data-icon="line-md:trash"
+                                            data-width="25"></span>
+                                  </button> --}}
+                              </form>
+                              
                               </div>
 
                               @endif

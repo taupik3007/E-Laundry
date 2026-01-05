@@ -121,7 +121,7 @@ class OrderLaundryController extends Controller
 
     Alert::success('Berhasil Menambah', 'Berhasil menambah Orderan');
     // dd($order);
-    return redirect('/customer/order-laundry');
+    return redirect('/customer/laundry-order');
 
     }
 
@@ -205,10 +205,18 @@ class OrderLaundryController extends Controller
     public function destroy(string $id)
     {
         $order = Order::findOrFail($id);
-        $order->delete();
 
-        Alert::success('Berhasil Dihapus', 'Order berhasil dihapus.');
+    if (!in_array($order->ord_status, ['menunggu penjemputan', 'dalam penjemputan', 'menunggu penyerahan'])) {
+        Alert::error('Gagal', 'Pesanan tidak bisa dibatalkan.');
         return redirect()->back();
+    }
+
+    $order->update([
+        'ord_status' => 'dibatalkan'
+    ]);
+
+    Alert::success('Berhasil', 'Pesanan berhasil dibatalkan.');
+    return redirect()->back();
     }
 
     public function history(Request $request)
