@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Struk Pembayaran</title>
+  <title><bold>Struk Pembayaran</bold></title>
 
   <style>
     body {
@@ -175,26 +175,26 @@ body {
     <img src="{{ asset('assets/images/logos/logooo.png')}}">
     <div class="title">Garut Laundry</div>
     <div style="font-size:12px; color:#555;">
-      Jl. Terusan Pahlawan No.94, Sukagalih, Kec. Tarogong Kidul, Kabupaten Garut, Jawa Barat 
+      <b>Jl. Terusan Pahlawan No.94, Sukagalih, Kec. Tarogong Kidul, Kabupaten Garut, Jawa Barat </b>
     </div>
   </div>
 
   <!-- INFO TRANSAKSI -->
   <div class="info-row">
-    <span>No. Invoice</span>
-    <span>#{{ $payment->order->ord_invoice }}</span>
+    <span><b>No. Invoice</b>></span>
+    <span><b>#{{ $payment->order->ord_invoice }}</b></span>
   </div>
 
   <div class="info-row">
-    <span>Tanggal</span>
+    <span><b>Tanggal</b></span>
     <span>
-      {{ \Carbon\Carbon::parse($payment->created_at)->translatedFormat('d F Y') }}
+      <b>{{ \Carbon\Carbon::parse($payment->created_at)->translatedFormat('d F Y') }}</b>
     </span>
   </div>
 
   <div class="info-row">
-    <span>Pelanggan</span>
-    <span>{{ $payment->order->ord_customer_name }}</span>
+    <span><b>Pelanggan<b></span>
+    <span><b>{{ $payment->order->ord_customer_name }}</b></span>
   </div>
 
   <!-- DETAIL PESANAN -->

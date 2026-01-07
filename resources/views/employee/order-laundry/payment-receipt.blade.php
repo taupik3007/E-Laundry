@@ -182,40 +182,40 @@ body {
     <img src="{{ asset('assets/images/logos/logooo.png')}}">
     <div class="title">Garut Laundry</div>
     <div style="font-size:12px; color:#555;">
-      Jl. Terusan Pahlawan No.94, Sukagalih, Kec. Tarogong Kidul, Kabupaten Garut, Jawa Barat 
+     <b> Jl. Terusan Pahlawan No.94, Sukagalih, Kec. Tarogong Kidul, Kabupaten Garut, Jawa Barat </b>
     </div>
   </div>
 
   <!-- INFO TRANSAKSI -->
   <div class="info-row">
-    <span>No. Invoice</span>
-    <span>#{{ $payment->order->ord_invoice }}</span>
+    <span><b>No. Invoice</b></span>
+    <span><b>#{{ $payment->order->ord_invoice }}</b></span>
   </div>
 
   <div class="info-row">
-    <span>Tanggal</span>
+    <span><b>Tanggal</b></span>
     <span>
       {{ \Carbon\Carbon::parse($payment->created_at)->translatedFormat('d F Y') }} 
     </span>
   </div>
 
   <div class="info-row">
-    <span>Pelanggan</span>
-    <span>{{ $payment->order->ord_customer_name }}</span>
+    <span><b> Pelanggan</b></span>
+    <span><b>{{ $payment->order->ord_customer_name }}</b></span>
   </div>
 
   <!-- DETAIL PESANAN -->
-  <div class="section-title">Detail Pesanan</div>
+  <div class="section-title"><b>Detail Pesanan</b></div>
 
   @foreach ($order->details as $detail)
   <div class="item">
-    <span>
+    <span><b>
       {{ $detail->service->lds_name }}
       {{ $detail->package->ldp_name }}
-      {{ $detail->odt_quantity }} {{ $detail->package->ldp_unit }}
+      {{ $detail->odt_quantity }} {{ $detail->package->ldp_unit }}</b>
     </span>
     <span>
-      Rp {{ number_format($detail->odt_total, 0, ',', '.') }}
+      <b>Rp {{ number_format($detail->odt_total, 0, ',', '.') }}</b>
     </span>
   </div>
 @endforeach
@@ -224,23 +224,23 @@ body {
   <div class="total-box">
 
     <div class="total-row">
-      <span>Sub Total</span>
+      <span><b>Sub Total</b></span>
       <span>
-        Rp {{ number_format($payment->order->ord_total, 0, ',', '.') }}
+        <b>Rp {{ number_format($payment->order->ord_total, 0, ',', '.') }}</b>
       </span>
     </div>
 
     <div class="total-row">
-      <span>Discount</span>
+      <span><b>Discount</b></span>
       <span>
-        Rp {{ number_format($payment->pym_discount ?? 0, 0, ',', '.') }}
+        <b>Rp {{ number_format($payment->pym_discount ?? 0, 0, ',', '.') }}</b>
     </span>
     </div>
 
     <div class="total-row total-bold">
-      <span>Total</span>
+      <span><b>Total</b></span>
       <span>
-        Rp {{ number_format($payment->order->ord_total - ($payment->pym_discount ?? 0), 0, ',', '.') }}
+        <b>Rp {{ number_format($payment->order->ord_total - ($payment->pym_discount ?? 0), 0, ',', '.') }}</b>
       </span>
     </div>
 
@@ -248,33 +248,33 @@ body {
 
 {{-- <div class="payment-summary">
     <div class="row">
-        <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
-        <span>Rp {{ number_format($payment->pym_cash_received,0,',','.') }}</span>
+        <span><b>Bayar ({{ $payment->getMethodNameAttribute() }})</b></span>
+        <span><b>Rp {{ number_format($payment->pym_cash_received,0,',','.') }}</b></span>
     </div>
 
     <div class="row">
         @if($payment->pym_is_debt)
-            <span>Sisa Piutang</span>
-            <span>Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}</span>
+            <span><b>Sisa Piutang</b></span>
+            <span><b>Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}</b></span>
         @else
-            <span>Kembali</span>
-            <span>Rp {{ number_format($payment->pym_change_amount,0,',','.') }}</span>
+            <span><b>Kembali</b></span>
+            <span><b>Rp {{ number_format($payment->pym_change_amount,0,',','.') }}</b></span>
         @endif
     </div>
 </div> --}}
 <div class="payment-summary">
   {{-- RINGKASAN --}}
   {{-- <div class="row">
-      <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
-      <span>Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}</span>
+      <span><b>Bayar ({{ $payment->getMethodNameAttribute() }})</b></span>
+      <span><b>Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}</b></span>
   </div>
 
   <div class="row">
-      <span>Sisa Piutang</span>
+      <span><b>Sisa Piutang</b></span>
       <span class="{{ $payment->pym_debt_amount > 0 ? 'text-danger' : 'text-success' }}">
-          Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}
+          <b>Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}</b>
           @if ($payment->pym_debt_amount == 0)
-              (Lunas)
+              <b>(Lunas)</b>
           @endif
       </span>
   </div> --}}
@@ -282,51 +282,51 @@ body {
   {{-- RIWAYAT CICILAN --}}
   @if ($order->receivablePayments->count() > 0)
   <div class="row">
-    <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
-    <span>Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}</span>
+    <span><b>Bayar ({{ $payment->getMethodNameAttribute() }})</b></span>
+    <span><b>Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}</b></span>
 </div>
 
 <div class="row">
-    <span>Sisa Piutang</span>
+    <span><b>Sisa Piutang</b></span>
     <span class="{{ $payment->pym_debt_amount > 0 ? 'text-danger' : 'text-success' }}">
-        Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}
+        <b>Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}</b>
         @if ($payment->pym_debt_amount == 0)
-            (Lunas)
+           <b> (Lunas)</b>
         @endif
     </span>
 </div>
       <hr>
-      <div class="section-title">Riwayat Pembayaran</div>
+      <div class="section-title"><b>Riwayat Pembayaran</b></div>
 
       @foreach ($order->receivablePayments as $rp)
           <div class="border rounded p-2 mb-2 small">
 
               <div class="d-flex justify-content-between total-bold">
                 <strong style="font-size: 12px;">
-                  {{ \Carbon\Carbon::parse($rp->rp_paid_at)->format('d/m/Y') }}
+                  <b>{{ \Carbon\Carbon::parse($rp->rp_paid_at)->format('d/m/Y') }}</b>
               </strong>
                   <br>
                   <div class="row">
-                  {{-- <span>Bayar{{ number_format($rp->rp_amount_paid, 0, ',', '.') }}</span> --}}
-                  <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
-                  <span>Rp {{ number_format($rp->rp_amount_paid, 0, ',', '.') }}</span>
+                  {{-- <span><b>Bayar{{ number_format($rp->rp_amount_paid, 0, ',', '.') }}</b></span> --}}
+                  <span><b>Bayar ({{ $payment->getMethodNameAttribute() }})</b></span>
+                  <span><b>Rp {{ number_format($rp->rp_amount_paid, 0, ',', '.') }}</b></span>
                 </div>
                 <div class="row">
-                  <span>Sisa Piutang</span>
+                  <span><b>Sisa Piutang</b></span>
                   <span>
-                      Rp {{ number_format($rp->rp_remaining, 0, ',', '.') }}
+                      <b>Rp {{ number_format($rp->rp_remaining, 0, ',', '.') }}</b>
                       @if ($rp->rp_remaining == 0)
-                          <strong class="text-success">(Lunas)</strong>
+                          <strong class="text-success"><b>(Lunas)</b></strong>
                       @endif
                   </span>
                 </div>
               </div>
               {{-- <div class="d-flex justify-content-between">
-                  <span>Sisa Piutang</span>
+                  <span><b>Sisa Piutang</b></span>
                   <span>
-                      Rp {{ number_format($rp->rp_remaining, 0, ',', '.') }}
+                      <b>Rp {{ number_format($rp->rp_remaining, 0, ',', '.') }}</b>
                       @if ($rp->rp_remaining == 0)
-                          <strong class="text-success">(Lunas)</strong>
+                          <strong class="text-success"><b>(Lunas)</b></strong>
                       @endif
                   </span>
               </div> --}}
@@ -335,12 +335,12 @@ body {
       @endforeach
       @else
         <div class="row">
-          <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
-          <span>Rp {{ number_format($payment->pym_cash_received,0,',','.') }}</span>
+          <span><b>Bayar ({{ $payment->getMethodNameAttribute() }})</b></span>
+          <span><b>Rp {{ number_format($payment->pym_cash_received,0,',','.') }}</b></span>
         </div>
       <div class="row">
-        <span>Kembali</span>
-            <span>Rp {{ number_format($payment->pym_change_amount,0,',','.') }}</span>
+        <span><b>Kembali</b></span>
+            <span><b>Rp {{ number_format($payment->pym_change_amount,0,',','.') }}</b></span>
       </div>
 
     </div>
@@ -357,11 +357,11 @@ body {
   {{-- @if($payment->pym_debt_amount > 0)
   <div class="qris-box">
     <p style="font-size:14px; color:#444;">
-      Metode Pembayaran: <b>{{ strtoupper($payment->pym_method ?? 'CASH') }}</b>
+      <b>Metode Pembayaran: {{ strtoupper($payment->pym_method ?? 'CASH') }}</b>
     </p>
     <img src="https://i.ibb.co/bK9syjC/qr-sample.png">
     <p style="font-size:12px;color:#777;">
-      Scan untuk pembayaran selanjutnya
+      <b>Scan untuk pembayaran selanjutnya</b>
     </p>
   </div>
   @endif --}}

@@ -162,43 +162,43 @@ body {
 
   <!-- HEADER -->
   <div class="header">
-    <img src="{{ asset('assets/images/hero-img/laundry-basket.png') }}">
-    <div class="title">Struk Pembayaran</div>
+    <img src="{{ asset('assets/images/logos/logooo.png')}}">
+    <div class="title">Garut Laundry</div>
     <div style="font-size:12px; color:#555;">
-      Laundry Bersih Selalu • RW 04
+      <b>Jl. Terusan Pahlawan No.94, Sukagalih, Kec. Tarogong Kidul, Kabupaten Garut, Jawa Barat </b>
     </div>
   </div>
 
   <!-- INFO TRANSAKSI -->
   <div class="info-row">
-    <span>No. Invoice</span>
-    <span>#{{ $payment->order->ord_invoice }}</span>
+    <span><b>No. Invoice</b></span>
+    <span><b>#{{ $payment->order->ord_invoice }}</b></span>
   </div>
 
   <div class="info-row">
-    <span>Tanggal</span>
+    <span><b>Tanggal</b></span>
     <span>
-      {{ \Carbon\Carbon::parse($payment->created_at)->translatedFormat('d F Y') }}
+      <b>{{ \Carbon\Carbon::parse($payment->created_at)->translatedFormat('d F Y') }}</b>
     </span>
   </div>
 
   <div class="info-row">
-    <span>Pelanggan</span>
-    <span>{{ $payment->order->ord_customer_name }}</span>
+    <span><b>Pelanggan</b></span>
+    <span><b>{{ $payment->order->ord_customer_name }}</b></span>
   </div>
 
   <!-- DETAIL PESANAN -->
-  <div class="section-title">Detail Pesanan</div>
+  <div class="section-title"><b>Detail Pesanan</b></div>
 
   @foreach ($order->details as $detail)
   <div class="item">
-    <span>
+    <span><b>
       {{ $detail->service->lds_name }}
       {{ $detail->package->ldp_name }}
-      {{ $detail->odt_quantity }} {{ $detail->package->ldp_unit }}
+      {{ $detail->odt_quantity }} {{ $detail->package->ldp_unit }}</b>
     </span>
     <span>
-      Rp {{ number_format($detail->odt_total, 0, ',', '.') }}
+      <b>Rp {{ number_format($detail->odt_total, 0, ',', '.') }}</b>
     </span>
   </div>
 @endforeach
@@ -207,23 +207,23 @@ body {
   <div class="total-box">
 
     <div class="total-row">
-      <span>Total Tagihan</span>
+      <span><b>Total Tagihan</b></span>
       <span>
-        Rp {{ number_format($payment->order->ord_total - ($payment->pym_discount ?? 0), 0, ',', '.') }}
+        <b>Rp {{ number_format($payment->order->ord_total - ($payment->pym_discount ?? 0), 0, ',', '.') }}</b>
       </span>
     </div>
 
     <div class="total-row">
-      <span>Sudah Dibayar</span>
+      <span><b>Sudah Dibayar</b></span>
       <span>
-        Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}
+        <b>Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}</b>
       </span>
     </div>
 
     <div class="grand-total">
-      <span>Sisa Piutang</span>
+      <span><b>Sisa Piutang</b></span>
       <span>
-        Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}
+       <b> Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}</b>
       </span>
     </div>
 
@@ -233,11 +233,11 @@ body {
   {{-- @if($payment->pym_debt_amount > 0)
   <div class="qris-box">
     <p style="font-size:14px; color:#444;">
-      Metode Pembayaran: <b>{{ strtoupper($payment->pym_method ?? 'CASH') }}</b>
+      <b>Metode Pembayaran: {{ strtoupper($payment->pym_method ?? 'CASH') }}</b>
     </p>
     <img src="https://i.ibb.co/bK9syjC/qr-sample.png">
     <p style="font-size:12px;color:#777;">
-      Scan untuk pembayaran selanjutnya
+      <b>Scan untuk pembayaran selanjutnya</b>
     </p>
   </div>
   @endif --}}
