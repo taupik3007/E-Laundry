@@ -28,6 +28,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Owner\EmployesController;
 use App\Http\Controllers\Owner\CustomersController;
 use App\Http\Controllers\Owner\DebtOwnController;
+use App\Http\Controllers\Owner\DiscountController;
 use App\Http\Controllers\Owner\FinancesController;
 
 Route::get('/landing', function () {
@@ -197,6 +198,13 @@ Route::post('/owner/service/create', [ServiceController::class, 'store'])->name(
 Route::get('/owner/service/{id}/edit', [ServiceController::class, 'edit'])->name('service.edit');
 Route::post('/owner/service/{id}/update', [ServiceController::class, 'update'])->name('service.update');
 Route::delete('/owner/service/{id}/destroy', [ServiceController::class, 'destroy'])->name('service.destroy');
+
+Route::get('/owner/discount', [DiscountController::class, 'index'])->name('owner.disc.index');
+Route::get('/owner/discount/create', [DiscountController::class, 'create'])->name('owner.disc.create');
+Route::post('/owner/discount/create', [DiscountController::class, 'store'])->name('owner.disc.store');
+Route::get('/owner/discount/{id}/edit', [DiscountController::class, 'edit'])->name('owner.disc.edit');
+Route::post('/owner/discount/{id}/update', [DiscountController::class, 'update'])->name('owner.disc.update');
+Route::delete('/owner/discount/{id}/destroy', [DiscountController::class, 'destroy'])->name('owner.disc.destroy');
 
 Route::get('/owner/service/{id}/packages', [PackageController::class, 'index'])->name('packages.index');
 Route::get('/owner/service/{id}/packages/create', [PackageController::class, 'create'])->name('packages.create');
