@@ -23,10 +23,10 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             RoleSeeder::class,
-            // UserSeeder::class,
-            // LaundryServiceSeeder::class,
-            // LaundryPackageSeeder::class,
-            //OrderSeeder::class
+            UserSeeder::class,
+            LaundryServiceSeeder::class,
+            LaundryPackageSeeder::class,
+            // OrderSeeder::class
 
         ]);
         $owner2 = User::create([

@@ -9,6 +9,7 @@ use App\Models\LaundryService;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Payment;
+use App\Models\Discount;
 use App\Models\User;
 use Midtrans\Config;
 use Midtrans\Notification;
@@ -31,12 +32,19 @@ class LaundryOrderController extends Controller
     ->orderBy('ord_created_at', 'DESC')
     ->get();
     // dd($orderlist);
+    $now = Carbon::now()->format('Y-m-d H:i:s');
+
+
+$discount = Discount::where('dsc_start', '<=', $now)
+    ->where('dsc_finish', '>=', $now)
+    ->get();
+    // dd($now);
 
 
         $title = 'Hapus Kegiatan Laundry!';
         $text = "Apakah Anda yakin ingin menghapus order laundry?";
         confirmDelete($title, $text);
-        return view('owner.order-laundry.index', compact('orderlist'));
+        return view('owner.order-laundry.index', compact(['orderlist','discount']));
     }
 
     /**
