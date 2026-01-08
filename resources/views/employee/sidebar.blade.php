@@ -65,6 +65,14 @@
                         <span class="hide-menu">Layanan</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/employee/discount" aria-expanded="false">
+                        <span>
+                           <i class="ti ti-currency-dollar-off"></i>
+                        </span>
+                        <span class="hide-menu">Diskon</span>
+                    </a>
+                </li>
 
                 <!-- KELOLA DATA -->
                 <li class="nav-small-cap">

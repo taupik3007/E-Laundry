@@ -139,17 +139,15 @@
 
                                                     case 'dalam pengantaran':
                                                     case 'menunggu pengambilan':
-                                                    $options = [];
-                                                            if (
-                                                                $order->payment &&
-                                                                (
-                                                                    $order->payment->pym_payment_status == 1
-                                                                    || $order->payment->pym_is_debt == 1
-                                                                )
-                                                            ) {
-                                                                $options[] = 'selesai';
-                                                            }
-                                                            break;
+                                                        $options = [];
+                                                        if (
+                                                            $order->payment &&
+                                                            ($order->payment->pym_payment_status == 1 ||
+                                                                $order->payment->pym_is_debt == 1)
+                                                        ) {
+                                                            $options[] = 'selesai';
+                                                        }
+                                                        break;
                                                 }
                                             @endphp
 
@@ -175,206 +173,133 @@
 
                                     </td>
                                     <td id="button-{{ $order->ord_id }}">
-                                       {{-- 1. SUDAH LUNAS --}}
-@if ($order->payment && $order->payment->pym_payment_status == 1)
+                                        {{-- 1. SUDAH LUNAS --}}
+                                        @if ($order->payment && $order->payment->pym_payment_status == 1)
+                                            <span class="btn btn-success" data-bs-toggle="tooltip"
+                                                title="Pembayaran sudah lunas">
+                                                <span class="iconify" data-icon="ic:baseline-price-check"
+                                                    data-width="20"></span>
+                                            </span>
+                                            <a href="/owner/order-laundry/{{ $order->ord_id }}/detail" class="btn btn-info"
+                                                data-bs-toggle="tooltip" title="Detail Pesanan">
 
-<span class="btn btn-success"
-      data-bs-toggle="tooltip"
-      title="Pembayaran sudah lunas">
-    <span class="iconify"
-          data-icon="ic:baseline-price-check"
-          data-width="20"></span>
-</span>
-<a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
-    class="btn btn-info"
-    data-bs-toggle="tooltip"
-    title="Detail Pesanan">
- 
-     <span class="iconify"
-           data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition"
-           data-width="22"
-           data-height="22"></span>
- </a>
- 
- 
-<a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
-    class="btn btn-danger"
-    data-confirm-delete="true"
-    data-bs-toggle="tooltip"
-    title="Hapus Pesanan">
-    <span class="iconify"
-           data-icon="line-md:file-remove-filled"
-           data-width="22"
-           data-height="22"></span>
-</a>
-
-{{-- 2. DP / PIUTANG --}}
-@elseif (
-$order->payment &&
-$order->payment->pym_payment_status == 0 &&
-$order->payment->pym_is_debt == 1
-)
-
-<a href="{{ route('debt-own.byOrder', $order->ord_id) }}"
-   class="btn btn-danger"
-   data-bs-toggle="tooltip"
-   title="Bayar sebagian">
-    <span class="iconify"
-          data-icon="mdi:cash-clock"
-          data-width="20"></span>
-</a>
-<a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
-    class="btn btn-info"
-    data-bs-toggle="tooltip"
-    title="Detail Pesanan">
- 
-     <span class="iconify"
-           data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition"
-           data-width="22"
-           data-height="22"></span>
- </a>
- 
- 
-<a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
-    class="btn btn-danger"
-    data-confirm-delete="true"
-    data-bs-toggle="tooltip"
-    title="Hapus Pesanan">
-    <span class="iconify"
-           data-icon="line-md:file-remove-filled"
-           data-width="22"
-           data-height="22"></span>
-</a>
-
-{{-- 3. PROSES + BELUM BAYAR (TIMBANG + BAYAR) --}}
-@elseif (!$order->payment && $order->ord_status === 'proses')
-
-<button class="btn btn-info"
-        data-bs-toggle="modal"
-        data-bs-target="#modalTimbang{{ $order->ord_id }}"
-        title="Timbang">
-    <span class="iconify"
-          data-icon="ic:baseline-balance"
-          data-width="18"></span>
-</button>
-
-<button class="btn btn-success"
-        data-bs-toggle="modal"
-        data-bs-target="#modalBayar{{ $order->ord_id }}"
-        title="Pembayaran">
-    <span class="iconify"
-          data-icon="tabler:user-dollar"
-          data-width="20"></span>
-</button>
-<a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
-    class="btn btn-info"
-    data-bs-toggle="tooltip"
-    title="Detail Pesanan">
- 
-     <span class="iconify"
-           data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition"
-           data-width="22"
-           data-height="22"></span>
- </a>
- 
- 
-<a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
-    class="btn btn-danger"
-    data-confirm-delete="true"
-    data-bs-toggle="tooltip"
-    title="Hapus Pesanan">
-    <span class="iconify"
-           data-icon="line-md:file-remove-filled"
-           data-width="22"
-           data-height="22"></span>
-</a>
-
-{{-- 4. STATUS TIMBANG (HANYA TIMBANG) --}}
-@elseif (
-!$order->payment &&
-in_array($order->ord_status, [
-    'menunggu penjemputan',
-    'dalam penjemputan',
-    'menunggu penyerahan'
-])
-)
-
-<button class="btn btn-info"
-        data-bs-toggle="modal"
-        data-bs-target="#modalTimbang{{ $order->ord_id }}"
-        title="Timbang">
-    <span class="iconify"
-          data-icon="ic:baseline-balance"
-          data-width="18"></span>
-</button>
-<a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
-    class="btn btn-info"
-    data-bs-toggle="tooltip"
-    title="Detail Pesanan">
- 
-     <span class="iconify"
-           data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition"
-           data-width="22"
-           data-height="22"></span>
- </a>
- 
- 
-<a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
-    class="btn btn-danger"
-    data-confirm-delete="true"
-    data-bs-toggle="tooltip"
-    title="Hapus Pesanan">
-    <span class="iconify"
-           data-icon="line-md:file-remove-filled"
-           data-width="22"
-           data-height="22"></span>
-</a>
-
-{{-- 5. STATUS LANJUT (BAYAR SAJA) --}}
-@elseif (
-!$order->payment &&
-in_array($order->ord_status, [
-    'menunggu pengantaran',
-    'dalam pengantaran',
-    'menunggu pengambilan'
-])
-)
-
-<button class="btn btn-success"
-        data-bs-toggle="modal"
-        data-bs-target="#modalBayar{{ $order->ord_id }}"
-        title="Pembayaran">
-    <span class="iconify"
-          data-icon="tabler:user-dollar"
-          data-width="20"></span>
-</button>
-<a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
-    class="btn btn-info"
-    data-bs-toggle="tooltip"
-    title="Detail Pesanan">
- 
-     <span class="iconify"
-           data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition"
-           data-width="22"
-           data-height="22"></span>
- </a>
- 
- 
-<a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
-    class="btn btn-danger"
-    data-confirm-delete="true"
-    data-bs-toggle="tooltip"
-    title="Hapus Pesanan">
-    <span class="iconify"
-           data-icon="line-md:file-remove-filled"
-           data-width="22"
-           data-height="22"></span>
-</a>
-
-@endif
+                                                <span class="iconify"
+                                                    data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition"
+                                                    data-width="22" data-height="22"></span>
+                                            </a>
 
 
-{{--                                         
+                                            <a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
+                                                class="btn btn-danger" data-confirm-delete="true" data-bs-toggle="tooltip"
+                                                title="Hapus Pesanan">
+                                                <span class="iconify" data-icon="line-md:file-remove-filled" data-width="22"
+                                                    data-height="22"></span>
+                                            </a>
+
+                                            {{-- 2. DP / PIUTANG --}}
+                                        @elseif ($order->payment && $order->payment->pym_payment_status == 0 && $order->payment->pym_is_debt == 1)
+                                            <a href="{{ route('debt-own.byOrder', $order->ord_id) }}"
+                                                class="btn btn-danger" data-bs-toggle="tooltip" title="Bayar sebagian">
+                                                <span class="iconify" data-icon="mdi:cash-clock" data-width="20"></span>
+                                            </a>
+                                            <a href="/owner/order-laundry/{{ $order->ord_id }}/detail" class="btn btn-info"
+                                                data-bs-toggle="tooltip" title="Detail Pesanan">
+
+                                                <span class="iconify"
+                                                    data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition"
+                                                    data-width="22" data-height="22"></span>
+                                            </a>
+
+
+                                            <a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
+                                                class="btn btn-danger" data-confirm-delete="true" data-bs-toggle="tooltip"
+                                                title="Hapus Pesanan">
+                                                <span class="iconify" data-icon="line-md:file-remove-filled" data-width="22"
+                                                    data-height="22"></span>
+                                            </a>
+
+                                            {{-- 3. PROSES + BELUM BAYAR (TIMBANG + BAYAR) --}}
+                                        @elseif (!$order->payment && $order->ord_status === 'proses')
+                                            <button class="btn btn-info" data-bs-toggle="modal"
+                                                data-bs-target="#modalTimbang{{ $order->ord_id }}" title="Timbang">
+                                                <span class="iconify" data-icon="ic:baseline-balance"
+                                                    data-width="18"></span>
+                                            </button>
+
+                                            <button class="btn btn-success" data-bs-toggle="modal"
+                                                data-bs-target="#modalBayar{{ $order->ord_id }}" title="Pembayaran">
+                                                <span class="iconify" data-icon="tabler:user-dollar"
+                                                    data-width="20"></span>
+                                            </button>
+                                            <a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
+                                                class="btn btn-info" data-bs-toggle="tooltip" title="Detail Pesanan">
+
+                                                <span class="iconify"
+                                                    data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition"
+                                                    data-width="22" data-height="22"></span>
+                                            </a>
+
+
+                                            <a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
+                                                class="btn btn-danger" data-confirm-delete="true"
+                                                data-bs-toggle="tooltip" title="Hapus Pesanan">
+                                                <span class="iconify" data-icon="line-md:file-remove-filled"
+                                                    data-width="22" data-height="22"></span>
+                                            </a>
+
+                                            {{-- 4. STATUS TIMBANG (HANYA TIMBANG) --}}
+                                        @elseif (
+                                            !$order->payment &&
+                                                in_array($order->ord_status, ['menunggu penjemputan', 'dalam penjemputan', 'menunggu penyerahan']))
+                                            <button class="btn btn-info" data-bs-toggle="modal"
+                                                data-bs-target="#modalTimbang{{ $order->ord_id }}" title="Timbang">
+                                                <span class="iconify" data-icon="ic:baseline-balance"
+                                                    data-width="18"></span>
+                                            </button>
+                                            <a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
+                                                class="btn btn-info" data-bs-toggle="tooltip" title="Detail Pesanan">
+
+                                                <span class="iconify"
+                                                    data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition"
+                                                    data-width="22" data-height="22"></span>
+                                            </a>
+
+
+                                            <a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
+                                                class="btn btn-danger" data-confirm-delete="true"
+                                                data-bs-toggle="tooltip" title="Hapus Pesanan">
+                                                <span class="iconify" data-icon="line-md:file-remove-filled"
+                                                    data-width="22" data-height="22"></span>
+                                            </a>
+
+                                            {{-- 5. STATUS LANJUT (BAYAR SAJA) --}}
+                                        @elseif (
+                                            !$order->payment &&
+                                                in_array($order->ord_status, ['menunggu pengantaran', 'dalam pengantaran', 'menunggu pengambilan']))
+                                            <button class="btn btn-success" data-bs-toggle="modal"
+                                                data-bs-target="#modalBayar{{ $order->ord_id }}" title="Pembayaran">
+                                                <span class="iconify" data-icon="tabler:user-dollar"
+                                                    data-width="20"></span>
+                                            </button>
+                                            <a href="/owner/order-laundry/{{ $order->ord_id }}/detail"
+                                                class="btn btn-info" data-bs-toggle="tooltip" title="Detail Pesanan">
+
+                                                <span class="iconify"
+                                                    data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition"
+                                                    data-width="22" data-height="22"></span>
+                                            </a>
+
+
+                                            <a href="/owner/order-laundry/{{ $order->ord_id }}/destroy"
+                                                class="btn btn-danger" data-confirm-delete="true"
+                                                data-bs-toggle="tooltip" title="Hapus Pesanan">
+                                                <span class="iconify" data-icon="line-md:file-remove-filled"
+                                                    data-width="22" data-height="22"></span>
+                                            </a>
+                                        @endif
+
+
+                                        {{--                                         
                                         {{-- JIKA SUDAH BAYAR
                                         @if ($order->payment && $order->payment->pym_payment_status == 1)
                                             <span class="btn btn-success d-inline-flex align-items-center gap-1"  data-bs-toggle="tooltip"
@@ -571,7 +496,8 @@ in_array($order->ord_status, [
                                 <div class="modal fade" id="modalBayar{{ $order->ord_id }}">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
-                                            <form method="POST" action="{{ route('orderown.payment', $order->ord_id) }}">
+                                            <form method="POST"
+                                                action="{{ route('orderown.payment', $order->ord_id) }}">
                                                 @csrf
                                                 @method('PUT')
 
@@ -581,11 +507,37 @@ in_array($order->ord_status, [
                                                         data-bs-dismiss="modal"></button>
                                                 </div>
 
+
                                                 <div class="modal-body">
                                                     <label>Total Harga</label>
-                                                    <input type="text" class="form-control mb-2"
+                                                    <input type="text" id="total_display" class="form-control mb-2"
                                                         value="Rp {{ number_format($order->ord_total ?? 0, 0, ',', '.') }}"
                                                         readonly>
+
+                                                    <input type="hidden" id="total_asli"
+                                                        value="{{ $order->ord_total ?? 0 }}">
+
+                                                    <label>Diskon</label>
+                                                    <select name="discount" class="form-control mb-2"
+                                                        onchange="applyDiscount(this)" required>
+
+                                                        <option value="">Tidak pakai diskon</option>
+
+                                                        @foreach ($discount as $dsc)
+                                                            <option value="{{ $dsc->dsc_id }}"
+                                                                data-type="{{ $dsc->dsc_type }}"
+                                                                data-value="{{ $dsc->dsc_total }}">
+                                                                {{ $dsc->dsc_name }} -
+                                                                @if ($dsc->dsc_type == 'percent')
+                                                                    {{ $dsc->dsc_total }}%
+                                                                @else
+                                                                    Rp {{ number_format($dsc->dsc_total, 0, ',', '.') }}
+                                                                @endif
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+
+
 
                                                     <!-- METODE -->
                                                     <label>Metode Pembayaran</label>
@@ -649,6 +601,37 @@ in_array($order->ord_status, [
                                         </div>
                                     </div>
                                 </div>
+                                <script>
+                                    function applyDiscount(select) {
+                                        const totalAsli = parseInt(document.getElementById('total_asli').value);
+                                        const totalDisplay = document.getElementById('total_display');
+
+                                        if (!select.value) {
+                                            totalDisplay.value = formatRupiah(totalAsli);
+                                            return;
+                                        }
+
+                                        const option = select.options[select.selectedIndex];
+                                        const type = option.dataset.type;
+                                        const value = parseInt(option.dataset.value);
+
+                                        let totalAkhir = totalAsli;
+
+                                        if (type === 'percent') {
+                                            totalAkhir = totalAsli - (totalAsli * value / 100);
+                                        } else {
+                                            totalAkhir = totalAsli - value;
+                                        }
+
+                                        if (totalAkhir < 0) totalAkhir = 0;
+
+                                        totalDisplay.value = formatRupiah(totalAkhir);
+                                    }
+
+                                    function formatRupiah(angka) {
+                                        return 'Rp ' + angka.toLocaleString('id-ID');
+                                    }
+                                </script>
 
 
                                 <script>
@@ -735,7 +718,9 @@ in_array($order->ord_status, [
                                     function formatBayar{{ $order->ord_id }}(input) {
                                         // ambil angka saja
                                         let angka = input.value.replace(/[^0-9]/g, '');
-                                        let total = {{ $order->ord_total }};
+                                        let total = parseInt(
+                                            document.getElementById('total_display').value.replace(/[^0-9]/g, '')
+                                        ) || 0;
 
                                         let bayar = parseInt(angka) || 0;
 
@@ -790,29 +775,28 @@ in_array($order->ord_status, [
     </div>
     </div>
 
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js"
-    data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
+    </script>
 
-<script>
-function bayarMidtrans(orderId) {
-    fetch(`/owner/order-laundry/${orderId}/midtrans-token`)
-        .then(res => res.json())
-        .then(data => {
-            snap.pay(data.snap_token, {
-                onSuccess: function(result) {
-                    location.reload();
-                },
-                onPending: function(result) {
-                    alert("Menunggu pembayaran");
-                },
-                onError: function(result) {
-                    alert("Pembayaran gagal");
-                }
-            });
-        });
-}
-</script>
-
+    <script>
+        function bayarMidtrans(orderId) {
+            fetch(`/owner/order-laundry/${orderId}/midtrans-token`)
+                .then(res => res.json())
+                .then(data => {
+                    snap.pay(data.snap_token, {
+                        onSuccess: function(result) {
+                            location.reload();
+                        },
+                        onPending: function(result) {
+                            alert("Menunggu pembayaran");
+                        },
+                        onError: function(result) {
+                            alert("Pembayaran gagal");
+                        }
+                    });
+                });
+        }
+    </script>
 @endsection
 
 
@@ -1004,18 +988,18 @@ function bayarMidtrans(orderId) {
                    data-height="22"></span>
         </a>
     `);
-                            // 🔥 TIMBANG (BELUM ADA PAYMENT)
-} else if (
-    response.payment === null &&
-    (
-        response.status === 'menunggu penjemputan' ||
-        response.status === 'dalam penjemputan' ||
-        response.status === 'menunggu penyerahan' ||
-        response.status === 'proses'
-    )
-) {
+                                // 🔥 TIMBANG (BELUM ADA PAYMENT)
+                            } else if (
+                                response.payment === null &&
+                                (
+                                    response.status === 'menunggu penjemputan' ||
+                                    response.status === 'dalam penjemputan' ||
+                                    response.status === 'menunggu penyerahan' ||
+                                    response.status === 'proses'
+                                )
+                            ) {
 
-    aksiContainer.html(`
+                                aksiContainer.html(`
         <button class="btn btn-info d-inline-flex align-items-center justify-content-center"
             data-bs-toggle="modal"
             data-bs-target="#modalTimbang${orderId}"
@@ -1044,24 +1028,25 @@ function bayarMidtrans(orderId) {
                 data-icon="line-md:file-remove-filled"
                 data-width="22"></span>
         </a>
-    `);                            }
+    `);
+                            }
 
 
                         }
                         // ====== KHUSUS STATUS SELESAI ======
-if (newStatus.toLowerCase() === 'selesai') {
+                        if (newStatus.toLowerCase() === 'selesai') {
 
-if (!response.paid && !response.is_debt) {
-    alert('❌ Order ini belum dibayar');
-    return; // STOP DI SINI, JANGAN LANJUT
-}
+                            if (!response.paid && !response.is_debt) {
+                                alert('❌ Order ini belum dibayar');
+                                return; // STOP DI SINI, JANGAN LANJUT
+                            }
 
-// ✅ BOLEH SELESAI
-$('#order-row-' + orderId).fadeOut(300);
-return;
-}
+                            // ✅ BOLEH SELESAI
+                            $('#order-row-' + orderId).fadeOut(300);
+                            return;
+                        }
                     },
-                    error: function(xhr) {  
+                    error: function(xhr) {
                         alert('❌ Gagal mengubah status.');
                     }
 

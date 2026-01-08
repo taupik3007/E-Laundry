@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             LaundryServiceSeeder::class,
             LaundryPackageSeeder::class,
-            //OrderSeeder::class
+            // OrderSeeder::class
 
         ]);
         // $owner2 = User::create([
