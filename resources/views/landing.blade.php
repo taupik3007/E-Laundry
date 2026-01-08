@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <img src="{{ asset('images/logos/new-logo.png') }}" alt="Laravel" class="w-6 h-6">
     <title>Landing Page</title>
 
     <!-- Fonts -->

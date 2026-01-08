@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <div class="text-center">
                         <img src="../assets/images/svgs/icon-user-male.svg" width="50" height="50" class="mb-3"
-                            alt="modernize-img" />
+                            alt="assets/images/logos/new-logo.png" />
                         <p class="fw-semibold fs-3 text-primary mb-1">
                             Member
                         </p>
