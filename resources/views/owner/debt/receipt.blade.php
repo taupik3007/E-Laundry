@@ -258,3 +258,230 @@ body {
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Struk Pembayaran</title>
+
+<style>
+/* ===============================
+   GLOBAL RESET (WAJIB)
+================================ */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #fff;
+}
+
+/* ===============================
+   STRUK CONTAINER
+================================ */
+.receipt-container {
+  width: 72mm;
+  max-width: 72mm;
+  padding: 6px;
+  margin: 0 auto;
+}
+
+/* ===============================
+   HEADER
+================================ */
+.header {
+  text-align: center;
+  border-bottom: 1px dashed #000;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+}
+
+.header img {
+  width: 40px;
+  margin-bottom: 4px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 10px;
+}
+
+/* ===============================
+   INFO ROW
+================================ */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+/* ===============================
+   SECTION TITLE
+================================ */
+.section-title {
+  margin-top: 6px;
+  margin-bottom: 4px;
+  font-size: 11px;
+  font-weight: bold;
+  border-bottom: 1px dashed #000;
+}
+
+/* ===============================
+   ITEM LIST
+================================ */
+.item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.item span:last-child {
+  white-space: nowrap;
+}
+
+/* ===============================
+   TOTAL BOX
+================================ */
+.total-box {
+  margin-top: 6px;
+  border-top: 1px dashed #000;
+  padding-top: 4px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.grand-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: bold;
+  border-top: 1px dashed #000;
+  padding-top: 4px;
+  margin-top: 4px;
+}
+
+/* ===============================
+   FOOTER
+================================ */
+.footer {
+  text-align: center;
+  font-size: 9px;
+  margin-top: 6px;
+}
+
+/* ===============================
+   PRINT SETTING (PENTING)
+================================ */
+@media print {
+
+  @page {
+    size: 72mm auto;
+    margin: 0;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .receipt-container {
+    margin: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="receipt-container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="{{ asset('assets/images/hero-img/laundry-basket.png') }}">
+    <div class="title">STRUK PEMBAYARAN</div>
+    <div class="subtitle">Laundry Bersih Selalu • RW 04</div>
+  </div>
+
+  <!-- INFO -->
+  <div class="info-row">
+    <span>Invoice</span>
+    <span>#{{ $payment->order->ord_invoice }}</span>
+  </div>
+
+  <div class="info-row">
+    <span>Tanggal</span>
+    <span>{{ \Carbon\Carbon::parse($payment->created_at)->translatedFormat('d/m/Y') }}</span>
+  </div>
+
+  <div class="info-row">
+    <span>Pelanggan</span>
+    <span>{{ $payment->order->ord_customer_name }}</span>
+  </div>
+
+  <!-- DETAIL -->
+  <div class="section-title">DETAIL PESANAN</div>
+
+  @foreach ($order->details as $detail)
+  <div class="item">
+    <span>
+      {{ $detail->service->lds_name }}
+      {{ $detail->package->ldp_name }}
+      {{ $detail->odt_quantity }} {{ $detail->package->ldp_unit }}
+    </span>
+    <span>
+      {{ number_format($detail->odt_total, 0, ',', '.') }}
+    </span>
+  </div>
+  @endforeach
+
+  <!-- TOTAL -->
+  <div class="total-box">
+    <div class="total-row">
+      <span>Total</span>
+      <span>
+        {{ number_format($payment->order->ord_total - ($payment->pym_discount ?? 0), 0, ',', '.') }}
+      </span>
+    </div>
+
+    <div class="total-row">
+      <span>Dibayar</span>
+      <span>{{ number_format($payment->pym_amount, 0, ',', '.') }}</span>
+    </div>
+
+    <div class="grand-total">
+      <span>Sisa</span>
+      <span>{{ number_format($payment->pym_debt_amount, 0, ',', '.') }}</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Terima kasih ❤️<br>
+    Simpan struk ini sebagai bukti
+  </div>
+
+</div>
+
+<script>
+window.onload = function () {
+  window.print();
+};
+</script>
+
+</body>
+</html>
