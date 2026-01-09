@@ -512,14 +512,14 @@
                                                     <label>Total Harga</label>
                                                     <input type="text" id="total_display" class="form-control mb-2"
                                                         value="Rp {{ number_format($order->ord_total ?? 0, 0, ',', '.') }}"
-                                                        readonly>
+                                                        readonly name="total_amount">
 
                                                     <input type="hidden" id="total_asli"
                                                         value="{{ $order->ord_total ?? 0 }}">
 
                                                     <label>Diskon</label>
                                                     <select name="discount" class="form-control mb-2"
-                                                        onchange="applyDiscount(this)" required>
+                                                        onchange="applyDiscount(this)" required name="discount">
 
                                                         <option value="">Tidak pakai diskon</option>
 
