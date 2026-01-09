@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,11 +28,21 @@ class Discount extends Model
 
         return 'Rp ' . number_format($this->dsc_total, 0, ',', '.');
     }
+    public function getIsActiveAttribute()
+{
+    $now = Carbon::now();
+
+    return $now->between(
+        Carbon::parse($this->dsc_start),
+        Carbon::parse($this->dsc_finish)
+    );
+}
+
     public function getDscStatusBadgeAttribute()
 {
     return $this->dsc_status == 1
-        ? '<span class="badge bg-success">Aktif</span>'
-        : '<span class="badge bg-secondary">Nonaktif</span>';
+    ? '<span class="badge bg-success">Aktif</span>'
+    : '<span class="badge bg-secondary">Nonaktif</span>';
 }
 
 }

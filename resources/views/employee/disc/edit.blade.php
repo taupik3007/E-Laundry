@@ -1,4 +1,4 @@
-@extends('owner.master')
+@extends('employee.master')
 
 @push('link')
     
@@ -20,7 +20,7 @@
                   <ol class="breadcrumb">
                   <li class="breadcrumb-item" aria-current="page">Daftar Diskon</li>
                     <li class="breadcrumb-item">
-                      <a class="text-muted text-decoration-none" href="/owner/discount/create">Tambah Diskon</a>
+                      <a class="text-muted text-decoration-none" href="/employee/discount/create">Tambah Diskon</a>
                     </li>
                     <li class="breadcrumb-item">
                       <a class="text-muted text-decoration-none" href="#">Edit Diskon</a>
@@ -41,7 +41,7 @@
           <div class="px-4 py-3 border-bottom">
             <h4 class="card-title mb-0">Tambah Diskon </h4>
           </div>
-          <form action="{{ route('owner.disc.update', $editdiskon->dsc_id) }}" method="post" enctype="multipart/form-data">
+          <form action="{{ route('disc.update', $editdiskon->dsc_id) }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
                 {{-- Nama Layanan --}}
@@ -112,7 +112,7 @@
                     <div class="col-sm-3"></div>
                     <div class="col-sm-9">
                         <input type="submit" class="btn btn-primary" value="Kirim">
-                        <a href="{{ route('owner.disc.index') }}" class="btn btn-warning">Batal</a>
+                        <a href="{{ route('disc.index') }}" class="btn btn-warning">Batal</a>
                     </div>
                 </div>
             </div>

@@ -112,7 +112,7 @@
                     <div class="col-sm-3"></div>
                     <div class="col-sm-9">
                         <input type="submit" class="btn btn-primary" value="Kirim">
-                        <a href="{{ route('owner.service.index') }}" class="btn btn-warning">Batal</a>
+                        <a href="{{ route('owner.disc.index') }}" class="btn btn-warning">Batal</a>
                     </div>
                 </div>
             </div>

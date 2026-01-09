@@ -29,17 +29,17 @@ class DatabaseSeeder extends Seeder
             // OrderSeeder::class
 
         ]);
-        $owner2 = User::create([
-            'usr_name' => 'Owner',
-            'usr_nik' => '3201234567891234',
-            'email' => 'owner12311@gmail.com',
-            'password' => bcrypt("owner12311"),
-            'usr_birthplace' => 'Bandung',
-            'usr_birthdate' => '2003-7-30',
-            'usr_gender' => 'Perempuan',
-            'usr_religion' => 'Islam',
-            'usr_telephone' => '085864296238',
-        ]);
-        $owner2->assignRole('owner');
+        // $owner2 = User::create([
+        //     'usr_name' => 'Owner',
+        //     'usr_nik' => '3201234567891234',
+        //     'email' => 'owner12311@gmail.com',
+        //     'password' => bcrypt("owner12311"),
+        //     'usr_birthplace' => 'Bandung',
+        //     'usr_birthdate' => '2003-7-30',
+        //     'usr_gender' => 'Perempuan',
+        //     'usr_religion' => 'Islam',
+        //     'usr_telephone' => '085864296238',
+        // ]);
+        // $owner2->assignRole('owner');
     }
 }

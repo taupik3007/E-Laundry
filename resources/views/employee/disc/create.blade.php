@@ -1,4 +1,4 @@
-@extends('owner.master')
+@extends('employee.master')
 
 @push('link')
     
@@ -20,7 +20,7 @@
                   <ol class="breadcrumb">
                   <li class="breadcrumb-item" aria-current="page">Daftar Diskon</li>
                     <li class="breadcrumb-item">
-                      <a class="text-muted text-decoration-none" href="/owner/discount/create">Tambah Diskon</a>
+                      <a class="text-muted text-decoration-none" href="/employee/discount/create">Tambah Diskon</a>
                     </li>
                     <li class="breadcrumb-item">
                       <a class="text-muted text-decoration-none" href="#">Edit Diskon</a>
@@ -41,14 +41,14 @@
           <div class="px-4 py-3 border-bottom">
             <h4 class="card-title mb-0">Tambah Diskon </h4>
           </div>
-          <form action="{{ route('owner.disc.update', $editdiskon->dsc_id) }}" method="post" enctype="multipart/form-data">
+          <form action="" method="post" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
                 {{-- Nama Layanan --}}
                 <div class="mb-4 row align-items-center">
                     <label for="dsc_name" class="form-label col-sm-3 col-form-label">Nama Diskon</label>
                     <div class="col-sm-9">
-                        <input type="text" name="dsc_name" class="form-control" id="dsc_name" value="{{ $editdiskon->dsc_name }}"
+                        <input type="text" name="dsc_name" class="form-control" id="dsc_name"
                                placeholder="Nama Diskon"
                                required
                                oninvalid="this.setCustomValidity('Nama layanan wajib diisi')"
@@ -66,8 +66,8 @@
                     <div class="col-sm-9">
                     <select name="dsc_type" id="dsc_type" class="form-select">
                         <option value="">-- Pilih Jenis --</option>
-                        <option value="percent" {{ ($dsc->dsc_status ?? '') == 'percent' ? 'selected' : '' }}>Persen (%)</option>
-                        <option value="nominal" {{ ($dsc->dsc_status ?? '') == 'nominal' ? 'selected' : '' }} >Rupiah (Rp)</option>
+                        <option value="percent">Persen (%)</option>
+                        <option value="nominal">Rupiah (Rp)</option>
                     </select>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                            disabled>
                 
                     {{-- INPUT ASLI (DIKIRIM KE SERVER) --}}
-                    <input type="hidden" name="dsc_total" id="dsc_total"  value="{{ $editdiskon->dsc_total_label }}">
+                    <input type="hidden" name="dsc_total" id="dsc_total">
                 
                     <small class="text-muted" id="diskon-help"></small>
                     </div>
@@ -93,7 +93,7 @@
                 <div class="mb-4 row align-items-center">
                     <label  class="form-label col-sm-3 col-form-label">Tanggal Mulai</label>
                     <div class="col-sm-9">
-                    <input type="datetime-local" name="dsc_start"  value="{{ \Carbon\Carbon::parse($editdiskon->dsc_start)->format('Y-m-d\TH:i') }}"
+                    <input type="datetime-local" name="dsc_start"
                            class="form-control" required>
                 </div>
                 </div>
@@ -101,7 +101,7 @@
                 <div class="mb-4 row align-items-center">
                     <label  class="form-label col-sm-3 col-form-label">Tanggal Selesai</label>
                     <div class="col-sm-9">
-                    <input type="datetime-local" name="dsc_finish" value="{{ \Carbon\Carbon::parse($editdiskon->dsc_finish)->format('Y-m-d\TH:i') }}"
+                    <input type="datetime-local" name="dsc_finish"
                            class="form-control" required>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                     <div class="col-sm-3"></div>
                     <div class="col-sm-9">
                         <input type="submit" class="btn btn-primary" value="Kirim">
-                        <a href="{{ route('owner.disc.index') }}" class="btn btn-warning">Batal</a>
+                        <a href="{{ route('disc.index') }}" class="btn btn-warning">Batal</a>
                     </div>
                 </div>
             </div>
@@ -176,32 +176,6 @@
         }
     });
     </script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const type = "{{ $editdiskon->dsc_type }}";
-        const total = "{{ $editdiskon->dsc_total }}";
-    
-        if (!type || !total) return;
-    
-        typeSelect.value = type;
-        displayInput.disabled = false;
-        realInput.value = total;
-    
-        if (type === 'percent') {
-            label.innerText = 'Total Diskon (%)';
-            displayInput.value = total + '%';
-            help.innerText = 'Maksimal 100%';
-        }
-    
-        if (type === 'nominal') {
-            label.innerText = 'Total Diskon (Rp)';
-            displayInput.value = 'Rp ' + new Intl.NumberFormat('id-ID').format(total);
-            help.innerText = 'Nominal rupiah';
-        }
-    });
-    </script>
-    
         
     
 @endpush

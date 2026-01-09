@@ -1,4 +1,4 @@
-@extends('owner.master')
+@extends('employee.master')
 
 @push('link')
     <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
@@ -20,7 +20,7 @@
                     <ol class="breadcrumb">
                     <li class="breadcrumb-item" aria-current="page">Daftar Diskon</li>
                       <li class="breadcrumb-item">
-                        <a class="text-muted text-decoration-none" href="/owner/discount/create">Tambah Diskon</a>
+                        <a class="text-muted text-decoration-none" href="/employee/discount/create">Tambah Diskon</a>
                       </li>
                       <li class="breadcrumb-item">
                         <a class="text-muted text-decoration-none" href="#">Edit Diskon</a>
@@ -43,7 +43,7 @@
                 <div class="mb-5 position-relative">
 
                     <h4 class="card-title mb-0">Daftar Diskon</h4>
-                    <a href="/owner/discount/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Discount</a>
+                    <a href="/employee/discount/create" class="btn btn-primary position-absolute top-0 end-0">Tambah Discount</a>
                 </div>
                 <p class="card-subtitle mb-3">
                     
@@ -71,23 +71,24 @@
                                 <td>{{ $dsc->dsc_name}}</td>
                                 <td>{{ $dsc->dsc_total_label }}</td>
                                 <td>
-                                  <div class="fw-semibold">
-                                      {{ \Carbon\Carbon::parse($dsc->dsc_start)->translatedFormat('d M Y') }}
-                                  </div>
-                                  <small class="text-muted">
-                                      {{ \Carbon\Carbon::parse($dsc->dsc_start)->format('H:i') }} WIB
-                                  </small>
-                              </td>
-                              
-                              <td>
-                                  <div class="fw-semibold">
-                                      {{ \Carbon\Carbon::parse($dsc->dsc_finish)->translatedFormat('d M Y') }}
-                                  </div>
-                                  <small class="text-muted">
-                                      {{ \Carbon\Carbon::parse($dsc->dsc_finish)->format('H:i') }} WIB
-                                  </small>
-                              </td>
-                              
+                                    <div class="fw-semibold">
+                                        {{ \Carbon\Carbon::parse($dsc->dsc_start)->translatedFormat('d M Y') }}
+                                    </div>
+                                    <small class="text-muted">
+                                        {{ \Carbon\Carbon::parse($dsc->dsc_start)->format('H:i') }} WIB
+                                    </small>
+                                </td>
+                                
+                                <td>
+                                    <div class="fw-semibold">
+                                        {{ \Carbon\Carbon::parse($dsc->dsc_finish)->translatedFormat('d M Y') }}
+                                    </div>
+                                    <small class="text-muted">
+                                        {{ \Carbon\Carbon::parse($dsc->dsc_finish)->format('H:i') }} WIB
+                                    </small>
+                                </td>
+                                
+                                
                                 <td>
                                   <span id="status-{{ $dsc->dsc_id }}">
                                       {!! $dsc->dsc_status_badge !!}
@@ -97,7 +98,7 @@
 
                              <td>
                               <div class="d-flex align-items-center gap-3">
-                                <a href="/owner/discount/{{ $dsc->dsc_id}}/edit"
+                                <a href="/employee/discount/{{ $dsc->dsc_id}}/edit"
                                    class="text-primary"
                                    data-bs-toggle="tooltip"
                                    title="Edit">
@@ -111,7 +112,7 @@
                                   <span class="iconify" data-icon="line-md:folder-plus-twotone" data-width="25"></span>
                                 </a> --}}
                             
-                                <a href="/owner/discount/{{ $dsc->dsc_id}}/destroy"
+                                <a href="/employee/discount/{{ $dsc->dsc_id}}/destroy"
                                    class="text-danger"
                                    data-confirm-delete="true"
                                    data-bs-toggle="tooltip"
@@ -184,7 +185,7 @@
         $(document).ready(function () {
             setInterval(function () {
                 $.ajax({
-                    url: '/owner/discount/sync-status',
+                    url: '/employee/discount/sync-status',
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}'

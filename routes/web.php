@@ -16,6 +16,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardOwnerController;
 use App\Http\Controllers\Employee\DebtController;
+use App\Http\Controllers\Employee\DiscountController as EmployeeDiscountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\LandingController;
@@ -125,6 +126,16 @@ Route::get('/employee/laundry-service/{id}/package/{packageId}/edit', [LaundryPa
 Route::post('/employee/laundry-service/{id}/package/{packageId}/update', [LaundryPackageController::class, 'update'])->name('package.update');
 Route::delete('/employee/laundry-service/{id}/package/{packageId}/destroy', [LaundryPackageController::class, 'destroy'])->name('package.destroy');
 
+
+Route::get('/employee/discount', [EmployeeDiscountController::class, 'index'])->name('disc.index');
+Route::get('/employee/discount/create', [EmployeeDiscountController::class, 'create'])->name('disc.create');
+Route::post('/employee/discount/create', [EmployeeDiscountController::class, 'store'])->name('disc.store');
+Route::get('/employee/discount/{id}/edit', [EmployeeDiscountController::class, 'edit'])->name('disc.edit');
+Route::post('/employee/discount/{id}/update', [EmployeeDiscountController::class, 'update'])->name('disc.update');
+Route::delete('/employee/discount/{id}/destroy', [EmployeeDiscountController::class, 'destroy'])->name('disc.destroy');
+Route::post('/employee/discount/update-status',[EmployeeDiscountController::class, 'updateStatusAjax'])->name('disc.updateStatusAjax');
+Route::post('/employee/discount/sync-status', [EmployeeDiscountController::class, 'syncStatus']);
+
 Route::get('/employee/price-service', [PriceServiceController::class, 'index'])->name('price_service.index');
 Route::get('/employee/price-service/create', [PriceServiceController::class, 'create'])->name('price_service.create');
 Route::post('/employee/price-service/create', [PriceServiceController::class, 'store'])->name('price_service.store');
@@ -205,6 +216,10 @@ Route::post('/owner/discount/create', [DiscountController::class, 'store'])->nam
 Route::get('/owner/discount/{id}/edit', [DiscountController::class, 'edit'])->name('owner.disc.edit');
 Route::post('/owner/discount/{id}/update', [DiscountController::class, 'update'])->name('owner.disc.update');
 Route::delete('/owner/discount/{id}/destroy', [DiscountController::class, 'destroy'])->name('owner.disc.destroy');
+Route::post('/owner/discount/update-status',[DiscountController::class, 'updateStatusAjax'])->name('owner.disc.updateStatusAjax');
+Route::post('/owner/discount/sync-status', [DiscountController::class, 'syncStatus']);
+
+
 
 Route::get('/owner/service/{id}/packages', [PackageController::class, 'index'])->name('packages.index');
 Route::get('/owner/service/{id}/packages/create', [PackageController::class, 'create'])->name('packages.create');
