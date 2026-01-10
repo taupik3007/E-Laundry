@@ -233,14 +233,14 @@ body {
     <div class="total-row">
       <span><b>Discount</b></span>
       <span>
-        <b>Rp {{ number_format($payment->pym_discount ?? 0, 0, ',', '.') }}</b>
+        <b>{{$payment->pym_discount}}</b>
     </span>
     </div>
 
     <div class="total-row total-bold">
       <span><b>Total</b></span>
       <span>
-        <b>Rp {{ number_format($payment->order->ord_total - ($payment->pym_discount ?? 0), 0, ',', '.') }}</b>
+        <b>Rp {{ number_format($payment->pym_amount_paid, 0, ',', '.') }}</b>
       </span>
     </div>
 
