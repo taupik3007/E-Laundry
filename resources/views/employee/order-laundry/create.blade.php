@@ -74,7 +74,7 @@
                                         </select>
 
                                         <input type="text" name="ord_customer_name" id="manualInput"
-                                            class="form-control mb-2 d-none" required placeholder="Masukkan nama customer">
+                                            class="form-control mb-2 d-none" placeholder="Masukkan nama customer">
 
                                     </div>
 
@@ -118,8 +118,7 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <select class="form-control package-select" name="package_id[]"
-                                                class="form-control" required>
+                                            <select class="form-control package-select" name="package_id[]" required>
                                                 <option value="">-- Pilih Paket --</option>
                                             </select>
                                         </div>
@@ -129,10 +128,22 @@
                                                 class="form-control" min="0" step="any" placeholder="Qty / Kg"
                                                 required>
                                         </div>
-
                                         <div class="col-md-1 d-flex align-items-center">
                                             <button type="button" class="btn btn-success btn-add-row">+</button>
                                         </div>
+
+                                        <div class="col-md-4 clothes-wrapper d-none">
+                                            <br>
+                                            <input type="number"
+                                                class="form-control clothes-input"
+                                                name="odt_count[]"
+                                                min="0"
+                                                placeholder="Jumlah Pakaian">
+                                        </div>
+
+                                        {{-- <div class="col-md-1 d-flex align-items-center">
+                                            <button type="button" class="btn btn-success btn-add-row">+</button>
+                                        </div> --}}
                                     </div>
                                 </div>
 
@@ -227,33 +238,36 @@
 @push('script')
     <script>
         document.getElementById('manualBtn').addEventListener('click', function() {
-            let manualInput = document.getElementById('manualInput');
-            let customerSelect = document.getElementById('customerSelect');
-            let btn = document.getElementById('manualBtn');
+    let manualInput = document.getElementById('manualInput');
+    let customerSelect = document.getElementById('customerSelect');
+    let btn = document.getElementById('manualBtn');
 
-            // Jika sedang Select Mode → masuk ke Manual Mode
-            if (customerSelect.classList.contains('d-none') === false) {
+    if (!customerSelect.classList.contains('d-none')) {
+        // ke manual
+        customerSelect.classList.add('d-none');
+        customerSelect.disabled = true;
+        customerSelect.removeAttribute('required');
 
-                customerSelect.classList.add('d-none');
-                customerSelect.disabled = true;
+        manualInput.classList.remove('d-none');
+        manualInput.disabled = false;
+        manualInput.setAttribute('required', true);
 
-                manualInput.classList.remove('d-none');
-                manualInput.disabled = false;
+        btn.textContent = "Pilih Customer";
+    } else {
+        // balik ke select
+        manualInput.classList.add('d-none');
+        manualInput.disabled = true;
+        manualInput.removeAttribute('required');
+        manualInput.value = "";
 
-                btn.textContent = "Pilih Customer"; // TOMBOL BERUBAH
-            } else {
-                // Kalau sedang Manual Mode → balik ke Select Mode
+        customerSelect.classList.remove('d-none');
+        customerSelect.disabled = false;
+        customerSelect.setAttribute('required', true);
 
-                manualInput.classList.add('d-none');
-                manualInput.disabled = true;
-                manualInput.value = ""; // optional
+        btn.textContent = "Input Manual";
+    }
+});
 
-                customerSelect.classList.remove('d-none');
-                customerSelect.disabled = false;
-
-                btn.textContent = "Input Manual"; // TOMBOL BERUBAH
-            }
-        });
     </script>
 
     <script>
@@ -409,45 +423,42 @@
         });
     </script>
     <script>
-        function refreshButtons() {
-            let rows = document.querySelectorAll('.order-row');
-            rows.forEach((row, index) => {
-                let btnContainer = row.querySelector('.col-md-1');
-                btnContainer.innerHTML = ''; // kosongkan dulu
-
-                if (index === 0) {
-                    // baris pertama hanya tombol +
-                    btnContainer.innerHTML = '<button type="button" class="btn btn-success btn-add-row">+</button>';
-                } else {
-                    // baris kedua dst hanya tombol -
-                    btnContainer.innerHTML =
-                        '<button type="button" class="btn btn-danger btn-remove-row">-</button>';
-                }
-            });
-        }
-
-        document.addEventListener('click', function(e) {
-            // tambah baris
-            if (e.target.classList.contains('btn-add-row')) {
-                let container = document.getElementById('order-details');
-                let newRow = container.querySelector('.order-row').cloneNode(true);
-
-                newRow.querySelectorAll('select, input').forEach(el => el.value = '');
-
-                container.appendChild(newRow);
-                refreshButtons();
-            }
-
-            // hapus baris
-            if (e.target.classList.contains('btn-remove-row')) {
-                e.target.closest('.order-row').remove();
-                refreshButtons();
+     function refreshButtons() {
+        let rows = document.querySelectorAll('.order-row');
+    
+        rows.forEach((row, index) => {
+            let btn = row.querySelector('.btn-add-row, .btn-remove-row');
+            if (btn) btn.remove();
+    
+            let col = row.querySelector('.col-md-1');
+    
+            if (index === 0) {
+                col.innerHTML = '<button type="button" class="btn btn-success btn-add-row">+</button>';
+            } else {
+                col.innerHTML = '<button type="button" class="btn btn-danger btn-remove-row">-</button>';
             }
         });
-
-        // pertama kali jalankan
+    }
+    
+    $(document).on("click", ".btn-add-row", function () {
+        let container = $("#order-details");
+        let newRow = container.find(".order-row:first").clone();
+    
+        newRow.find("select, input").val("");
+        newRow.find(".clothes-wrapper").addClass("d-none");
+    
+        container.append(newRow);
         refreshButtons();
-
+    });
+    
+    $(document).on("click", ".btn-remove-row", function () {
+        $(this).closest(".order-row").remove();
+        refreshButtons();
+    });
+    
+    $(document).ready(function () {
+        refreshButtons();
+    });
         // Hitung total per row
         function hitungTotalPerRow(row) {
             let price = row.find(".package-select option:selected").data("price");
@@ -479,27 +490,55 @@
 
 
         // event perubahan service => load paket
-        $(document).on("change", ".service-select", function() {
-            let row = $(this).closest(".order-row");
-            let serviceId = $(this).val();
-            let packageSelect = row.find(".package-select");
+        $(document).on("change", ".service-select", function () {
+    let row = $(this).closest(".order-row");
+    let serviceId = $(this).val();
+    let packageSelect = row.find(".package-select");
 
-            packageSelect.html("<option>Loading...</option>");
+    packageSelect.html('<option>Loading...</option>');
 
-            $.ajax({
-                url: "/employee/ordering/" + serviceId + "/packages",
-                type: "GET",
-                success: function(data) {
-                    packageSelect.empty().append('<option value="">-- Pilih Paket --</option>');
-                    $.each(data, function(i, pkg) {
-                        packageSelect.append(`
-                    <option value="${pkg.ldp_id}" data-price="${pkg.ldp_price}">
-                        ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()}
+    if (!serviceId) {
+        packageSelect.html('<option value="">-- Pilih Paket --</option>');
+        return;
+    }
+
+    $.ajax({
+        url: "/employee/ordering/" + serviceId + "/packages",
+        type: "GET",
+        success: function (data) {
+            packageSelect.empty().append('<option value="">-- Pilih Paket --</option>');
+
+            $.each(data, function (i, pkg) {
+                packageSelect.append(`
+                    <option 
+                        value="${pkg.ldp_id}"
+                        data-price="${pkg.ldp_price}"
+                        data-unit="${pkg.ldp_unit}">
+                        ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()} / ${pkg.ldp_unit}
                     </option>
                 `);
-                    });
-                }
             });
-        });
+        }
+    });
+});
     </script>
+
+<script>
+    $(document).on("change", ".package-select", function () {
+        let row = $(this).closest(".order-row");
+        let unit = $(this).find(":selected").data("unit");
+    
+        if (unit === "kg") {
+            row.find(".clothes-wrapper").removeClass("d-none");
+            row.find(".clothes-input").attr("required", true);
+        } else {
+            row.find(".clothes-wrapper").addClass("d-none");
+            row.find(".clothes-input").removeAttr("required").val("");
+        }
+    });
+    </script>
+<script>
+    
+    </script>
+        
 @endpush

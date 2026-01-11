@@ -207,7 +207,7 @@ body {
   <!-- DETAIL PESANAN -->
   <div class="section-title"><b>Detail Pesanan</b></div>
 
-  @foreach ($order->details as $detail)
+  {{-- @foreach ($order->details as $detail)
   <div class="item">
     <span><b>
       {{ $detail->service->lds_name }}
@@ -218,7 +218,114 @@ body {
       <b>Rp {{ number_format($detail->odt_total, 0, ',', '.') }}</b>
     </span>
   </div>
-@endforeach
+@endforeach --}}
+
+
+{{-- ============================= --}}
+{{-- DETAIL PESANAN UNIT KG (TABLE) --}}
+{{-- ============================= --}}
+@php
+  $kgDetails = $order->details->filter(fn($d) => $d->package->ldp_unit === 'kg');
+  $nonKgDetails = $order->details->filter(fn($d) => $d->package->ldp_unit !== 'kg');
+@endphp
+
+@if ($kgDetails->count() > 0)
+@php
+  $totalKg = 0;
+@endphp
+
+  <table
+    style="
+      width:100%;
+      font-size:13px;
+      border-collapse:collapse;
+      margin-bottom:10px;
+    "
+  >
+    <thead>
+      <tr>
+        <th align="left" style="border-bottom:1px dashed #999; padding-bottom:4px;">
+          Layanan
+        </th>
+        <th align="center" style="border-bottom:1px dashed #999; padding-bottom:4px;">
+          Jumlah
+        </th>
+        <th align="center" style="border-bottom:1px dashed #999; padding-bottom:4px;">
+          Berat
+        </th>
+        <th align="center" style="border-bottom:1px dashed #999; padding-bottom:4px;">
+          Harga/Kg
+        </th>
+        <th align="right" style="border-bottom:1px dashed #999; padding-bottom:4px;">
+          Total Harga
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @foreach ($kgDetails as $detail)
+        <tr>
+          <b>
+          <td style="padding:4px 0;">
+            {{ $detail->service->lds_name }}
+            {{ $detail->package->ldp_name }}
+          </td>
+
+          <td align="center">
+            {{ $detail->odt_count ?? '-' }}
+          </td>
+
+          <td align="center">
+            {{ number_format($detail->odt_quantity, 1) }} kg
+          </td>
+
+          <td align="center">
+            Rp {{ number_format($detail->odt_price, 0, ',', '.') }}
+          </td>
+          <td align="right">
+            Rp {{ number_format($detail->odt_total, 0, ',', '.') }}
+          </td>
+        </b>
+        </tr>
+      @endforeach
+
+      {{-- GARIS PEMBATAS --}}
+      <tr>
+        <td colspan="4" style="border-top:1px dashed #999; padding-top:6px;"></td>
+      </tr>
+
+      {{-- TOTAL --}}
+      <tr style="font-weight:bold;">
+        <td align="right" colspan="3" style="padding-top:4px;">
+          TOTAL
+        </td>
+        <td align="right" style="padding-top:4px;">
+          Rp {{ number_format($detail->odt_total, 0, ',', '.') }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+@endif
+
+
+@if ($nonKgDetails->count() > 0)
+  @foreach ($nonKgDetails as $detail)
+    <div class="item">
+      <span>
+        <b>
+          {{ $detail->service->lds_name }}
+          {{ $detail->package->ldp_name }}
+          {{ $detail->odt_quantity }} {{ $detail->package->ldp_unit }}
+        </b>
+      </span>
+      <span>
+        <b>Rp {{ number_format($detail->odt_total, 0, ',', '.') }}</b>
+      </span>
+    </div>
+  @endforeach
+@endif
+
+
 
   <!-- RINGKASAN PIUTANG -->
   <div class="total-box">

@@ -22,9 +22,10 @@ return new class extends Migration
             $table->unsignedBigInteger('odt_package_id');
             $table->foreign('odt_package_id')->references('ldp_id')->on('laundry_packages')->onDelete('cascade');
         
-            $table->integer('odt_quantity')->nullable();;
-            $table->integer('odt_price')->nullable();;
-            $table->integer('odt_total')->nullable();;
+            $table->integer('odt_quantity')->nullable();
+            $table->integer('odt_count')->nullable();
+            $table->integer('odt_price')->nullable();
+            $table->integer('odt_total')->nullable();
             $table->timestamps();
             $table->renameColumn('updated_at', 'odt_updated_at');
             $table->renameColumn('created_at', 'odt_created_at');

@@ -406,6 +406,17 @@
                                                                 data-original="{{ $detail->odt_quantity }}"
                                                                 data-id="{{ $detail->odt_id }}"
                                                                 data-price="{{ $detail->odt_price }}">
+                                                            
+                                                            {{-- INPUT PCS (HANYA UNTUK KG) --}}
+                                                            @if ($detail->package->ldp_unit === 'kg')
+                                                            <label>Jumlah Pakaian (pcs)</label>
+                                                            <input type="number"
+                                                                class="form-control mb-2"
+                                                                name="details[{{ $detail->odt_id }}][odt_count]"
+                                                                value="{{ $detail->odt_count }}"
+                                                                min="0">
+                                                        @endif
+                                                        
 
                                                             <label>Harga per {{ $detail->package->ldp_unit }}</label>
                                                             <input type="text" class="form-control mb-2"
