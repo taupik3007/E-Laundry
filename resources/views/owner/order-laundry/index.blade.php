@@ -519,7 +519,7 @@
 
                                                     <label>Diskon</label>
                                                     <select name="discount" class="form-control mb-2"
-                                                        onchange="applyDiscount(this)" required name="discount">
+                                                        onchange="applyDiscount(this)" name="discount">
 
                                                         <option value="">Tidak pakai diskon</option>
 
@@ -557,7 +557,7 @@
 
                                                         <label>Kembalian</label>
                                                         <input type="text" class="form-control"
-                                                            id="kembalian{{ $order->ord_id }}" readonly>
+                                                            id="kembalian{{ $order->ord_id }}" name="return" readonly>
 
                                                         <button class="btn btn-success mt-3" type="submit">
                                                             Konfirmasi Pembayaran Cash
@@ -605,6 +605,11 @@
                                     function applyDiscount(select) {
                                         const totalAsli = parseInt(document.getElementById('total_asli').value);
                                         const totalDisplay = document.getElementById('total_display');
+                                        const jumlahBayar = document.querySelector('input[name="payment_amount"]');
+                                        const jumlahKembalian = document.querySelector('input[name="return"]');
+
+                                        if (jumlahBayar) jumlahBayar.value = '';
+                                        if (jumlahBayar) jumlahKembalian.value = '';
 
                                         if (!select.value) {
                                             totalDisplay.value = formatRupiah(totalAsli);

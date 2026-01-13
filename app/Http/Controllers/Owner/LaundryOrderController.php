@@ -390,14 +390,21 @@ class LaundryOrderController extends Controller
     public function payment(Request $request, $id)
     {
         $order = Order::findOrFail($id);
+        // $order->awikwo
         // dd($request);
-        $discount = Discount::findOrFail($request->discount);
-        // dd($discount);
-        if($discount->dsc_type != 'percent') {
+        $discount = Discount::find($request->discount);
+        if($discount){
+            if($discount->dsc_type != 'percent') {
             $discount_value = "Rp. ".$discount->dsc_total;
         }else{
             $discount_value = $discount->dsc_total."%";
         }
+        }else{
+            $discount_value = 0;
+
+        }
+        // dd($discount);
+        
         // Tentukan method
         $method = match ($request->payment_method) {
             'cash' => 1,
