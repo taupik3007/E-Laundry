@@ -253,7 +253,7 @@ class LaundryOrderController extends Controller
         foreach ($order->details as $detail) {
             $packageText .= $no . ". "
                 . $detail->package->ldp_name
-                . " x" . $detail->odt_quantity
+                . " x" . $detail->odt_quantity.$detail->package->ldp_unit
                 . " - Rp " . number_format($detail->odt_total, 0, ',', '.')
                 . "\n";
             $no++;
