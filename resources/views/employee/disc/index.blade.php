@@ -185,10 +185,10 @@
         $(document).ready(function () {
             setInterval(function () {
                 $.ajax({
-                    url: '/employee/discount/sync-status',
+                    url: '/employee/discount/sync-status', 
                     type: 'POST',
                     data: {
-                        _token: '{{ csrf_token() }}'
+                        _token: '{{ csrf_token() }}' 
                     },
                     success: function (res) {
                         res.data.forEach(function (dsc) {

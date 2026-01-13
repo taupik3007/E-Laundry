@@ -166,6 +166,22 @@ body {
 .footer {
   font-size: 10px;
 }
+table {
+    width: 100%;
+    table-layout: fixed; /* WAJIB */
+    border-collapse: collapse;
+  }
+
+th, td {
+    font-size: 11px;
+    padding: 3px 2px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+th {
+    font-weight: bold;
+  }
 
 }
 
@@ -207,18 +223,45 @@ body {
   <!-- DETAIL PESANAN -->
   <div class="section-title">Detail Pesanan</div>
 
-  @foreach ($order->details as $detail)
-  <div class="item">
-    <span><b>
-      {{ $detail->service->lds_name }}
-      {{ $detail->package->ldp_name }}
-      {{ $detail->odt_quantity }} {{ $detail->package->ldp_unit }}</b>
-    </span>
-    <span>
-     <b> Rp {{ number_format($detail->odt_total, 0, ',', '.') }}</b>
-    </span>
-  </div>
-@endforeach
+<table width="100%" cellspacing="0" cellpadding="0" style="font-size:13px;">
+  <thead>
+    <tr>
+      <th align="left" style="border-bottom:1px dashed #999; padding-bottom:4px;">Layanan</th>
+      <th align="center" style="border-bottom:1px dashed #999; padding-bottom:4px;">Jumlah</th>
+      <th align="center" style="border-bottom:1px dashed #999; padding-bottom:4px;">Qty</th>
+      <th align="center" style="border-bottom:1px dashed #999; padding-bottom:4px;">Harga/Qty</th>
+      <th align="right" style="border-bottom:1px dashed #999; padding-bottom:4px;">Total</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @foreach ($order->details as $detail)
+    <tr>
+      <td style="padding:4px 0;">
+        {{ $detail->service->lds_name }}
+        {{ $detail->package->ldp_name }}
+      </td>
+     {{-- JUMLAH --}}
+  <td align="center">
+    @if (strtolower($detail->package->ldp_unit) === 'kg')
+      {{ $detail->odt_count ?? '-' }}
+    @else
+      {{ $detail->odt_quantity ?? '-' }}
+    @endif
+  </td>
+      <td align="center">
+        {{ number_format($detail->odt_quantity) }} {{ $detail->package->ldp_unit }}
+      </td>
+      <td align="center">
+        Rp {{ number_format($detail->odt_price, 0, ',', '.') }}
+      </td>
+      <td align="right">
+        Rp {{ number_format($detail->odt_total, 0, ',', '.') }}
+      </td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
 
   <!-- RINGKASAN PIUTANG -->
   <div class="total-box">
@@ -245,39 +288,7 @@ body {
     </div>
 
     <hr class="divider">
-
-{{-- <div class="payment-summary">
-    <div class="row">
-        <span>Bayar ({{ $payment->getMethodNameAttribute() }})</span>
-        <span>Rp {{ number_format($payment->pym_cash_received,0,',','.') }}</span>
-    </div>
-
-    <div class="row">
-        @if($payment->pym_is_debt)
-            <span><b>Sisa Piutang</b></span>
-            <span><b>Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}</b></span>
-        @else
-            <span><b>Kembali</b></span>
-            <span><b>Rp {{ number_format($payment->pym_change_amount,0,',','.') }}</b></span>
-        @endif
-    </div>
-</div> --}}
 <div class="payment-summary">
-  {{-- RINGKASAN --}}
-  {{-- <div class="row">
-      <span><b>Bayar ({{ $payment->getMethodNameAttribute() }})</b></span>
-      <span><b>Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}</b></span>
-  </div>
-
-  <div class="row">
-      <span><b>Sisa Piutang</b></span>
-      <span class="{{ $payment->pym_debt_amount > 0 ? 'text-danger' : 'text-success' }}">
-          <b>Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}</b>
-          @if ($payment->pym_debt_amount == 0)
-              (Lunas)
-          @endif
-      </span>
-  </div> --}}
 
   {{-- RIWAYAT CICILAN --}}
   @if ($order->receivablePayments->count() > 0)
@@ -321,17 +332,7 @@ body {
                   </span>
                 </div>
               </div>
-              {{-- <div class="d-flex justify-content-between">
-                  <span><b>Sisa Piutang</b></span>
-                  <span>
-                     <b> Rp {{ number_format($rp->rp_remaining, 0, ',', '.') }}</b>
-                      @if ($rp->rp_remaining == 0)
-                          <strong class="text-success">(Lunas)</strong>
-                      @endif
-                  </span>
-              </div> --}}
-
-          </div>
+              </div>
       @endforeach
       @else
         <div class="row">
@@ -352,20 +353,6 @@ body {
 
 
   </div>
-
-  <!-- QRIS (opsional, muncul kalau masih ada piutang) -->
-  {{-- @if($payment->pym_debt_amount > 0)
-  <div class="qris-box">
-    <p style="font-size:14px; color:#444;">
-     <b> Metode Pembayaran: <b>{{ strtoupper($payment->pym_method ?? 'CASH') }}</b>
-    </p>
-    <img src="https://i.ibb.co/bK9syjC/qr-sample.png">
-    <p style="font-size:12px;color:#777;">
-     <b> Scan untuk pembayaran selanjutnya</b>
-    </p>
-  </div>
-  @endif --}}
-
   <!-- FOOTER -->
   <div class="footer">
     Terima kasih telah menggunakan layanan kami ❤️<br>
