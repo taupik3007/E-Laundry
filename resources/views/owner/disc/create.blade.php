@@ -5,7 +5,7 @@
 @endpush
 
 @section('title')
-    E-Laundry | Tambah Layanan
+    E-Laundry | Tambah Layanan 
 @endsection
 
 @section('content')

@@ -47,9 +47,9 @@
                 <div class="px-4 py-3 border-bottom">
                     <h4 class="card-title mb-0">Tambah Pesanan </h4>
                 </div>
-                <form action="{{ route('owner.order.store') }}" method="POST">
+                <form action="{{ route('owner.order.store') }}" method="post">
                     @csrf
-                
+
                     <div class="card-body">
 
                         {{-- Nomor Telepon --}}
@@ -63,7 +63,8 @@
                                     <!-- Input Harga -->
                                     <div class="col-sm-8">
 
-                                        <select name="ord_customer_id" id="customerSelect" class="form-control mb-2">
+                                        <select name="ord_customer_id" id="customerSelect" required
+                                            class="form-control mb-2">
                                             <option value="">-- Pilih Customer --</option>
                                             @foreach ($customers as $customer)
                                                 <option value="{{ $customer->usr_id }}">
@@ -84,10 +85,15 @@
                                     </div>
 
 
-                                    <input type="text" name="ord_customer_name" id="manualInput" class="form-control"
-                                        placeholder="Masukkan nama customer" style="display:none;" disabled>
+                                    {{-- <input type="text" name="ord_customer_name" id="manualInput" class="form-control"
+                                        placeholder="Masukkan nama customer" required style="display:none;" disabled> --}}
                                     @error('ord_customer_name')
                                         <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                    @error('customer')
+                                        <small class="text-danger ">
+                                            {{ $message }}
+                                        </small>
                                     @enderror
 
                                 </div>
@@ -96,40 +102,54 @@
 
                         <div id="order-details">
                             <div class="row mb-3 order-row">
-                        
+
                                 <label class="col-sm-3 col-form-label">Detail Layanan</label>
-                        
+
                                 <div class="col-sm-9">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <select class="form-control service-select" name="service_id[]" class="form-control" required>
+                                            <select class="form-control service-select" name="service_id[]"
+                                                class="form-control" required>
                                                 <option value="">-- Pilih Layanan --</option>
                                                 @foreach ($services as $item)
                                                     <option value="{{ $item->lds_id }}">{{ $item->lds_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                        
+
                                         <div class="col-md-4">
-                                            <select class="form-control package-select" name="package_id[]" class="form-control" required>
+                                            <select class="form-control package-select" name="package_id[]" required>
                                                 <option value="">-- Pilih Paket --</option>
                                             </select>
                                         </div>
-                        
+
                                         <div class="col-md-3">
-                                            <input class="form-control qty-input" type="number" name="quantity[]" class="form-control" min="0" step="any"
-                                                placeholder="Qty / Kg" required>
+                                            <input class="form-control qty-input" type="number" name="quantity[]"
+                                                class="form-control" min="0" step="any" placeholder="Qty / Kg"
+                                                required>
                                         </div>
-                        
                                         <div class="col-md-1 d-flex align-items-center">
                                             <button type="button" class="btn btn-success btn-add-row">+</button>
                                         </div>
+
+                                        <div class="col-md-4 clothes-wrapper d-none">
+                                            <br>
+                                            <input type="number"
+                                                class="form-control clothes-input"
+                                                name="odt_count[]"
+                                                min="0"
+                                                placeholder="Jumlah Pakaian">
+                                        </div>
+
+                                        {{-- <div class="col-md-1 d-flex align-items-center">
+                                            <button type="button" class="btn btn-success btn-add-row">+</button>
+                                        </div> --}}
                                     </div>
                                 </div>
-                        
+
                             </div>
                         </div>
-                        
+
 
                         {{-- Total --}}
                         <div class="mb-4 row">
@@ -146,14 +166,11 @@
                                 <div class="input-group">
                                     <span class="input-group-text">+62</span>
                                     <input type="tel" id="phone" name="ord_phone_number" class="form-control"
-                                           placeholder="81234567890"
-                                           pattern="^[0-9]{8,12}$"
-                                           maxlength="12"
-                                           required>
+                                        placeholder="81234567890" pattern="^[0-9]{8,12}$" maxlength="12" required>
                                 </div>
                             </div>
                         </div>
-                        
+
 
                         {{-- Metode Penjemputan --}}
                         {{-- <div class="mb-4 row">
@@ -219,35 +236,35 @@
 
 
 @push('script')
-
     <script>
-      document.getElementById('manualBtn').addEventListener('click', function () {
-    let manualInput      = document.getElementById('manualInput');
-    let customerSelect   = document.getElementById('customerSelect');
-    let btn              = document.getElementById('manualBtn');
+        document.getElementById('manualBtn').addEventListener('click', function() {
+    let manualInput = document.getElementById('manualInput');
+    let customerSelect = document.getElementById('customerSelect');
+    let btn = document.getElementById('manualBtn');
 
-    // Jika sedang Select Mode → masuk ke Manual Mode
-    if (customerSelect.classList.contains('d-none') === false) {
-
+    if (!customerSelect.classList.contains('d-none')) {
+        // ke manual
         customerSelect.classList.add('d-none');
         customerSelect.disabled = true;
+        customerSelect.removeAttribute('required');
 
         manualInput.classList.remove('d-none');
         manualInput.disabled = false;
+        manualInput.setAttribute('required', true);
 
-        btn.textContent = "Pilih Customer"; // TOMBOL BERUBAH
-    }
-    else {
-        // Kalau sedang Manual Mode → balik ke Select Mode
-
+        btn.textContent = "Pilih Customer";
+    } else {
+        // balik ke select
         manualInput.classList.add('d-none');
         manualInput.disabled = true;
-        manualInput.value = ""; // optional
+        manualInput.removeAttribute('required');
+        manualInput.value = "";
 
         customerSelect.classList.remove('d-none');
         customerSelect.disabled = false;
+        customerSelect.setAttribute('required', true);
 
-        btn.textContent = "Input Manual"; // TOMBOL BERUBAH
+        btn.textContent = "Input Manual";
     }
 });
 
@@ -255,33 +272,30 @@
 
     <script>
         document.getElementById('quantity').addEventListener('keydown', function(e) {
-    if (e.key === '-' || e.key === '+') {
-        e.preventDefault();
-    }
-});
-
+            if (e.key === '-' || e.key === '+') {
+                e.preventDefault();
+            }
+        });
     </script>
 
     <script>
-        document.querySelector('input[name="ord_phone_number"]').addEventListener('input', function () {
-    this.value = this.value.replace(/[^0-9+]/g, ''); // hilangkan huruf & simbol lain
-});
-
+        document.querySelector('input[name="ord_phone_number"]').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9+]/g, ''); // hilangkan huruf & simbol lain
+        });
     </script>
 
     <script>
-        document.getElementById('phone').addEventListener('input', function () {
-    // hanya angka
-    let val = this.value.replace(/[^0-9]/g, '');
+        document.getElementById('phone').addEventListener('input', function() {
+            // hanya angka
+            let val = this.value.replace(/[^0-9]/g, '');
 
-    // jika user mengawali dengan 0 → hapus otomatis
-    if (val.startsWith('0')) {
-        val = val.substring(1);
-    }
+            // jika user mengawali dengan 0 → hapus otomatis
+            if (val.startsWith('0')) {
+                val = val.substring(1);
+            }
 
-    this.value = val;
-});
-
+            this.value = val;
+        });
     </script>
 
     <script>
@@ -409,101 +423,122 @@
         });
     </script>
     <script>
-        function refreshButtons() {
+     function refreshButtons() {
         let rows = document.querySelectorAll('.order-row');
+    
         rows.forEach((row, index) => {
-            let btnContainer = row.querySelector('.col-md-1');
-            btnContainer.innerHTML = ''; // kosongkan dulu
+            let btn = row.querySelector('.btn-add-row, .btn-remove-row');
+            if (btn) btn.remove();
+    
+            let col = row.querySelector('.col-md-1');
     
             if (index === 0) {
-                // baris pertama hanya tombol +
-                btnContainer.innerHTML = '<button type="button" class="btn btn-success btn-add-row">+</button>';
+                col.innerHTML = '<button type="button" class="btn btn-success btn-add-row">+</button>';
             } else {
-                // baris kedua dst hanya tombol -
-                btnContainer.innerHTML = '<button type="button" class="btn btn-danger btn-remove-row">-</button>';
+                col.innerHTML = '<button type="button" class="btn btn-danger btn-remove-row">-</button>';
             }
         });
     }
     
-    document.addEventListener('click', function(e) {
-        // tambah baris
-        if (e.target.classList.contains('btn-add-row')) {
-            let container = document.getElementById('order-details');
-            let newRow = container.querySelector('.order-row').cloneNode(true);
+    $(document).on("click", ".btn-add-row", function () {
+        let container = $("#order-details");
+        let newRow = container.find(".order-row:first").clone();
     
-            newRow.querySelectorAll('select, input').forEach(el => el.value = '');
+        newRow.find("select, input").val("");
+        newRow.find(".clothes-wrapper").addClass("d-none");
     
-            container.appendChild(newRow);
-            refreshButtons();
-        }
-    
-        // hapus baris
-        if (e.target.classList.contains('btn-remove-row')) {
-            e.target.closest('.order-row').remove();
-            refreshButtons();
-        }
+        container.append(newRow);
+        refreshButtons();
     });
     
-    // pertama kali jalankan
-    refreshButtons();
-
-   // Hitung total per row
-function hitungTotalPerRow(row) {
-    let price = row.find(".package-select option:selected").data("price");
-    let qty   = row.find(".qty-input").val();
-    return (price && qty) ? price * qty : 0;
-}
-
-// Hitung semua baris
-function hitungGrandTotal() {
-    let total = 0;
-
-    $(".order-row").each(function () {
-        total += hitungTotalPerRow($(this));
+    $(document).on("click", ".btn-remove-row", function () {
+        $(this).closest(".order-row").remove();
+        refreshButtons();
     });
+    
+    $(document).ready(function () {
+        refreshButtons();
+    });
+        // Hitung total per row
+        function hitungTotalPerRow(row) {
+            let price = row.find(".package-select option:selected").data("price");
+            let qty = row.find(".qty-input").val();
+            return (price && qty) ? price * qty : 0;
+        }
 
-    $("#total_price1").val("Rp " + Number(total).toLocaleString());
-}
+        // Hitung semua baris
+        function hitungGrandTotal() {
+            let total = 0;
 
-// event perubahan qty / paket
-$(document).on("change keyup", ".package-select, .qty-input", function () {
-    hitungGrandTotal();
-});
+            $(".order-row").each(function() {
+                total += hitungTotalPerRow($(this));
+            });
 
-// Remove row
-$(document).on("click", ".btn-remove-row", function () {
-    $(this).closest(".order-row").remove();
-    hitungGrandTotal(); // <--- WAJIB BIAR TOTAL UPDATE
-});
+            $("#total_price1").val("Rp " + Number(total).toLocaleString());
+        }
+
+        // event perubahan qty / paket
+        $(document).on("change keyup", ".package-select, .qty-input", function() {
+            hitungGrandTotal();
+        });
+
+        // Remove row
+        $(document).on("click", ".btn-remove-row", function() {
+            $(this).closest(".order-row").remove();
+            hitungGrandTotal(); // <--- WAJIB BIAR TOTAL UPDATE
+        });
 
 
-// event perubahan service => load paket
-$(document).on("change", ".service-select", function () {
+        // event perubahan service => load paket
+        $(document).on("change", ".service-select", function () {
     let row = $(this).closest(".order-row");
     let serviceId = $(this).val();
     let packageSelect = row.find(".package-select");
 
-    packageSelect.html("<option>Loading...</option>");
+    packageSelect.html('<option>Loading...</option>');
+
+    if (!serviceId) {
+        packageSelect.html('<option value="">-- Pilih Paket --</option>');
+        return;
+    }
 
     $.ajax({
         url: "/owner/order-laundry/" + serviceId + "/packages",
         type: "GET",
         success: function (data) {
             packageSelect.empty().append('<option value="">-- Pilih Paket --</option>');
+
             $.each(data, function (i, pkg) {
                 packageSelect.append(`
-                    <option value="${pkg.ldp_id}" data-price="${pkg.ldp_price}">
-                        ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()}
+                    <option 
+                        value="${pkg.ldp_id}"
+                        data-price="${pkg.ldp_price}"
+                        data-unit="${pkg.ldp_unit}">
+                        ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()} / ${pkg.ldp_unit}
                     </option>
                 `);
             });
         }
     });
 });
-
-
-    
     </script>
 
+<script>
+    $(document).on("change", ".package-select", function () {
+        let row = $(this).closest(".order-row");
+        let unit = $(this).find(":selected").data("unit");
+    
+        if (unit === "kg") {
+            row.find(".clothes-wrapper").removeClass("d-none");
+            row.find(".clothes-input").attr("required", true);
+        } else {
+            row.find(".clothes-wrapper").addClass("d-none");
+            row.find(".clothes-input").removeAttr("required").val("");
+        }
+    });
+    </script>
+<script>
+    
+    </script>
+        
 @endpush
-

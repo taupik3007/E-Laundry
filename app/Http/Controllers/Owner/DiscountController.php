@@ -49,13 +49,13 @@ class DiscountController extends Controller
             ],
         ]);
 
-        // $now = Carbon::now();
+        $now = Carbon::now();
 
         // // LOGIKA STATUS OTOMATIS
-        // $status = ($now->between(
-        //     Carbon::parse($request->dsc_start),
-        //     Carbon::parse($request->dsc_finish)
-        // )) ? 1 : 0;
+        $status = ($now->between(
+            Carbon::parse($request->dsc_start),
+            Carbon::parse($request->dsc_finish)
+        )) ? 1 : 0;
     
         $creatediscount = Discount::create([
             'dsc_name'       => $request->dsc_name,
@@ -63,7 +63,7 @@ class DiscountController extends Controller
             'dsc_total'      => $request->dsc_total,
             'dsc_start'      => $request->dsc_start,
             'dsc_finish'     => $request->dsc_finish,
-            // 'dsc_status'     => $status,
+            'dsc_status'     => $status,
             'dsc_created_by' => auth()->id(),
             'dsc_created_at' => now(),
         ]);

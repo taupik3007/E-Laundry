@@ -133,6 +133,13 @@ class LaundryOrderController extends Controller
             // Update quantity
             $detail->odt_quantity = $newQty;
 
+            if ($detail->package->ldp_unit === 'kg') {
+                $newcount = $details[$detail->odt_id]['odt_count'] ?? $detail->odt_count;
+                $detail->odt_count = $newcount;
+            } else {
+                $detail->odt_count = null;
+            }
+
             // Harga tetap ambil dari package
             $price = $detail->package->ldp_price;
 
@@ -232,6 +239,7 @@ class LaundryOrderController extends Controller
                 'odt_service_id' => $service,
                 'odt_package_id' => $packages[$i],
                 'odt_quantity' => $qty,
+                'odt_count' =>  $request->odt_count[$i] ?? null,
                 'odt_price' => $price,
                 'odt_total' => $total,
             ]);
