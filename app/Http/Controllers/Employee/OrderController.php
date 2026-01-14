@@ -470,6 +470,7 @@ $cashback = $receive - $paid;
         'pym_payment_status' => true,
         'pym_amount' => $amount,
         'pym_amount_paid' => $paid,
+        'pym_initial_payment'=> $amount, 
         'pym_cash_received' => $receive,
         'pym_change_amount' => $change,
         'pym_paid_at' => now(),

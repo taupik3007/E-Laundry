@@ -291,23 +291,26 @@ th {
 <div class="payment-summary">
 
   {{-- RIWAYAT CICILAN --}}
-  @if ($order->receivablePayments->count() > 0)
+  @if ($order->pym_is_debt = 1)
+  @php
+    $sisaPiutang = $payment->pym_amount_paid - $payment->pym_initial_payment;
+@endphp
   <div class="row">
     <span><b>Bayar ({{ $payment->getMethodNameAttribute() }})</b></span>
-    <span><b>Rp {{ number_format($payment->pym_amount, 0, ',', '.') }}</b></span>
+    <span><b>Rp {{ number_format($payment->pym_initial_payment, 0, ',', '.') }}</b></span>
 </div>
 
 <div class="row">
-    <span><b>Sisa Piutang</b></span>
-    <span class="{{ $payment->pym_debt_amount > 0 ? 'text-danger' : 'text-success' }}">
-        <b>Rp {{ number_format($payment->pym_debt_amount, 0, ',', '.') }}</b>
-        @if ($payment->pym_debt_amount == 0)
-            (Lunas)
-        @endif
-    </span>
+  <span><b>Sisa Piutang</b></span>
+  <span class="{{ $sisaPiutang > 0 ? 'text-danger' : 'text-success' }}">
+      <b>Rp {{ number_format($sisaPiutang, 0, ',', '.') }}</b>
+      @if ($sisaPiutang == 0)
+          (Lunas)
+      @endif
+  </span>
 </div>
       <hr>
-      <div class="section-title"><b>Riwayat Pembayaran</b></div>
+      <div class="section-title"><b>Riwayat Pembayaran Piutang</b></div>
 
       @foreach ($order->receivablePayments as $rp)
           <div class="border rounded p-2 mb-2 small">

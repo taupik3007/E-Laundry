@@ -23,6 +23,7 @@ return new class extends Migration
             $table->bigInteger('pym_amount');
             $table->bigInteger('pym_amount_paid');
             $table->bigInteger('pym_amount_paid_real')->nullable();
+            $table->bigInteger('pym_initial_payment');
             $table->string('pym_discount')->nullable();
             $table->bigInteger('pym_discount_id')->nullable();
             $table->bigInteger('pym_cash_received')->default(0);

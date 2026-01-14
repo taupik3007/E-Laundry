@@ -519,6 +519,7 @@ class LaundryOrderController extends Controller
             'pym_payment_status' => true,
             'pym_amount' => $amount,
             'pym_amount_paid' => $paid,
+            'pym_initial_payment'=> $amount,  
             'pym_discount' => $discount_value,
             'pym_discount_id'=>$request->discount,
             'pym_cash_received' => $receive,
