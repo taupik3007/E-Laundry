@@ -84,7 +84,7 @@
                                            <span class="iconify" data-icon="line-md:pencil" data-width="25"></span>
                                          </a>
 
-                                         <a href="/owner/customer/{{ $customer->usr_id }}/detail"
+                                         <a href="/owner/customer/{{ $customer->usr_id }}/detail-cust"
                                             class="btn btn-sm btn-primary"
                                             data-bs-toggle="tooltip"
                                             title="Edit Data">

@@ -48,7 +48,7 @@ class CustomersController extends Controller
         $validated = $request->validate([
             'usr_name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
-            'usr_telephone' => 'required|numeric|digits_between:10,15',
+            // 'usr_telephone' => 'required|numeric|digits_between:10,15',
             'usr_address' => 'required|string|max:100',
             'password' => 'required|string|min:6',
         ], [
@@ -57,18 +57,24 @@ class CustomersController extends Controller
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah digunakan.',
-            'usr_telephone.required' => 'Nomor telepon wajib diisi.',
-            'usr_telephone.numeric' => 'Nomor telepon hanya boleh angka.',
+            // 'usr_telephone.required' => 'Nomor telepon wajib diisi.',
+            // 'usr_telephone.numeric' => 'Nomor telepon hanya boleh angka.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
         ]);
         // dd($validated);
     
+        $telephone = preg_replace('/\D/', '', $request->usr_telephone);
+
+        if (!str_starts_with($telephone, '0')) {
+            $telephone = '0' . $telephone;
+        }
+        
         // dd($validated);
        $createCustomer = User::create([
             'usr_name' => $validated['usr_name'],
             'email' => $validated['email'],
-            'usr_telephone' => $validated['usr_telephone'],
+            'usr_telephone' => $telephone,
             'usr_address' => $validated['usr_address'],
             'password' => bcrypt($validated['password']),
             'usr_status' => 1,       
@@ -111,23 +117,29 @@ class CustomersController extends Controller
     $validated = $request->validate([
         'usr_name' => 'required|string|max:100',
         'email' => 'required|email|unique:users,email,' . $user->usr_id . ',usr_id',
-        'usr_telephone' => 'required|numeric|digits_between:10,15',
+        // 'usr_telephone' => 'required|numeric|digits_between:10,15',
         'usr_address' => 'required|string|max:100',
     ], [
         'usr_name.required' => 'Nama wajib diisi.',
         'email.required' => 'Email wajib diisi.',
         'email.email' => 'Format email tidak valid.',
         'email.unique' => 'Email sudah digunakan.',
-        'usr_telephone.required' => 'Nomor telepon wajib diisi.',
-        'usr_telephone.numeric' => 'Nomor telepon hanya boleh angka.',
+        // 'usr_telephone.required' => 'Nomor telepon wajib diisi.',
+        // 'usr_telephone.numeric' => 'Nomor telepon hanya boleh angka.',
     ]);
     // dd($validated);
+
+    $telephone = preg_replace('/\D/', '', $request->usr_telephone); 
+
+    if (!str_starts_with($telephone, '0')) {
+        $telephone = '0' . $telephone;
+    }
 
     // Update data tanpa password
     $user->update([
         'usr_name' => $validated['usr_name'],
         'email' => $validated['email'],
-        'usr_telephone' => $validated['usr_telephone'],
+        'usr_telephone' => $telephone,
         'usr_address' => $validated['usr_address'],
         // 'password' => bcrypt($validated['password']),
     ]);
