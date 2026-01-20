@@ -28,7 +28,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        
+        return view('employee.customers.create');
     }
 
     /**
@@ -36,12 +36,51 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'usr_name' => 'required|string|max:100',
+            'email' => 'required|email|unique:users,email',
+            'usr_telephone' => 'required|numeric|digits_between:10,15',
+            'usr_address' => 'required|string|max:100',
+            'password' => 'required|string|min:6',
+        ], [
+        
+            'usr_name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan.',
+            'usr_telephone.required' => 'Nomor telepon wajib diisi.',
+            'usr_telephone.numeric' => 'Nomor telepon hanya boleh angka.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 6 karakter.',
+        ]);
+    
+        // dd($validated);
+       $createCustomer = User::create([
+            'usr_name' => $validated['usr_name'],
+            'email' => $validated['email'],
+            'usr_telephone' => $validated['usr_telephone'],
+            'usr_address' => $validated['usr_address'],
+            'password' => bcrypt($validated['password']),
+            'usr_status' => 1,       
+        ]);
+        $createCustomer->assignRole('customer');
+        // dd( $createCustomer);
+        Alert::success('Berhasil Menambah', 'Berhasil menambah data pelanggan');   
+        return redirect('/employee/customers')->with('success', 'pelanggan berhasil ditambahkan!');
+  
     }
 
     /**
      * Display the specified resource.
      */
+
+     public function detail($id)
+     {
+        $user = User::findOrFail($id);
+         return view('employee.customers.detail', compact('user'));
+     }
+    
+
     public function show(string $id)
     {
         //
@@ -52,40 +91,43 @@ class CustomerController extends Controller
      */
     public function edit(string $id)
     {
-         $customer = User::findOrFail($id); // gunakan $customer
-    return view('owner.customers.edit', compact('customer'));
+        $user = User::role('customer')->where('usr_id',$id)->first();
+        return view('employee.customers.edit',compact(['user']));
     }
 
 
 public function update(Request $request, string $id)
 {
-    $customer = User::findOrFail($id);
+    $user = User::findOrFail($id);
 
-    $request->validate([
-        'usr_name' => 'required|string|max:255',
-        'usr_email' => 'required|email|unique:users,usr_email,' . $id . ',usr_id',
-        'usr_nik' => 'required|string|max:255',
-        'usr_birthplace' => 'required|string|max:255',
-        'usr_birthdate' => 'required|date',
-        'usr_gender' => 'required|string|max:255',
-        'usr_religion' => 'required|string|max:255',
-        'usr_telephone' => 'required|string|max:255',
+    $validated = $request->validate([
+        'usr_name' => 'required|string|max:100',
+        'email' => 'required|email|unique:users,email,' . $user->usr_id . ',usr_id',
+        'usr_telephone' => 'required|numeric|digits_between:10,15',
+        'usr_address' => 'required|string|max:100',
+    ], [
+        'usr_name.required' => 'Nama wajib diisi.',
+        'email.required' => 'Email wajib diisi.',
+        'email.email' => 'Format email tidak valid.',
+        'email.unique' => 'Email sudah digunakan.',
+        'usr_telephone.required' => 'Nomor telepon wajib diisi.',
+        'usr_telephone.numeric' => 'Nomor telepon hanya boleh angka.',
     ]);
+    // dd($validated);
 
-
-    $customer->update([
-        'usr_name' => $request->usr_name,
-        'usr_email' => $request->usr_email,
-        'usr_nik' => $request->usr_nik,
-        'usr_birthplace' => $request->usr_birthplace,
-        'usr_birthdate' => $request->usr_birthdate,
-        'usr_gender' => $request->usr_gender,
-        'usr_religion' => $request->usr_religion,
-        'usr_telephone' => $request->usr_telephone,
+    // Update data tanpa password
+    $user->update([
+        'usr_name' => $validated['usr_name'],
+        'email' => $validated['email'],
+        'usr_telephone' => $validated['usr_telephone'],
+        'usr_address' => $validated['usr_address'],
+        // 'password' => bcrypt($validated['password']),
     ]);
+    // dd($user);
+    Alert::success('Berhasil Mengubah', 'Berhasil mengubah data pegawai');
 
-    Alert::success('Berhasil Menghapus', 'Berhasil menghapus data Paket Layanan');
-    return redirect()->route('customers.index')->with('success', 'Data customer berhasil diperbarui!');
+    return redirect('/employee/customers');
+
 }
 
 
@@ -94,8 +136,20 @@ public function update(Request $request, string $id)
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::where('usr_id', $id)->firstOrFail();
+
+    if ($user->usr_status == 1) {
+        Alert::error('Gagal Menghapus', 'Akun masih aktif dan tidak dapat dihapus');
+        return redirect('/employee/customers');
     }
+    // dd($user);
+    $user->delete();
+
+    Alert::success('Berhasil Menghapus', 'Berhasil menghapus data pelanggan');
+    return redirect('/employee/customers');
+    }
+
+
     public function toggleStatus(Request $request, $id)
 {
     $user = User::findOrFail($id);
@@ -133,6 +187,27 @@ public function history(Request $request)
 
         return view('customer.receivables.history', compact('history'));
     }
+
+    public function changePassword(Request $request, $id)
+{
+    // Validasi
+    $request->validate([
+        'password' => 'required|min:6',
+    ]);
+
+    // Cari user
+    $user = User::findOrFail($id);
+
+    // Update password
+    $user->password = bcrypt($request->password);
+    // dd($user);
+    $user->save();
+
+    Alert::success('Berhasil Mengubah password', 'Berhasil mengubah password pegawai');
+
+    return redirect('/employee/customers');
+}
+
 }
 
 

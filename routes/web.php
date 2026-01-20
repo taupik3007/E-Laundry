@@ -82,9 +82,16 @@ Route::get('/employee/index', function () {
     return view('employee.index');
 })->name('customer.home');
 Route::get('/employee/customers', [CustomerController::class, 'index'])->name('customers.index');
+
+Route::get('/employee/customers/create', [CustomerController::class, 'create'])->name('customers.create');
+Route::post('/employee/customers/create', [CustomerController::class, 'store'])->name('customers.store');
+Route::delete('/employee/customers/{id}/destroy', [CustomerController::class, 'destroy'])->name('customers.destroy');
+Route::get('/employee/customers/{id}/detail', [CustomerController::class, 'detail'])->name('customers.detail');
 Route::get('/employee/customers/{id}/edit', [CustomerController::class, 'edit'])->name('customers.edit');
-Route::put('/employee/customers/{id}', [CustomerController::class, 'update'])->name('customers.update');
+Route::put('/employee/customers/{id}/edit', [CustomerController::class, 'update'])->name('customers.update');
+Route::put('/employee/customers/{id}/change-password', [CustomerController::class, 'changePassword'])->name('customers.changepass');
 Route::post('/employee/customers/{id}/toggle-status', [CustomerController::class, 'toggleStatus'])->name('customers.toggleStatus');
+
 
 Route::get('/employee/ordering', [OrderController::class, 'index'])->name('order.index');
 Route::post('/employee/ordering/{id}/status', [OrderController::class, 'updateStatus'])->name('order.updateStatus');
@@ -174,7 +181,17 @@ Route::get('/owner/employee/{id}/detail', [EmployeeController::class, 'detail'])
 Route::put('/owner/employee/{id}/change-password', [EmployeeController::class, 'changePassword'])->name('owner.employee.detail');
 Route::delete('/owner/employee/{id}/destroy', [EmployeeController::class, 'destroy'])->name('owner.employee.destroy');
 
-Route::get('/owner/customer', [CustomersController::class, 'index'])->name('owner.employee.index');
+Route::get('/owner/customer', [CustomersController::class, 'index'])->name('owner.cust.index');
+Route::get('/owner/customer/create', [CustomersController::class, 'create'])->name('owner.cust.create');
+Route::post('/owner/customer/create', [CustomersController::class, 'store'])->name('owner.cust.store');
+Route::delete('/owner/customers/{id}/destroy', [CustomersController::class, 'destroy'])->name('owner.cust.destroy');
+Route::get('/owner/customer/{id}/detail', [CustomersController::class, 'detail'])->name('owner.cust.detail');
+Route::get('/owner/customer/{id}/edit', [CustomersController::class, 'edit'])->name('owner.cust.edit');
+Route::put('/owner/customer/{id}/edit', [CustomersController::class, 'update'])->name('owner.cust.update');
+Route::put('/owner/customer/{id}/change-password', [CustomersController::class, 'changePassword'])->name('owner.cust.changepass');
+// Route::get('/owner/customer/{id}/edit-password', [CustomersController::class, 'edit_password'])->name('owner.cust.edit_password');
+// Route::put('/owner/customer/{id}/edit-password', [CustomersController::class, 'update_password'])->name('owner.cust.update_password');
+
 Route::get('/owner/order-laundry', [LaundryOrderController::class, 'index'])->name('owner.order.index');
 Route::post('/owner/order-laundry/{id}/status', [LaundryOrderController::class, 'updateStatus'])->name('order.updateStatus');
 Route::put('/owner/order-laundry/{id}/weight', [LaundryOrderController::class, 'updateWeight'])->name('orderown.updateWeight');

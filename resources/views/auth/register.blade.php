@@ -89,7 +89,7 @@
                                         @enderror
                                     </div>
                                     <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Alamat Email</label>
+                                        <label for="exampleInputEmail1" class="form-label">Email</label>
                                         <input type="email" name="email" value="{{old('email')}}" required
                                             autocomplete="username" class="form-control" id="exampleInputEmail1"
                                             aria-describedby="emailHelp">
@@ -97,6 +97,24 @@
                                             <p class="text-danger small mt-1 mb-0">{{ $message }}</p>
                                         @enderror
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="usr_address" class="form-label">Alamat Lengkap</label>
+                                    
+                                        <textarea
+                                            name="usr_address"
+                                            id="usr_address"
+                                            class="form-control"
+                                            rows="3"
+                                            required
+                                            autofocus
+                                            autocomplete="street-address" placeholder="Isi lengkap alamat rumah"
+                                        >{{ old('usr_address') }}</textarea>
+                                    
+                                        @error('usr_address')
+                                            <p class="text-danger small mt-1 mb-0">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                    
                                     <div class="mb-4">
                                         <label for="exampleInputPassword1" class="form-label">Password</label>
                                         <input type="password" name="password" required autocomplete="new-password"

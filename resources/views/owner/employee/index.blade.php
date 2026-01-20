@@ -156,13 +156,28 @@
 
           <div class="mb-3">
             <label class="form-label">Password Baru</label>
-            <input 
-                type="password" 
-                name="password" 
-                class="form-control" 
+          
+            <div class="input-group">
+              <input 
+                type="password"
+                name="password"
+                id="password"
+                class="form-control"
                 required
-            >
+                minlength="8"
+                placeholder="Minimal 8 karakter"
+              >
+          
+              <span class="input-group-text" style="cursor: pointer;" onclick="togglePassword()">
+                <i class="ti ti-eye" id="toggleIcon"></i>
+              </span>
+            </div>
+          
+            <small class="text-muted">
+              Password minimal 8 karakter
+            </small>
           </div>
+          
 
         </div>
 
@@ -231,6 +246,23 @@
             });
         });
     </script>
+    <script>
+        function togglePassword() {
+          const password = document.getElementById('password');
+          const icon = document.getElementById('toggleIcon');
+      
+          if (password.type === 'password') {
+            password.type = 'text';
+            icon.classList.remove('ti-eye');
+            icon.classList.add('ti-eye-off');
+          } else {
+            password.type = 'password';
+            icon.classList.remove('ti-eye-off');
+            icon.classList.add('ti-eye');
+          }
+        }
+      </script>
+      
 @endsection
 
 

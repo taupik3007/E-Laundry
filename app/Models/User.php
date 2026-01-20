@@ -26,6 +26,7 @@ class User extends Authenticatable
     'google_id',
     'password',
     'usr_telephone',
+    'usr_address',
     'usr_status'
 ];
 // protected $casts = [
