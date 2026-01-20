@@ -90,12 +90,25 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Email</label>
+                                        
                                         <input type="email" name="email" value="{{old('email')}}" required
                                             autocomplete="username" class="form-control" id="exampleInputEmail1"
                                             aria-describedby="emailHelp">
                                              @error('email')
                                             <p class="text-danger small mt-1 mb-0">{{ $message }}</p>
                                         @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">No. Telepon</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">+62</span>
+                                        <input type="tel" id="phone"  name="usr_telephone" value="{{old('usr_telephone')}}" required
+                                            autocomplete="username" class="form-control" placeholder="81234567890" maxlength="14"
+                                            aria-describedby="emailHelp">
+                                             @error('usr_telephone')
+                                            <p class="text-danger small mt-1 mb-0">{{ $message }}</p>
+                                        @enderror
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="usr_address" class="form-label">Alamat Lengkap</label>
@@ -331,6 +344,39 @@
     </div>
     <div class="dark-transparent sidebartoggler"></div>
     <!-- Import Js Files -->
+    <script>
+        document.querySelector('input[name="ord_phone_number"]').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9+]/g, ''); // hilangkan huruf & simbol lain
+        });
+    </script>
+
+    <script>
+        document.getElementById('phone').addEventListener('input', function() {
+            // hanya angka
+            let val = this.value.replace(/[^0-9]/g, '');
+
+            // jika user mengawali dengan 0 → hapus otomatis
+            if (val.startsWith('0')) {
+                val = val.substring(1);
+            }
+
+            this.value = val;
+        });
+    </script>
+    <script>
+        document.getElementById('phone').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+        
+            if (value.length > 4 && value.length <= 8) {
+                value = value.slice(0,4) + '-' + value.slice(4);
+            } else if (value.length > 8) {
+                value = value.slice(0,4) + '-' + value.slice(4,8) + '-' + value.slice(8,12);
+            }
+        
+            e.target.value = value;
+        });
+        </script>
+        
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/libs/simplebar/dist/simplebar.min.js"></script>
     <script src="../assets/js/theme/app.init.js"></script>

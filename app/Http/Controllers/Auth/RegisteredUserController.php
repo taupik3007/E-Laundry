@@ -36,9 +36,16 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $telephone = preg_replace('/\D/', '', $request->usr_telephone);
+
+        if (!str_starts_with($telephone, '0')) {
+            $telephone = '0' . $telephone;
+        }
+
         $user = User::create([
             'usr_name' => $request->usr_name,
             'email' => $request->email,
+            'usr_telephone' => $telephone,
             'usr_address' => $request->usr_address,
             'password' => Hash::make($request->password),
         ]);

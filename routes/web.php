@@ -184,8 +184,8 @@ Route::delete('/owner/employee/{id}/destroy', [EmployeeController::class, 'destr
 Route::get('/owner/customer', [CustomersController::class, 'index'])->name('owner.cust.index');
 Route::get('/owner/customer/create', [CustomersController::class, 'create'])->name('owner.cust.create');
 Route::post('/owner/customer/create', [CustomersController::class, 'store'])->name('owner.cust.store');
+Route::get('/owner/customer/{id}/detail-cust', [CustomersController::class, 'detail'])->name('owner.cust.detail');
 Route::delete('/owner/customers/{id}/destroy', [CustomersController::class, 'destroy'])->name('owner.cust.destroy');
-Route::get('/owner/customer/{id}/detail', [CustomersController::class, 'detail'])->name('owner.cust.detail');
 Route::get('/owner/customer/{id}/edit', [CustomersController::class, 'edit'])->name('owner.cust.edit');
 Route::put('/owner/customer/{id}/edit', [CustomersController::class, 'update'])->name('owner.cust.update');
 Route::put('/owner/customer/{id}/change-password', [CustomersController::class, 'changePassword'])->name('owner.cust.changepass');
