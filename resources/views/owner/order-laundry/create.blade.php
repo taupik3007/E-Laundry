@@ -236,6 +236,40 @@
 
 
 @push('script')
+<script>
+$('#customerSelect').on('change', function () {
+    let customerId = $(this).val();
+
+    if (!customerId) {
+        $('#phone').val('');
+        $('textarea[name="address"]').val('');
+        return;
+    }
+
+    $.ajax({
+        url: '/owner/customer/' + customerId + '/detail',
+        type: 'GET',
+        success: function (res) {
+            if (res) {
+                // isi nomor (tanpa +62 karena sudah ada prefix)
+                $('#phone').val(res.usr_telephone ?? '');
+                // console.log(res.usr_address);
+
+                // isi alamat
+                $('textarea[name="address"]').val(res.usr_address ?? '');
+            }
+        }
+    });
+});
+</script>
+<script>
+    document.getElementById('manualBtn').addEventListener('click', function () {
+    $('#phone').val('');
+    $('textarea[name="address"]').val('');
+});
+
+</script>
+
     <script>
         document.getElementById('manualBtn').addEventListener('click', function() {
     let manualInput = document.getElementById('manualInput');

@@ -208,6 +208,13 @@ Route::get('/owner/order-laundry/{id}/action', [LaundryOrderController::class, '
 Route::get('/owner/order-laundry/{id}/receipt', [LaundryOrderController::class, 'receipt'])->name('owner.receipt');
 
 
+Route::get('/owner/customer/{id}/detail', function ($id) {
+    return \App\Models\User::select('usr_telephone', 'usr_address')
+        ->where('usr_id', $id)
+        ->first();
+});
+
+
 Route::get('/owner/pick-up', [Pick_UpController::class, 'index'])->name('pickup.index');
 Route::post('/owner/pick-up/{id}/status', [Pick_UpController::class, 'updateStatus'])->name('pickup.updateStatus');
 Route::get('/owner/pick-up/create', [Pick_UpController::class, 'create'])->name('pickup.create');

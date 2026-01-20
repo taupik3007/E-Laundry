@@ -20,7 +20,7 @@ class DiscountController extends Controller
         $title = 'Hapus Diskon!';
         $text = "Apakah Anda yakin ingin menghapus?";
         confirmDelete($title, $text);
-        return view('employee.disc.index', compact('discount'));
+        return view('owner.disc.index', compact('discount'));
     }
 
     /**
