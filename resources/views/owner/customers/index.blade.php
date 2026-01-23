@@ -87,7 +87,7 @@
                                          <a href="/owner/customer/{{ $customer->usr_id }}/detail-cust"
                                             class="btn btn-sm btn-primary"
                                             data-bs-toggle="tooltip"
-                                            title="Edit Data">
+                                            title=" Detail">
                                            <span class="iconify" data-icon="line-md:text-box-twotone-to-text-box-multiple-twotone-transition" data-width="25"></span>
                                          </a>
 

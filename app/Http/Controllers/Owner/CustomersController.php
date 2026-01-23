@@ -62,6 +62,7 @@ class CustomersController extends Controller
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 6 karakter.',
         ]);
+        // dd($validated);
     
         $telephone = preg_replace('/\D/', '', $request->usr_telephone);
 
@@ -78,6 +79,7 @@ class CustomersController extends Controller
             'password' => bcrypt($validated['password']),
             'usr_status' => 1,       
         ]);
+        // dd($createCustomer);
         $createCustomer->assignRole('customer');
         // dd( $createCustomer);
         Alert::success('Berhasil Menambah', 'Berhasil menambah data pelanggan');   

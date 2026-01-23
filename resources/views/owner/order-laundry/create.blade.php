@@ -134,11 +134,8 @@
 
                                         <div class="col-md-4 clothes-wrapper d-none">
                                             <br>
-                                            <input type="number"
-                                                class="form-control clothes-input"
-                                                name="odt_count[]"
-                                                min="0"
-                                                placeholder="Jumlah Pakaian">
+                                            <input type="number" class="form-control clothes-input" name="odt_count[]"
+                                                min="0" placeholder="Jumlah Pakaian">
                                         </div>
 
                                         {{-- <div class="col-md-1 d-flex align-items-center">
@@ -149,6 +146,27 @@
 
                             </div>
                         </div>
+
+                        <div class="mb-4 row">
+                            <label class="col-sm-3 col-form-label">Discount</label>
+                            <div class="col-sm-9">
+                                <select id="discountSelect" class="form-control">
+                                    <option value="">-- Tidak Pakai Discount --</option>
+                                    @foreach ($discount as $dsc)
+                                        <option value="{{ $dsc->dsc_id }}" data-type="{{ $dsc->dsc_type }}"
+                                            data-value="{{ $dsc->dsc_total }}">
+                                            {{ $dsc->dsc_name }} -
+                                            @if ($dsc->dsc_type == 'percent')
+                                                {{ $dsc->dsc_total }}%
+                                            @else
+                                                Rp {{ number_format($dsc->dsc_total, 0, ',', '.') }}
+                                            @endif
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
 
 
                         {{-- Total --}}
@@ -236,72 +254,70 @@
 
 
 @push('script')
-<script>
-$('#customerSelect').on('change', function () {
-    let customerId = $(this).val();
+    <script>
+        $('#customerSelect').on('change', function() {
+            let customerId = $(this).val();
 
-    if (!customerId) {
-        $('#phone').val('');
-        $('textarea[name="address"]').val('');
-        return;
-    }
-
-    $.ajax({
-        url: '/owner/customer/' + customerId + '/detail',
-        type: 'GET',
-        success: function (res) {
-            if (res) {
-                // isi nomor (tanpa +62 karena sudah ada prefix)
-                $('#phone').val(res.usr_telephone ?? '');
-                // console.log(res.usr_address);
-
-                // isi alamat
-                $('textarea[name="address"]').val(res.usr_address ?? '');
+            if (!customerId) {
+                $('#phone').val('');
+                $('textarea[name="address"]').val('');
+                return;
             }
-        }
-    });
-});
-</script>
-<script>
-    document.getElementById('manualBtn').addEventListener('click', function () {
-    $('#phone').val('');
-    $('textarea[name="address"]').val('');
-});
 
-</script>
+            $.ajax({
+                url: '/owner/customer/' + customerId + '/detail',
+                type: 'GET',
+                success: function(res) {
+                    if (res) {
+                        // isi nomor (tanpa +62 karena sudah ada prefix)
+                        $('#phone').val(res.usr_telephone ?? '');
+                        // console.log(res.usr_address);
+
+                        // isi alamat
+                        $('textarea[name="address"]').val(res.usr_address ?? '');
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('manualBtn').addEventListener('click', function() {
+            $('#phone').val('');
+            $('textarea[name="address"]').val('');
+        });
+    </script>
 
     <script>
         document.getElementById('manualBtn').addEventListener('click', function() {
-    let manualInput = document.getElementById('manualInput');
-    let customerSelect = document.getElementById('customerSelect');
-    let btn = document.getElementById('manualBtn');
+            let manualInput = document.getElementById('manualInput');
+            let customerSelect = document.getElementById('customerSelect');
+            let btn = document.getElementById('manualBtn');
 
-    if (!customerSelect.classList.contains('d-none')) {
-        // ke manual
-        customerSelect.classList.add('d-none');
-        customerSelect.disabled = true;
-        customerSelect.removeAttribute('required');
+            if (!customerSelect.classList.contains('d-none')) {
+                // ke manual
+                customerSelect.classList.add('d-none');
+                customerSelect.disabled = true;
+                customerSelect.removeAttribute('required');
 
-        manualInput.classList.remove('d-none');
-        manualInput.disabled = false;
-        manualInput.setAttribute('required', true);
+                manualInput.classList.remove('d-none');
+                manualInput.disabled = false;
+                manualInput.setAttribute('required', true);
 
-        btn.textContent = "Pilih Customer";
-    } else {
-        // balik ke select
-        manualInput.classList.add('d-none');
-        manualInput.disabled = true;
-        manualInput.removeAttribute('required');
-        manualInput.value = "";
+                btn.textContent = "Pilih Customer";
+            } else {
+                // balik ke select
+                manualInput.classList.add('d-none');
+                manualInput.disabled = true;
+                manualInput.removeAttribute('required');
+                manualInput.value = "";
 
-        customerSelect.classList.remove('d-none');
-        customerSelect.disabled = false;
-        customerSelect.setAttribute('required', true);
+                customerSelect.classList.remove('d-none');
+                customerSelect.disabled = false;
+                customerSelect.setAttribute('required', true);
 
-        btn.textContent = "Input Manual";
-    }
-});
-
+                btn.textContent = "Input Manual";
+            }
+        });
     </script>
 
     <script>
@@ -457,42 +473,42 @@ $('#customerSelect').on('change', function () {
         });
     </script>
     <script>
-     function refreshButtons() {
-        let rows = document.querySelectorAll('.order-row');
-    
-        rows.forEach((row, index) => {
-            let btn = row.querySelector('.btn-add-row, .btn-remove-row');
-            if (btn) btn.remove();
-    
-            let col = row.querySelector('.col-md-1');
-    
-            if (index === 0) {
-                col.innerHTML = '<button type="button" class="btn btn-success btn-add-row">+</button>';
-            } else {
-                col.innerHTML = '<button type="button" class="btn btn-danger btn-remove-row">-</button>';
-            }
+        function refreshButtons() {
+            let rows = document.querySelectorAll('.order-row');
+
+            rows.forEach((row, index) => {
+                let btn = row.querySelector('.btn-add-row, .btn-remove-row');
+                if (btn) btn.remove();
+
+                let col = row.querySelector('.col-md-1');
+
+                if (index === 0) {
+                    col.innerHTML = '<button type="button" class="btn btn-success btn-add-row">+</button>';
+                } else {
+                    col.innerHTML = '<button type="button" class="btn btn-danger btn-remove-row">-</button>';
+                }
+            });
+        }
+
+        $(document).on("click", ".btn-add-row", function() {
+            let container = $("#order-details");
+            let newRow = container.find(".order-row:first").clone();
+
+            newRow.find("select, input").val("");
+            newRow.find(".clothes-wrapper").addClass("d-none");
+
+            container.append(newRow);
+            refreshButtons();
         });
-    }
-    
-    $(document).on("click", ".btn-add-row", function () {
-        let container = $("#order-details");
-        let newRow = container.find(".order-row:first").clone();
-    
-        newRow.find("select, input").val("");
-        newRow.find(".clothes-wrapper").addClass("d-none");
-    
-        container.append(newRow);
-        refreshButtons();
-    });
-    
-    $(document).on("click", ".btn-remove-row", function () {
-        $(this).closest(".order-row").remove();
-        refreshButtons();
-    });
-    
-    $(document).ready(function () {
-        refreshButtons();
-    });
+
+        $(document).on("click", ".btn-remove-row", function() {
+            $(this).closest(".order-row").remove();
+            refreshButtons();
+        });
+
+        $(document).ready(function() {
+            refreshButtons();
+        });
         // Hitung total per row
         function hitungTotalPerRow(row) {
             let price = row.find(".package-select option:selected").data("price");
@@ -508,8 +524,28 @@ $('#customerSelect').on('change', function () {
                 total += hitungTotalPerRow($(this));
             });
 
-            $("#total_price1").val("Rp " + Number(total).toLocaleString());
+            // ===== DISCOUNT =====
+            let discountOption = $("#discountSelect option:selected");
+            let discountType = discountOption.data("type");
+            let discountValue = parseFloat(discountOption.data("value")) || 0;
+
+            let totalAfterDiscount = total;
+
+            if (discountType === "percent") {
+                totalAfterDiscount = total - (total * discountValue / 100);
+            } else if (discountType === "nominal") {
+                totalAfterDiscount = total - discountValue;
+            }
+
+            if (totalAfterDiscount < 0) totalAfterDiscount = 0;
+
+            $("#total_price1").val("Rp " + Number(totalAfterDiscount).toLocaleString());
         }
+        $("#discountSelect").on("change", function() {
+            hitungGrandTotal();
+        });
+
+
 
         // event perubahan qty / paket
         $(document).on("change keyup", ".package-select, .qty-input", function() {
@@ -524,26 +560,26 @@ $('#customerSelect').on('change', function () {
 
 
         // event perubahan service => load paket
-        $(document).on("change", ".service-select", function () {
-    let row = $(this).closest(".order-row");
-    let serviceId = $(this).val();
-    let packageSelect = row.find(".package-select");
+        $(document).on("change", ".service-select", function() {
+            let row = $(this).closest(".order-row");
+            let serviceId = $(this).val();
+            let packageSelect = row.find(".package-select");
 
-    packageSelect.html('<option>Loading...</option>');
+            packageSelect.html('<option>Loading...</option>');
 
-    if (!serviceId) {
-        packageSelect.html('<option value="">-- Pilih Paket --</option>');
-        return;
-    }
+            if (!serviceId) {
+                packageSelect.html('<option value="">-- Pilih Paket --</option>');
+                return;
+            }
 
-    $.ajax({
-        url: "/owner/order-laundry/" + serviceId + "/packages",
-        type: "GET",
-        success: function (data) {
-            packageSelect.empty().append('<option value="">-- Pilih Paket --</option>');
+            $.ajax({
+                url: "/owner/order-laundry/" + serviceId + "/packages",
+                type: "GET",
+                success: function(data) {
+                    packageSelect.empty().append('<option value="">-- Pilih Paket --</option>');
 
-            $.each(data, function (i, pkg) {
-                packageSelect.append(`
+                    $.each(data, function(i, pkg) {
+                        packageSelect.append(`
                     <option 
                         value="${pkg.ldp_id}"
                         data-price="${pkg.ldp_price}"
@@ -551,28 +587,25 @@ $('#customerSelect').on('change', function () {
                         ${pkg.ldp_name} – Rp ${Number(pkg.ldp_price).toLocaleString()} / ${pkg.ldp_unit}
                     </option>
                 `);
+                    });
+                }
             });
-        }
-    });
-});
+        });
     </script>
 
-<script>
-    $(document).on("change", ".package-select", function () {
-        let row = $(this).closest(".order-row");
-        let unit = $(this).find(":selected").data("unit");
-    
-        if (unit === "kg") {
-            row.find(".clothes-wrapper").removeClass("d-none");
-            row.find(".clothes-input").attr("required", true);
-        } else {
-            row.find(".clothes-wrapper").addClass("d-none");
-            row.find(".clothes-input").removeAttr("required").val("");
-        }
-    });
+    <script>
+        $(document).on("change", ".package-select", function() {
+            let row = $(this).closest(".order-row");
+            let unit = $(this).find(":selected").data("unit");
+
+            if (unit === "kg") {
+                row.find(".clothes-wrapper").removeClass("d-none");
+                row.find(".clothes-input").attr("required", true);
+            } else {
+                row.find(".clothes-wrapper").addClass("d-none");
+                row.find(".clothes-input").removeAttr("required").val("");
+            }
+        });
     </script>
-<script>
-    
-    </script>
-        
+    <script></script>
 @endpush
