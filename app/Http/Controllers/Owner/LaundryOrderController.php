@@ -167,8 +167,12 @@ class LaundryOrderController extends Controller
     public function create()
     {
         $customers = User::role('customer')->get();
+        $now = Carbon::now()->format('Y-m-d H:i:s');
+        $discount = Discount::where('dsc_start', '<=', $now)
+            ->where('dsc_finish', '>=', $now)
+            ->get();
         $services = LaundryService::all();
-        return view('owner.order-laundry.create', compact(['services', 'customers']));
+        return view('owner.order-laundry.create', compact(['services', 'customers','discount']));
     }
 
     /**
