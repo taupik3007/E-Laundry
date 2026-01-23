@@ -26,7 +26,7 @@ return new class extends Migration
             // $table->unsignedBigInteger('ord_packages_id');
             // $table->foreign('ord_packages_id')->references('ldp_id')->on('laundry_packages')->onDelete('cascade');
             // // $table->string('ord_pickup_address');
-            $table->integer('ord_quantity')->nullable();
+            $table->float('ord_quantity')->nullable();
             $table->integer('ord_total')->nullable();;
             $table->bigInteger('ord_phone_number');
             $table->enum('ord_pickup_method', ['self', 'pickup']);

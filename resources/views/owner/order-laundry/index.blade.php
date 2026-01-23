@@ -510,34 +510,12 @@
 
                                                 <div class="modal-body">
                                                     <label>Total Harga</label>
-                                                    <input type="text" id="total_display" class="form-control mb-2"
+                                                    <input type="text" id="total_display{{ $order->ord_id }}" class="form-control mb-2"
                                                         value="Rp {{ number_format($order->ord_total ?? 0, 0, ',', '.') }}"
                                                         readonly name="total_amount">
 
                                                     <input type="hidden" id="total_asli"
                                                         value="{{ $order->ord_total ?? 0 }}">
-
-                                                    <label>Diskon</label>
-                                                    <select name="discount" class="form-control mb-2"
-                                                        onchange="applyDiscount(this)" name="discount">
-
-                                                        <option value="">Tidak pakai diskon</option>
-
-                                                        @foreach ($discount as $dsc)
-                                                            <option value="{{ $dsc->dsc_id }}"
-                                                                data-type="{{ $dsc->dsc_type }}"
-                                                                data-value="{{ $dsc->dsc_total }}">
-                                                                {{ $dsc->dsc_name }} -
-                                                                @if ($dsc->dsc_type == 'percent')
-                                                                    {{ $dsc->dsc_total }}%
-                                                                @else
-                                                                    Rp {{ number_format($dsc->dsc_total, 0, ',', '.') }}
-                                                                @endif
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-
-
 
                                                     <!-- METODE -->
                                                     <label>Metode Pembayaran</label>
@@ -601,43 +579,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <script>
-                                    function applyDiscount(select) {
-                                        const totalAsli = parseInt(document.getElementById('total_asli').value);
-                                        const totalDisplay = document.getElementById('total_display');
-                                        const jumlahBayar = document.querySelector('input[name="payment_amount"]');
-                                        const jumlahKembalian = document.querySelector('input[name="return"]');
-
-                                        if (jumlahBayar) jumlahBayar.value = '';
-                                        if (jumlahBayar) jumlahKembalian.value = '';
-
-                                        if (!select.value) {
-                                            totalDisplay.value = formatRupiah(totalAsli);
-                                            return;
-                                        }
-
-                                        const option = select.options[select.selectedIndex];
-                                        const type = option.dataset.type;
-                                        const value = parseInt(option.dataset.value);
-
-                                        let totalAkhir = totalAsli;
-
-                                        if (type === 'percent') {
-                                            totalAkhir = totalAsli - (totalAsli * value / 100);
-                                        } else {
-                                            totalAkhir = totalAsli - value;
-                                        }
-
-                                        if (totalAkhir < 0) totalAkhir = 0;
-
-                                        totalDisplay.value = formatRupiah(totalAkhir);
-                                    }
-
-                                    function formatRupiah(angka) {
-                                        return 'Rp ' + angka.toLocaleString('id-ID');
-                                    }
-                                </script>
-
 
                                 <script>
                                     function hitungTotal{{ $order->ord_id }}() {
@@ -723,6 +664,46 @@
                                     function formatBayar{{ $order->ord_id }}(input) {
                                         // ambil angka saja
                                         let angka = input.value.replace(/[^0-9]/g, '');
+                                    
+                                        let kembalianInput = document.getElementById("kembalian{{ $order->ord_id }}");
+                                        let infoPiutang = document.getElementById("infoPiutang{{ $order->ord_id }}");
+                                    
+                                        // 🛑 kalau input masih kosong → reset kembalian
+                                        if (angka.length === 0) {
+                                            input.value = "";
+                                            kembalianInput.value = "";
+                                            if (infoPiutang) infoPiutang.style.display = "none";
+                                            return;
+                                        }
+                                    
+                                        let total = parseInt(
+                                            document.getElementById('total_display{{ $order->ord_id }}').value.replace(/[^0-9]/g, '')
+                                        ) || 0;
+                                    
+                                        let bayar = parseInt(angka) || 0;
+                                    
+                                        // format input jumlah bayar
+                                        input.value = "Rp " + bayar.toLocaleString("id-ID");
+                                    
+                                        // ➖ kembalian boleh minus (utang)
+                                        let kembali = bayar - total;
+                                    
+                                        if (kembali < 0) {
+                                            kembalianInput.value =
+                                                "- Rp " + Math.abs(kembali).toLocaleString("id-ID");
+                                            if (infoPiutang) infoPiutang.style.display = "block";
+                                        } else {
+                                            kembalianInput.value =
+                                                "Rp " + kembali.toLocaleString("id-ID");
+                                            if (infoPiutang) infoPiutang.style.display = "none";
+                                        }
+                                    }
+                                    </script>
+                                    
+                                {{-- <script>
+                                    function formatBayar{{ $order->ord_id }}(input) {
+                                        // ambil angka saja
+                                        let angka = input.value.replace(/[^0-9]/g, '');
                                         let total = parseInt(
                                             document.getElementById('total_display').value.replace(/[^0-9]/g, '')
                                         ) || 0;
@@ -756,7 +737,7 @@
                                             infoPiutang.style.display = "none";
                                         }
                                     }
-                                </script>
+                                </script> --}}
                             @endforeach
                         </tbody>
                         <tfoot>

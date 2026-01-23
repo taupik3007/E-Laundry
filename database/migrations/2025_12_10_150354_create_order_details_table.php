@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('odt_package_id');
             $table->foreign('odt_package_id')->references('ldp_id')->on('laundry_packages')->onDelete('cascade');
         
-            $table->integer('odt_quantity')->nullable();
+            $table->float('odt_quantity')->nullable();
             $table->integer('odt_count')->nullable();
             $table->integer('odt_price')->nullable();
             $table->integer('odt_total')->nullable();

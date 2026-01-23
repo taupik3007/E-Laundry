@@ -198,6 +198,8 @@ class LaundryOrderController extends Controller
             $customerName = $request->ord_customer_name;
         }
 
+        
+
         $package = LaundryPackage::find($request->package_id);
         // $total = $package->ldp_price * $request->quantity;
         $order = Order::create([
