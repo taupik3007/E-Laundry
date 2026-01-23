@@ -250,7 +250,7 @@ th {
     @endif
   </td>
       <td align="center">
-        {{ number_format($detail->odt_quantity) }} {{ $detail->package->ldp_unit }}
+        {{ $detail->odt_quantity }} {{ $detail->package->ldp_unit }}
       </td>
       <td align="center">
         Rp {{ number_format($detail->odt_price, 0, ',', '.') }}
