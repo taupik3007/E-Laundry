@@ -27,7 +27,8 @@ return new class extends Migration
             // $table->foreign('ord_packages_id')->references('ldp_id')->on('laundry_packages')->onDelete('cascade');
             // // $table->string('ord_pickup_address');
             $table->float('ord_quantity')->nullable();
-            $table->integer('ord_total')->nullable();;
+            $table->integer('ord_total')->nullable();
+            $table->integer('ord_raw_total')->nullable();
             $table->bigInteger('ord_phone_number');
             $table->enum('ord_pickup_method', ['self', 'pickup']);
             $table->enum('ord_delivery_method', ['self', 'delivery']);

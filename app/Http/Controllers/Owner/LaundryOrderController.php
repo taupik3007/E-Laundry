@@ -252,10 +252,12 @@ class LaundryOrderController extends Controller
 
             $grandTotal += $total;
         }
-
+        $finalTotal = (int) preg_replace('/[^0-9]/', '', $request->total);
+            
         // 4. update total order
         $order->update([
-            'ord_total' => $grandTotal,
+            'ord_raw_total' => $grandTotal,
+            'ord_total'=> $finalTotal,
             'ord_status' => 'proses'
         ]);
 
