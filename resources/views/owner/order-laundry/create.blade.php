@@ -150,7 +150,7 @@
                         <div class="mb-4 row">
                             <label class="col-sm-3 col-form-label">Discount</label>
                             <div class="col-sm-9">
-                                <select id="discountSelect" class="form-control">
+                                <select id="discountSelect" class="form-control" name="discount_id">
                                     <option value="">-- Tidak Pakai Discount --</option>
                                     @foreach ($discount as $dsc)
                                         <option value="{{ $dsc->dsc_id }}" data-type="{{ $dsc->dsc_type }}"

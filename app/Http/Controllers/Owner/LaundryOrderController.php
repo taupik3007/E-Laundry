@@ -258,6 +258,7 @@ class LaundryOrderController extends Controller
         $order->update([
             'ord_raw_total' => $grandTotal,
             'ord_total'=> $finalTotal,
+            'ord_discount_id'=>$request->discount_id,
             'ord_status' => 'proses'
         ]);
 

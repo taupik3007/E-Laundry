@@ -516,6 +516,8 @@
 
                                                     <input type="hidden" id="total_asli"
                                                         value="{{ $order->ord_total ?? 0 }}">
+                                                    <input type="hidden" name="discount"
+                                                        value="{{ $order->ord_discount_id }}">
 
                                                     <!-- METODE -->
                                                     <label>Metode Pembayaran</label>

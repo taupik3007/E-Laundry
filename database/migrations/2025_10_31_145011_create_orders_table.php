@@ -29,6 +29,7 @@ return new class extends Migration
             $table->float('ord_quantity')->nullable();
             $table->integer('ord_total')->nullable();
             $table->integer('ord_raw_total')->nullable();
+            $table->unsignedBigInteger('ord_discount_id')->nullable();
             $table->bigInteger('ord_phone_number');
             $table->enum('ord_pickup_method', ['self', 'pickup']);
             $table->enum('ord_delivery_method', ['self', 'delivery']);
